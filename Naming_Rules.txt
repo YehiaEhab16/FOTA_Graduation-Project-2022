@@ -1,7 +1,3 @@
-Naming Rules
-
-------------------------------------------------------------------------------------------------------
-
 1-TypeDefs:
 
 u8 --> unsigned char
@@ -47,3 +43,8 @@ ex: void LCD_voidDisplayChar(u8 Copy_u8Char);
 Component_Description (Should be capitalized --> uppercase)
 ex: EEPROM_DATA_PORT
     LED_ACTIVE_HIGH
+
+------------------------------------------------------------------------------------------------------
+
+NOTE:
+     Codes should be provided with descriptive comments as well as gitHub commits.
