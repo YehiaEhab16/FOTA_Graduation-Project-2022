@@ -8,13 +8,13 @@ Understand concept and implementaion of the following drivers (Could be from any
 *Timers
 *RCC
 Note: Impelemenation is not required, but it's required to be aware of most of the details to be able to implement when needed.
----------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
 
 2-Server
 *Database (Firebase or else)
 *Sending Data
 *GUI
 Note: After searching we can implement a protoype for sending files using the server database.
----------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
 
 Deadline: Next meeting -> Saturday 10:00PM
