@@ -1,0 +1,1 @@
+# Script for testing upload and update files on server
