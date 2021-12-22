@@ -17,6 +17,7 @@
 #    'measurementId': "G-9G7CPD1N1S"
 # }
 #firebase = pyrebase.initialize_app(firebaseConfig)
+#db = firebase.database()
 #storage = firebase.storage()
 
 #   REPLACE/OVERRIDE FILE, OVERRIDE EXISTING FILE ON STORAGE WITH A NEW FILE ON YOUR MACHINE
@@ -43,16 +44,13 @@
 # storage.child(downloadLink).download(downloadName)
 
 
-#   FETCH DATA FROM THE BASE URL OF THE DATABASE
+#   FETCH DATA FROM THE SOFTWARE BRANCH OF THE DATABASE
 
-# responseDatabase = requests.get(
-#  "https://fota-graduation-project-3c764-default-rtdb.firebaseio.com/.json")
-# print(responseDatabase.json())
+#data = db.child("Software").get()
+# print(data.val())
 
 
-#   POST DATA TO BASE URL OF THE DATABASE
+#   POST DATA TO SOFTWARE BRANCH OF THE DATABASE
 
-# myObj = '{"testPost": "Testing Post Request"}'
-# dataSent = requests.post(
-#    url="https://fota-graduation-project-3c764-default-rtdb.firebaseio.com/.json", data=myObj)
-# print(dataSent.text)
+#data = {"SoftwareV": "1"}
+# db.child("Software").update(data)
