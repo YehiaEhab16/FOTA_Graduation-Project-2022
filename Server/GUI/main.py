@@ -19,11 +19,22 @@ class MainAPP (QWidget,FormClass):
         QWidget.__init__(self)
         self.setupUi(self)
         self.Handle_UI()
-        
+        self.Handle_Buttons()
+
+
 
     def Handle_UI (self):
         self.setWindowTitle("Serevr Manager")
         self.setFixedSize(452,341)
+
+    def Handle_Buttons (self):
+        self.browse.clicked.connect(self.Handle_Brows)
+
+    def Handle_Brows (self):
+        save_place = QFileDialog.getSaveFileName(self,caption="Save As",directory=".",filter="All Files (*.*)")
+        save_place =str(save_place)
+        text = save_place.split('\'')[1]
+        self.lineEdit.setText(text)
 
 
 def main ():
