@@ -8,19 +8,19 @@ import sys
 import os
 import urllib.request
 import pyrebase
-import json
+
 
 ###########################Firebase Configs############################
 
 firebaseConfig = {
-    'apiKey': "AIzaSyDR_u8I3FcZD3tA5fLZUzAoWWxwFHR9PsM",
-    'authDomain': "fota-graduation-project-3c764.firebaseapp.com",
-    'databaseURL': "https://fota-graduation-project-3c764-default-rtdb.firebaseio.com",
-    'projectId': "fota-graduation-project-3c764",
-    'storageBucket': "fota-graduation-project-3c764.appspot.com",
-    'messagingSenderId': "491013029871",
-    'appId': "1:491013029871:web:fde1e60c30874be47b001a",
-    'measurementId': "G-9G7CPD1N1S"
+    'apiKey': "AIzaSyBRrnJB5r0m9v9YsBj-em7ZefzYT4LVkp4",
+    'authDomain': "fota-project-new.firebaseapp.com",
+    'databaseURL': 'https://fota-project-new-default-rtdb.firebaseio.com/',
+    'projectId': "fota-project-new",
+    'storageBucket': "fota-project-new.appspot.com",
+    'messagingSenderId': "558566920335",
+    'appId': "1:558566920335:web:54c446e9387ccbbc04a0fa",
+    'measurementId': "G-RF41KQX9GM"
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 storage = firebase.storage()
