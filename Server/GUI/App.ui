@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>452</width>
-    <height>314</height>
+    <height>346</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>server.png</normaloff>server.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QProgressBar:horizontal {
@@ -1255,11 +1259,16 @@ ColorButton::disabled {
   <widget class="QPushButton" name="upload">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>20</x>
      <y>210</y>
      <width>91</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Upload</string>
@@ -1268,11 +1277,16 @@ ColorButton::disabled {
   <widget class="QPushButton" name="browse">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>20</x>
      <y>130</y>
      <width>91</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Browse</string>
@@ -1281,17 +1295,22 @@ ColorButton::disabled {
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>140</x>
      <y>130</y>
-     <width>171</width>
+     <width>301</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
   </widget>
   <widget class="QLabel" name="Label">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>20</x>
      <y>60</y>
      <width>111</width>
      <height>51</height>
@@ -1308,6 +1327,9 @@ ColorButton::disabled {
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
+   </property>
    <property name="text">
     <string>Latest Version</string>
    </property>
@@ -1315,11 +1337,16 @@ ColorButton::disabled {
   <widget class="QLabel" name="version">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>80</y>
+     <x>140</x>
+     <y>70</y>
      <width>171</width>
-     <height>20</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>App_ECU_v1.0</string>
@@ -1328,14 +1355,85 @@ ColorButton::disabled {
   <widget class="QLabel" name="title">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>20</y>
-     <width>61</width>
-     <height>21</height>
+     <x>140</x>
+     <y>10</y>
+     <width>271</width>
+     <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 85, 255);</string>
+   </property>
    <property name="text">
-    <string>Title</string>
+    <string>Server Manager</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exit">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>210</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="error">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>280</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No errors found</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>270</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string>User Feedback</string>
    </property>
   </widget>
  </widget>
