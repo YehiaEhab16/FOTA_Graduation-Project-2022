@@ -4,6 +4,7 @@
   </qresource>
   <qresource prefix="Outline">
     <file>DRoutline.png</file>
+    <file>mist.png</file>
     <file>ULoutline.png</file>
   </qresource>
 </RCC>

@@ -1499,6 +1499,38 @@ ColorButton::disabled {
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>90</y>
+     <width>281</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="bg.qrc">:/Outline/mist.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>label_4</zorder>
+  <zorder>version</zorder>
+  <zorder>upload</zorder>
+  <zorder>browse</zorder>
+  <zorder>lineEdit</zorder>
+  <zorder>Label</zorder>
+  <zorder>title</zorder>
+  <zorder>exit</zorder>
+  <zorder>error</zorder>
+  <zorder>Label_2</zorder>
+  <zorder>label</zorder>
+  <zorder>label_2</zorder>
+  <zorder>label_3</zorder>
  </widget>
  <resources>
   <include location="bg.qrc"/>
