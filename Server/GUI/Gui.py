@@ -22,11 +22,9 @@ def upload(self, db, storage, QMessageBox):
     if '/' in filePath:
         fileName = filePath.split('/')[-1]
         fileNameWithoutExtension = filePath.split('/')[-1][:-2]
-        print(filePath, fileName, fileNameWithoutExtension)
     else:
         fileName = filePath.split("\\")[-1]
         fileNameWithoutExtension = filePath.split('\\')[-1][:-2]
-        print(filePath, fileName, fileNameWithoutExtension)
 
     try:
         versionCheck = db.child("Software").child(
@@ -42,7 +40,11 @@ def upload(self, db, storage, QMessageBox):
             db.child("Software").update(
                 {fileNameWithoutExtension: versionNumber})
             storage.child(fileName).put(filePath)
-    except:
+        QMessageBox.information(self, 'Done Uploading',
+                                'The file was successfully uploaded to the server')
+        self.lineEdit.setText('')
+
+    except Exception:
         ret = QMessageBox.warning(self, 'Upload Failed',
                                   'Please select a valid file path or check the internet connection',
                                   QMessageBox.Retry | QMessageBox.Ok)
