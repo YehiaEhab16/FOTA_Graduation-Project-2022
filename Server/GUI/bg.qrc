@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="Icon">
+    <file>server.png</file>
+  </qresource>
+  <qresource prefix="Outline">
+    <file>DRoutline.png</file>
+    <file>ULoutline.png</file>
+  </qresource>
+</RCC>

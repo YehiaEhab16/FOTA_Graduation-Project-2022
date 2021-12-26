@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Server</class>
+ <widget class="QWidget" name="Server">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,11 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Server</string>
   </property>
   <property name="windowIcon">
    <iconset>
     <normaloff>server.png</normaloff>server.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <property name="styleSheet">
    <string notr="true">QProgressBar:horizontal {
@@ -1328,7 +1331,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 0);</string>
+    <string notr="true">color: rgb(0, 85, 255);</string>
    </property>
    <property name="text">
     <string>Latest Version</string>
@@ -1356,7 +1359,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>10</y>
+     <y>20</y>
      <width>271</width>
      <height>41</height>
     </rect>
@@ -1430,13 +1433,75 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 0);</string>
+    <string notr="true">color: rgb(0, 85, 255);</string>
    </property>
    <property name="text">
     <string>User Feedback</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>20</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/newPrefix/server.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="bg.qrc">:/Icon/server.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>280</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="bg.qrc">:/Outline/DRoutline.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="bg.qrc">:/Outline/ULoutline.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="bg.qrc"/>
+ </resources>
  <connections/>
 </ui>
