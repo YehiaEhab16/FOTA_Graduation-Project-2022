@@ -1,0 +1,3 @@
+Main Window: (Ali - Day1)
+*Time Display
+8 Icons/buttons (Phone - Maps - Calender - Settings - Music - )
