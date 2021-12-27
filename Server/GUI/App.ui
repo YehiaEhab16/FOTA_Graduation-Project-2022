@@ -1409,7 +1409,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>No errors found</string>
+    <string>No Errors Detected</string>
    </property>
   </widget>
   <widget class="QLabel" name="Label_2">

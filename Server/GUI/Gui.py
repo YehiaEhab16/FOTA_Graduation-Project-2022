@@ -15,6 +15,21 @@ def browse(self, QFileDialog):
     self.lineEdit.setText(save_place.split('\'')[1])
 
 
+# Update GUI Labels
+def update(self, version, error, db, QMessageBox):
+    # Displaying Version
+    if version is not None:
+        self.version.setText("App_ECU_v" + version + ".0")
+    # Error Detection
+    if error is not None:
+        if error == "0":
+            self.error.setText("No Errors Detected")
+        else:
+            db.child("Feedback").update({"Uid": "0"})
+            self.error.setText("Error Code 0xff")
+            QMessageBox.warning(self, 'Error Detected', 'Check the error code for more details')
+
+
 # Upload button
 def upload(self, db, storage, QMessageBox):
     # Extracting filename and path

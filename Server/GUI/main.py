@@ -1,8 +1,10 @@
 # importing required packages
 import ntpath
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUiType
 import sys
+import time
 
 # importing defined modules
 import Server
@@ -13,6 +15,24 @@ storage, db = Server.init()
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "App.ui"))
+
+version = "1"
+error = "0"
+
+
+# Thread for reading from server
+class MyThread(QThread):
+    change_value = pyqtSignal(int)  # value to periodically udpate gui labels
+
+    def run(self):
+        global version, error
+        cnt = 0
+        while True:
+            cnt += 1
+            time.sleep(1)   # Accessing server every 1 sec
+            version = str(db.child("Software").child("App_ECU").get().val())
+            error = str(db.child("Feedback").child("Uid").get().val())
+            self.change_value.emit(cnt)
 
 
 # Exit button
@@ -31,9 +51,13 @@ class MainAPP (QWidget, FormClass):
 
     # GUI buttons
     def Handle_Buttons(self):
+        global version, error
         self.browse.clicked.connect(self.Handle_Browse)
         self.upload.clicked.connect(self.Handle_Upload)
         self.exit.clicked.connect(Handle_Exit)
+        self.thread = MyThread()
+        self.thread.change_value.connect(self.Handle_Update)
+        self.thread.start()
 
     # Window specs
     def Handle_UI(self):
@@ -46,6 +70,11 @@ class MainAPP (QWidget, FormClass):
     # Upload Button
     def Handle_Upload(self):
         Gui.upload(self, db, storage, QMessageBox)
+
+    # Function to update GUI Labels (Version and Error)
+    def Handle_Update(self):
+        global version, error
+        Gui.update(self, version, error, db, QMessageBox)
 
 
 # Executing main window
