@@ -22,12 +22,11 @@ def update(self, version, error, db, QMessageBox):
         self.version.setText("App_ECU_v" + version + ".0")
     # Error Detection
     if error is not None:
-        if error == "0":
-            self.error.setText("No Errors Detected")
-        else:
+        if error != '0':
             db.child("Feedback").update({"Uid": "0"})
             self.error.setText("Error Code 0xff")
             QMessageBox.warning(self, 'Error Detected', 'Check the error code for more details')
+            self.error.setText("No Errors Detected")
 
 
 # Upload button
