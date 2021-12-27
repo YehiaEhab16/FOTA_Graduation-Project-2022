@@ -1,3 +1,30 @@
 Main Window: (Ali - Day1)
 *Time Display
-8 Icons/buttons (Phone - Maps - Calender - Settings - Music - )
+*8 Icons/buttons (Phone - Maps - Calender - Settings - Music - Video Player - Radio - Weather)
+
+Phone: (Yehia Shahin - Day1)
+*Contacts Tab
+*Recents Tab
+*Keypad Tab
+
+Calender: (Yehia Ehab - Day1)
+*Display Date
+*Set Reminders
+
+Maps:
+*Display Map
+*Navigate to specific place
+
+Weather:
+*Display Weather
+
+Radio:
+*Adjust FM-AM and specific frequency
+
+Music Player:
+*Play songs from connected Device
+OR
+*Play songs from existing list
+
+Video Player:
+*Play videos from existing list
