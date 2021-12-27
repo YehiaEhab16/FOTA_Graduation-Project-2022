@@ -1,10 +1,8 @@
 # importing required packages
 import ntpath
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
-# from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUiType
 import sys
-# import time
 
 # importing defined modules
 import Gui

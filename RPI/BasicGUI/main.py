@@ -10,7 +10,7 @@ import sys
 import Gui
 
 # Load UI
-FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "Calendar.ui"))
+FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "BasicUI.ui"))
 
 
 # Exit button
