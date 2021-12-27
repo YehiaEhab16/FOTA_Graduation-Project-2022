@@ -21,3 +21,20 @@ class MainAPP (QWidget, FormClass):
     
     def Handle_UI(self):
         Gui.window(self)    
+        
+
+
+
+
+
+
+# Executing main window
+def main():
+    app = QApplication(sys.argv)
+    Window_Loop = MainAPP()
+    Window_Loop.show()
+    app.exec()
+
+
+if __name__ == '__main__':
+    main()
