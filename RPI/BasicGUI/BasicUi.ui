@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>TabWidget</class>
+ <widget class="QTabWidget" name="TabWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,11 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
-  </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>icon.png</normaloff>icon.png</iconset>
+   <string>TabWidget</string>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -1257,18 +1253,16 @@ ColorButton::disabled {
     border: 1px solid #AAAAAA;
 }</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>22</height>
-    </rect>
-   </property>
+  <widget class="QWidget" name="tab">
+   <attribute name="title">
+    <string>Tab 1</string>
+   </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QWidget" name="tab">
+   <attribute name="title">
+    <string>Tab 2</string>
+   </attribute>
+  </widget>
  </widget>
  <resources/>
  <connections/>
