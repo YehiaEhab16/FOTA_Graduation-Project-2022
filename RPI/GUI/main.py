@@ -1,6 +1,6 @@
 # importing required packages
 import ntpath
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QTabWidget
 from PyQt5.uic import loadUiType
 import sys
 
@@ -8,7 +8,7 @@ import sys
 import Gui
 
 # Load UI
-FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "Calendar.ui"))
+FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "UI\Phone - Copy.ui"))
 
 
 # Exit button
@@ -17,10 +17,10 @@ FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "Calendar.ui"))
 
 
 # Define main window
-class MainAPP (QMainWindow, FormClass):
+class MainAPP (QTabWidget, FormClass):
     def __init__(self, parent=None):
         super(MainAPP, self).__init__(parent)
-        QMainWindow.__init__(self)
+        QTabWidget.__init__(self)
         self.setupUi(self)
         self.Handle_UI()
         self.Handle_Buttons()
