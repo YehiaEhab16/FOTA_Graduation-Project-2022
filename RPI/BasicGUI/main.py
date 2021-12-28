@@ -19,7 +19,7 @@ FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "BasicUI.ui"))
 
 
 # Define main window
-class MainAPP (QMainWindow, FormClass):
+class MainAPP (QTabWidget, FormClass):
     def __init__(self, parent=None):
         super(MainAPP, self).__init__(parent)
         QMainWindow.__init__(self)
