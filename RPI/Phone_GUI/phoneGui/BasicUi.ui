@@ -1319,7 +1319,7 @@ ColorButton::disabled {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Phone/Astrics.png</normaloff>../../Phone/Astrics.png</iconset>
+      <normaloff>../Images/Astrics.png</normaloff>../Images/Astrics.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1365,7 +1365,7 @@ ColorButton::disabled {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Phone/Num0.png</normaloff>../../Phone/Num0.png</iconset>
+      <normaloff>../Images/Num0.png</normaloff>../Images/Num0.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1434,7 +1434,7 @@ ColorButton::disabled {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Phone/##.PNG</normaloff>../../Phone/##.PNG</iconset>
+      <normaloff>../Images/##.PNG</normaloff>../Images/##.PNG</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1457,7 +1457,7 @@ ColorButton::disabled {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Phone/Num9.png</normaloff>../../Phone/Num9.png</iconset>
+      <normaloff>../Images/Num9.png</normaloff>../Images/Num9.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1516,7 +1516,7 @@ ColorButton::disabled {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Phone/Num8.png</normaloff>../../Phone/Num8.png</iconset>
+      <normaloff>../Images/Num8.png</normaloff>../Images/Num8.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1539,7 +1539,7 @@ ColorButton::disabled {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../Phone/sdsd.png</normaloff>../../Phone/sdsd.png</iconset>
+      <normaloff>../Images/Num7.png</normaloff>../Images/Num7.png</iconset>
     </property>
     <property name="iconSize">
      <size>
