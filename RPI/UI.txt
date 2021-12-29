@@ -1,39 +1,67 @@
-Main Window: (Ali - Day1)
+Main Window: (Ali - Day1) -> Done
 *Time Display
 *8 Icons/buttons (Phone - Maps - Calender - Settings - Music - Video Player - Radio - Weather)
+-Buttons:
+
 
 Phone: (Yehia Shahin - Day1) -> Done
 *Contacts Tab
 *Recents Tab
 *Keypad Tab
-Buttons:
-back
-erase
-name
-dial
-OP
-number
-Num_0 -> Num_9 + Num_s + Num_h
-
+-Buttons:
+	back
+	erase
+	name
+	dial
+	OP
+	number
+	Num_0 -> Num_9 + Num_s + Num_h
+-Labels:
+	number
+	OP
+	name
+-Tables:
+	Recents_table
+	Contacts_table
+--------------------------------------------------
 Calender: (Yehia Ehab - Day1) -> Done
 *Display Date
-Buttons:
-back
-
-Maps:
+-Buttons:
+	back
+-calendarWidget
+--------------------------------------------------
+Maps: (Ali - Day2)
 *Display Map
 *Navigate to specific place
-
-Weather:
+-Buttons:
+	back
+---------------------------------------------------
+Weather: (Yehia Ehab - Day2)
 *Display Weather
-
-Radio:
+-Buttons:
+	back
+---------------------------------------------------
+Radio: (Yehia Shahin - Day2)
 *Adjust FM-AM and specific frequency
-
-Music Player:
+-Buttons:
+	back
+---------------------------------------------------
+Music Player: (Yehia Shahin - Day3)
 *Play songs from connected Device
 OR
 *Play songs from existing list
-
-Video Player:
+-Buttons:
+	back
+---------------------------------------------------
+Video Player: (Ali - Day3)
 *Play videos from existing list
+-Buttons:
+	back
+---------------------------------------------------
+Settings: (Yehia Ehab- Day3)
+*Check for updates
+*Bluetooth
+*Adjust Time and date
+-Buttons:
+	back
+---------------------------------------------------

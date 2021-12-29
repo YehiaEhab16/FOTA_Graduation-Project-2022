@@ -1277,7 +1277,7 @@ ColorButton::disabled {
     <string>Radio</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="maps">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -1375,7 +1375,7 @@ ColorButton::disabled {
     <string>Phone</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
+  <widget class="QPushButton" name="radio">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -1438,7 +1438,7 @@ ColorButton::disabled {
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="video">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -1464,7 +1464,7 @@ ColorButton::disabled {
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_5">
+  <widget class="QPushButton" name="music">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -1503,7 +1503,7 @@ ColorButton::disabled {
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="settings">
    <property name="geometry">
     <rect>
      <x>600</x>
@@ -1603,7 +1603,7 @@ ColorButton::disabled {
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QPushButton" name="weather">
    <property name="geometry">
     <rect>
      <x>600</x>
@@ -1646,14 +1646,26 @@ ColorButton::disabled {
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
    <property name="styleSheet">
     <string notr="true">color:rgb(255, 255, 255)</string>
    </property>
    <property name="text">
-    <string/>
+    <string>Wed 12:09 PM</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="openExternalLinks">
+    <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="calendar">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -1716,7 +1728,7 @@ ColorButton::disabled {
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="phone">
    <property name="geometry">
     <rect>
      <x>60</x>
