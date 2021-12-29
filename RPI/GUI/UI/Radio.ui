@@ -1269,7 +1269,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1310,7 +1309,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <italic>false</italic>
      <bold>true</bold>
     </font>
@@ -1334,7 +1332,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <italic>false</italic>
      <bold>true</bold>
      <strikeout>false</strikeout>
@@ -1359,7 +1356,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1401,7 +1397,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>13</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1466,7 +1461,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1489,7 +1483,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1515,7 +1508,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <italic>false</italic>
      <bold>true</bold>
     </font>
@@ -1539,7 +1531,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <italic>false</italic>
      <bold>true</bold>
      <strikeout>false</strikeout>
