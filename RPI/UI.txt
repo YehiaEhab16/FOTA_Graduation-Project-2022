@@ -2,14 +2,23 @@ Main Window: (Ali - Day1)
 *Time Display
 *8 Icons/buttons (Phone - Maps - Calender - Settings - Music - Video Player - Radio - Weather)
 
-Phone: (Yehia Shahin - Day1)
+Phone: (Yehia Shahin - Day1) -> Done
 *Contacts Tab
 *Recents Tab
 *Keypad Tab
+Buttons:
+back
+erase
+name
+dial
+OP
+number
+Num_0 -> Num_9 + Num_s + Num_h
 
-Calender: (Yehia Ehab - Day1)
+Calender: (Yehia Ehab - Day1) -> Done
 *Display Date
-*Set Reminders
+Buttons:
+back
 
 Maps:
 *Display Map

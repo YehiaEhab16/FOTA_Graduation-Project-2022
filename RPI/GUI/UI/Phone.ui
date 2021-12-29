@@ -7,18 +7,24 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>481</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Contacts</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../Images/icon.png</normaloff>../Images/icon.png</iconset>
+  </property>
   <property name="toolTip">
    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
   <property name="styleSheet">
-   <string notr="true">
-QProgressBar:horizontal {
+   <string notr="true">QProgressBar:horizontal {
     border: 1px solid #3A3939;
     text-align: center;
     padding: 1px;
@@ -1230,7 +1236,9 @@ QSplitter::handle:vertical {
 }
 
 QListWidget {
-    background-color: silver;
+    background-color: #302F2F;
+	alternate-background-color: silver;
+	color: rgb(255, 255, 255);
     border-radius: 5px;
     margin-left: 5px;
 }
@@ -1263,354 +1271,714 @@ ColorButton::disabled {
    <attribute name="title">
     <string>Keypad</string>
    </attribute>
-   <widget class="QLabel" name="label">
+   <widget class="QPushButton" name="Num_1">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
-      <width>791</width>
-      <height>451</height>
+      <y>80</y>
+      <width>131</width>
+      <height>91</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>../Images/PicsArt_07-28-01.39.53.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
+     <string>1</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="Num_2">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>90</y>
-      <width>91</width>
-      <height>61</height>
+      <x>130</x>
+      <y>80</y>
+      <width>131</width>
+      <height>91</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num2.png</normaloff>../Images/Num2.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>91</width>
-      <height>300</height>
-     </size>
+     <string>2</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_14">
+   <widget class="QPushButton" name="Num_3">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>340</y>
-      <width>91</width>
-      <height>61</height>
+      <x>260</x>
+      <y>80</y>
+      <width>131</width>
+      <height>91</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Astrics.png</normaloff>../Images/Astrics.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>91</width>
-      <height>250</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>190</y>
-      <width>91</width>
-      <height>81</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
     </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/PhoneCall.PNG</normaloff>../Images/PhoneCall.PNG</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>91</width>
-      <height>300</height>
-     </size>
+     <string>3</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="Num_4">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>340</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num0.png</normaloff>../Images/Num0.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>150</width>
-      <height>300</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_7">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>90</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num3.png</normaloff>../Images/Num3.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>140</width>
-      <height>330</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
+      <x>0</x>
       <y>170</y>
-      <width>91</width>
-      <height>61</height>
+      <width>131</width>
+      <height>91</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
     <property name="text">
-     <string/>
+     <string>4</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_6">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>170</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_5">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>170</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_7">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>260</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>7</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_9">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>260</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>9</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_8">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>260</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_s">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>350</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>*</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_h">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>350</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>#</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Num_0">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>350</y>
+      <width>131</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="OP">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>90</y>
+      <width>321</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>40</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Calling</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="name">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>170</y>
+      <width>321</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>40</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Yehia Ehab</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>410</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="dial">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>350</y>
+      <width>301</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image:url(:/Images/Diwal.png);</string>
+    </property>
+    <property name="text">
+     <string>Call</string>
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../Images/Num5.jpg</normaloff>../Images/Num5.jpg</iconset>
+      <normaloff>../Images/Dial.png</normaloff>../Images/Dial.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>125</width>
-      <height>300</height>
+      <width>50</width>
+      <height>50</height>
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_13">
+   <widget class="QLabel" name="number">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>340</y>
-      <width>91</width>
+      <x>10</x>
+      <y>0</y>
+      <width>691</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>40</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>0115852871</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="erase">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>10</y>
+      <width>81</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+      <stylestrategy>PreferDefault</stylestrategy>
+      <kerning>true</kerning>
+     </font>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../Images/##.PNG</normaloff>../Images/##.PNG</iconset>
+      <normaloff>../Images/Backspace.png</normaloff>../Images/Backspace.png</iconset>
     </property>
     <property name="iconSize">
      <size>
       <width>100</width>
-      <height>400</height>
+      <height>100</height>
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_12">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>250</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num9.png</normaloff>../Images/Num9.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>91</width>
-      <height>300</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_10">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>170</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num4.png</normaloff>../Images/Num4.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>120</width>
-      <height>300</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>250</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num8.png</normaloff>../Images/Num8.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>91</width>
-      <height>300</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_11">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>250</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num7.png</normaloff>../Images/Num7.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>110</width>
-      <height>300</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_9">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>90</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num1.png</normaloff>../Images/Num1.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>91</width>
-      <height>300</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>170</y>
-      <width>91</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../Images/Num6.png</normaloff>../Images/Num6.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>91</width>
-      <height>300</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLCDNumber" name="lcdNumber">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>20</y>
-      <width>541</width>
-      <height>61</height>
-     </rect>
-    </property>
-   </widget>
+   <zorder>dial</zorder>
+   <zorder>Num_1</zorder>
+   <zorder>Num_2</zorder>
+   <zorder>Num_3</zorder>
+   <zorder>Num_4</zorder>
+   <zorder>Num_6</zorder>
+   <zorder>Num_5</zorder>
+   <zorder>Num_7</zorder>
+   <zorder>Num_9</zorder>
+   <zorder>Num_8</zorder>
+   <zorder>Num_s</zorder>
+   <zorder>Num_h</zorder>
+   <zorder>Num_0</zorder>
+   <zorder>OP</zorder>
+   <zorder>name</zorder>
+   <zorder>back</zorder>
+   <zorder>number</zorder>
+   <zorder>erase</zorder>
   </widget>
   <widget class="QWidget" name="tab">
    <attribute name="title">
     <string>Recents</string>
    </attribute>
-   <widget class="QListView" name="listView">
+   <widget class="QPushButton" name="back_2">
     <property name="geometry">
      <rect>
-      <x>-10</x>
-      <y>0</y>
-      <width>801</width>
-      <height>451</height>
+      <x>720</x>
+      <y>410</y>
+      <width>71</width>
+      <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="Recents_table">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>801</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget::setColumnWidth ( Name, 300 ) </string>
+    </property>
+    <property name="midLineWidth">
+     <number>1</number>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
+    <property name="showDropIndicator" stdset="0">
+     <bool>true</bool>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>true</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <property name="gridStyle">
+     <enum>Qt::SolidLine</enum>
+    </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>250</number>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>num</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Number</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Date</string>
+     </property>
+    </column>
+    <item row="0" column="0">
+     <property name="text">
+      <string>Yehia Ehab</string>
+     </property>
+    </item>
+    <item row="0" column="1">
+     <property name="text">
+      <string>01158952871</string>
+     </property>
+    </item>
+    <item row="0" column="2">
+     <property name="text">
+      <string>Yesterday</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QWidget" name="tab_2">
    <attribute name="title">
     <string>Contacts</string>
    </attribute>
+   <widget class="QPushButton" name="back_3">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>410</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="Contacts_table">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>801</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget::setColumnWidth ( Name, 300 ) </string>
+    </property>
+    <property name="midLineWidth">
+     <number>1</number>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
+    <property name="showDropIndicator" stdset="0">
+     <bool>true</bool>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>true</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <property name="gridStyle">
+     <enum>Qt::SolidLine</enum>
+    </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>250</number>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>num</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Number</string>
+     </property>
+    </column>
+    <item row="0" column="0">
+     <property name="text">
+      <string>Yehia Ehab</string>
+     </property>
+    </item>
+    <item row="0" column="1">
+     <property name="text">
+      <string>01158952871</string>
+     </property>
+    </item>
+    <item row="1" column="0">
+     <property name="text">
+      <string>Yara Ehab</string>
+     </property>
+    </item>
+    <item row="1" column="1">
+     <property name="text">
+      <string>01122334455</string>
+     </property>
+    </item>
+   </widget>
   </widget>
  </widget>
  <resources/>
