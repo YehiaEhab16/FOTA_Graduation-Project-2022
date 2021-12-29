@@ -1,6 +1,7 @@
 # importing required packages
 import ntpath
 from PyQt5.QtWidgets import QApplication, QTabWidget
+from PyQt5.QtCore import QTimer, QTime, Qt
 from PyQt5.uic import loadUiType
 import sys
 
@@ -8,7 +9,8 @@ import sys
 import Gui
 
 # Load UI
-FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "UI\Phone - Copy.ui"))
+FormClass, _ = loadUiType(ntpath.join(
+    ntpath.dirname(__file__), "UI\MainWindow.ui"))
 
 
 # Exit button
@@ -25,6 +27,13 @@ class MainAPP (QTabWidget, FormClass):
         self.Handle_UI()
         self.Handle_Buttons()
 
+        # creating a timer object
+        # timer = QTimer(self)
+        # adding action to timer
+        # timer.timeout.connect(self.showTime)
+        # update the timer every second
+        # timer.start()
+
     # GUI buttons
     def Handle_Buttons(self):
         pass
@@ -32,8 +41,18 @@ class MainAPP (QTabWidget, FormClass):
     def Handle_UI(self):
         Gui.window(self)
 
+    # def showTime(self):
+        # getting current time
+        #current_time = QTime.currentTime()
+        # converting QTime object to string
+        #label_time = current_time.toString('hh:mm')
+        # showing it to the label
+        # self.label_9.setText(label_time)
+        # self.label_9.setAlignment(Qt.AlignCenter)
 
 # Executing main window
+
+
 def main():
     app = QApplication(sys.argv)
     Window_Loop = MainAPP()
