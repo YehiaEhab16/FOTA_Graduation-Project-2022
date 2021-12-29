@@ -1257,25 +1257,6 @@ ColorButton::disabled {
     border: 1px solid #AAAAAA;
 }</string>
   </property>
-  <widget class="QCalendarWidget" name="calendarWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>801</width>
-     <height>451</height>
-    </rect>
-   </property>
-   <property name="firstDayOfWeek">
-    <enum>Qt::Saturday</enum>
-   </property>
-   <property name="gridVisible">
-    <bool>true</bool>
-   </property>
-   <property name="verticalHeaderFormat">
-    <enum>QCalendarWidget::NoVerticalHeader</enum>
-   </property>
-  </widget>
   <widget class="QPushButton" name="back">
    <property name="geometry">
     <rect>
