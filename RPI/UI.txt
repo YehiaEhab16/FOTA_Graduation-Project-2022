@@ -45,6 +45,19 @@ Radio: (Yehia Shahin - Day2)
 *Adjust FM-AM and specific frequency
 -Buttons:
 	back
+	dec_sound
+	inc_sound
+	decrement
+	increment
+	next
+	previous
+	play_pause
+-ProgressBar:
+	sound
+-Combo Box:
+	select
+-Label:
+	freq
 ---------------------------------------------------
 Music Player: (Yehia Shahin - Day3)
 *Play songs from connected Device
