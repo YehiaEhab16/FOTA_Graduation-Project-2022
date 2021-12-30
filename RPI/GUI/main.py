@@ -1,20 +1,24 @@
 # importing required packages
 import ntpath
-from PyQt5.QtWidgets import QApplication, QTabWidget
+from PyQt5.QtWidgets import QApplication, QTabWidget , QWidget
 from PyQt5.QtCore import QTimer, Qt
+import datetime
 from PyQt5.uic import loadUiType
 import sys
-from PyQt5 import QtGui
-import Gui
 import datetime
+
+from PyQt5 import QtGui
 import pathlib
 
 # Get current directory's path
-#current_directory = str(pathlib.Path(__file__).parent.absolute())
+#current_directory = str(pathlib.Path(file).parent.absolute())
 # Sets image of software update notification in settings
 #settingsNotificationPath = current_directory + '/settingsNotification.png'
 
+
+
 # importing defined modules
+
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -25,15 +29,38 @@ FormClass, _ = loadUiType(ntpath.join(
 # def Handle_Exit():
 #    sys.exit()
 
+import Calender
+import Music
+import Radio
+import Maps
+import Phone
+import Settings
+import Weather
+import Video
+
+# GUI Functions
+# Setting window title and size
+
+
 
 # Define main window
-class MainAPP (QTabWidget, FormClass):
+class MainAPP (QWidget, FormClass):
+
+
     def __init__(self, parent=None):
         super(MainAPP, self).__init__(parent)
-        QTabWidget.__init__(self)
+        QWidget.__init__(self)
         self.setupUi(self)
-        self.Handle_UI()
         self.Handle_Buttons()
+        self.window()
+        self.Calender = Calender.MainAPP_Calender()
+        self.Music = Music.MainAPP_Music()
+        self.Radio = Radio.MainAPP_Radio()
+        self.Maps = Maps.MainAPP_Map()
+        self.Phone = Phone.MainAPP_Phone()
+        self.Setting = Settings.MainAPP_Setting()
+        self.Weather = Weather.MainAPP_Weather()
+        self.Video = Video.MainAPP_Video()
 
         # creating a timer object
         timer = QTimer(self)
@@ -42,16 +69,52 @@ class MainAPP (QTabWidget, FormClass):
         # update the timer every second
         timer.start()
 
+    def window(self):
+        self.setWindowTitle("Main Window")
+        self.setFixedSize(800, 480)
     # GUI buttons
     def Handle_Buttons(self):
         # Condition to change settings to have a software update notification
         # if 1 == 1:
         # Sets the image of notification to replace the default settings image
         # self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
-        pass
+        self.calendar.clicked.connect(self.Handle_Calendar)
+        self.music.clicked.connect (self.Handle_Music)
+        self.weather.clicked.connect (self.Handle_Weather)
+        self.radio.clicked.connect (self.Handle_Radio)
+        self.video.clicked.connect (self.Handle_Video)
+        self.maps.clicked.connect (self.Handle_Maps)
+        self.settings.clicked.connect (self.Handle_Setting)
+        self.phone.clicked.connect (self.Handle_Phone)
 
-    def Handle_UI(self):
-        Gui.window(self)
+
+
+
+    def Handle_Radio(self):
+        self.Radio.show()
+
+    def Handle_Maps(self):
+        self.Maps.show()
+
+    def Handle_Phone(self):
+        self.Phone.show()
+
+    def Handle_Radio(self):
+        self.Radio.show()
+
+    def Handle_Setting(self):
+        self.Setting.show()
+
+    def Handle_Video(self):
+        self.Video.show()
+
+    def Handle_Weather(self):
+        self.Weather.show()
+
+    def Handle_Calendar (self):
+        self.Calender.show()
+    def Handle_Music (self):
+        self.Music.show()
 
     def showTime(self):
         # getting current time

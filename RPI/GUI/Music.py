@@ -1,6 +1,6 @@
 # importing required packages
 import ntpath
-from PyQt5.QtWidgets import QApplication, QTabWidget
+from PyQt5.QtWidgets import QApplication, QTabWidget ,QWidget
 from PyQt5.QtCore import QTimer, QTime, Qt,QUrl
 from PyQt5.uic import loadUiType
 import sys
@@ -9,30 +9,34 @@ import os
 from PyQt5.QtGui import QPixmap
 import sys
 # importing defined modules
-import Gui
+
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "Music.ui"))
+    ntpath.dirname(__file__), "UI/Music.ui"))
 
 
 # Exit button
-# def Handle_Exit():
-#    sys.exit()
+def Handle_Exit():
+      sys.exit()
+
+# GUI Functions
+# Setting window title and size
+
 
 
 # Define main window
-class MainAPP (QTabWidget, FormClass):
+class MainAPP_Music (QWidget, FormClass):
     global Counter
     Counter = 0
     def __init__(self, parent=None):
-        super(MainAPP, self).__init__(parent)
-        QTabWidget.__init__(self)
+        super(MainAPP_Music, self).__init__(parent)
+        QWidget.__init__(self)
         self.setupUi(self)
-        self.Handle_UI()
+        self.window()
         self.Handle_Buttons()
         self.player = QMediaPlayer()
-        self.pixmap = QPixmap('Music.jpg')
+        self.pixmap = QPixmap('Images\Music.jpg')
 
         # creating a timer object
         # timer = QTimer(self)
@@ -48,8 +52,7 @@ class MainAPP (QTabWidget, FormClass):
         self.IncreaseSound.clicked.connect (self.IncreaseVolume)
         self.PreviousMusic.clicked.connect (self.Handle_Previous)
         self.NextMusic.clicked.connect (self.Handle_Next)
-    def Handle_UI(self):
-        Gui.window(self)
+        self.back.clicked.connect (self.Handle_Exit)
 
     def IncreaseVolume(self):
         currentVolum = self.player.volume()
@@ -61,18 +64,20 @@ class MainAPP (QTabWidget, FormClass):
         self.player.setVolume (currentVolum-6)
         self.Sound.setValue(currentVolum-6)
 
+    def window(self):
+        self.setWindowTitle("Calendar")
+        self.setFixedSize(800, 480)
 
     def Handle_Previous (self):
         global Counter
         try:
-            print (self.MusicList.count());
             if Counter<self.MusicList.count() and Counter>0:
                 CurrentIndex = self.MusicList.currentIndex() + Counter
                 #self.MusicList.currentIndex=CurrentIndex
                 CurrentMusic = self.MusicList.itemText(CurrentIndex - 1)
                 self.CurrentMusic.setText(CurrentMusic)
                 self.MusicPhoto.setPixmap(self.pixmap)
-                Full_Path = os.path.join(os.getcwd(),CurrentMusic)
+                Full_Path = os.path.join(os.getcwd()+"\Music",CurrentMusic)
                 url=QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
@@ -85,13 +90,12 @@ class MainAPP (QTabWidget, FormClass):
     def Handle_Next (self):
         global Counter
         try :
-            print (Counter)
             if Counter<self.MusicList.count()-1:
                 CurrentIndex = self.MusicList.currentIndex() + Counter
                 CurrentMusic = self.MusicList.itemText(CurrentIndex + 1)
                 self.CurrentMusic.setText(CurrentMusic)
                 self.MusicPhoto.setPixmap(self.pixmap)
-                Full_Path = os.path.join(os.getcwd(),CurrentMusic)
+                Full_Path = os.path.join(os.getcwd()+"\Music",CurrentMusic)
                 url=QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
@@ -110,12 +114,16 @@ class MainAPP (QTabWidget, FormClass):
         CurrentMusic = self.MusicList.itemText(CurrentIndex)
         self.CurrentMusic.setText(CurrentMusic)
         self.MusicPhoto.setPixmap(self.pixmap)
-        Full_Path = os.path.join(os.getcwd(),CurrentMusic)
+        Full_Path = os.path.join(os.getcwd()+"\Music",CurrentMusic)
         url=QUrl.fromLocalFile(Full_Path)
         content = QMediaContent(url)
 
         self.player.setMedia(content)
         self.player.play()
+
+    def Handle_Exit(self):
+        self.close()
+        self.player.stop()
     # def showTime(self):
         # getting current time
         #current_time = QTime.currentTime()
@@ -127,13 +135,3 @@ class MainAPP (QTabWidget, FormClass):
 
 # Executing main window
 
-
-def main():
-    app = QApplication(sys.argv)
-    Window_Loop = MainAPP()
-    Window_Loop.show()
-    app.exec()
-
-
-if __name__ == '__main__':
-    main()
