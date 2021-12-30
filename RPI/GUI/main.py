@@ -1,9 +1,10 @@
 # importing required packages
 import ntpath
 from PyQt5.QtWidgets import QApplication, QTabWidget
-from PyQt5.QtCore import QTimer, QTime, Qt
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.uic import loadUiType
 import sys
+import datetime
 
 # importing defined modules
 import Gui
@@ -28,7 +29,7 @@ class MainAPP (QTabWidget, FormClass):
         self.Handle_Buttons()
 
         # creating a timer object
-        # timer = QTimer(self)
+        #timer = QTimer(self)
         # adding action to timer
         # timer.timeout.connect(self.showTime)
         # update the timer every second
@@ -43,11 +44,11 @@ class MainAPP (QTabWidget, FormClass):
 
     # def showTime(self):
         # getting current time
-        #current_time = QTime.currentTime()
-        # converting QTime object to string
-        #label_time = current_time.toString('hh:mm')
+        #currentTime = datetime.datetime.now()
+        #day = currentTime.strftime("%a")
+        #hour = currentTime.strftime("%I:%M %p")
         # showing it to the label
-        # self.label_9.setText(label_time)
+        #self.label_9.setText(day + " " + hour)
         # self.label_9.setAlignment(Qt.AlignCenter)
 
 # Executing main window
