@@ -4,10 +4,17 @@ from PyQt5.QtWidgets import QApplication, QTabWidget
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.uic import loadUiType
 import sys
+from PyQt5 import QtGui
+import Gui
 import datetime
+import pathlib
+
+# Get current directory's path
+#current_directory = str(pathlib.Path(__file__).parent.absolute())
+# Sets image of software update notification in settings
+#settingsNotificationPath = current_directory + '/settingsNotification.png'
 
 # importing defined modules
-import Gui
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -29,27 +36,31 @@ class MainAPP (QTabWidget, FormClass):
         self.Handle_Buttons()
 
         # creating a timer object
-        #timer = QTimer(self)
+        timer = QTimer(self)
         # adding action to timer
-        # timer.timeout.connect(self.showTime)
+        timer.timeout.connect(self.showTime)
         # update the timer every second
-        # timer.start()
+        timer.start()
 
     # GUI buttons
     def Handle_Buttons(self):
+        # Condition to change settings to have a software update notification
+        # if 1 == 1:
+        # Sets the image of notification to replace the default settings image
+        # self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         pass
 
     def Handle_UI(self):
         Gui.window(self)
 
-    # def showTime(self):
+    def showTime(self):
         # getting current time
-        #currentTime = datetime.datetime.now()
-        #day = currentTime.strftime("%a")
-        #hour = currentTime.strftime("%I:%M %p")
+        currentTime = datetime.datetime.now()
+        day = currentTime.strftime("%a")
+        hour = currentTime.strftime("%I:%M %p")
         # showing it to the label
-        #self.label_9.setText(day + " " + hour)
-        # self.label_9.setAlignment(Qt.AlignCenter)
+        self.label_9.setText(day + " " + hour)
+        self.label_9.setAlignment(Qt.AlignCenter)
 
 # Executing main window
 
