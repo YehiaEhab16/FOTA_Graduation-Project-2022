@@ -1,25 +1,26 @@
 # importing required packages
+import Comm
+import Calender
+import Music
+import Radio
+import Maps
+import Phone
+import Settings
+import Weather
+import Video
 import ntpath
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QTimer, Qt
+from PyQt5 import QtGui
 from PyQt5.uic import loadUiType
 import sys
 import datetime
 import pathlib
-from PyQt5 import QtGui
+
 
 # importing defined UI's
-import Video
-import Weather
-import Settings
-import Phone
-import Maps
-import Radio
-import Music
-import Calender
 
 # importing defined Modules
-import Comm
 
 # Get current directory's path
 current_directory = str(pathlib.Path(__file__).parent.absolute())

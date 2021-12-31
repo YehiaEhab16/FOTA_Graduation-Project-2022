@@ -56,7 +56,7 @@ class MainAPP_Music (QWidget, FormClass):
         self.Sound.setValue(currentVolum-6)
 
     def window(self):
-        self.setWindowTitle("Calendar")
+        self.setWindowTitle("Music")
         self.setFixedSize(800, 480)
 
     def Handle_Previous(self):
