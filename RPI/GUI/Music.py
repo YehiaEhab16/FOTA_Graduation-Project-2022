@@ -1,6 +1,6 @@
 # importing required packages
 import ntpath
-from PyQt5.QtWidgets import QComboBox, QWidget
+from PyQt5.QtWidgets import QStyle, QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.uic import loadUiType
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
@@ -26,6 +26,13 @@ def Handle_Exit():
 # Define main window
 class MainAPP_Music (QWidget, FormClass):
 
+    global currentIndicator
+    currentIndicator = ""
+    global nextIndicator
+    nextIndicator = ""
+    global Counter
+    Counter = 0
+
     def __init__(self, parent=None):
         super(MainAPP_Music, self).__init__(parent)
         QWidget.__init__(self)
@@ -34,6 +41,7 @@ class MainAPP_Music (QWidget, FormClass):
         self.Handle_Buttons()
         self.player = QMediaPlayer()
         self.pixmap = QPixmap(current_directory + '\Images\Music.jpg')
+        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
 
         for f in MusicFiles:
             self.MusicList.addItem(f)
@@ -63,8 +71,12 @@ class MainAPP_Music (QWidget, FormClass):
         self.setFixedSize(800, 480)
 
     def Handle_Previous(self):
+        global currentIndicator
+        global nextIndicator
         try:
             if self.MusicList.currentIndex() >= 1:
+                self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPause))
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex - 1
                 self.MusicList.setCurrentIndex(newIndex)
@@ -74,13 +86,19 @@ class MainAPP_Music (QWidget, FormClass):
                 content = QMediaContent(url)
                 self.player.setMedia(content)
                 self.player.play()
+                currentIndicator = self.MusicList.currentText()
+                nextIndicator = currentIndicator
 
         except:
             pass
 
     def Handle_Next(self):
+        global currentIndicator
+        global nextIndicator
         try:
             if self.MusicList.currentIndex() < self.MusicList.count() - 1:
+                self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPause))
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex + 1
                 self.MusicList.setCurrentIndex(newIndex)
@@ -90,19 +108,46 @@ class MainAPP_Music (QWidget, FormClass):
                 content = QMediaContent(url)
                 self.player.setMedia(content)
                 self.player.play()
+                currentIndicator = self.MusicList.currentText()
+                nextIndicator = currentIndicator
 
         except:
             pass
 
     def Handle_Player(self):
-        currentVolum = self.player.volume()
-        self.Sound.setValue(currentVolum)
-        self.MusicPhoto.setPixmap(self.pixmap)
-        Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
-        url = QUrl.fromLocalFile(Full_Path)
-        content = QMediaContent(url)
-        self.player.setMedia(content)
-        self.player.play()
+        global currentIndicator
+        global nextIndicator
+        global Counter
+        nextIndicator = self.MusicList.currentText()
+        if nextIndicator != currentIndicator:
+            Counter = 0
+        if Counter == 0:
+            self.playButton.setIcon(
+                self.style().standardIcon(QStyle.SP_MediaPause))
+            currentVolum = self.player.volume()
+            self.Sound.setValue(currentVolum)
+            self.MusicPhoto.setPixmap(self.pixmap)
+            currentIndicator = self.MusicList.currentText()
+            Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
+            url = QUrl.fromLocalFile(Full_Path)
+            content = QMediaContent(url)
+            self.player.setMedia(content)
+            self.player.play()
+            Counter = Counter + 1
+
+        else:
+            if self.player.state() == QMediaPlayer.PlayingState:
+                self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPlay))
+                self.player.pause()
+            elif self.player.state() == QMediaPlayer.PausedState:
+                self.player.play()
+                self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPause))
+            elif self.player.state() == QMediaPlayer.StoppedState:
+                Counter = 0
+                self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPause))
 
     def Handle_Exit(self):
         self.close()
