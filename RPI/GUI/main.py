@@ -1,4 +1,14 @@
 # importing required packages
+import ntpath
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtCore import QTimer, Qt
+from PyQt5.uic import loadUiType
+import sys
+import datetime
+import pathlib
+from PyQt5 import QtGui
+
+# importing defined UI's
 import Video
 import Weather
 import Settings
@@ -7,35 +17,24 @@ import Maps
 import Radio
 import Music
 import Calender
-import ntpath
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtCore import QTimer, Qt
-import datetime
-from PyQt5.uic import loadUiType
-import sys
-import datetime
 
-from PyQt5 import QtGui
-import pathlib
+# importing defined Modules
+import Comm
 
 # Get current directory's path
-#current_directory = str(pathlib.Path(__file__).parent.absolute())
+current_directory = str(pathlib.Path(__file__).parent.absolute())
 # Sets image of software update notification in settings
-# settingsNotificationPath = current_directory + \
-#    '\Images\settingsNotification.jpg'
-
-
-# importing defined modules
-
+settingsNotificationPath = current_directory + '/Images/settingsNotification.png'
+settingsIcon = current_directory + '/Images/settingsLogo.png'
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI\MainWindow.ui"))
+    ntpath.dirname(__file__), "UI/MainWindow.ui"))
 
 
 # Exit button
-# def Handle_Exit():
-#    sys.exit()
+def Handle_Exit():
+    sys.exit()
 
 
 # GUI Functions
@@ -43,7 +42,7 @@ FormClass, _ = loadUiType(ntpath.join(
 
 
 # Define main window
-class MainAPP (QWidget, FormClass):
+class MainAPP(QWidget, FormClass):
 
     def __init__(self, parent=None):
         super(MainAPP, self).__init__(parent)
@@ -70,13 +69,9 @@ class MainAPP (QWidget, FormClass):
     def window(self):
         self.setWindowTitle("Main Window")
         self.setFixedSize(800, 480)
-    # GUI buttons
 
+    # GUI buttons
     def Handle_Buttons(self):
-        # Condition to change settings to have a software update notification
-        # if 1 == 1:
-        # Sets the image of notification to replace the default settings image
-        # self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         self.calendar.clicked.connect(self.Handle_Calendar)
         self.music.clicked.connect(self.Handle_Music)
         self.weather.clicked.connect(self.Handle_Weather)
@@ -85,6 +80,7 @@ class MainAPP (QWidget, FormClass):
         self.maps.clicked.connect(self.Handle_Maps)
         self.settings.clicked.connect(self.Handle_Setting)
         self.phone.clicked.connect(self.Handle_Phone)
+        self.exit.clicked.connect(Handle_Exit)
 
     def Handle_Radio(self):
         self.Radio.show()
@@ -94,9 +90,6 @@ class MainAPP (QWidget, FormClass):
 
     def Handle_Phone(self):
         self.Phone.show()
-
-    def Handle_Radio(self):
-        self.Radio.show()
 
     def Handle_Setting(self):
         self.Setting.show()
@@ -119,12 +112,17 @@ class MainAPP (QWidget, FormClass):
         day = currentTime.strftime("%a")
         hour = currentTime.strftime("%I:%M %p")
         # showing it to the label
-        self.label_9.setText(day + " " + hour)
-        self.label_9.setAlignment(Qt.AlignCenter)
+        self.time_label.setText(day + " " + hour)
+        self.time_label.setAlignment(Qt.AlignCenter)
+        # Condition to change settings to have a software update notification
+        if Comm.Get() == 1:
+            # Sets the image of notification to replace the default settings image
+            self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
+        else:  # Condition must be added (If user views the software update)
+            self.settings.setIcon(QtGui.QIcon(settingsIcon))
+
 
 # Executing main window
-
-
 def main():
     app = QApplication(sys.argv)
     Window_Loop = MainAPP()

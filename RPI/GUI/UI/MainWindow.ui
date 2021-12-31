@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../Images/icon.png</normaloff>../Images/icon.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">
 QProgressBar:horizontal {
@@ -1629,7 +1633,7 @@ ColorButton::disabled {
     </size>
    </property>
   </widget>
-  <widget class="QLabel" name="label_9">
+  <widget class="QLabel" name="time_label">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1640,7 +1644,7 @@ ColorButton::disabled {
    </property>
    <property name="font">
     <font>
-     <pointsize>36</pointsize>
+     <pointsize>30</pointsize>
     </font>
    </property>
    <property name="layoutDirection">
@@ -1752,6 +1756,29 @@ ColorButton::disabled {
      <width>140</width>
      <height>120</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exit">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>0</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>17</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 0, 0);
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>X</string>
    </property>
   </widget>
  </widget>
