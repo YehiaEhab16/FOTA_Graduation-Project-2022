@@ -1269,7 +1269,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1283,8 +1282,8 @@ ColorButton::disabled {
   <widget class="QPushButton" name="DecreaseSound">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>270</y>
+     <x>160</x>
+     <y>330</y>
      <width>51</width>
      <height>41</height>
     </rect>
@@ -1292,7 +1291,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1304,7 +1302,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>400</y>
+     <y>410</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -1322,10 +1320,10 @@ ColorButton::disabled {
   <widget class="QLabel" name="MusicPhoto">
    <property name="geometry">
     <rect>
-     <x>156</x>
-     <y>50</y>
-     <width>471</width>
-     <height>171</height>
+     <x>250</x>
+     <y>70</y>
+     <width>261</width>
+     <height>221</height>
     </rect>
    </property>
    <property name="font">
@@ -1336,11 +1334,17 @@ ColorButton::disabled {
    <property name="text">
     <string/>
    </property>
+   <property name="pixmap">
+    <pixmap>../Images/music.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="playButton">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>360</x>
      <y>330</y>
      <width>51</width>
      <height>41</height>
@@ -1349,7 +1353,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1361,7 +1364,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>390</y>
+     <y>400</y>
      <width>41</width>
      <height>41</height>
     </rect>
@@ -1380,7 +1383,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>400</y>
+     <y>410</y>
      <width>461</width>
      <height>31</height>
     </rect>
@@ -1388,7 +1391,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>12</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1399,8 +1401,8 @@ ColorButton::disabled {
   <widget class="QPushButton" name="IncreaseSound">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>270</y>
+     <x>570</x>
+     <y>330</y>
      <width>51</width>
      <height>41</height>
     </rect>
@@ -1408,7 +1410,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1419,7 +1420,7 @@ ColorButton::disabled {
   <widget class="QPushButton" name="PreviousMusic">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>330</y>
      <width>51</width>
      <height>41</height>
@@ -1428,7 +1429,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1439,7 +1439,7 @@ ColorButton::disabled {
   <widget class="QPushButton" name="NextMusic">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>460</x>
      <y>330</y>
      <width>51</width>
      <height>41</height>
@@ -1448,7 +1448,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1459,18 +1458,26 @@ ColorButton::disabled {
   <widget class="QComboBox" name="MusicList">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>230</y>
-     <width>481</width>
-     <height>22</height>
+     <x>270</x>
+     <y>20</y>
+     <width>241</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
    </property>
    <item>
     <property name="text">
@@ -1482,24 +1489,6 @@ ColorButton::disabled {
      <string>Sefa_In De Hemel.wav</string>
     </property>
    </item>
-  </widget>
-  <widget class="QLabel" name="CurrentMusic">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>10</y>
-     <width>321</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>20</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
  </widget>
  <resources/>

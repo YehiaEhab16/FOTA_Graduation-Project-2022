@@ -3,14 +3,12 @@ import ntpath
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.uic import loadUiType
-import sys
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-import os
 from PyQt5.QtGui import QPixmap
 import sys
 import pathlib
-# importing defined modules
 
+#
 current_directory = str(pathlib.Path(__file__).parent.absolute())
 
 # Load UI
@@ -21,9 +19,6 @@ FormClass, _ = loadUiType(ntpath.join(
 # Exit button
 def Handle_Exit():
     sys.exit()
-
-# GUI Functions
-# Setting window title and size
 
 
 # Define main window
@@ -121,5 +116,3 @@ class MainAPP_Music (QWidget, FormClass):
     def Handle_Exit(self):
         self.close()
         self.player.stop()
-
-# Executing main window
