@@ -1,6 +1,14 @@
 # importing required packages
+import Video
+import Weather
+import Settings
+import Phone
+import Maps
+import Radio
+import Music
+import Calender
 import ntpath
-from PyQt5.QtWidgets import QApplication, QTabWidget , QWidget
+from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QTimer, Qt
 import datetime
 from PyQt5.uic import loadUiType
@@ -11,10 +19,10 @@ from PyQt5 import QtGui
 import pathlib
 
 # Get current directory's path
-#current_directory = str(pathlib.Path(file).parent.absolute())
+#current_directory = str(pathlib.Path(__file__).parent.absolute())
 # Sets image of software update notification in settings
-#settingsNotificationPath = current_directory + '/settingsNotification.png'
-
+# settingsNotificationPath = current_directory + \
+#    '\Images\settingsNotification.jpg'
 
 
 # importing defined modules
@@ -29,23 +37,13 @@ FormClass, _ = loadUiType(ntpath.join(
 # def Handle_Exit():
 #    sys.exit()
 
-import Calender
-import Music
-import Radio
-import Maps
-import Phone
-import Settings
-import Weather
-import Video
 
 # GUI Functions
 # Setting window title and size
 
 
-
 # Define main window
 class MainAPP (QWidget, FormClass):
-
 
     def __init__(self, parent=None):
         super(MainAPP, self).__init__(parent)
@@ -73,22 +71,20 @@ class MainAPP (QWidget, FormClass):
         self.setWindowTitle("Main Window")
         self.setFixedSize(800, 480)
     # GUI buttons
+
     def Handle_Buttons(self):
         # Condition to change settings to have a software update notification
         # if 1 == 1:
         # Sets the image of notification to replace the default settings image
         # self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         self.calendar.clicked.connect(self.Handle_Calendar)
-        self.music.clicked.connect (self.Handle_Music)
-        self.weather.clicked.connect (self.Handle_Weather)
-        self.radio.clicked.connect (self.Handle_Radio)
-        self.video.clicked.connect (self.Handle_Video)
-        self.maps.clicked.connect (self.Handle_Maps)
-        self.settings.clicked.connect (self.Handle_Setting)
-        self.phone.clicked.connect (self.Handle_Phone)
-
-
-
+        self.music.clicked.connect(self.Handle_Music)
+        self.weather.clicked.connect(self.Handle_Weather)
+        self.radio.clicked.connect(self.Handle_Radio)
+        self.video.clicked.connect(self.Handle_Video)
+        self.maps.clicked.connect(self.Handle_Maps)
+        self.settings.clicked.connect(self.Handle_Setting)
+        self.phone.clicked.connect(self.Handle_Phone)
 
     def Handle_Radio(self):
         self.Radio.show()
@@ -111,9 +107,10 @@ class MainAPP (QWidget, FormClass):
     def Handle_Weather(self):
         self.Weather.show()
 
-    def Handle_Calendar (self):
+    def Handle_Calendar(self):
         self.Calender.show()
-    def Handle_Music (self):
+
+    def Handle_Music(self):
         self.Music.show()
 
     def showTime(self):
