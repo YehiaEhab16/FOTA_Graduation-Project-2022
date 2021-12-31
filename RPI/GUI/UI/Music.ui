@@ -1269,6 +1269,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1291,6 +1292,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1353,6 +1355,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1391,6 +1394,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>12</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1410,6 +1414,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1429,6 +1434,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1448,6 +1454,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1467,6 +1474,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1476,19 +1484,12 @@ ColorButton::disabled {
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
+   <property name="currentText">
+    <string/>
+   </property>
    <property name="sizeAdjustPolicy">
     <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
    </property>
-   <item>
-    <property name="text">
-     <string>LOL.mp3</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Sefa_In De Hemel.wav</string>
-    </property>
-   </item>
   </widget>
  </widget>
  <resources/>

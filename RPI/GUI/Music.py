@@ -1,15 +1,17 @@
 # importing required packages
 import ntpath
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QComboBox, QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.uic import loadUiType
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtGui import QPixmap
 import sys
+import os
 import pathlib
 
 #
 current_directory = str(pathlib.Path(__file__).parent.absolute())
+MusicFiles = os.listdir(current_directory + '\Music')
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -23,8 +25,6 @@ def Handle_Exit():
 
 # Define main window
 class MainAPP_Music (QWidget, FormClass):
-    global Counter
-    Counter = 0
 
     def __init__(self, parent=None):
         super(MainAPP_Music, self).__init__(parent)
@@ -34,6 +34,9 @@ class MainAPP_Music (QWidget, FormClass):
         self.Handle_Buttons()
         self.player = QMediaPlayer()
         self.pixmap = QPixmap(current_directory + '\Images\Music.jpg')
+
+        for f in MusicFiles:
+            self.MusicList.addItem(f)
 
     # GUI buttons
 
@@ -60,56 +63,44 @@ class MainAPP_Music (QWidget, FormClass):
         self.setFixedSize(800, 480)
 
     def Handle_Previous(self):
-        global Counter
         try:
-            if Counter < self.MusicList.count() and Counter > 0:
-                CurrentIndex = self.MusicList.currentIndex() + Counter
-                # self.MusicList.currentIndex=CurrentIndex
-                CurrentMusic = self.MusicList.itemText(CurrentIndex - 1)
-                self.CurrentMusic.setText(CurrentMusic)
+            if self.MusicList.currentIndex() >= 1:
+                oldIndex = self.MusicList.currentIndex()
+                newIndex = oldIndex - 1
+                self.MusicList.setCurrentIndex(newIndex)
                 self.MusicPhoto.setPixmap(self.pixmap)
-                Full_Path = current_directory + "\Music\\" + CurrentMusic
+                Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
                 url = QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
                 self.player.play()
-                Counter = Counter-1
 
         except:
             pass
 
     def Handle_Next(self):
-        global Counter
         try:
-            if Counter < self.MusicList.count()-1:
-                CurrentIndex = self.MusicList.currentIndex() + Counter
-                CurrentMusic = self.MusicList.itemText(CurrentIndex + 1)
-                self.CurrentMusic.setText(CurrentMusic)
+            if self.MusicList.currentIndex() < self.MusicList.count() - 1:
+                oldIndex = self.MusicList.currentIndex()
+                newIndex = oldIndex + 1
+                self.MusicList.setCurrentIndex(newIndex)
                 self.MusicPhoto.setPixmap(self.pixmap)
-                Full_Path = current_directory + "\Music\\" + CurrentMusic
+                Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
                 url = QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
                 self.player.play()
-                Counter = Counter+1
 
         except:
             pass
 
     def Handle_Player(self):
-        global Counter
-        Counter = 0
         currentVolum = self.player.volume()
         self.Sound.setValue(currentVolum)
-        CurrentIndex = self.MusicList.currentIndex()
-        CurrentMusic = self.MusicList.itemText(CurrentIndex)
-        self.CurrentMusic.setText(CurrentMusic)
         self.MusicPhoto.setPixmap(self.pixmap)
-        Full_Path = current_directory + "\Music\\" + CurrentMusic
-        print(Full_Path)
+        Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
         url = QUrl.fromLocalFile(Full_Path)
         content = QMediaContent(url)
-
         self.player.setMedia(content)
         self.player.play()
 

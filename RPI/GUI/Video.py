@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout,
                              QPushButton, QSlider, QStyle, QVBoxLayout, QWidget, QStatusBar)
 import pathlib
 import os
+import sys
 
 
 current_directory = str(pathlib.Path(__file__).parent.absolute())
@@ -18,7 +19,6 @@ class MainAPP_Video (QWidget):
     def __init__(self, parent=None):
         super(MainAPP_Video, self).__init__(parent)
         QWidget.__init__(self)
-        self.setWindowIcon(QtGui.QIcon(current_directory + '\Images\icon.png'))
         self.window()
 
         # StyleSheet for UI
@@ -227,12 +227,12 @@ class MainAPP_Video (QWidget):
         self.close()
 
     def window(self):
+        self.setWindowIcon(QtGui.QIcon(current_directory + '\Images\icon.png'))
         self.setWindowTitle("Video")
         self.setFixedSize(800, 480)
 
 
 if __name__ == '__main__':
-    import sys
     app = QApplication(sys.argv)
     player = MainAPP_Video()
     player.setWindowTitle("Video")

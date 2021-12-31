@@ -1,13 +1,8 @@
 # importing required packages
 import ntpath
-from PyQt5.QtWidgets import QApplication, QTabWidget, QWidget
-from PyQt5.QtCore import QTimer, QTime, Qt,QUrl
+from PyQt5.QtWidgets import QTabWidget
 from PyQt5.uic import loadUiType
-import sys
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-import os
 from PyQt5.QtGui import QPixmap
-import sys
 # importing defined modules
 
 
@@ -32,14 +27,8 @@ class MainAPP_Setting (QTabWidget, FormClass):
         self.window()
         self.Handle_Buttons()
 
-        # creating a timer object
-        # timer = QTimer(self)
-        # adding action to timer
-        # timer.timeout.connect(self.showTime)
-        # update the timer every second
-        # timer.start()
-
     # GUI buttons
+
     def Handle_Buttons(self):
         self.back.clicked.connect(self.Handle_Exit)
 
