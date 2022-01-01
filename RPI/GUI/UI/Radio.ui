@@ -1294,7 +1294,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>  100.6</string>
+    <string>100.6</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1334,7 +1334,7 @@ ColorButton::disabled {
    </property>
    <property name="font">
     <font>
-     <pointsize>20</pointsize>
+     <pointsize>18</pointsize>
      <italic>false</italic>
      <bold>false</bold>
      <strikeout>false</strikeout>
@@ -1366,7 +1366,7 @@ ColorButton::disabled {
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play/Pause&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="text">
-    <string>| |</string>
+    <string/>
    </property>
    <property name="iconSize">
     <size>
@@ -1385,7 +1385,7 @@ ColorButton::disabled {
     </rect>
    </property>
    <property name="value">
-    <number>25</number>
+    <number>50</number>
    </property>
   </widget>
   <widget class="QComboBox" name="select">
@@ -1548,7 +1548,7 @@ ColorButton::disabled {
    </property>
    <property name="font">
     <font>
-     <pointsize>20</pointsize>
+     <pointsize>18</pointsize>
      <italic>false</italic>
      <bold>false</bold>
      <strikeout>false</strikeout>

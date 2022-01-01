@@ -1269,7 +1269,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1292,7 +1291,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1355,12 +1353,17 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>25</width>
+     <height>25</height>
+    </size>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -1394,7 +1397,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>12</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1414,7 +1416,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1434,7 +1435,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1454,7 +1454,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>20</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1474,7 +1473,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>

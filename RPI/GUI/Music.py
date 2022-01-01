@@ -4,9 +4,10 @@ from PyQt5.QtWidgets import QStyle, QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.uic import loadUiType
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-import sys
+from PyQt5.QtCore import QThread, pyqtSignal
 import os
 import pathlib
+import time
 
 # Listing available music files from specific directory (Currently -> Music directory inside GUI)
 current_directory = str(pathlib.Path(__file__).parent.absolute())
@@ -22,8 +23,20 @@ nextIndicator = ""
 Counter = 0
 
 
+# Thread for detecting song state
+class MyThread(QThread):
+    change_value = pyqtSignal(int)  # value to periodically update gui labels
+
+    def run(self):
+        cnt = 0
+        while True:
+            cnt += 1
+            time.sleep(1)  # Processing thread every 1 sec
+            self.change_value.emit(cnt)
+
+
 # Define main window
-class MainAPP_Music (QWidget, FormClass):
+class MainAPP_Music(QWidget, FormClass):
     # Global Variables
     global currentIndicator
     global nextIndicator
@@ -57,13 +70,13 @@ class MainAPP_Music (QWidget, FormClass):
 
     # Function to increase volume
     def IncreaseVolume(self):
-        self.player.setVolume(self.player.volume()+5)
-        self.Sound.setValue(self.player.volume()+5)
+        self.player.setVolume(self.player.volume() + 5)
+        self.Sound.setValue(self.player.volume() + 5)
 
     # Function to decrease volume
     def DecreaseVolume(self):
-        self.player.setVolume(self.player.volume()-5)
-        self.Sound.setValue(self.player.volume()-5)
+        self.player.setVolume(self.player.volume() - 5)
+        self.Sound.setValue(self.player.volume() - 5)
 
     # Function to select previous song from list
     def Handle_Previous(self):
@@ -118,6 +131,10 @@ class MainAPP_Music (QWidget, FormClass):
         if nextIndicator != currentIndicator:
             Counter = 0
         if Counter == 0:
+            self.thread = MyThread()
+            self.thread.change_value.connect(self.Handle_SongState)
+            self.thread.start()
+            self.MusicList.currentIndexChanged.connect(self.Handle_ChangeSong)
             self.playButton.setIcon(
                 self.style().standardIcon(QStyle.SP_MediaPause))
             currentVolume = self.player.volume()
@@ -139,13 +156,27 @@ class MainAPP_Music (QWidget, FormClass):
                 self.player.play()
                 self.playButton.setIcon(
                     self.style().standardIcon(QStyle.SP_MediaPause))
-            elif self.player.state() == QMediaPlayer.StoppedState:
-                Counter = 0
-                self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPause))
+
+    def Handle_SongState(self):
+        global Counter
+        if self.player.state() == QMediaPlayer.StoppedState:
+            self.Handle_Next()
+
+    def Handle_ChangeSong(self):
+        global currentIndicator
+        self.playButton.setIcon(
+            self.style().standardIcon(QStyle.SP_MediaPause))
+        Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
+        url = QUrl.fromLocalFile(Full_Path)
+        content = QMediaContent(url)
+        self.player.setMedia(content)
+        self.player.play()
+        currentIndicator = self.MusicList.currentText()
 
     # Function to exit music gui and stop player
     def Handle_Exit(self):
+        self.playButton.setIcon(
+            self.style().standardIcon(QStyle.SP_MediaPlay))
         self.close()
-        self.player.stop()
-        sys.exit()
+        self.player.pause()
+        self.thread.terminate()
