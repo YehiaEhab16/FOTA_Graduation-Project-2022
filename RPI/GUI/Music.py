@@ -4,34 +4,30 @@ from PyQt5.QtWidgets import QStyle, QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.uic import loadUiType
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtGui import QPixmap
 import sys
 import os
 import pathlib
 
-#
+# Listing available music files from specific directory (Currently -> Music directory inside GUI)
 current_directory = str(pathlib.Path(__file__).parent.absolute())
-MusicFiles = os.listdir(current_directory + '\Music')
+MusicFiles = os.listdir(current_directory + '/Music')
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
     ntpath.dirname(__file__), "UI/Music.ui"))
 
-
-# Exit button
-def Handle_Exit():
-    sys.exit()
+# Initializing global variables
+currentIndicator = ""
+nextIndicator = ""
+Counter = 0
 
 
 # Define main window
 class MainAPP_Music (QWidget, FormClass):
-
+    # Global Variables
     global currentIndicator
-    currentIndicator = ""
     global nextIndicator
-    nextIndicator = ""
     global Counter
-    Counter = 0
 
     def __init__(self, parent=None):
         super(MainAPP_Music, self).__init__(parent)
@@ -40,14 +36,17 @@ class MainAPP_Music (QWidget, FormClass):
         self.window()
         self.Handle_Buttons()
         self.player = QMediaPlayer()
-        self.pixmap = QPixmap(current_directory + '\Images\Music.jpg')
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
 
         for f in MusicFiles:
             self.MusicList.addItem(f)
 
-    # GUI buttons
+    # Window Size and Title
+    def window(self):
+        self.setWindowTitle("Music")
+        self.setFixedSize(800, 480)
 
+    # GUI buttons
     def Handle_Buttons(self):
         self.playButton.clicked.connect(self.Handle_Player)
         self.DecreaseSound.clicked.connect(self.DecreaseVolume)
@@ -56,20 +55,17 @@ class MainAPP_Music (QWidget, FormClass):
         self.NextMusic.clicked.connect(self.Handle_Next)
         self.back.clicked.connect(self.Handle_Exit)
 
+    # Function to increase volume
     def IncreaseVolume(self):
-        currentVolum = self.player.volume()
-        self.player.setVolume(currentVolum+6)
-        self.Sound.setValue(currentVolum+6)
+        self.player.setVolume(self.player.volume()+5)
+        self.Sound.setValue(self.player.volume()+5)
 
+    # Function to decrease volume
     def DecreaseVolume(self):
-        currentVolum = self.player.volume()
-        self.player.setVolume(currentVolum-6)
-        self.Sound.setValue(currentVolum-6)
+        self.player.setVolume(self.player.volume()-5)
+        self.Sound.setValue(self.player.volume()-5)
 
-    def window(self):
-        self.setWindowTitle("Music")
-        self.setFixedSize(800, 480)
-
+    # Function to select previous song from list
     def Handle_Previous(self):
         global currentIndicator
         global nextIndicator
@@ -80,8 +76,7 @@ class MainAPP_Music (QWidget, FormClass):
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex - 1
                 self.MusicList.setCurrentIndex(newIndex)
-                self.MusicPhoto.setPixmap(self.pixmap)
-                Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
+                Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
                 url = QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
@@ -89,9 +84,10 @@ class MainAPP_Music (QWidget, FormClass):
                 currentIndicator = self.MusicList.currentText()
                 nextIndicator = currentIndicator
 
-        except:
+        except Exception:
             pass
 
+    # Function to select next song from list
     def Handle_Next(self):
         global currentIndicator
         global nextIndicator
@@ -102,8 +98,7 @@ class MainAPP_Music (QWidget, FormClass):
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex + 1
                 self.MusicList.setCurrentIndex(newIndex)
-                self.MusicPhoto.setPixmap(self.pixmap)
-                Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
+                Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
                 url = QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
@@ -111,9 +106,10 @@ class MainAPP_Music (QWidget, FormClass):
                 currentIndicator = self.MusicList.currentText()
                 nextIndicator = currentIndicator
 
-        except:
+        except Exception:
             pass
 
+    # Function to play/pause song
     def Handle_Player(self):
         global currentIndicator
         global nextIndicator
@@ -124,11 +120,10 @@ class MainAPP_Music (QWidget, FormClass):
         if Counter == 0:
             self.playButton.setIcon(
                 self.style().standardIcon(QStyle.SP_MediaPause))
-            currentVolum = self.player.volume()
-            self.Sound.setValue(currentVolum)
-            self.MusicPhoto.setPixmap(self.pixmap)
+            currentVolume = self.player.volume()
+            self.Sound.setValue(currentVolume)
             currentIndicator = self.MusicList.currentText()
-            Full_Path = current_directory + "\Music\\" + self.MusicList.currentText()
+            Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
             url = QUrl.fromLocalFile(Full_Path)
             content = QMediaContent(url)
             self.player.setMedia(content)
@@ -149,6 +144,8 @@ class MainAPP_Music (QWidget, FormClass):
                 self.playButton.setIcon(
                     self.style().standardIcon(QStyle.SP_MediaPause))
 
+    # Function to exit music gui and stop player
     def Handle_Exit(self):
         self.close()
         self.player.stop()
+        sys.exit()

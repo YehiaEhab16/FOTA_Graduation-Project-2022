@@ -1,5 +1,5 @@
 # Functions for communication protocol
 
-# Recieve Function
+# Receive Function
 def Get():
 	return 0

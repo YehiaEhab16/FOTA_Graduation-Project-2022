@@ -83,6 +83,7 @@ class MainAPP(QWidget, FormClass):
         self.phone.clicked.connect(self.Handle_Phone)
         self.exit.clicked.connect(Handle_Exit)
 
+    # Calling other UIs when on clicking their buttons
     def Handle_Radio(self):
         self.Radio.show()
 
