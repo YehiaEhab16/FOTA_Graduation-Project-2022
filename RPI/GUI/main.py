@@ -1,4 +1,4 @@
-# importing required packages
+# importing defined Modules
 import Comm
 import Calender
 import Music
@@ -9,6 +9,7 @@ import Settings
 import Weather
 import Video
 import ntpath
+# importing required packages
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5 import QtGui
@@ -16,11 +17,6 @@ from PyQt5.uic import loadUiType
 import sys
 import datetime
 import pathlib
-
-
-# importing defined UI's
-
-# importing defined Modules
 
 # Get current directory's path
 current_directory = str(pathlib.Path(__file__).parent.absolute())
@@ -36,10 +32,6 @@ FormClass, _ = loadUiType(ntpath.join(
 # Exit button
 def Handle_Exit():
     sys.exit()
-
-
-# GUI Functions
-# Setting window title and size
 
 
 # Define main window
@@ -67,6 +59,7 @@ class MainAPP(QWidget, FormClass):
         # update the timer every second
         timer.start()
 
+    # Window Size and Title
     def window(self):
         self.setWindowTitle("Main Window")
         self.setFixedSize(800, 480)
@@ -108,6 +101,7 @@ class MainAPP(QWidget, FormClass):
     def Handle_Music(self):
         self.Music.show()
 
+    # Timer Function to update time label
     def showTime(self):
         # getting current time
         currentTime = datetime.datetime.now()

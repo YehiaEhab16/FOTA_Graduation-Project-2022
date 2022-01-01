@@ -25,7 +25,7 @@ class MainAPP_Map (QWidget, FormClass):
         self.back.clicked.connect(self.Handle_Exit)
 
     def window(self):
-        self.setWindowTitle("Map")
+        self.setWindowTitle("Maps")
         self.setFixedSize(800, 480)
 
     def Handle_Exit(self):

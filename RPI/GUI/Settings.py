@@ -33,7 +33,7 @@ class MainAPP_Setting (QTabWidget, FormClass):
         self.back.clicked.connect(self.Handle_Exit)
 
     def window(self):
-        self.setWindowTitle("Setting")
+        self.setWindowTitle("Settings")
         self.setFixedSize(800, 480)
 
     def Handle_Exit(self):
