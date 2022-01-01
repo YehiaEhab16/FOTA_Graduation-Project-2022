@@ -51,6 +51,7 @@ class MainAPP_Music(QWidget, FormClass):
         self.player = QMediaPlayer()
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
 
+        # Adding files inside music list
         for f in MusicFiles:
             self.MusicList.addItem(f)
 
@@ -83,9 +84,10 @@ class MainAPP_Music(QWidget, FormClass):
         global currentIndicator
         global nextIndicator
         try:
+            # Checking if index is valid and updating current index
             if self.MusicList.currentIndex() >= 1:
                 self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPause))
+                    self.style().standardIcon(QStyle.SP_MediaPause))  # Changing icon to pause icon
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex - 1
                 self.MusicList.setCurrentIndex(newIndex)
@@ -105,9 +107,10 @@ class MainAPP_Music(QWidget, FormClass):
         global currentIndicator
         global nextIndicator
         try:
+            # Getting next index if available
             if self.MusicList.currentIndex() < self.MusicList.count() - 1:
                 self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPause))
+                    self.style().standardIcon(QStyle.SP_MediaPause))  # Changing icon to pause icon
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex + 1
                 self.MusicList.setCurrentIndex(newIndex)
@@ -131,12 +134,14 @@ class MainAPP_Music(QWidget, FormClass):
         if nextIndicator != currentIndicator:
             Counter = 0
         if Counter == 0:
+            # Start thread to check for the song completion
             self.thread = MyThread()
             self.thread.change_value.connect(self.Handle_SongState)
             self.thread.start()
+            # Check for song chosen from combo box
             self.MusicList.currentIndexChanged.connect(self.Handle_ChangeSong)
             self.playButton.setIcon(
-                self.style().standardIcon(QStyle.SP_MediaPause))
+                self.style().standardIcon(QStyle.SP_MediaPause))  # Changing icon to pause icon
             currentVolume = self.player.volume()
             self.Sound.setValue(currentVolume)
             currentIndicator = self.MusicList.currentText()
@@ -148,6 +153,7 @@ class MainAPP_Music(QWidget, FormClass):
             Counter = Counter + 1
 
         else:
+            # Changing icon to play or pause according to song state
             if self.player.state() == QMediaPlayer.PlayingState:
                 self.playButton.setIcon(
                     self.style().standardIcon(QStyle.SP_MediaPlay))
@@ -157,11 +163,13 @@ class MainAPP_Music(QWidget, FormClass):
                 self.playButton.setIcon(
                     self.style().standardIcon(QStyle.SP_MediaPause))
 
+    # Function for thread to play the next song when the current is finished
     def Handle_SongState(self):
         global Counter
         if self.player.state() == QMediaPlayer.StoppedState:
             self.Handle_Next()
 
+    # Function to change song when changed from list
     def Handle_ChangeSong(self):
         global currentIndicator
         self.playButton.setIcon(
@@ -176,7 +184,10 @@ class MainAPP_Music(QWidget, FormClass):
     # Function to exit music gui and stop player
     def Handle_Exit(self):
         self.playButton.setIcon(
-            self.style().standardIcon(QStyle.SP_MediaPlay))
+            self.style().standardIcon(QStyle.SP_MediaPlay))  # Changing icon to play icon
         self.close()
         self.player.pause()
-        self.thread.terminate()
+        try:
+            self.thread.terminate()
+        except AttributeError:
+            pass

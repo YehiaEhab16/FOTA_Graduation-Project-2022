@@ -2,12 +2,10 @@
 import ntpath
 from PyQt5.QtWidgets import QWidget, QStyle
 from PyQt5.uic import loadUiType
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-# importing defined modules
-import time
+from PyQt5.QtMultimedia import QMediaPlayer  # , QMediaContent
 
 # Channel list
-Channel_List = [87.8, 88.2, 88.7, 89.5, 90.9, 91.5, 92.1,92.1, 92.7,
+Channel_List = [87.8, 88.2, 88.7, 89.5, 90.9, 91.5, 92.1, 92.1, 92.7,
                 93.7, 95, 95.4, 98.2, 98.8, 100.6, 102.2, 104.2, 105.3, 105.8, 106.3, 107.4, 108]
 # Frequencies
 Freq = 0
@@ -20,7 +18,7 @@ FormClass, _ = loadUiType(ntpath.join(
 
 
 # Define main window
-class MainAPP_Radio (QWidget, FormClass):
+class MainAPP_Radio(QWidget, FormClass):
     def __init__(self, parent=None):
         global Freq
         super(MainAPP_Radio, self).__init__(parent)
@@ -43,6 +41,7 @@ class MainAPP_Radio (QWidget, FormClass):
         self.dec_sound.clicked.connect(self.DecreaseVolume)
         self.play_pause.clicked.connect(self.Play_Pause)
 
+    # Window Size and Title
     def window(self):
         self.setWindowTitle("Radio")
         self.setFixedSize(800, 480)
@@ -64,12 +63,14 @@ class MainAPP_Radio (QWidget, FormClass):
         CheckFreq = 87.8
         if Freq != MaxFreq:
             while True:
-                Freq = round(Freq+0.1, 1)
+                Freq = round(Freq + 0.1, 1)
                 self.freq.setText(str(Freq))
+                # Searching for frequency in channel list
                 for i in Channel_List:
                     if Freq == i:
                         CheckFreq = i
                         break
+                # Break when finding frequency or reaching maximum frequency
                 if Freq == CheckFreq or Freq == MaxFreq:
                     break
 
@@ -80,12 +81,14 @@ class MainAPP_Radio (QWidget, FormClass):
         CheckFreq = 87.8
         if Freq != MinFreq:
             while True:
-                Freq = round(Freq-0.1, 1)
+                Freq = round(Freq - 0.1, 1)
                 self.freq.setText(str(Freq))
+                # Searching for frequency in channel list
                 for i in Channel_List:
                     if Freq == i:
                         CheckFreq = i
                         break
+                # Break when finding frequency or reaching minimum frequency
                 if Freq == CheckFreq or Freq == MinFreq:
                     break
 
@@ -93,19 +96,20 @@ class MainAPP_Radio (QWidget, FormClass):
     def Handle_Inc(self):
         global Freq
         if Freq < MaxFreq:
-            Freq = round(Freq+0.1, 1)
+            Freq = round(Freq + 0.1, 1)
             self.freq.setText(str(Freq))
 
     # Function for small step decrement
     def Handle_Dec(self):
         global Freq
         if Freq > MinFreq:
-            Freq = round(Freq-0.1,1)
+            Freq = round(Freq - 0.1, 1)
             self.freq.setText(str(Freq))
 
     # Function to play/pause channels
     def Play_Pause(self):
         pass
 
+    # Function to exit music GUI
     def Handle_Exit(self):
         self.close()
