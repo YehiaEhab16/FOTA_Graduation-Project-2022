@@ -1577,7 +1577,7 @@ ColorButton::disabled {
      <string notr="true">color: rgb(170, 0, 0);</string>
     </property>
     <property name="text">
-     <string>Calling</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1601,7 +1601,7 @@ ColorButton::disabled {
      <string notr="true">color: rgb(170, 0, 0);</string>
     </property>
     <property name="text">
-     <string>Yehia Ehab</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1684,7 +1684,7 @@ ColorButton::disabled {
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>0115852871</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1824,7 +1824,7 @@ ColorButton::disabled {
     </attribute>
     <row>
      <property name="text">
-      <string>num</string>
+      <string>Row 1</string>
      </property>
     </row>
     <column>
@@ -1844,17 +1844,17 @@ ColorButton::disabled {
     </column>
     <item row="0" column="0">
      <property name="text">
-      <string>Yehia Ehab</string>
+      <string/>
      </property>
     </item>
     <item row="0" column="1">
      <property name="text">
-      <string>01158952871</string>
+      <string/>
      </property>
     </item>
     <item row="0" column="2">
      <property name="text">
-      <string>Yesterday</string>
+      <string/>
      </property>
     </item>
    </widget>
@@ -1940,12 +1940,7 @@ ColorButton::disabled {
     </attribute>
     <row>
      <property name="text">
-      <string>num</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>2</string>
+      <string>Row 1</string>
      </property>
     </row>
     <column>
@@ -1960,22 +1955,12 @@ ColorButton::disabled {
     </column>
     <item row="0" column="0">
      <property name="text">
-      <string>Yehia Ehab</string>
+      <string/>
      </property>
     </item>
     <item row="0" column="1">
      <property name="text">
-      <string>01158952871</string>
-     </property>
-    </item>
-    <item row="1" column="0">
-     <property name="text">
-      <string>Yara Ehab</string>
-     </property>
-    </item>
-    <item row="1" column="1">
-     <property name="text">
-      <string>01122334455</string>
+      <string/>
      </property>
     </item>
    </widget>
