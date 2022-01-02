@@ -1283,7 +1283,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>340</y>
+     <y>330</y>
      <width>760</width>
      <height>2</height>
     </rect>
@@ -1296,7 +1296,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>80</y>
+     <y>50</y>
      <width>241</width>
      <height>241</height>
     </rect>
@@ -1315,9 +1315,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>40</y>
+     <y>10</y>
      <width>2</width>
-     <height>300</height>
+     <height>320</height>
     </rect>
    </property>
    <property name="orientation">
@@ -1328,7 +1328,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>30</y>
+     <y>0</y>
      <width>241</width>
      <height>241</height>
     </rect>
@@ -1352,7 +1352,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>280</y>
+     <y>250</y>
      <width>241</width>
      <height>51</height>
     </rect>
@@ -1376,7 +1376,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>220</y>
+     <y>190</y>
      <width>241</width>
      <height>51</height>
     </rect>
@@ -1403,7 +1403,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>350</y>
+     <y>340</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1427,7 +1427,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>410</y>
+     <y>400</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1451,7 +1451,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>400</y>
+     <y>390</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1470,7 +1470,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>410</y>
+     <y>400</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1494,7 +1494,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>400</y>
+     <y>390</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1513,7 +1513,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>350</y>
+     <y>340</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1537,7 +1537,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>350</y>
+     <y>340</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1561,7 +1561,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>410</y>
+     <y>400</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1585,7 +1585,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>610</x>
-     <y>400</y>
+     <y>390</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1604,7 +1604,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>430</x>
-     <y>400</y>
+     <y>390</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1623,7 +1623,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>550</x>
-     <y>410</y>
+     <y>400</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1647,7 +1647,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>350</y>
+     <y>340</y>
      <width>61</width>
      <height>31</height>
     </rect>

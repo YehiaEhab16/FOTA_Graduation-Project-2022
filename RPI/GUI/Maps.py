@@ -1,7 +1,7 @@
 # importing required packages
 import ntpath
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QWidget, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout
 import pathlib
 
 current_directory = str(pathlib.Path(__file__).parent.absolute())
@@ -86,9 +86,17 @@ class MainAPP_Map (QWidget):
         backButton = QPushButton("Back")
         backButton.clicked.connect(self.Handle_Exit)
 
+        # Connecting all layouts
         controlLayout = QHBoxLayout()
         controlLayout.setContentsMargins(0, 0, 0, 0)
         controlLayout.addWidget(backButton)
+
+        # Layouts initializations
+        layout = QVBoxLayout()
+        layout.addLayout(controlLayout)
+        
+        # Setting layout
+        self.setLayout(layout)
 
     # Window Size, Title and Icon
     def window(self):
