@@ -1,20 +1,23 @@
+# importing required packages
 from PyQt5 import QtGui
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QUrl, QSize
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout,
-                             QPushButton, QSlider, QStyle, QVBoxLayout, QWidget, QStatusBar, QLabel)
+                             QPushButton, QSlider, QStyle, QVBoxLayout, QWidget, QLabel)
 import pathlib
 import os
 import sys
 
-
+# Getting Current Directory
 current_directory = str(pathlib.Path(__file__).parent.absolute())
 
-videoFiles = os.listdir(current_directory + '\Videos')
+# Listing available videos from specific directory
+videoFiles = os.listdir(current_directory + '/Videos')
 
 
+# Main Window
 class MainAPP_Video (QWidget):
     def __init__(self, parent=None):
         super(MainAPP_Video, self).__init__(parent)
@@ -27,10 +30,14 @@ class MainAPP_Video (QWidget):
             font-size:20px;
         }
             QComboBox{
-                padding-left: 20px;
-                padding-top: 10px;
-                padding-bottom: 10px;
-                font-size: 20px;
+                selection-background-color: #3d8ec9;
+                background-color: #201F1F;
+                border-style: solid;
+                border: 1px solid #3A3939;
+                border-radius: 2px;
+                padding: 2px;
+                min-width: 75px;
+                font-size: 15px;
             }
             QWidget{
                 color: silver;
@@ -118,6 +125,7 @@ class MainAPP_Video (QWidget):
             }
         """)
 
+        # Initializing Media Player
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
 
         btnSize = QSize(16, 16)
@@ -138,7 +146,7 @@ class MainAPP_Video (QWidget):
         openButton.setIconSize(iconSize)
         openButton.setFont(QFont("Noto Sans", 8))
         openButton.setIcon(QIcon.fromTheme(
-            "document-open", QIcon(current_directory + '\Images\openFolderIcon.png')))
+            "document-open", QIcon(current_directory + '/Images/openFolderIcon.png')))
         openButton.clicked.connect(self.playVideo)
 
         # Play Button attributes
@@ -161,13 +169,8 @@ class MainAPP_Video (QWidget):
         self.volumeSlider.setValue(100)
         self.volumeSlider.setTickPosition(QSlider.NoTicks)
         self.volumeSlider.setTickInterval(0)
-        self.volumeSlider.sliderMoved.connect(self.setPositionVolume)
+        self.volumeSlider.valueChanged.connect(self.setPositionVolume)
         self.volumeSlider.setMaximumWidth(200)
-
-        # Ready/File Path attributes
-        self.statusBar = QStatusBar()
-        self.statusBar.setFont(QFont("Noto Sans", 7))
-        self.statusBar.setFixedHeight(14)
 
         # connecting all layouts
         controlLayout2 = QHBoxLayout()
@@ -198,24 +201,22 @@ class MainAPP_Video (QWidget):
         self.mediaPlayer.setVideoOutput(videoWidget)
         self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
         self.mediaPlayer.positionChanged.connect(self.positionChanged)
-        self.mediaPlayer.volumeChanged.connect(self.volumeChanged)
+
         self.mediaPlayer.durationChanged.connect(self.durationChanged)
         self.mediaPlayer.error.connect(self.handleError)
-        self.statusBar.showMessage("Ready")
 
     # Window Size, Title and Icon
     def window(self):
-        self.setWindowIcon(QtGui.QIcon(current_directory + '\Images\icon.png'))
+        self.setWindowIcon(QtGui.QIcon(current_directory + '/Images/icon.png'))
         self.setWindowTitle("Video")
         self.setFixedSize(800, 480)
 
     # Play selected video from QComboBox function
     def playVideo(self):
-        videoURL = current_directory + '\Videos\\' + self.videoList.currentText()
+        videoURL = current_directory + '/Videos/' + self.videoList.currentText()
         self.mediaPlayer.setMedia(
             QMediaContent(QUrl.fromLocalFile(videoURL)))
         self.playButton.setEnabled(True)
-        self.statusBar.showMessage(videoURL)
         self.play()
 
     # Play/Pause function setters
@@ -226,7 +227,7 @@ class MainAPP_Video (QWidget):
             self.mediaPlayer.play()
 
     #   Play/Pause button icon function setters
-    def mediaStateChanged(self, state):
+    def mediaStateChanged(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
             self.playButton.setIcon(
                 self.style().standardIcon(QStyle.SP_MediaPause))
@@ -246,18 +247,14 @@ class MainAPP_Video (QWidget):
     def setPosition(self, position):
         self.mediaPlayer.setPosition(position)
 
+    # Function to adjust volume
     def setPositionVolume(self, position):
-        self.mediaPlayer.setVolume(position)
-        self.soundLevel.setText(str(position) + "%")
-
-    def volumeChanged(self, position):
         self.mediaPlayer.setVolume(position)
         self.soundLevel.setText(str(position) + "%")
 
     # Error handle function, disables play button & shows the error on screen
     def handleError(self):
         self.playButton.setEnabled(False)
-        self.statusBar.showMessage("Error: " + self.mediaPlayer.errorString())
 
     # Function to exit music gui and stop player
     def Handle_Exit(self):

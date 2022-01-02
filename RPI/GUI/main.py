@@ -9,6 +9,7 @@ import Settings
 import Weather
 import Video
 import ntpath
+
 # importing required packages
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QTimer, Qt
@@ -20,6 +21,7 @@ import pathlib
 
 # Get current directory's path
 current_directory = str(pathlib.Path(__file__).parent.absolute())
+
 # Sets image of software update notification in settings
 settingsNotificationPath = current_directory + '/Images/settingsNotification.png'
 settingsIcon = current_directory + '/Images/settingsLogo.png'

@@ -94,7 +94,7 @@ class MainAPP_Map (QWidget):
         # Layouts initializations
         layout = QVBoxLayout()
         layout.addLayout(controlLayout)
-        
+
         # Setting layout
         self.setLayout(layout)
 
