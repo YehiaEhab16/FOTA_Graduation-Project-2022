@@ -11,6 +11,8 @@ Channel_List = [87.8, 88.2, 88.7, 89.5, 90.9, 91.5, 92.1, 92.1, 92.7,
 Freq = 0
 MinFreq = 87
 MaxFreq = 110
+#Indication to the play or pause
+Counter = 0
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -29,6 +31,9 @@ class MainAPP_Radio(QWidget, FormClass):
         self.player = QMediaPlayer()
         self.play_pause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         Freq = float(self.freq.text())
+        self.play_pause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.sound.setValue(self.player.volume())
+
 
     # GUI buttons
     def Handle_Buttons(self):
@@ -48,67 +53,89 @@ class MainAPP_Radio(QWidget, FormClass):
 
     # Function to increase volume
     def IncreaseVolume(self):
-        self.player.setVolume(self.player.volume() + 5)
         self.sound.setValue(self.player.volume() + 5)
+        self.player.setVolume(self.player.volume() + 5)
 
     # Function to decrease volume
     def DecreaseVolume(self):
-        self.player.setVolume(self.player.volume() - 5)
         self.sound.setValue(self.player.volume() - 5)
+        self.player.setVolume(self.player.volume() - 5)
 
     # Function for next channel
     def NextChannel(self):
         global Channel_List
         global Freq
         CheckFreq = 87.8
-        if Freq != MaxFreq:
-            while True:
-                Freq = round(Freq + 0.1, 1)
-                self.freq.setText(str(Freq))
-                # Searching for frequency in channel list
-                for i in Channel_List:
-                    if Freq == i:
-                        CheckFreq = i
+        # if self.player.state() == QMediaPlayer.PlayingState:
+        if Counter == 1:
+            if Freq != MaxFreq:
+                while True:
+                    Freq = round(Freq + 0.1, 1)
+                    self.freq.setText(str(Freq))
+                    # Searching for frequency in channel list
+                    for i in Channel_List:
+                        if Freq == i:
+                            CheckFreq = i
+                            break
+                    # Break when finding frequency or reaching maximum frequency
+                    if Freq == CheckFreq or Freq == MaxFreq:
                         break
-                # Break when finding frequency or reaching maximum frequency
-                if Freq == CheckFreq or Freq == MaxFreq:
-                    break
 
     # Function for previous channel
     def PrevChannel(self):
         global Channel_List
         global Freq
         CheckFreq = 87.8
-        if Freq != MinFreq:
-            while True:
-                Freq = round(Freq - 0.1, 1)
-                self.freq.setText(str(Freq))
-                # Searching for frequency in channel list
-                for i in Channel_List:
-                    if Freq == i:
-                        CheckFreq = i
+        # if self.player.state() == QMediaPlayer.PlayingState:
+        if Counter == 1:
+            if Freq != MinFreq:
+                while True:
+                    Freq = round(Freq - 0.1, 1)
+                    self.freq.setText(str(Freq))
+                    # Searching for frequency in channel list
+                    for i in Channel_List:
+                        if Freq == i:
+                            CheckFreq = i
+                            break
+                    # Break when finding frequency or reaching minimum frequency
+                    if Freq == CheckFreq or Freq == MinFreq:
                         break
-                # Break when finding frequency or reaching minimum frequency
-                if Freq == CheckFreq or Freq == MinFreq:
-                    break
 
     # Function for small step increment
     def Handle_Inc(self):
-        global Freq
-        if Freq < MaxFreq:
-            Freq = round(Freq + 0.1, 1)
-            self.freq.setText(str(Freq))
+        # if self.player.state() == QMediaPlayer.PlayingState:
+        if Counter == 1:
+            global Freq
+            if Freq < MaxFreq:
+                Freq = round(Freq + 0.1, 1)
+                self.freq.setText(str(Freq))
 
     # Function for small step decrement
     def Handle_Dec(self):
-        global Freq
-        if Freq > MinFreq:
-            Freq = round(Freq - 0.1, 1)
-            self.freq.setText(str(Freq))
+        #if self.player.state() == QMediaPlayer.PlayingState:
+        if Counter == 1:
+            global Freq
+            if Freq > MinFreq:
+                Freq = round(Freq - 0.1, 1)
+                self.freq.setText(str(Freq))
+
 
     # Function to play/pause channels
     def Play_Pause(self):
-        pass
+        global Counter
+
+        #if self.player.state() == QMediaPlayer.PlayingState:
+        if Counter == 1 :
+            self.play_pause.setIcon(
+                self.style().standardIcon(QStyle.SP_MediaPlay))
+            self.player.pause()
+            Counter =0
+        #elif self.player.state() == QMediaPlayer.PausedState:
+        elif Counter == 0 :
+            self.player.play()
+            self.play_pause.setIcon(
+                self.style().standardIcon(QStyle.SP_MediaPause))
+            Counter = 1
 
     # Function to exit music GUI
     def Handle_Exit(self):

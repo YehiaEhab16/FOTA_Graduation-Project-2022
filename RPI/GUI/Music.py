@@ -50,10 +50,11 @@ class MainAPP_Music(QWidget, FormClass):
         self.Handle_Buttons()
         self.player = QMediaPlayer()
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
-
         # Adding files inside music list
         for f in MusicFiles:
             self.MusicList.addItem(f)
+        self.Sound.setValue(self.player.volume())
+
 
     # Window Size and Title
     def window(self):
@@ -71,13 +72,15 @@ class MainAPP_Music(QWidget, FormClass):
 
     # Function to increase volume
     def IncreaseVolume(self):
-        self.player.setVolume(self.player.volume() + 5)
         self.Sound.setValue(self.player.volume() + 5)
+        self.player.setVolume(self.player.volume() + 5)
+        print (self.player.volume())
 
     # Function to decrease volume
     def DecreaseVolume(self):
-        self.player.setVolume(self.player.volume() - 5)
         self.Sound.setValue(self.player.volume() - 5)
+        self.player.setVolume(self.player.volume() - 5)
+        print(self.player.volume())
 
     # Function to select previous song from list
     def Handle_Previous(self):
