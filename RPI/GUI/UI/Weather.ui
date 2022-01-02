@@ -1269,7 +1269,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1296,10 +1295,10 @@ ColorButton::disabled {
   <widget class="QLabel" name="icon">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>391</width>
-     <height>321</height>
+     <x>130</x>
+     <y>80</y>
+     <width>231</width>
+     <height>211</height>
     </rect>
    </property>
    <property name="text">
@@ -1316,9 +1315,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>10</y>
+     <y>70</y>
      <width>2</width>
-     <height>320</height>
+     <height>260</height>
     </rect>
    </property>
    <property name="orientation">
@@ -1328,15 +1327,15 @@ ColorButton::disabled {
   <widget class="QLabel" name="weather">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>0</y>
+     <x>490</x>
+     <y>30</y>
      <width>241</width>
      <height>241</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>70</pointsize>
+     <pointsize>65</pointsize>
     </font>
    </property>
    <property name="text">
@@ -1352,15 +1351,15 @@ ColorButton::disabled {
   <widget class="QLabel" name="state">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>250</y>
+     <x>480</x>
+     <y>260</y>
      <width>241</width>
      <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>20</pointsize>
+     <pointsize>13</pointsize>
     </font>
    </property>
    <property name="text">
@@ -1376,15 +1375,15 @@ ColorButton::disabled {
   <widget class="QLabel" name="weather_2">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>190</y>
+     <x>480</x>
+     <y>210</y>
      <width>241</width>
      <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>20</pointsize>
+     <pointsize>22</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -1666,6 +1665,42 @@ ColorButton::disabled {
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="location">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>30</pointsize>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255)</string>
+   </property>
+   <property name="text">
+    <string>Alexandria - Egypt</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="openExternalLinks">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>
