@@ -1269,6 +1269,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1295,10 +1296,10 @@ ColorButton::disabled {
   <widget class="QLabel" name="icon">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>50</y>
-     <width>241</width>
-     <height>241</height>
+     <x>0</x>
+     <y>0</y>
+     <width>391</width>
+     <height>321</height>
     </rect>
    </property>
    <property name="text">
@@ -1402,8 +1403,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="Time1">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>340</y>
+     <x>70</x>
+     <y>350</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1414,7 +1415,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>12 PM</string>
+    <string>3 AM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1426,8 +1427,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="temp1">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>400</y>
+     <x>30</x>
+     <y>410</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1450,8 +1451,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="icon1">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>390</y>
+     <x>90</x>
+     <y>400</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1469,8 +1470,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="temp2">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>400</y>
+     <x>210</x>
+     <y>410</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1493,8 +1494,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="icon2">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>390</y>
+     <x>270</x>
+     <y>400</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1512,8 +1513,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="Time2">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>340</y>
+     <x>250</x>
+     <y>350</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1524,7 +1525,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>6 PM</string>
+    <string>9 AM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1536,8 +1537,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="Time4">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>340</y>
+     <x>610</x>
+     <y>350</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1548,7 +1549,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>6 AM</string>
+    <string>9 PM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1560,8 +1561,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="temp3">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>400</y>
+     <x>390</x>
+     <y>410</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1584,8 +1585,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="icon4">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>390</y>
+     <x>630</x>
+     <y>400</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1603,8 +1604,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="icon3">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>390</y>
+     <x>450</x>
+     <y>400</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -1622,8 +1623,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="temp4">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>400</y>
+     <x>570</x>
+     <y>410</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1646,8 +1647,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="Time3">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>340</y>
+     <x>430</x>
+     <y>350</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -1658,7 +1659,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>12 AM</string>
+    <string>3 PM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

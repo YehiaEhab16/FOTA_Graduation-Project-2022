@@ -3,7 +3,10 @@ import ntpath
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTabWidget, QMessageBox
 from PyQt5.uic import loadUiType
-import time
+import pathlib
+
+# Get current directory's path
+current_directory = str(pathlib.Path(__file__).parent.absolute())
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -31,14 +34,14 @@ class MainAPP_Phone(QTabWidget, FormClass):
         self.setupUi(self)
         self.window()
         self.Handle_Buttons()
-        with open('Contacts.txt', 'r') as f:
+        with open(current_directory + '\Contacts.txt', 'r') as f:
             global Contents
             for line in f:
                 f_contents = line.split(' - ')
                 Contents.append(f_contents)
                 names.append(f_contents[0])
                 nums.append(f_contents[1][:-1])
-                NumberOfContents = NumberOfContents +1
+                NumberOfContents = NumberOfContents + 1
         self.loadData()
 
     # GUI buttons
@@ -61,7 +64,7 @@ class MainAPP_Phone(QTabWidget, FormClass):
         self.Num_s.clicked.connect(self.Button_A)
         self.Num_h.clicked.connect(self.Button_H)
         self.erase.clicked.connect(self.Handle_Erase)
-        self.dial.clicked.connect (self.Handle_Call)
+        self.dial.clicked.connect(self.Handle_Call)
 
     # Window Size and Title
     def window(self):
@@ -75,8 +78,10 @@ class MainAPP_Phone(QTabWidget, FormClass):
         self.Contacts_table.setRowCount(len(names))
         row = 0
         for i in range(0, len(names)):
-            self.Contacts_table.setItem(row, 0, QtWidgets.QTableWidgetItem(names[i]))
-            self.Contacts_table.setItem(row, 1, QtWidgets.QTableWidgetItem(nums[i]))
+            self.Contacts_table.setItem(
+                row, 0, QtWidgets.QTableWidgetItem(names[i]))
+            self.Contacts_table.setItem(
+                row, 1, QtWidgets.QTableWidgetItem(nums[i]))
             row = row + 1
 
     # Function to call when contact is pressed
@@ -153,13 +158,13 @@ class MainAPP_Phone(QTabWidget, FormClass):
         ValueLcd = ValueLcd + "#"
         self.OP.setText(ValueLcd)
 
-    def Handle_Erase (self):
+    def Handle_Erase(self):
         global ValueLcd
         AccVal = ""
-        for counter in range (0,len(ValueLcd)-1):
-            AccVal=AccVal+ValueLcd[counter]
+        for counter in range(0, len(ValueLcd)-1):
+            AccVal = AccVal+ValueLcd[counter]
 
-        ValueLcd =AccVal
+        ValueLcd = AccVal
         self.OP.setText(ValueLcd)
 
     def Handle_Call(self):
@@ -167,16 +172,16 @@ class MainAPP_Phone(QTabWidget, FormClass):
         global NumberOfContents
         global Contents
         global ValueLcd
-        if len(ValueLcd) == 11 :
-            if ValueLcd[:3] == "012" or ValueLcd[:3] == "011" or ValueLcd[:3] == "015"or ValueLcd[:3] == "010" :
+        if len(ValueLcd) == 11:
+            if ValueLcd[:3] == "012" or ValueLcd[:3] == "011" or ValueLcd[:3] == "015" or ValueLcd[:3] == "010":
                 PersonName = ""
-                for counter in range (0,NumberOfContents):
+                for counter in range(0, NumberOfContents):
                     if ValueLcd == Contents[counter][1][:-1]:
                         PersonName = Contents[counter][0]
 
                 if PersonName == "":
                     self.name.setText("Unknown")
-                else :
+                else:
                     self.name.setText(PersonName)
             else:
                 msg.setIcon(QMessageBox.Critical)
