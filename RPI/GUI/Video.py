@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt, QUrl, QSize
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout,
-                             QPushButton, QSlider, QStyle, QVBoxLayout, QWidget, QStatusBar)
+                             QPushButton, QSlider, QStyle, QVBoxLayout, QWidget, QStatusBar, QLabel)
 import pathlib
 import os
 import sys
@@ -23,6 +23,9 @@ class MainAPP_Video (QWidget):
 
         # StyleSheet for UI
         self.setStyleSheet("""
+        QLabel {
+            font-size:20px;
+        }
             QComboBox{
                 padding-left: 20px;
                 padding-top: 10px;
@@ -50,6 +53,7 @@ class MainAPP_Video (QWidget):
 
             QPushButton{
                 color: silver;
+                font-size:20px;
                 background-color: #302F2F;
                 border-width: 2px;
                 border-color: #4A4949;
@@ -149,6 +153,17 @@ class MainAPP_Video (QWidget):
         self.positionSlider.setRange(0, 0)
         self.positionSlider.sliderMoved.connect(self.setPosition)
 
+        self.soundLabel = QLabel("Sound", self)
+        self.soundLevel = QLabel("100%", self)
+
+        self.volumeSlider = QSlider(Qt.Horizontal)
+        self.volumeSlider.setRange(0, 100)
+        self.volumeSlider.setValue(100)
+        self.volumeSlider.setTickPosition(QSlider.NoTicks)
+        self.volumeSlider.setTickInterval(0)
+        self.volumeSlider.sliderMoved.connect(self.setPositionVolume)
+        self.volumeSlider.setMaximumWidth(200)
+
         # Ready/File Path attributes
         self.statusBar = QStatusBar()
         self.statusBar.setFont(QFont("Noto Sans", 7))
@@ -163,13 +178,18 @@ class MainAPP_Video (QWidget):
         controlLayout.addWidget(self.playButton)
         controlLayout.addWidget(self.positionSlider)
         controlLayout.addWidget(backButton)
+        controlLayout3 = QHBoxLayout()
+        controlLayout3.setContentsMargins(0, 0, 425, 0)
+        controlLayout3.addWidget(self.soundLabel)
+        controlLayout3.addWidget(self.soundLevel)
+        controlLayout3.addWidget(self.volumeSlider)
 
         # Layouts initializations
         layout = QVBoxLayout()
         layout.addLayout(controlLayout2)
         layout.addWidget(videoWidget)
         layout.addLayout(controlLayout)
-        layout.addWidget(self.statusBar)
+        layout.addLayout(controlLayout3)
 
         # Setting layout
         self.setLayout(layout)
@@ -178,6 +198,7 @@ class MainAPP_Video (QWidget):
         self.mediaPlayer.setVideoOutput(videoWidget)
         self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
         self.mediaPlayer.positionChanged.connect(self.positionChanged)
+        self.mediaPlayer.volumeChanged.connect(self.volumeChanged)
         self.mediaPlayer.durationChanged.connect(self.durationChanged)
         self.mediaPlayer.error.connect(self.handleError)
         self.statusBar.showMessage("Ready")
@@ -224,6 +245,14 @@ class MainAPP_Video (QWidget):
     # Slider position changed function
     def setPosition(self, position):
         self.mediaPlayer.setPosition(position)
+
+    def setPositionVolume(self, position):
+        self.mediaPlayer.setVolume(position)
+        self.soundLevel.setText(str(position) + "%")
+
+    def volumeChanged(self, position):
+        self.mediaPlayer.setVolume(position)
+        self.soundLevel.setText(str(position) + "%")
 
     # Error handle function, disables play button & shows the error on screen
     def handleError(self):
