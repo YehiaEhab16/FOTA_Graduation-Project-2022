@@ -1,1 +1,9 @@
 *.pyc
+
+*.mp3
+!Test1.mp3
+!Test2.mp3
+
+*.mp4
+!Test1.mp4
+!Test2.mp4
