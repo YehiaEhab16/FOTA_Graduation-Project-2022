@@ -18,7 +18,6 @@ nums = []
 Contents = []
 NumberOfContents = 0
 
-global ValueLcd
 ValueLcd = ""
 
 
@@ -34,7 +33,7 @@ class MainAPP_Phone(QTabWidget, FormClass):
         self.setupUi(self)
         self.window()
         self.Handle_Buttons()
-        with open(current_directory + '\Contacts.txt', 'r') as f:
+        with open(current_directory + '/Contacts.txt', 'r') as f:
             global Contents
             for line in f:
                 f_contents = line.split(' - ')

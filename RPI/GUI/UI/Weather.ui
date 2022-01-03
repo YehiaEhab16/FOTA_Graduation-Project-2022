@@ -1363,7 +1363,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>Scattering Showers</string>
+    <string>Sunny</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
