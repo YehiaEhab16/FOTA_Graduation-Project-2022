@@ -1269,6 +1269,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1304,9 +1305,6 @@ ColorButton::disabled {
    <property name="text">
     <string/>
    </property>
-   <property name="pixmap">
-    <pixmap>../Images/weatherLogo.png</pixmap>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -1339,7 +1337,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>19°</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1363,7 +1361,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>Sunny</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1390,7 +1388,7 @@ ColorButton::disabled {
     <string notr="true">color: rgb(170, 0, 0);</string>
    </property>
    <property name="text">
-    <string>22° - 15°</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1414,7 +1412,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>3 AM</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1438,7 +1436,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>19°</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1459,9 +1457,6 @@ ColorButton::disabled {
    <property name="text">
     <string/>
    </property>
-   <property name="pixmap">
-    <pixmap>../Images/weatherLogo.png</pixmap>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -1481,7 +1476,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>19°</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1502,9 +1497,6 @@ ColorButton::disabled {
    <property name="text">
     <string/>
    </property>
-   <property name="pixmap">
-    <pixmap>../Images/weatherLogo.png</pixmap>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -1524,7 +1516,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>9 AM</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1548,7 +1540,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>9 PM</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1572,7 +1564,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>19°</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1593,9 +1585,6 @@ ColorButton::disabled {
    <property name="text">
     <string/>
    </property>
-   <property name="pixmap">
-    <pixmap>../Images/weatherLogo.png</pixmap>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -1611,9 +1600,6 @@ ColorButton::disabled {
    </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>../Images/weatherLogo.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1634,7 +1620,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>19°</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1658,7 +1644,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string>3 PM</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1691,7 +1677,7 @@ ColorButton::disabled {
     <string notr="true">color:rgb(255, 255, 255)</string>
    </property>
    <property name="text">
-    <string>Alexandria - Egypt</string>
+    <string/>
    </property>
    <property name="scaledContents">
     <bool>false</bool>

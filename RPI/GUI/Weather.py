@@ -67,6 +67,11 @@ class MainAPP_Weather(QWidget, FormClass):
     def Handle_WeatherUpdate(self):
         global Flag
         try:
+            self.location.setText("Alexandria - Egypt")
+            self.Time1.setText("3 AM")
+            self.Time2.setText("9 AM")
+            self.Time3.setText("3 PM")
+            self.Time4.setText("9 PM")
             # Get data of current weather
             currentWeather = requests.get(
                 'http://api.weatherapi.com/v1/current.json?key=e5ba2b962a7649e5967220742220101&q=Alexandria&aqi=no')
@@ -75,8 +80,9 @@ class MainAPP_Weather(QWidget, FormClass):
             Flag = 1
 
             # Set current weather temperature
+            currentTemp = int(currentWeather.json()['current']['temp_c'])
             self.weather.setText(
-                str(int(currentWeather.json()['current']['temp_c'])) + '°')
+                str(currentTemp) + '°')
 
             # Set current weather condition
             self.state.setText(
@@ -98,12 +104,21 @@ class MainAPP_Weather(QWidget, FormClass):
                 '&aqi=no&alerts=no')
 
             # Set maximum temperature of the day
-            maxTemp = str(int(forecastWeather.json()['forecast']
-                              ['forecastday'][0]['day']['maxtemp_c'])) + '°'
+            maxTemp = int(forecastWeather.json()['forecast']
+                          ['forecastday'][0]['day']['maxtemp_c'])
+            if maxTemp < currentTemp:
+                maxTemp = str(currentTemp) + '°'
+            else:
+                maxTemp = str(maxTemp) + '°'
 
             # Set minimum temperature of the day
-            minTemp = str(int(forecastWeather.json()['forecast']
-                              ['forecastday'][0]['day']['mintemp_c'])) + '°'
+            minTemp = int(forecastWeather.json()['forecast']
+                          ['forecastday'][0]['day']['mintemp_c'])
+
+            if minTemp > currentTemp:
+                minTemp = str(currentTemp) + '°'
+            else:
+                minTemp = str(minTemp) + '°'
 
             # Set Min-Max temperature of the day label
             self.weather_2.setText(minTemp + ' - ' + maxTemp)
@@ -141,7 +156,8 @@ class MainAPP_Weather(QWidget, FormClass):
             # Set 9 AM temperature image
             secondforecastImage = forecastWeather.json(
             )['forecast']['forecastday'][0]['hour'][9]['condition']['icon']
-            secondforecastImage = secondforecastImage.replace('64x64', '128x128')
+            secondforecastImage = secondforecastImage.replace(
+                '64x64', '128x128')
             secondforecastImagePixmap = QPixmap()
             secondforecastImageData = urllib.request.urlopen(
                 'http:' + secondforecastImage).read()
@@ -161,7 +177,8 @@ class MainAPP_Weather(QWidget, FormClass):
             # Set 9 PM temperature image
             fourthforecastImage = forecastWeather.json(
             )['forecast']['forecastday'][0]['hour'][21]['condition']['icon']
-            fourthforecastImage = fourthforecastImage.replace('64x64', '128x128')
+            fourthforecastImage = fourthforecastImage.replace(
+                '64x64', '128x128')
             fourthforecastImagePixmap = QPixmap()
             fourthforecastImageData = urllib.request.urlopen(
                 'http:' + fourthforecastImage).read()

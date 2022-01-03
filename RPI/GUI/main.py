@@ -51,7 +51,6 @@ class MainAPP(QWidget, FormClass):
         self.Maps = Maps.MainAPP_Map()
         self.Phone = Phone.MainAPP_Phone()
         self.Setting = Settings.MainAPP_Setting()
-        self.Weather = Weather.MainAPP_Weather()
         self.Video = Video.MainAPP_Video()
 
         # creating a timer object
@@ -95,6 +94,7 @@ class MainAPP(QWidget, FormClass):
         self.Video.show()
 
     def Handle_Weather(self):
+        self.Weather = Weather.MainAPP_Weather()
         self.Weather.show()
 
     def Handle_Calendar(self):
