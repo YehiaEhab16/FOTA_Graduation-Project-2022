@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTabWidget, QMessageBox
 from PyQt5.uic import loadUiType
 import pathlib
+import datetime
 
 # Get current directory's path
 current_directory = str(pathlib.Path(__file__).parent.absolute())
@@ -83,121 +84,179 @@ class MainAPP_Phone(QTabWidget, FormClass):
                 row, 1, QtWidgets.QTableWidgetItem(nums[i]))
             row = row + 1
 
+    # Keypad Buttons
+    def Button_0(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "0"
+        self.number.setText(ValueLcd)
+
+    def Button_1(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "1"
+        self.number.setText(ValueLcd)
+
+    def Button_2(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "2"
+        self.number.setText(ValueLcd)
+
+    def Button_3(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "3"
+        self.number.setText(ValueLcd)
+
+    def Button_4(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "4"
+        self.number.setText(ValueLcd)
+
+    def Button_5(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "5"
+        self.number.setText(ValueLcd)
+
+    def Button_6(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "6"
+        self.number.setText(ValueLcd)
+
+    def Button_7(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "7"
+        self.number.setText(ValueLcd)
+
+    def Button_8(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "8"
+        self.number.setText(ValueLcd)
+
+    def Button_9(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "9"
+        self.number.setText(ValueLcd)
+
+    def Button_A(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "*"
+        self.number.setText(ValueLcd)
+
+    def Button_H(self):
+        global ValueLcd
+        ValueLcd = ValueLcd + "#"
+        self.number.setText(ValueLcd)
+
+    def Handle_Erase(self):
+        global ValueLcd
+        AccVal = ""
+        for counter in range(0, len(ValueLcd) - 1):
+            AccVal = AccVal + ValueLcd[counter]
+
+        ValueLcd = AccVal
+        self.number.setText(ValueLcd)
+
+    # Dial Function
+    def Handle_Call(self):
+        global NumberOfContents
+        global Contents
+        global ValueLcd
+        # Check for invalid inputs
+        if ((len(ValueLcd) == 11) and (ValueLcd[:3] == "012" or ValueLcd[:3] == "011"
+                                       or ValueLcd[:3] == "015" or ValueLcd[:3] == "010")) \
+                or ((len(ValueLcd) == 9) and (ValueLcd[:2] == "03")):
+            PersonName = ""
+            for counter in range(0, NumberOfContents):
+                if ValueLcd == Contents[counter][1][:-1]:
+                    PersonName = Contents[counter][0]
+
+            if PersonName == "":
+                self.name.setText("Unknown")
+            else:
+                self.name.setText(PersonName)
+            self.OP.setText('Calling')
+            # Add number in recent tab
+            self.Recents_table.insertRow(0)
+            if PersonName == "":
+                self.Recents_table.setItem(
+                    0, 0, QtWidgets.QTableWidgetItem('Unknown'))
+            else:
+                self.Recents_table.setItem(
+                    0, 0, QtWidgets.QTableWidgetItem(PersonName))
+            self.Recents_table.setItem(
+                0, 1, QtWidgets.QTableWidgetItem(ValueLcd))
+            # Get Current Day
+            t_day = str(datetime.date.today()).split('-')
+            t_day = t_day[2] + '/' + t_day[1]
+            self.Recents_table.setItem(
+                0, 2, QtWidgets.QTableWidgetItem(t_day))
+            # Error message (mobile not connected)
+            ret = QMessageBox.warning(self, 'Call Failed',
+                                      'Please Connect Your Mobile Phone',
+                                      QMessageBox.Retry | QMessageBox.Ok)
+            if ret == QMessageBox.Retry:
+                self.Handle_Call()
+            elif ret == QMessageBox.Ok:
+                ValueLcd = ""
+                self.number.setText("")
+                self.name.setText("")
+                self.OP.setText("")
+        else:
+            ret = QMessageBox.warning(self, 'Call Failed',
+                                      'Please make sure you dial a valid phone number',
+                                      QMessageBox.Retry | QMessageBox.Ok)
+            if ret == QMessageBox.Retry:
+                self.Handle_Call()
+
     # Function to call when contact is pressed
     def Contacts_Call(self, row):
         QTabWidget.setCurrentIndex(self, 0)
         self.OP.setText("Calling")
         self.name.setText(names[row])
+        # Add number in recent tab
+        self.Recents_table.insertRow(0)
+        self.Recents_table.setItem(
+            0, 0, QtWidgets.QTableWidgetItem(names[row]))
+        self.Recents_table.setItem(
+            0, 1, QtWidgets.QTableWidgetItem(nums[row]))
+        # Get Current Day
+        t_day = str(datetime.date.today()).split('-')
+        t_day = t_day[2] + '/' + t_day[1]
+        self.Recents_table.setItem(
+            0, 2, QtWidgets.QTableWidgetItem(t_day))
         ret = QMessageBox.warning(self, 'Call Failed',
                                   'Please Connect Your Mobile Phone',
                                   QMessageBox.Retry | QMessageBox.Ok)
         if ret == QMessageBox.Retry:
             self.Contacts_Call(row)
         elif ret == QMessageBox.Ok:
-            self.OP.setText("")
+            self.number.setText("")
             self.name.setText("")
+            self.OP.setText("")
 
-    def Button_0(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "0"
-        self.OP.setText(ValueLcd)
-
-    def Button_1(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "1"
-        self.OP.setText(ValueLcd)
-
-    def Button_2(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "2"
-        self.OP.setText(ValueLcd)
-
-    def Button_3(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "3"
-        self.OP.setText(ValueLcd)
-
-    def Button_4(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "4"
-        self.OP.setText(ValueLcd)
-
-    def Button_5(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "5"
-        self.OP.setText(ValueLcd)
-
-    def Button_6(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "6"
-        self.OP.setText(ValueLcd)
-
-    def Button_7(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "7"
-        self.OP.setText(ValueLcd)
-
-    def Button_8(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "8"
-        self.OP.setText(ValueLcd)
-
-    def Button_9(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "9"
-        self.OP.setText(ValueLcd)
-
-    def Button_A(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "*"
-        self.OP.setText(ValueLcd)
-
-    def Button_H(self):
-        global ValueLcd
-        ValueLcd = ValueLcd + "#"
-        self.OP.setText(ValueLcd)
-
-    def Handle_Erase(self):
-        global ValueLcd
-        AccVal = ""
-        for counter in range(0, len(ValueLcd)-1):
-            AccVal = AccVal+ValueLcd[counter]
-
-        ValueLcd = AccVal
-        self.OP.setText(ValueLcd)
-
-    def Handle_Call(self):
-        msg = QMessageBox()
-        global NumberOfContents
-        global Contents
-        global ValueLcd
-        if len(ValueLcd) == 11:
-            if ValueLcd[:3] == "012" or ValueLcd[:3] == "011" or ValueLcd[:3] == "015" or ValueLcd[:3] == "010":
-                PersonName = ""
-                for counter in range(0, NumberOfContents):
-                    if ValueLcd == Contents[counter][1][:-1]:
-                        PersonName = Contents[counter][0]
-
-                if PersonName == "":
-                    self.name.setText("Unknown")
-                else:
-                    self.name.setText(PersonName)
-            else:
-                msg.setIcon(QMessageBox.Critical)
-                msg.setText("This Phone Number is wrong \nPlease enter the Number contain : \n "
-                            "012 OR 011 OR 010 OR 015")
-                msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-                retval = msg.exec_()
-        else:
-            msg.setIcon(QMessageBox.Critical)
-            msg.setText("This Phone Number is wrong \nPlease enter the Number contain : \n "
-                        "11 Number ")
-            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            retval = msg.exec_()
-
-    # Function to call when contact is pressed
-    def Recent_Call(self):
-        pass
+    # Function to call when recent number is pressed
+    def Recent_Call(self, row):
+        QTabWidget.setCurrentIndex(self, 0)
+        self.OP.setText("Calling")
+        self.name.setText(self.Recents_table.item(row,0).text())
+        # Add number in recent tab
+        self.Recents_table.insertRow(0)
+        self.Recents_table.setItem(
+            0, 0, QtWidgets.QTableWidgetItem(self.Recents_table.item(row+1,0).text()))
+        self.Recents_table.setItem(
+            0, 1, QtWidgets.QTableWidgetItem(self.Recents_table.item(row+1,1).text()))
+        # Get Current Day
+        t_day = str(datetime.date.today()).split('-')
+        t_day = t_day[2] + '/' + t_day[1]
+        self.Recents_table.setItem(
+            0, 2, QtWidgets.QTableWidgetItem(t_day))
+        ret = QMessageBox.warning(self, 'Call Failed',
+                                  'Please Connect Your Mobile Phone',
+                                  QMessageBox.Retry | QMessageBox.Ok)
+        if ret == QMessageBox.Retry:
+            self.Recent_Call(row)
+        elif ret == QMessageBox.Ok:
+            self.number.setText("")
+            self.name.setText("")
+            self.OP.setText("")
 
     # Exit Button
     def Handle_Exit(self):
