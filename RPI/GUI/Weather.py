@@ -1,8 +1,9 @@
 # importing required packages
 import ntpath
+from PyQt5 import QtGui
 from PyQt5.QtWidgets import QWidget, QMessageBox
 from PyQt5.uic import loadUiType
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal, QTimer
 from PyQt5.QtGui import QPixmap
 import requests
 import urllib.request
@@ -24,20 +25,9 @@ class MyThread(QThread):
         cnt = 0
         while True:
             cnt += 1
+            time.sleep(1)
             self.change_value.emit(cnt)
-            time.sleep(60)  # Processing thread every 1 min
-
-
-# Thread for updating weather widget
-class MyThread2(QThread):
-    change_value = pyqtSignal(int)  # value to periodically update gui labels
-
-    def run(self):
-        cnt = 0
-        while True:
-            cnt += 1
-            self.change_value.emit(cnt)
-            time.sleep(1)  # Processing thread every 1 sec
+            time.sleep(5 * 60 - 1)  # Processing thread every 5 minutes
 
 
 # Define main window
@@ -51,9 +41,10 @@ class MainAPP_Weather(QWidget, FormClass):
         self.thread = MyThread()
         self.thread.change_value.connect(self.Handle_WeatherUpdate)
         self.thread.start()
-        self.thread2 = MyThread2()
-        self.thread2.change_value.connect(self.Handle_UpdateDisplay)
-        self.thread2.start()
+
+    def showEvent(self, a0: QtGui.QShowEvent) -> None:
+        # creating a timer object
+        QTimer.singleShot(0, self.HandleTimer)
 
     # GUI Buttons
     def Handle_Buttons(self):
@@ -64,137 +55,137 @@ class MainAPP_Weather(QWidget, FormClass):
         self.setWindowTitle("Weather")
         self.setFixedSize(800, 480)
 
+    # Function to update weather labels periodically
     def Handle_WeatherUpdate(self):
         global Flag
         try:
-            self.location.setText("Alexandria - Egypt")
-            self.Time1.setText("3 AM")
-            self.Time2.setText("9 AM")
-            self.Time3.setText("3 PM")
-            self.Time4.setText("9 PM")
-            # Get data of current weather
-            currentWeather = requests.get(
-                'http://api.weatherapi.com/v1/current.json?key=e5ba2b962a7649e5967220742220101&q=Alexandria&aqi=no')
-
-            # Setting flag (api request is successful)
-            Flag = 1
-
-            # Set current weather temperature
-            currentTemp = int(currentWeather.json()['current']['temp_c'])
-            self.weather.setText(
-                str(currentTemp) + '°')
-
-            # Set current weather condition
-            self.state.setText(
-                str(currentWeather.json()['current']['condition']['text']))
-
-            # Set current weather image
-            currentTempImage = currentWeather.json(
-            )['current']['condition']['icon']
-            currentTempImage = currentTempImage.replace('64x64', '128x128')
-            currentTempImagePixmap = QPixmap()
-            currentTempImageData = urllib.request.urlopen(
-                'http:' + currentTempImage).read()
-            currentTempImagePixmap.loadFromData(currentTempImageData)
-            self.icon.setPixmap(QPixmap(currentTempImagePixmap))
-
-            # Get data of forecast weather
-            forecastWeather = requests.get(
-                'http://api.weatherapi.com/v1/forecast.json?key=e5ba2b962a7649e5967220742220101&q=Alexandria&days=1'
-                '&aqi=no&alerts=no')
-
-            # Set maximum temperature of the day
-            maxTemp = int(forecastWeather.json()['forecast']
-                          ['forecastday'][0]['day']['maxtemp_c'])
-            if maxTemp < currentTemp:
-                maxTemp = str(currentTemp) + '°'
-            else:
-                maxTemp = str(maxTemp) + '°'
-
-            # Set minimum temperature of the day
-            minTemp = int(forecastWeather.json()['forecast']
-                          ['forecastday'][0]['day']['mintemp_c'])
-
-            if minTemp > currentTemp:
-                minTemp = str(currentTemp) + '°'
-            else:
-                minTemp = str(minTemp) + '°'
-
-            # Set Min-Max temperature of the day label
-            self.weather_2.setText(minTemp + ' - ' + maxTemp)
-
-            # Set 3 AM temperature label
-            firstForecastTemp = str(int(forecastWeather.json()['forecast']
-                                        ['forecastday'][0]['hour'][3]['temp_c'])) + '°'
-            self.temp1.setText(firstForecastTemp)
-
-            # Set 9 AM temperature label
-            secondForecastTemp = str(int(forecastWeather.json()['forecast']
-                                         ['forecastday'][0]['hour'][9]['temp_c'])) + '°'
-            self.temp2.setText(secondForecastTemp)
-
-            # Set 3 PM temperature label
-            thirdForecastTemp = str(int(forecastWeather.json()['forecast']
-                                        ['forecastday'][0]['hour'][15]['temp_c'])) + '°'
-            self.temp3.setText(thirdForecastTemp)
-
-            # Set 9 PM temperature label
-            fourthForecastTemp = str(int(forecastWeather.json()['forecast']
-                                         ['forecastday'][0]['hour'][21]['temp_c'])) + '°'
-            self.temp4.setText(fourthForecastTemp)
-
-            # Set 3 AM temperature image
-            firstforecastImage = forecastWeather.json(
-            )['forecast']['forecastday'][0]['hour'][3]['condition']['icon']
-            firstforecastImage = firstforecastImage.replace('64x64', '128x128')
-            firstforecastImagePixmap = QPixmap()
-            firstforecastImageData = urllib.request.urlopen(
-                'http:' + firstforecastImage).read()
-            firstforecastImagePixmap.loadFromData(firstforecastImageData)
-            self.icon1.setPixmap(QPixmap(firstforecastImagePixmap))
-
-            # Set 9 AM temperature image
-            secondforecastImage = forecastWeather.json(
-            )['forecast']['forecastday'][0]['hour'][9]['condition']['icon']
-            secondforecastImage = secondforecastImage.replace(
-                '64x64', '128x128')
-            secondforecastImagePixmap = QPixmap()
-            secondforecastImageData = urllib.request.urlopen(
-                'http:' + secondforecastImage).read()
-            secondforecastImagePixmap.loadFromData(secondforecastImageData)
-            self.icon2.setPixmap(QPixmap(secondforecastImagePixmap))
-
-            # Set 3 PM temperature image
-            thirdforecastImage = forecastWeather.json(
-            )['forecast']['forecastday'][0]['hour'][15]['condition']['icon']
-            thirdforecastImage = thirdforecastImage.replace('64x64', '128x128')
-            thirdforecastImagePixmap = QPixmap()
-            thirdforecastImageData = urllib.request.urlopen(
-                'http:' + thirdforecastImage).read()
-            thirdforecastImagePixmap.loadFromData(thirdforecastImageData)
-            self.icon3.setPixmap(QPixmap(thirdforecastImagePixmap))
-
-            # Set 9 PM temperature image
-            fourthforecastImage = forecastWeather.json(
-            )['forecast']['forecastday'][0]['hour'][21]['condition']['icon']
-            fourthforecastImage = fourthforecastImage.replace(
-                '64x64', '128x128')
-            fourthforecastImagePixmap = QPixmap()
-            fourthforecastImageData = urllib.request.urlopen(
-                'http:' + fourthforecastImage).read()
-            fourthforecastImagePixmap.loadFromData(fourthforecastImageData)
-            self.icon4.setPixmap(QPixmap(fourthforecastImagePixmap))
+            self.accessAPI()
         except Exception:
-            Flag = 0
+            print('Exception')
 
-    # Function to display warning message
-    def Handle_UpdateDisplay(self):
-        if QWidget.isVisible(self) and Flag == 0:
-            self.thread2.terminate()
-            QMessageBox.warning(self, 'Weather Update Failed',
-                                'Please check your internet connection')
+    # Function to update weather labels when weather GUI is opened
+    def HandleTimer(self):
+        global Flag
+        try:
+            self.accessAPI()
+        except Exception:
+            ret = QMessageBox.warning(self, 'Weather Update Failed',
+                                      'Please Check Your Internet Connection',
+                                      QMessageBox.Retry | QMessageBox.Ok)
+            if ret == QMessageBox.Retry:
+                self.HandleTimer()
+
+    def accessAPI(self):
+        # Get data of current weather
+        currentWeather = requests.get(
+            'http://api.weatherapi.com/v1/current.json?key=e5ba2b962a7649e5967220742220101&q=Alexandria&aqi=no')
+
+        # Set current weather temperature
+        currentTemp = int(currentWeather.json()['current']['temp_c'])
+        self.weather.setText(
+            str(currentTemp) + '°')
+
+        # Set current weather condition
+        self.state.setText(
+            str(currentWeather.json()['current']['condition']['text']))
+
+        # Set current weather image
+        currentTempImage = currentWeather.json(
+        )['current']['condition']['icon']
+        currentTempImage = currentTempImage.replace('64x64', '128x128')
+        currentTempImagePixmap = QPixmap()
+        currentTempImageData = urllib.request.urlopen(
+            'http:' + currentTempImage).read()
+        currentTempImagePixmap.loadFromData(currentTempImageData)
+        self.icon.setPixmap(QPixmap(currentTempImagePixmap))
+
+        # Get data of forecast weather
+        forecastWeather = requests.get(
+            'http://api.weatherapi.com/v1/forecast.json?key=e5ba2b962a7649e5967220742220101&q=Alexandria&days=1'
+            '&aqi=no&alerts=no')
+
+        # Set maximum temperature of the day
+        maxTemp = int(forecastWeather.json()['forecast']
+                      ['forecastday'][0]['day']['maxtemp_c'])
+        if maxTemp < currentTemp:
+            maxTemp = str(currentTemp) + '°'
+        else:
+            maxTemp = str(maxTemp) + '°'
+
+        # Set minimum temperature of the day
+        minTemp = int(forecastWeather.json()['forecast']
+                      ['forecastday'][0]['day']['mintemp_c'])
+
+        if minTemp > currentTemp:
+            minTemp = str(currentTemp) + '°'
+        else:
+            minTemp = str(minTemp) + '°'
+
+        # Set Min-Max temperature of the day label
+        self.weather_2.setText(minTemp + ' - ' + maxTemp)
+
+        # Set 3 AM temperature label
+        firstForecastTemp = str(int(forecastWeather.json()['forecast']
+                                    ['forecastday'][0]['hour'][3]['temp_c'])) + '°'
+        self.temp1.setText(firstForecastTemp)
+
+        # Set 9 AM temperature label
+        secondForecastTemp = str(int(forecastWeather.json()['forecast']
+                                     ['forecastday'][0]['hour'][9]['temp_c'])) + '°'
+        self.temp2.setText(secondForecastTemp)
+
+        # Set 3 PM temperature label
+        thirdForecastTemp = str(int(forecastWeather.json()['forecast']
+                                    ['forecastday'][0]['hour'][15]['temp_c'])) + '°'
+        self.temp3.setText(thirdForecastTemp)
+
+        # Set 9 PM temperature label
+        fourthForecastTemp = str(int(forecastWeather.json()['forecast']
+                                     ['forecastday'][0]['hour'][21]['temp_c'])) + '°'
+        self.temp4.setText(fourthForecastTemp)
+
+        # Set 3 AM temperature image
+        firstforecastImage = forecastWeather.json(
+        )['forecast']['forecastday'][0]['hour'][3]['condition']['icon']
+        firstforecastImage = firstforecastImage.replace('64x64', '128x128')
+        firstforecastImagePixmap = QPixmap()
+        firstforecastImageData = urllib.request.urlopen(
+            'http:' + firstforecastImage).read()
+        firstforecastImagePixmap.loadFromData(firstforecastImageData)
+        self.icon1.setPixmap(QPixmap(firstforecastImagePixmap))
+
+        # Set 9 AM temperature image
+        secondforecastImage = forecastWeather.json(
+        )['forecast']['forecastday'][0]['hour'][9]['condition']['icon']
+        secondforecastImage = secondforecastImage.replace(
+            '64x64', '128x128')
+        secondforecastImagePixmap = QPixmap()
+        secondforecastImageData = urllib.request.urlopen(
+            'http:' + secondforecastImage).read()
+        secondforecastImagePixmap.loadFromData(secondforecastImageData)
+        self.icon2.setPixmap(QPixmap(secondforecastImagePixmap))
+
+        # Set 3 PM temperature image
+        thirdforecastImage = forecastWeather.json(
+        )['forecast']['forecastday'][0]['hour'][15]['condition']['icon']
+        thirdforecastImage = thirdforecastImage.replace('64x64', '128x128')
+        thirdforecastImagePixmap = QPixmap()
+        thirdforecastImageData = urllib.request.urlopen(
+            'http:' + thirdforecastImage).read()
+        thirdforecastImagePixmap.loadFromData(thirdforecastImageData)
+        self.icon3.setPixmap(QPixmap(thirdforecastImagePixmap))
+
+        # Set 9 PM temperature image
+        fourthforecastImage = forecastWeather.json(
+        )['forecast']['forecastday'][0]['hour'][21]['condition']['icon']
+        fourthforecastImage = fourthforecastImage.replace(
+            '64x64', '128x128')
+        fourthforecastImagePixmap = QPixmap()
+        fourthforecastImageData = urllib.request.urlopen(
+            'http:' + fourthforecastImage).read()
+        fourthforecastImagePixmap.loadFromData(fourthforecastImageData)
+        self.icon4.setPixmap(QPixmap(fourthforecastImagePixmap))
 
     # Exit Function
     def Handle_Exit(self):
-        self.thread2.start()
         self.close()

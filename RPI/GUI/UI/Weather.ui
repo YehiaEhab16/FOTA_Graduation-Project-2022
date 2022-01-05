@@ -1269,7 +1269,6 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1412,7 +1411,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string/>
+    <string> 3 AM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1516,7 +1515,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string/>
+    <string> 9 AM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1540,7 +1539,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string/>
+    <string>9 PM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1644,7 +1643,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="text">
-    <string/>
+    <string>3 PM</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1677,7 +1676,7 @@ ColorButton::disabled {
     <string notr="true">color:rgb(255, 255, 255)</string>
    </property>
    <property name="text">
-    <string/>
+    <string>Alexandria - Egypt</string>
    </property>
    <property name="scaledContents">
     <bool>false</bool>
