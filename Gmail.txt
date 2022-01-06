@@ -1,2 +1,0 @@
-email: fota.project2022@gmail.com
-pass:  fota123123
