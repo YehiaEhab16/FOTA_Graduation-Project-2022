@@ -18,8 +18,7 @@
     <normaloff>../Images/icon.png</normaloff>../Images/icon.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">
-QProgressBar:horizontal {
+   <string notr="true">QProgressBar:horizontal {
     border: 1px solid #3A3939;
     text-align: center;
     padding: 1px;
@@ -1265,6 +1264,16 @@ ColorButton::disabled {
      <width>801</width>
      <height>451</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QToolButton{
+icon-size:25px.25px;
+}</string>
    </property>
    <property name="firstDayOfWeek">
     <enum>Qt::Saturday</enum>
