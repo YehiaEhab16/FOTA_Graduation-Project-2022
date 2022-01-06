@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>server.png</normaloff>server.png</iconset>
+    <normaloff>../Images/server.png</normaloff>../Images/server.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -1455,7 +1455,7 @@ ColorButton::disabled {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="bg.qrc">:/Icon/server.png</pixmap>
+    <pixmap>../Images/server.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1474,7 +1474,7 @@ ColorButton::disabled {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="bg.qrc">:/Outline/DRoutline.png</pixmap>
+    <pixmap>../Images/DRoutline.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1493,7 +1493,7 @@ ColorButton::disabled {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="bg.qrc">:/Outline/ULoutline.png</pixmap>
+    <pixmap>../Images/ULoutline.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1512,7 +1512,7 @@ ColorButton::disabled {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="bg.qrc">:/Outline/mist.png</pixmap>
+    <pixmap>../Images/mist.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1532,8 +1532,6 @@ ColorButton::disabled {
   <zorder>label_2</zorder>
   <zorder>label_3</zorder>
  </widget>
- <resources>
-  <include location="bg.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
