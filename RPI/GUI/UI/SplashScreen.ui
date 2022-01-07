@@ -1256,26 +1256,28 @@ ColorButton::disabled {
     border: 1px solid #AAAAAA;
 }</string>
   </property>
-  <widget class="QPushButton" name="back">
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>450</y>
-     <width>71</width>
-     <height>31</height>
+     <x>120</x>
+     <y>120</y>
+     <width>501</width>
+     <height>161</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
-     <bold>true</bold>
+     <pointsize>30</pointsize>
     </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(170, 0, 0);</string>
    </property>
    <property name="text">
-    <string>Back</string>
+    <string>Load Screen</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

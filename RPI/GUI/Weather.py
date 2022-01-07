@@ -7,10 +7,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, QTimer
 from PyQt5.QtGui import QPixmap
 import requests
 import urllib.request
-import time
 
-# Flag to indicate whether the api is working or not
-Flag = 1
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -25,9 +22,9 @@ class MyThread(QThread):
         cnt = 0
         while True:
             cnt += 1
-            time.sleep(1)
+            QThread.sleep(1)
             self.change_value.emit(cnt)
-            time.sleep(5 * 60 - 1)  # Processing thread every 5 minutes
+            QThread.sleep(5 * 60 - 1)  # Processing thread every 5 minutes
 
 
 # Define main window
@@ -57,7 +54,6 @@ class MainAPP_Weather(QWidget, FormClass):
 
     # Function to update weather labels periodically
     def Handle_WeatherUpdate(self):
-        global Flag
         try:
             self.accessAPI()
         except Exception:
@@ -65,7 +61,6 @@ class MainAPP_Weather(QWidget, FormClass):
 
     # Function to update weather labels when weather GUI is opened
     def HandleTimer(self):
-        global Flag
         try:
             self.accessAPI()
         except Exception:

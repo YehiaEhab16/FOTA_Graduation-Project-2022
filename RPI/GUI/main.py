@@ -1,4 +1,6 @@
 # importing defined Modules
+import time
+
 import Comm
 import Calender
 import Music
@@ -29,6 +31,10 @@ settingsIcon = current_directory + '/Images/settingsLogo.png'
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
     ntpath.dirname(__file__), "UI/MainWindow.ui"))
+FormClass2, _ = loadUiType(ntpath.join(
+    ntpath.dirname(__file__), "UI/SplashScreen.ui"))
+
+VarGlobal = None
 
 
 # Exit button
@@ -36,9 +42,48 @@ def Handle_Exit():
     sys.exit()
 
 
+# Define splash screen window
+class SplashScreen(QWidget, FormClass2):
+    def __init__(self, parent=None):
+        self.Window_Loop = MainAPP()
+        global VarGlobal
+        super(SplashScreen, self).__init__(parent)
+        QWidget.__init__(self)
+        self.setupUi(self)
+        self.window()
+        self.counter = 0
+        # creating a timer object
+        self.timer2 = QTimer(self)
+        # adding action to timer
+        self.timer2.timeout.connect(self.loading)
+        # update the timer every 15 ms
+        self.timer2.start(15)
+        self.Weather = Weather.MainAPP_Weather()
+        VarGlobal = self.Weather
+
+    # Window Size and Title
+    def window(self):
+        self.setWindowTitle("Splash Screen")
+        self.setFixedSize(800, 480)
+
+    def loading(self):
+        print(self.counter)
+        self.counter = self.counter + 1
+
+        if self.counter > 100:
+            self.timer2.stop()
+            time.sleep(1)
+            self.close()
+            self.Window_Loop.show()
+
+
+def Handle_Weather():
+    global VarGlobal
+    VarGlobal.show()
+
+
 # Define main window
 class MainAPP(QWidget, FormClass):
-
     def __init__(self, parent=None):
         super(MainAPP, self).__init__(parent)
         QWidget.__init__(self)
@@ -52,7 +97,6 @@ class MainAPP(QWidget, FormClass):
         self.Phone = Phone.MainAPP_Phone()
         self.Setting = Settings.MainAPP_Setting()
         self.Video = Video.MainAPP_Video()
-        self.Weather = Weather.MainAPP_Weather()
 
         # creating a timer object
         timer = QTimer(self)
@@ -70,7 +114,7 @@ class MainAPP(QWidget, FormClass):
     def Handle_Buttons(self):
         self.calendar.clicked.connect(self.Handle_Calendar)
         self.music.clicked.connect(self.Handle_Music)
-        self.weather.clicked.connect(self.Handle_Weather)
+        self.weather.clicked.connect(Handle_Weather)
         self.radio.clicked.connect(self.Handle_Radio)
         self.video.clicked.connect(self.Handle_Video)
         self.maps.clicked.connect(self.Handle_Maps)
@@ -93,9 +137,6 @@ class MainAPP(QWidget, FormClass):
 
     def Handle_Video(self):
         self.Video.show()
-
-    def Handle_Weather(self):
-        self.Weather.show()
 
     def Handle_Calendar(self):
         self.Calender.show()
@@ -123,8 +164,8 @@ class MainAPP(QWidget, FormClass):
 # Executing main window
 def main():
     app = QApplication(sys.argv)
-    Window_Loop = MainAPP()
-    Window_Loop.show()
+    splash = SplashScreen()
+    splash.show()
     app.exec()
 
 
