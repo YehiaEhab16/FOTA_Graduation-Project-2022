@@ -220,7 +220,7 @@ class MainAPP_Video (QWidget):
 
     # Play selected video from QComboBox function
     def playVideo(self):
-        videoURL = current_directory + '/Videos/' + self.videoList.currentText()
+        videoURL = current_directory + '/Videos/' + self.videoList.currentText() + '.mp4'
         vid = cv2.VideoCapture(videoURL)
         height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
         width = vid.get(cv2.CAP_PROP_FRAME_WIDTH)

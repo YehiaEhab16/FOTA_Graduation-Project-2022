@@ -58,7 +58,6 @@ class MainAPP_Music(QWidget, FormClass):
             self.MusicList.addItem(f)
         self.Sound.setValue(self.player.volume())
 
-
     # Window Size and Title
     def window(self):
         self.setWindowTitle("Music")
@@ -77,7 +76,7 @@ class MainAPP_Music(QWidget, FormClass):
     def IncreaseVolume(self):
         self.Sound.setValue(self.player.volume() + 5)
         self.player.setVolume(self.player.volume() + 5)
-        print (self.player.volume())
+        print(self.player.volume())
 
     # Function to decrease volume
     def DecreaseVolume(self):
@@ -97,7 +96,7 @@ class MainAPP_Music(QWidget, FormClass):
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex - 1
                 self.MusicList.setCurrentIndex(newIndex)
-                Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
+                Full_Path = current_directory + "/Music/" + self.MusicList.currentText() + '.mp3'
                 url = QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
@@ -120,7 +119,7 @@ class MainAPP_Music(QWidget, FormClass):
                 oldIndex = self.MusicList.currentIndex()
                 newIndex = oldIndex + 1
                 self.MusicList.setCurrentIndex(newIndex)
-                Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
+                Full_Path = current_directory + "/Music/" + self.MusicList.currentText() + '.mp3'
                 url = QUrl.fromLocalFile(Full_Path)
                 content = QMediaContent(url)
                 self.player.setMedia(content)
@@ -151,7 +150,7 @@ class MainAPP_Music(QWidget, FormClass):
             currentVolume = self.player.volume()
             self.Sound.setValue(currentVolume)
             currentIndicator = self.MusicList.currentText()
-            Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
+            Full_Path = current_directory + "/Music/" + self.MusicList.currentText() + '.mp3'
             url = QUrl.fromLocalFile(Full_Path)
             content = QMediaContent(url)
             self.player.setMedia(content)
@@ -180,7 +179,7 @@ class MainAPP_Music(QWidget, FormClass):
         global currentIndicator
         self.playButton.setIcon(
             self.style().standardIcon(QStyle.SP_MediaPause))
-        Full_Path = current_directory + "/Music/" + self.MusicList.currentText()
+        Full_Path = current_directory + "/Music/" + self.MusicList.currentText() + '.mp3'
         url = QUrl.fromLocalFile(Full_Path)
         content = QMediaContent(url)
         self.player.setMedia(content)
