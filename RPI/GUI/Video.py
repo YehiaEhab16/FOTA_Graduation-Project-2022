@@ -1,5 +1,5 @@
 # importing required packages
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QUrl, QSize
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout,
 import pathlib
 import os
 import sys
+import cv2
 
 # Getting Current Directory
 current_directory = str(pathlib.Path(__file__).parent.absolute())
@@ -65,10 +66,10 @@ class MainAPP_Video (QWidget):
                 border-width: 2px;
                 border-color: #4A4949;
                 border-style: solid;
-                padding-top: 12px;
-                padding-bottom: 12px;
-                padding-left: 20px;
-                padding-right: 20px;
+                padding-top: 6px;
+                padding-bottom: 6px;
+                padding-left: 10px;
+                padding-right: 10px;
                 border-radius: 4px;
             }
 
@@ -128,9 +129,10 @@ class MainAPP_Video (QWidget):
         # Initializing Media Player
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
 
-        btnSize = QSize(16, 16)
-        iconSize = QSize(25, 25)
-        videoWidget = QVideoWidget()
+        btnSize = QSize(20, 20)
+        iconSize = QSize(20, 20)
+        self.videoWidget = QVideoWidget()
+        self.videoWidget.setMaximumSize(800,320)
 
         # Back Button attributes
         backButton = QPushButton("Back")
@@ -139,6 +141,9 @@ class MainAPP_Video (QWidget):
         # Video List ComboBox initializations
         self.videoList = QComboBox()
         for f in videoFiles:
+            chars = ['.mp4', '.mov', '.wmv', '.avi', '.avchd', '.mkv', '.flv', '.f4v', '.swf', '.webm', '.html5']
+            for char in chars:
+                f = f.replace(char, "").replace(char.upper(), "")
             self.videoList.addItem(f)
 
         # Open Video Button attributes
@@ -151,7 +156,6 @@ class MainAPP_Video (QWidget):
 
         # Play Button attributes
         self.playButton = QPushButton()
-        self.playButton.setEnabled(False)
         self.playButton.setIconSize(btnSize)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.clicked.connect(self.play)
@@ -190,7 +194,10 @@ class MainAPP_Video (QWidget):
         # Layouts initializations
         layout = QVBoxLayout()
         layout.addLayout(controlLayout2)
-        layout.addWidget(videoWidget)
+        layout2 = QHBoxLayout()
+        layout2.addWidget(self.videoWidget)
+
+        layout.addLayout(layout2)
         layout.addLayout(controlLayout)
         layout.addLayout(controlLayout3)
 
@@ -198,7 +205,7 @@ class MainAPP_Video (QWidget):
         self.setLayout(layout)
 
         # Media Player attributes
-        self.mediaPlayer.setVideoOutput(videoWidget)
+        self.mediaPlayer.setVideoOutput(self.videoWidget)
         self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
         self.mediaPlayer.positionChanged.connect(self.positionChanged)
 
@@ -214,9 +221,14 @@ class MainAPP_Video (QWidget):
     # Play selected video from QComboBox function
     def playVideo(self):
         videoURL = current_directory + '/Videos/' + self.videoList.currentText()
+        vid = cv2.VideoCapture(videoURL)
+        height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        width = vid.get(cv2.CAP_PROP_FRAME_WIDTH)
+        width = int(width * 320.2 / height)
+        self.videoWidget.setMaximumSize(width, 320)
+
         self.mediaPlayer.setMedia(
             QMediaContent(QUrl.fromLocalFile(videoURL)))
-        self.playButton.setEnabled(True)
         self.play()
 
     # Play/Pause function setters
@@ -265,7 +277,5 @@ class MainAPP_Video (QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     player = MainAPP_Video()
-    player.setWindowTitle("Video")
-    player.setFixedSize(800, 480)
     player.show()
     sys.exit(app.exec_())

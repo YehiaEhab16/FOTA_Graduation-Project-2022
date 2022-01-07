@@ -52,6 +52,9 @@ class MainAPP_Music(QWidget, FormClass):
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         # Adding files inside music list
         for f in MusicFiles:
+            chars = ['.mp3', '.m4a', '.flac', '.mp4', '.wav', '.wma', '.aac',]
+            for char in chars:
+                f = f.replace(char, "").replace(char.upper(), "")
             self.MusicList.addItem(f)
         self.Sound.setValue(self.player.volume())
 
