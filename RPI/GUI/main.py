@@ -66,13 +66,14 @@ class SplashScreen(QWidget, FormClass2):
         self.setWindowTitle("Splash Screen")
         self.setFixedSize(800, 480)
 
+    # Loading Screen Function
     def loading(self):
-        print(self.counter)
         self.counter = self.counter + 1
 
         if self.counter > 100:
             self.timer2.stop()
             time.sleep(1)
+            # CLose load window and open main window
             self.close()
             self.Window_Loop.show()
 
