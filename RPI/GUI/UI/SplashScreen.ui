@@ -1259,7 +1259,7 @@ ColorButton::disabled {
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>170</x>
      <y>50</y>
      <width>471</width>
      <height>201</height>
@@ -1286,7 +1286,7 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>340</x>
      <y>270</y>
      <width>131</width>
      <height>121</height>
@@ -1316,7 +1316,7 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>480</x>
      <y>290</y>
      <width>101</width>
      <height>101</height>
@@ -1346,7 +1346,7 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>230</x>
      <y>290</y>
      <width>101</width>
      <height>101</height>
@@ -1365,6 +1365,66 @@ ColorButton::disabled {
    </property>
    <property name="pixmap">
     <pixmap>../Images/load.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>380</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>40</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(170, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../Images/DL1.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>0</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>40</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(170, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../Images/UR1.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
