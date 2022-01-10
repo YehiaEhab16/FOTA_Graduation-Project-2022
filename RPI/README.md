@@ -10,3 +10,9 @@ Phone - Maps - Weather - Music Player - Radio - Video Player - Calendar
 The frontend is designed using QT Designer
 
 The GUI is implemeted using PYQT
+
+## Dependencies
+Please install the required packcages:
+...
+$ pip3 install -r requirements.txt
+...

@@ -4,3 +4,9 @@ This part is responsible for uploading to the server and recieving data from mic
 The server is implemeted using firebase
 
 The GUI is implemeted using PYQT
+
+## Dependencies
+Please install the required packcages:
+...
+$ pip3 install -r requirements.txt
+...
