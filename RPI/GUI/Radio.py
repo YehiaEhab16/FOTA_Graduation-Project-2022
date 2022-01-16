@@ -11,8 +11,8 @@ Channel_List = [87.8, 88.2, 88.7, 89.5, 90.9, 91.5, 92.1, 92.1, 92.7,
 Freq = 0
 MinFreq = 87
 MaxFreq = 110
-#Indication to the play or pause
-Counter = 0
+# Indication to the play or pause
+Counter = 1
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -29,11 +29,9 @@ class MainAPP_Radio(QWidget, FormClass):
         self.window()
         self.Handle_Buttons()
         self.player = QMediaPlayer()
-        self.play_pause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         Freq = float(self.freq.text())
-        self.play_pause.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.play_pause.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
         self.sound.setValue(self.player.volume())
-
 
     # GUI buttons
     def Handle_Buttons(self):
@@ -112,26 +110,25 @@ class MainAPP_Radio(QWidget, FormClass):
 
     # Function for small step decrement
     def Handle_Dec(self):
-        #if self.player.state() == QMediaPlayer.PlayingState:
+        # if self.player.state() == QMediaPlayer.PlayingState:
         if Counter == 1:
             global Freq
             if Freq > MinFreq:
                 Freq = round(Freq - 0.1, 1)
                 self.freq.setText(str(Freq))
 
-
     # Function to play/pause channels
     def Play_Pause(self):
         global Counter
 
-        #if self.player.state() == QMediaPlayer.PlayingState:
-        if Counter == 1 :
+        # if self.player.state() == QMediaPlayer.PlayingState:
+        if Counter == 1:
             self.play_pause.setIcon(
                 self.style().standardIcon(QStyle.SP_MediaPlay))
             self.player.pause()
-            Counter =0
-        #elif self.player.state() == QMediaPlayer.PausedState:
-        elif Counter == 0 :
+            Counter = 0
+        # elif self.player.state() == QMediaPlayer.PausedState:
+        elif Counter == 0:
             self.player.play()
             self.play_pause.setIcon(
                 self.style().standardIcon(QStyle.SP_MediaPause))
