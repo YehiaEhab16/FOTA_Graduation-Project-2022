@@ -15,7 +15,7 @@ import cv2
 current_directory = str(pathlib.Path(__file__).parent.absolute())
 
 # Listing available videos from specific directory
-videoFiles = os.listdir(current_directory + '/Videos')
+videoFiles = os.listdir(current_directory + '/../Videos')
 
 
 # Main Window
@@ -149,7 +149,7 @@ class MainAPP_Video (QWidget):
         openButton.setIconSize(iconSize)
         openButton.setFont(QFont("Noto Sans", 8))
         openButton.setIcon(QIcon.fromTheme(
-            "document-open", QIcon(current_directory + '/Images/openFolderIcon.png')))
+            "document-open", QIcon(current_directory + '/../Images/openFolderIcon.png')))
         openButton.clicked.connect(self.playVideo)
 
         # Play Button attributes
@@ -212,13 +212,13 @@ class MainAPP_Video (QWidget):
 
     # Window Size, Title and Icon
     def window(self):
-        self.setWindowIcon(QtGui.QIcon(current_directory + '/Images/icon.png'))
+        self.setWindowIcon(QtGui.QIcon(current_directory + '/../Images/icon.png'))
         self.setWindowTitle("Video")
         self.setFixedSize(800, 480)
 
     # Play selected video from QComboBox function
     def playVideo(self):
-        videoURL = current_directory + '/Videos/' + \
+        videoURL = current_directory + '/../Videos/' + \
             videoFiles[self.videoList.currentIndex()]
         vid = cv2.VideoCapture(videoURL)
         height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)

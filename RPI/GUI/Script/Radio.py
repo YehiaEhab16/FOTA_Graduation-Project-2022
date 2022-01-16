@@ -16,7 +16,7 @@ Counter = 1
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI/Radio.ui"))
+    ntpath.dirname(__file__), "../UI/Radio.ui"))
 
 
 # Define main window

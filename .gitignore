@@ -1,5 +1,8 @@
 *.pyc
 
+*.iml
+*.xml
+
 *.mp3
 !Test1.mp3
 !Test2.mp3

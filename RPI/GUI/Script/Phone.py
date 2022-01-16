@@ -11,7 +11,7 @@ current_directory = str(pathlib.Path(__file__).parent.absolute())
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI/Phone.ui"))
+    ntpath.dirname(__file__), "../UI/Phone.ui"))
 
 # Initialing list for names and numbers
 names = []
@@ -34,7 +34,7 @@ class MainAPP_Phone(QTabWidget, FormClass):
         self.setupUi(self)
         self.window()
         self.Handle_Buttons()
-        with open(current_directory + '/Contacts.txt', 'r') as f:
+        with open(current_directory + '/../Data/Contacts.txt', 'r') as f:
             global Contents
             for line in f:
                 f_contents = line.split(' - ')

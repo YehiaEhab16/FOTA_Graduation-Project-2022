@@ -14,7 +14,7 @@ import Gui
 storage, db = Server.init()
 
 # Load UI
-FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "UI/App.ui"))
+FormClass, _ = loadUiType(ntpath.join(ntpath.dirname(__file__), "../UI/App.ui"))
 
 version = "1"
 error = "0"

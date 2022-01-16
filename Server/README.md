@@ -10,5 +10,5 @@ Python 3.6 or higher version
 
 Please install the required packcages:
 ```sh
-$ pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```

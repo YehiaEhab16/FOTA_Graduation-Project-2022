@@ -8,15 +8,8 @@ from PyQt5.QtGui import QPixmap
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI\Settings.ui"))
+    ntpath.dirname(__file__), "../UI/Settings.ui"))
 
-
-# Exit button
-# def Handle_Exit():
-#    sys.exit()
-
-# GUI Functions
-# Setting window title and size
 
 # Define main window
 class MainAPP_Setting (QTabWidget, FormClass):
@@ -28,7 +21,6 @@ class MainAPP_Setting (QTabWidget, FormClass):
         self.Handle_Buttons()
 
     # GUI buttons
-
     def Handle_Buttons(self):
         self.back.clicked.connect(self.Handle_Exit)
 

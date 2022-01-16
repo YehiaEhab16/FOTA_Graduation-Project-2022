@@ -102,7 +102,7 @@ class MainAPP_Map (QWidget):
     def window(self):
         self.setWindowTitle("Maps")
         self.setFixedSize(800, 480)
-        self.setWindowIcon(QtGui.QIcon(current_directory + '/Images/icon.png'))
+        self.setWindowIcon(QtGui.QIcon(current_directory + '/../Images/icon.png'))
 
     def Handle_Exit(self):
         self.close()

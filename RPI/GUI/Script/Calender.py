@@ -6,7 +6,7 @@ from PyQt5.uic import loadUiType
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI\Calendar.ui"))
+    ntpath.dirname(__file__), "../UI/Calendar.ui"))
 
 
 # Exit button

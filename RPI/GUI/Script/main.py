@@ -25,14 +25,14 @@ import pathlib
 current_directory = str(pathlib.Path(__file__).parent.absolute())
 
 # Sets image of software update notification in settings
-settingsNotificationPath = current_directory + '/Images/settingsNotification.png'
-settingsIcon = current_directory + '/Images/settingsLogo.png'
+settingsNotificationPath = current_directory + '/../Images/settingsNotification.png'
+settingsIcon = current_directory + '/../Images/settingsLogo.png'
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI/MainWindow.ui"))
+    ntpath.dirname(__file__), "../UI/MainWindow.ui"))
 FormClass2, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI/SplashScreen.ui"))
+    ntpath.dirname(__file__), "../UI/SplashScreen.ui"))
 
 VarGlobal = None
 

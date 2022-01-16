@@ -11,7 +11,7 @@ import urllib.request
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "UI/Weather.ui"))
+    ntpath.dirname(__file__), "../UI/Weather.ui"))
 
 
 # Thread for accessing weather api
