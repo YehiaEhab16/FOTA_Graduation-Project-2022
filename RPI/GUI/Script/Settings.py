@@ -2,7 +2,6 @@
 import ntpath
 from PyQt5.QtWidgets import QTabWidget
 from PyQt5.uic import loadUiType
-from PyQt5.QtGui import QPixmap
 # importing defined modules
 
 

@@ -1,1 +1,7 @@
-r
+PyQt5==5.15.6
+pyserial==3.5
+folium==0.12.1.post1
+pathlib==1.0.1
+opencv-python==4.5.5.62
+requests==2.27.1
+urllib3==1.26.8

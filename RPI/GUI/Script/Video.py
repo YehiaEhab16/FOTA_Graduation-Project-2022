@@ -1,5 +1,5 @@
 # importing required packages
-from PyQt5 import QtGui, QtCore
+from PyQt5 import QtGui
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QUrl, QSize
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
@@ -212,7 +212,8 @@ class MainAPP_Video (QWidget):
 
     # Window Size, Title and Icon
     def window(self):
-        self.setWindowIcon(QtGui.QIcon(current_directory + '/../Images/icon.png'))
+        self.setWindowIcon(QtGui.QIcon(
+            current_directory + '/../Images/icon.png'))
         self.setWindowTitle("Video")
         self.setFixedSize(800, 480)
 

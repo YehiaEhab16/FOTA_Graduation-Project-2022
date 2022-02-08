@@ -2,7 +2,7 @@
 import ntpath
 from PyQt5.QtWidgets import QWidget, QStyle
 from PyQt5.uic import loadUiType
-from PyQt5.QtMultimedia import QMediaPlayer  # , QMediaContent
+from PyQt5.QtMultimedia import QMediaPlayer
 
 # Channel list
 Channel_List = [87.8, 88.2, 88.7, 89.5, 90.9, 91.5, 92.1, 92.1, 92.7,
@@ -30,7 +30,8 @@ class MainAPP_Radio(QWidget, FormClass):
         self.Handle_Buttons()
         self.player = QMediaPlayer()
         Freq = float(self.freq.text())
-        self.play_pause.setIcon(self.style().standardIcon(QStyle.SP_MediaPause))
+        self.play_pause.setIcon(
+            self.style().standardIcon(QStyle.SP_MediaPause))
         self.sound.setValue(self.player.volume())
 
     # GUI buttons
