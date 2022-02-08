@@ -25,7 +25,8 @@ import pathlib
 current_directory = str(pathlib.Path(__file__).parent.absolute())
 
 # Sets image of software update notification in settings
-settingsNotificationPath = current_directory + '/../Images/settingsNotification.png'
+settingsNotificationPath = current_directory + \
+    '/../Images/settingsNotification.png'
 settingsIcon = current_directory + '/../Images/settingsLogo.png'
 
 # Load UI
@@ -155,7 +156,7 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setText(day + " " + hour)
         self.time_label.setAlignment(Qt.AlignCenter)
         # Condition to change settings to have a software update notification
-        if Comm.Get() == 1:
+        if Comm.Read_Data() == 1:
             # Sets the image of notification to replace the default settings image
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         else:  # Condition must be added (If user views the software update)
