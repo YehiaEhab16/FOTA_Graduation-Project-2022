@@ -3,6 +3,7 @@ import ntpath
 from PyQt5.QtWidgets import QStyle, QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.uic import loadUiType
+#import PyQt5.QtMultimedia
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtCore import QThread, pyqtSignal
 import os
@@ -15,7 +16,7 @@ MusicFiles = os.listdir(current_directory + '/../Music')
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Music.ui"))
+    ntpath.dirname(__file__), "/home/pi/Desktop/Finial_Project/FOTA_Graduation-Project-2022/RPI/GUI/UI/Music.ui"))
 
 # Initializing global variables
 currentIndicator = ""

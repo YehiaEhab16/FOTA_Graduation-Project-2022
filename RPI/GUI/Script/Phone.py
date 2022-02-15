@@ -5,13 +5,18 @@ from PyQt5.QtWidgets import QTabWidget, QMessageBox
 from PyQt5.uic import loadUiType
 import pathlib
 import datetime
+import os
 
 # Get current directory's path
 current_directory = str(pathlib.Path(__file__).parent.absolute())
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
+
+Link = parent+'/UI/Phone.ui'
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Phone.ui"))
+    ntpath.dirname(__file__), Link))
 
 # Initialing list for names and numbers
 names = []

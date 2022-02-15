@@ -5,12 +5,14 @@ import time
 # Receive Function
 global data 
 data = '1' 
+global Serial_Port
 class Read_thread (threading.Thread):
 	def _init__(self):
 		threading.Thread.__init__(self)
 
 
 	def run (self):
+		global Serial_Port
 		Serial_Port = serial.Serial ("/dev/ttyS0") 
 		Serial_Port.baudrate = 9600
 		global data 
@@ -20,9 +22,8 @@ class Read_thread (threading.Thread):
 			time.sleep(4)
 			
 
-
-
 def Stop_Read (Read_thread):
+	global Serial_Port
 	Serial_Port.close()
 	Read_thread.kill()
 
@@ -38,3 +39,4 @@ def Send(data):
 	Serial_Port.baudrate = 9600  
 	Serial_Port.write(data)
 	Serial_Port.close()
+

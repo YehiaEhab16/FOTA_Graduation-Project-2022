@@ -2,12 +2,19 @@
 import ntpath
 from PyQt5.QtWidgets import QTabWidget
 from PyQt5.uic import loadUiType
+import os
+import Comm
 # importing defined modules
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
+
+Link = parent+'/UI/Settings.ui'
 
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Settings.ui"))
+    ntpath.dirname(__file__), Link))
+
 
 
 # Define main window
@@ -22,10 +29,22 @@ class MainAPP_Setting (QTabWidget, FormClass):
     # GUI buttons
     def Handle_Buttons(self):
         self.back.clicked.connect(self.Handle_Exit)
+        self.back_2.clicked.connect(self.Handle_Exit)
+        self.back_3.clicked.connect(self.Handle_Exit)
+        self.back_4.clicked.connect(self.Handle_Exit)
+        self.back_5.clicked.connect(self.Handle_Exit)
+        self.UpdateCheck.clicked.connect(self.Handle_Receive)
+        self.Diagnos.clicked.connect(self.Handle_Send)
 
     def window(self):
         self.setWindowTitle("Settings")
         self.setFixedSize(800, 480)
+
+    def Handle_Receive(self):
+        print(Comm.Read_Data())
+
+    def Handle_Send(self):
+        print(Comm.Send())
 
     def Handle_Exit(self):
         self.close()

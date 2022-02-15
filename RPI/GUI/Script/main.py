@@ -5,12 +5,14 @@ import Comm
 import Calender
 import Music
 import Radio
-import Maps
+#import Maps
 import Phone
 import Settings
 import Weather
 import Video
 import ntpath
+
+import os
 
 # importing required packages
 from PyQt5.QtWidgets import QApplication, QWidget
@@ -29,17 +31,24 @@ settingsNotificationPath = current_directory + \
     '/../Images/settingsNotification.png'
 settingsIcon = current_directory + '/../Images/settingsLogo.png'
 
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
+
+Link = parent+'/UI/MainWindow.ui'
+Link1 = parent+'/UI/SplashScreen.ui'
+
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/MainWindow.ui"))
+    ntpath.dirname(__file__),Link))
 FormClass2, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/SplashScreen.ui"))
+    ntpath.dirname(__file__), Link1))
 
 VarGlobal = None
 
-
+global thread1
 # Exit button
 def Handle_Exit():
+    Comm.Stop_Read(thread1)
     sys.exit()
 
 
@@ -48,6 +57,7 @@ class SplashScreen(QWidget, FormClass2):
     def __init__(self, parent=None):
         self.Window_Loop = MainAPP()
         global VarGlobal
+        global thread1
         super(SplashScreen, self).__init__(parent)
         QWidget.__init__(self)
         self.setupUi(self)
@@ -56,6 +66,9 @@ class SplashScreen(QWidget, FormClass2):
         # creating a timer object
         self.timer2 = QTimer(self)
         # adding action to timer
+        print("Start Comm")
+        thread1 = Comm.Read_thread()
+        thread1.start()
         self.timer2.timeout.connect(self.loading)
         # update the timer every 15 ms
         self.timer2.start(15)
@@ -70,13 +83,13 @@ class SplashScreen(QWidget, FormClass2):
     # Loading Screen Function
     def loading(self):
         self.counter = self.counter + 1
-
         if self.counter > 100:
             self.timer2.stop()
             time.sleep(1)
             # CLose load window and open main window
             self.close()
             self.Window_Loop.show()
+            
 
 
 def Handle_Weather():
@@ -95,10 +108,10 @@ class MainAPP(QWidget, FormClass):
         self.Calender = Calender.MainAPP_Calender()
         self.Music = Music.MainAPP_Music()
         self.Radio = Radio.MainAPP_Radio()
-        self.Maps = Maps.MainAPP_Map()
+        #self.Maps = Maps.MainAPP_Map()
         self.Phone = Phone.MainAPP_Phone()
         self.Setting = Settings.MainAPP_Setting()
-        self.Video = Video.MainAPP_Video()
+        #self.Video = Video.MainAPP_Video()
 
         # creating a timer object
         timer = QTimer(self)
@@ -148,6 +161,7 @@ class MainAPP(QWidget, FormClass):
 
     # Timer Function to update time label
     def showTime(self):
+        global thread1
         # getting current time
         currentTime = datetime.datetime.now()
         day = currentTime.strftime("%a")
@@ -156,6 +170,7 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setText(day + " " + hour)
         self.time_label.setAlignment(Qt.AlignCenter)
         # Condition to change settings to have a software update notification
+        print('Reading...')
         if Comm.Read_Data() == 1:
             # Sets the image of notification to replace the default settings image
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
