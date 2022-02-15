@@ -41,8 +41,6 @@ static struct Peripheral USART_Peripherals[3] = {
 
 
 
-extern USART_t *usart1;
-extern USART_t *usart2;
-extern USART_t *usart3;
+
 
 #endif

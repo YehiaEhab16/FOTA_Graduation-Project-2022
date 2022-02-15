@@ -17,10 +17,10 @@ static USART_t *const usart_ports[] = {
 
 static USART_t *USART_Get(u8 usart) {
     switch(usart) {
-        case USART1: return usart1;
-        case USART2: return usart2;
-        case USART3: return usart3;
-        default: return usart1;
+        case USART1: return (USART_t*)USART1_BASE;
+        case USART2: return (USART_t*)USART2_BASE;
+        case USART3: return (USART_t*)USART3_BASE;
+        default:     return (USART_t*)USART1_BASE;
     }
 }
 
