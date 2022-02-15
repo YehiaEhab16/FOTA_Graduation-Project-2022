@@ -14,9 +14,13 @@ MaxFreq = 110
 # Indication to the play or pause
 Counter = 1
 
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
+
+Link = parent+'/UI/Radio.ui'
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "/home/pi/Desktop/Finial_Project/FOTA_Graduation-Project-2022/RPI/GUI/UI/Radio.ui"))
+    ntpath.dirname(__file__), Link))
 
 
 # Define main window
