@@ -5,7 +5,7 @@ import Comm
 import Calender
 import Music
 import Radio
-#import Maps
+import Maps
 import Phone
 import Settings
 import Weather
@@ -39,7 +39,7 @@ Link1 = parent+'/UI/SplashScreen.ui'
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__),Link))
+    ntpath.dirname(__file__), Link))
 FormClass2, _ = loadUiType(ntpath.join(
     ntpath.dirname(__file__), Link1))
 
@@ -47,8 +47,9 @@ VarGlobal = None
 
 global thread1
 # Exit button
+
+
 def Handle_Exit():
-    Comm.Stop_Read(thread1)
     sys.exit()
 
 
@@ -86,7 +87,6 @@ class SplashScreen(QWidget, FormClass2):
             # CLose load window and open main window
             self.close()
             self.Window_Loop.show()
-            
 
 
 def Handle_Weather():
@@ -105,10 +105,10 @@ class MainAPP(QWidget, FormClass):
         self.Calender = Calender.MainAPP_Calender()
         self.Music = Music.MainAPP_Music()
         self.Radio = Radio.MainAPP_Radio()
-        #self.Maps = Maps.MainAPP_Map()
+        self.Maps = Maps.MainAPP_Map()
         self.Phone = Phone.MainAPP_Phone()
         self.Setting = Settings.MainAPP_Setting()
-        #self.Video = Video.MainAPP_Video()
+        self.Video = Video.MainAPP_Video()
 
         # creating a timer object
         timer = QTimer(self)
@@ -145,6 +145,7 @@ class MainAPP(QWidget, FormClass):
         self.Phone.show()
 
     def Handle_Setting(self):
+        self.settings.setIcon(QtGui.QIcon(settingsIcon))
         self.Setting.show()
 
     def Handle_Video(self):
@@ -167,12 +168,11 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setText(day + " " + hour)
         self.time_label.setAlignment(Qt.AlignCenter)
         # Condition to change settings to have a software update notification
-        print('Reading...')
         if Comm.Comm_Read(1) == 1:
             # Sets the image of notification to replace the default settings image
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
-        else:  # Condition must be added (If user views the software update)
-            self.settings.setIcon(QtGui.QIcon(settingsIcon))
+        # else:  # Condition must be added (If user views the software update)
+            # self.settings.setIcon(QtGui.QIcon(settingsIcon))
 
 
 # Executing main window
