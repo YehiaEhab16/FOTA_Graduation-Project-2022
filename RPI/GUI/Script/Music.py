@@ -10,13 +10,17 @@ import os
 import pathlib
 import time
 
+
 # Listing available music files from specific directory (Currently -> Music directory inside GUI)
 current_directory = str(pathlib.Path(__file__).parent.absolute())
 MusicFiles = os.listdir(current_directory + '/../Music')
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
 
+Link = parent+'/UI/Music.ui'
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "/home/pi/Desktop/Finial_Project/FOTA_Graduation-Project-2022/RPI/GUI/UI/Music.ui"))
+    ntpath.dirname(__file__), Link))
 
 # Initializing global variables
 currentIndicator = ""

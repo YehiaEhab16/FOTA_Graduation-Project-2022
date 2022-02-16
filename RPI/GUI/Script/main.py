@@ -66,9 +66,6 @@ class SplashScreen(QWidget, FormClass2):
         # creating a timer object
         self.timer2 = QTimer(self)
         # adding action to timer
-        print("Start Comm")
-        thread1 = Comm.Read_thread()
-        thread1.start()
         self.timer2.timeout.connect(self.loading)
         # update the timer every 15 ms
         self.timer2.start(15)
@@ -171,7 +168,7 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setAlignment(Qt.AlignCenter)
         # Condition to change settings to have a software update notification
         print('Reading...')
-        if Comm.Read_Data() == 1:
+        if Comm.Comm_Read(1) == 1:
             # Sets the image of notification to replace the default settings image
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         else:  # Condition must be added (If user views the software update)

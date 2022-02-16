@@ -2,41 +2,27 @@
 import serial 
 import threading
 import time
-# Receive Function
-global data 
-data = '1' 
+
 global Serial_Port
-class Read_thread (threading.Thread):
-	def _init__(self):
-		threading.Thread.__init__(self)
+Serial_Port =None 
 
-
-	def run (self):
-		global Serial_Port
-		Serial_Port = serial.Serial ("/dev/ttyS0") 
-		Serial_Port.baudrate = 9600
-		global data 
-		while True :
-			data = Serial_Port.read(1)
-			#print (data)
-			time.sleep(4)
-			
-
-def Stop_Read (Read_thread):
+def Comm_Init ():
 	global Serial_Port
-	Serial_Port.close()
-	Read_thread.kill()
+	Serial_Port = serial.Serial ("/dev/ttyS0", 9600)
 
-def Start_Read (Read_thread):
-	Read_thread.start()
+def Comm_Read (Size):
+	data = 0
 
-def Read_Data():
-	global data 
 	return data
-	
-def Send(data):
-	Serial_Port = serial.Serial ("/dev/ttyS0",9600)   
-	Serial_Port.baudrate = 9600  
+
+def Comm_Write (data):
+	global Serial_Port
 	Serial_Port.write(data)
+
+def Comm_Kill_Port ():
+	global Serial_Port 
 	Serial_Port.close()
+
+
+
 
