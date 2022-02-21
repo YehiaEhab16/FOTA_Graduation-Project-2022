@@ -13,8 +13,8 @@ The frontend is designed using QT Designer
 
 The GUI is implemeted using PyQt5
 
-## Dependencies 
-### Notes 
+## Dependencies
+### Notes
 
 Do **NOT** install any other version of PyQt5 as all the versions are modern and do not match certain sub libraries such as PyQt5.QtMultimedia
 
@@ -35,7 +35,7 @@ And
 nano /etc/apt/sources.list.d/raspi.list
 ```
 Then write:
-``` 
+```
 deb http://archive.raspberrypi.org/debian/ buster main
 # Uncomment line below then 'apt-get update' to enable 'apt-get source'
 #deb-src http://archive.raspberrypi.org/debian/ buster main
@@ -64,16 +64,15 @@ sudo apt-get install python3-opencv
 python3 -m pip install pyserial
 ```
 
-
 ## Run GUI at Booting Raspian OS
-### Note 
+### Note
 This method lacks some features in the Desktop GUI
 ```sh
-nano ~/bashrc 
+nano ~/bashrc
 ```
-Then write bash script: 
+Then write bash script:
 ```sh
-cd /home/pi/Desktop/Finial_project/FOTA_Graduation-Project-2022/RPI/GUI/Script 
+cd /home/pi/Desktop/Finial_project/FOTA_Graduation-Project-2022/RPI/GUI/Script
 
 python3 main.py
 ```
@@ -82,7 +81,7 @@ And
 nano /home/pi/.config/lxsession/LXDE-pi/autostart
 ```
 
-Then write in the file: 
+Then write in the file:
 ```
 @lxpanel --profile LXDE-pi
 @pcmanfm --desktop --profile LXDE-pi
