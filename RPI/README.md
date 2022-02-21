@@ -12,7 +12,7 @@ The frontend is designed using QT Designer
 The GUI is implemeted using PYQT
 
 # Dependencies 
-##Notes 
+## Notes 
 
 No intall any version of PyQt5 from the server because all versions are modren and no matching with some librarys as multimedia library
 
@@ -62,8 +62,8 @@ sudo apt-get install python3-opencv
 ```
 
 
-#Run GUI at Booting Raspian Os 
-##Note 
+# Run GUI at Booting Raspian Os 
+## Note 
 this method loss some feature in GUI Desktop , i can not slove it
 
 ```sh
