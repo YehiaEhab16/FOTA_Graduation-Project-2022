@@ -1,22 +1,16 @@
-/*
- * main.c
- *
- *  Created on: Feb 17, 2022
- *      Author: saraa
- */
-
-
+   /*****************************************************/
+  /* AUTHOR         : GP2022                           */
+ /* VERSION        : V01                              */
+/*****************************************************/
 
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 #include "RCC_interface.h"
 #include "PORT_interface.h"
-#include "PORT_register.h"
 #include "delay.h"
 #include "GPIO_interface.h"
 #include "USART_interface.h"
-#include "USART_register.h"
 
 
 int main(){
@@ -56,10 +50,10 @@ int main(){
 	 USART_voidTransmitSync(USART1, (u8 *)"esraa\r");
 
 	 /*Receive Data as characters*/
-	//DataChar= USART_u8ReceiveChar(USART1 );
+//	DataChar= USART_u8ReceiveChar(USART1 );
 
 	 /*Receive Data as Strings*/
-//	 DataSTR= USART_ReceiveStr(USART1);
+// 	DataSTR= USART_ReceiveStr(USART1);
 
 	 	 	 	 	 	 /***********************************/
 	 /*CHECK DATA RECIEVED*/
@@ -79,7 +73,6 @@ int main(){
 //
 //  		}
 
-//  	}
 
 	 	 	 	 	 	 /***********************************/
 	 /*CHECK DATA RECIEVED*/
@@ -98,6 +91,6 @@ int main(){
 //
 //
 //		}
-}
+ 	}
 return 0;
 }
