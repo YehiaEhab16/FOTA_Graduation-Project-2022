@@ -65,37 +65,39 @@ void USART_voidTransmitSync(u8 Copy_u8UsartPort, u8 Copy_u8DataArr[])
 //	return (0xFF & (USART -> DR));
 //
 //}
-u8 USART_u8Receive(u8 Copy_u8UsartPort,u8 * Copy_u8Data )
+u8 USART_u8ReceiveChar(u8 Copy_u8UsartPort )
 {
+	u8  Copy_u8Data;
 	USART_t *USART = USART_Get(Copy_u8UsartPort);
-	u8 Local_u8ErrorState = OK ;
 
 
 	while((GET_BIT((USART -> SR), RXNE) == 0));
 
-	*Copy_u8Data = USART -> DR;
+	Copy_u8Data = USART -> DR;
 
-	return Local_u8ErrorState ;
+	return Copy_u8Data ;
 }
 
+
+
+
+
+
 /*Recieve data as string*/
-u8 USART_ReceiveStr(u8 Copy_u8UsartPort, u8 *buffer)
+u8 data[30];
+u8 * USART_ReceiveStr(u8 Copy_u8UsartPort)
 {
-	u8 Local_u8ErrorFlag =OK ;
+	u8 i = 0 , RecData ;
 	USART_t *USART = USART_Get(Copy_u8UsartPort);
+	while( ( RecData = USART_u8ReceiveChar(USART ) ) != '\r' ){
 
-	if (GET_BIT(USART -> CR1,RE))
-	{
-		while(*buffer) {
-			*buffer++ = USART_u8ReceiveChar(Copy_u8UsartPort);
-		}
+		data[ i ] = RecData ;
+		i++;
 	}
-	else
-	{
-		Local_u8ErrorFlag = NOK ;
 
-	}
-	return Local_u8ErrorFlag ;
+	data[i] = '\0';
+
+	return ( data );
 
 }
 
@@ -180,9 +182,4 @@ void USART3_IQRHandler (void)
 	}
 
 }
-
-
-
-
-
 

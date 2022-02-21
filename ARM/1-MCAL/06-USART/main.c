@@ -47,42 +47,57 @@ int main(){
   GPIO_u8SetPinValue(GPIO_PORTC , GPIO_PIN_15, GPIO_PIN_LOW);
 
 
-  //u8 data = 0 ;
-  //USART_voidTransmittChar('A');
-	u8 data1='0' ;
 
+	u8 DataChar ;
+	u8 * DataSTR ;
   while (1)
   	{
+	 /*Transmit Data*/
+	 USART_voidTransmitSync(USART1, (u8 *)"esraa\r");
 
-	//  USART_voidTransmitSync(USART1, "e");
+	 /*Receive Data as characters*/
+	//DataChar= USART_u8ReceiveChar(USART1 );
 
-//	  GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_1, GPIO_PIN_HIGH);
+	 /*Receive Data as Strings*/
+//	 DataSTR= USART_ReceiveStr(USART1);
+
+	 	 	 	 	 	 /***********************************/
+	 /*CHECK DATA RECIEVED*/
+//  		if ( STR_COMPARE( DataSTR , (u8 *)"esraa" ) == 1 )
+//  		{
+//  			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_HIGH);
+//  			delay(300000);
+//  			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_LOW);
+//  			delay(300000);
 //
-	 // data1= USART_u8ReceiveChar(USART1);
-	  USART_u8Receive(USART1,&data1 );
-
 //
-//	  GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_1, GPIO_PIN_LOW);
+//  		}
+//  		else
+//  		{
+//  			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_LOW);
 //
 //
-//
-  		if (data1 == 'e')
-  		{
-  			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_HIGH);
-  			delay(300000);
-  			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_LOW);
-  			delay(300000);
+//  		}
 
-
-  		}
-  		else
-  		{
-  			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_LOW);
-
-
-  		}
-//
 //  	}
+
+	 	 	 	 	 	 /***********************************/
+	 /*CHECK DATA RECIEVED*/
+//		if (DataChar == 'e')
+//		{
+//			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_HIGH);
+//			delay(300000);
+//			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_LOW);
+//			delay(300000);
+//
+//
+//		}
+//		else
+//		{
+//			GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_LOW);
+//
+//
+//		}
 }
 return 0;
 }

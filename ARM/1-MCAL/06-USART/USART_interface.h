@@ -39,14 +39,14 @@ void USART_voidTransmitSync(u8 Copy_u8UsartPort, u8 Copy_u8DataArr[]);
  * @param Copy_u8UsartPort	is Number of USART
  * @return return the received character
  */
-u8 USART_u8Receive(u8 Copy_u8UsartPort,u8 * Copy_u8Data );
+u8 USART_u8ReceiveChar(u8 Copy_u8UsartPort );
 /**
  * @def its Function that receive the string by sync tech
  * @param Copy_u8UsartPort is Number of USART
  * @param buffer its Data String
  * @return ErrorFlag
  */
-u8 USART_ReceiveStr(u8 Copy_u8UsartPort, u8 *buffer);
+u8 * USART_ReceiveStr(u8 Copy_u8UsartPort);
 /**
  * @def its call back function that take the address of the ISR from main
  * @param Copy_u8TypeUSART is Number of USART
