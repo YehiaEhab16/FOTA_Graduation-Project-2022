@@ -22,19 +22,22 @@ Please install the required packcages:
 ```sh
 sudo nano /etc/apt/sources.list
 ```
-save : 
+Write:
+``` 
 deb http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi
 # Uncomment line below then 'apt-get update' to enable 'apt-get source'
 #deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi
+```
 
 ```sh
 nano /etc/apt/sources.list.d/raspi.list
 ```
-save : 
+Write :
+``` 
 deb http://archive.raspberrypi.org/debian/ buster main
 # Uncomment line below then 'apt-get update' to enable 'apt-get source'
 #deb-src http://archive.raspberrypi.org/debian/ buster main
-
+```
 ```sh
 pip install --user --upgrade pip
 
