@@ -53,7 +53,7 @@ u8 * USART_ReceiveStr(u8 Copy_u8UsartPort);
  * @param Notification_Pv represent the address of ISR
  * @return ErrorFlag
  */
-u8 Copy_u8CallBackFunc (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void));
+u8 USART_u8CallBackFunc (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void));
 /**
  *  * @def its Function that receive the string by Async tech
  * @param Copy_u8TypeUSART is Number of USART

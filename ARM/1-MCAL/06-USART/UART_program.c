@@ -52,7 +52,7 @@ void USART_voidTransmitSync(u8 Copy_u8UsartPort, u8 Copy_u8DataArr[])
 	while (Copy_u8DataArr[Local_u8Iterator] != '\0')
 	{
 		USART -> DR = Copy_u8DataArr[Local_u8Iterator];
-		while(GET_BIT (USART -> SR , 6) == 0);
+		while(GET_BIT (USART -> SR , TC) == 0);
 		Local_u8Iterator++;
 	}
 
@@ -88,8 +88,7 @@ u8 data[30];
 u8 * USART_ReceiveStr(u8 Copy_u8UsartPort)
 {
 	u8 i = 0 , RecData ;
-	USART_t *USART = USART_Get(Copy_u8UsartPort);
-	while( ( RecData = USART_u8ReceiveChar(USART ) ) != '\r' ){
+	while( ( RecData = USART_u8ReceiveChar(Copy_u8UsartPort) ) != '\r' ){
 
 		data[ i ] = RecData ;
 		i++;
@@ -106,21 +105,18 @@ u8 USART_u8ReceiveAsy (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void))
 	u8 Local_u8ErrorState =OK ;
 	if (Notification_Pv !=NULL)
 	{
-		switch (Copy_u8TypeUSART)
-		{
-		case USART1 :SET_BIT(USART_Get(Copy_u8TypeUSART)->CR1,RXNIE); break;
-		case USART2 :SET_BIT(USART_Get(Copy_u8TypeUSART)->CR1,RXNIE); break;
-		case USART3 :SET_BIT(USART_Get(Copy_u8TypeUSART)->CR1,RXNIE); break;
-		default : 		break;
-
-		}
+		SET_BIT(USART_Get(Copy_u8TypeUSART)->CR1,RXNIE);
+	}
+	else
+	{
+		Local_u8ErrorState = NOK ;
 	}
 
 	return Local_u8ErrorState ;
 
 }
 
-u8 Copy_u8CallBackFunc (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void))
+u8 USART_u8CallBackFunc (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void))
 {
 	u8 Local_u8ErrorState  =OK ;
 
@@ -140,23 +136,10 @@ u8 Copy_u8CallBackFunc (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void))
 
 
 
-void USART1_IQRHandler (void)
-{
-	if (GET_BIT(USART_Get(0)->CR1,RXNIE))
-	{
-		USART_voidCallBackFunc[USART1]();
-	}
-	else
-	{
-		//Nothing
-
-	}
-}
-
-void USART2_IQRHandler (void)
+void USART1_IRQHandler (void)
 {
 
-	if (GET_BIT(USART_Get(0)->CR1,RXNIE))
+	if (GET_BIT(USART_Get(USART1)->CR1,RXNIE))
 	{
 		USART_voidCallBackFunc[USART1]();
 	}
@@ -168,12 +151,25 @@ void USART2_IQRHandler (void)
 
 }
 
-void USART3_IQRHandler (void)
+void USART2_IRQHandler (void)
+{
+	if (GET_BIT(USART_Get(USART2)->CR1,RXNIE))
+	{
+		USART_voidCallBackFunc[USART2]();
+	}
+	else
+	{
+		//Nothing
+
+	}
+}
+
+void USART3_IRQHandler (void)
 {
 
-	if (GET_BIT(USART_Get(0)->CR1,RXNIE))
+	if (GET_BIT(USART_Get(USART3)->CR1,RXNIE))
 	{
-		USART_voidCallBackFunc[USART1]();
+		USART_voidCallBackFunc[USART3]();
 	}
 	else
 	{
