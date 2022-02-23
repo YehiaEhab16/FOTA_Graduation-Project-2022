@@ -168,7 +168,7 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setText(day + " " + hour)
         self.time_label.setAlignment(Qt.AlignCenter)
         # Condition to change settings to have a software update notification
-        if Comm.Comm_Read(1) == 1:
+        if Comm.Read() == 1:
             # Sets the image of notification to replace the default settings image
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         # else:  # Condition must be added (If user views the software update)

@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-<<<<<<< HEAD
  <class>Error</class>
  <widget class="QTabWidget" name="Error">
-=======
- <class>Tab</class>
- <widget class="QTabWidget" name="Tab">
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -1270,11 +1265,7 @@ ColorButton::disabled {
 }</string>
   </property>
   <property name="currentIndex">
-<<<<<<< HEAD
    <number>0</number>
-=======
-   <number>2</number>
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
   </property>
   <widget class="QWidget" name="tab">
    <attribute name="title">
@@ -1302,7 +1293,6 @@ ColorButton::disabled {
      <string>Back</string>
     </property>
    </widget>
-<<<<<<< HEAD
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
@@ -1485,8 +1475,6 @@ QCheckBox::indicator:checked{
      </property>
     </item>
    </widget>
-=======
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
   </widget>
   <widget class="QWidget" name="tab_1">
    <attribute name="title">
@@ -1514,7 +1502,6 @@ QCheckBox::indicator:checked{
      <string>Back</string>
     </property>
    </widget>
-<<<<<<< HEAD
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -1697,8 +1684,6 @@ QCheckBox::indicator:checked{
      </property>
     </item>
    </widget>
-=======
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
   </widget>
   <widget class="QWidget" name="tab_2">
    <attribute name="title">
@@ -1747,11 +1732,7 @@ QCheckBox::indicator:checked{
      <number>1</number>
     </property>
     <property name="sizeAdjustPolicy">
-<<<<<<< HEAD
      <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
-=======
-     <enum>QAbstractScrollArea::AdjustToContents</enum>
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
     </property>
     <property name="showDropIndicator" stdset="0">
      <bool>true</bool>
@@ -1846,11 +1827,7 @@ QCheckBox::indicator:checked{
    <widget class="QPushButton" name="UpdateCheck">
     <property name="geometry">
      <rect>
-<<<<<<< HEAD
       <x>290</x>
-=======
-      <x>280</x>
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
       <y>370</y>
       <width>201</width>
       <height>41</height>
@@ -1896,19 +1873,11 @@ QCheckBox::indicator:checked{
      <string>Back</string>
     </property>
    </widget>
-<<<<<<< HEAD
    <widget class="QPushButton" name="CheckUp">
     <property name="geometry">
      <rect>
       <x>140</x>
       <y>360</y>
-=======
-   <widget class="QPushButton" name="Diagnos">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>340</y>
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
       <width>231</width>
       <height>41</height>
      </rect>
@@ -1920,7 +1889,6 @@ QCheckBox::indicator:checked{
      </font>
     </property>
     <property name="styleSheet">
-<<<<<<< HEAD
      <string notr="true">color: rgb(0, 85, 255);</string>
     </property>
     <property name="text">
@@ -2372,40 +2340,15 @@ QCheckBox::indicator:checked{
       <y>90</y>
       <width>141</width>
       <height>41</height>
-=======
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Send Diagnostics Data</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QWidget" name="tab_4">
-   <attribute name="title">
-    <string>Date and Time</string>
-   </attribute>
-   <widget class="QPushButton" name="back_5">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
      </rect>
     </property>
     <property name="font">
      <font>
-<<<<<<< HEAD
       <pointsize>15</pointsize>
-=======
-      <pointsize>10</pointsize>
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
       <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
-<<<<<<< HEAD
      <string notr="true">color: rgb(255, 0, 0);</string>
     </property>
     <property name="text">
@@ -2432,12 +2375,6 @@ QCheckBox::indicator:checked{
     </property>
     <property name="text">
      <string>2/2/2022</string>
-=======
-     <string notr="true">color: rgb(170, 0, 0);</string>
-    </property>
-    <property name="text">
-     <string>Back</string>
->>>>>>> ff62ba942b992b58f0baf1c8c82d19b289974242
     </property>
    </widget>
   </widget>
