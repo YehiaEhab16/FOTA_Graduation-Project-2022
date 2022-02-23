@@ -65,90 +65,6 @@ QWidget:item:selected
     background-color: #3d8ec9;
 }
 
-QCheckBox
-{
-    spacing: 5px;
-    outline: none;
-    color: #bbb;
-    margin-bottom: 2px;
-}
-
-QCheckBox:disabled
-{
-    color: #777777;
-}
-QCheckBox::indicator,
-QGroupBox::indicator
-{
-    width: 18px;
-    height: 18px;
-}
-QGroupBox::indicator
-{
-    margin-left: 2px;
-}
-
-QCheckBox::indicator:unchecked,
-QCheckBox::indicator:unchecked:hover,
-QGroupBox::indicator:unchecked,
-QGroupBox::indicator:unchecked:hover
-{
-    image: url(:/dark_blue/img/checkbox_unchecked.png);
-}
-
-QCheckBox::indicator:unchecked:focus,
-QCheckBox::indicator:unchecked:pressed,
-QGroupBox::indicator:unchecked:focus,
-QGroupBox::indicator:unchecked:pressed
-{
-  border: none;
-    image: url(:/dark_blue/img/checkbox_unchecked_focus.png);
-}
-
-QCheckBox::indicator:checked,
-QCheckBox::indicator:checked:hover,
-QGroupBox::indicator:checked,
-QGroupBox::indicator:checked:hover
-{
-    image: url(:/dark_blue/img/checkbox_checked.png);
-}
-
-QCheckBox::indicator:checked:focus,
-QCheckBox::indicator:checked:pressed,
-QGroupBox::indicator:checked:focus,
-QGroupBox::indicator:checked:pressed
-{
-  border: none;
-    image: url(:/dark_blue/img/checkbox_checked_focus.png);
-}
-
-QCheckBox::indicator:indeterminate,
-QCheckBox::indicator:indeterminate:hover,
-QCheckBox::indicator:indeterminate:pressed
-QGroupBox::indicator:indeterminate,
-QGroupBox::indicator:indeterminate:hover,
-QGroupBox::indicator:indeterminate:pressed
-{
-    image: url(:/dark_blue/img/checkbox_indeterminate.png);
-}
-
-QCheckBox::indicator:indeterminate:focus,
-QGroupBox::indicator:indeterminate:focus
-{
-    image: url(:/dark_blue/img/checkbox_indeterminate_focus.png);
-}
-
-QCheckBox::indicator:checked:disabled,
-QGroupBox::indicator:checked:disabled
-{
-    image: url(:/dark_blue/img/checkbox_checked_disabled.png);
-}
-
-QCheckBox::indicator:unchecked:disabled,
-QGroupBox::indicator:unchecked:disabled
-{
-    image: url(:/dark_blue/img/checkbox_unchecked_disabled.png);
-}
 
 QRadioButton
 {
@@ -1303,42 +1219,33 @@ ColorButton::disabled {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QCheckBox {
-	border-radius: 14px;
-	background-color: #ddd;
-	transition: background-color 0.09s ease-in-out;
-	position: relative;
-}
-QCheckBox:checked 
-{
-	background-color: #3af;
-}
-QCheckBox::indicator:unchecked{
-	content: ' ';
-	width: 1.5em;
-	height: 1.5em;
-	background-color: white;
-	border-radius: 12px;
-	position: absolute;
-	trasform: scale(0.7);
-	left: 3;
-	transition: left 0.09s ease-in-out;
+     <string notr="true">QCheckBox::indicator{
+	width: 50px;
+	height: 50px;
 }
 
-QCheckBox::indicator:checked{
-	content: ' ';
-	width: 1.5em;
-	height: 1.5em;
-	background-color: white;
-	border-radius: 12px;
-	position: absolute;
-	trasform: scale(0.7);
-	left: 32;
-	transition: left 0.09s ease-in-out;
+QCheckBox::indicator:unchecked {
+	image: url(:/images/switch_off.png);
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/images/switch_on.png);
 }</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="tristate">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -1537,38 +1444,17 @@ QCheckBox::indicator:checked{
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QCheckBox {
-	border-radius: 14px;
-	background-color: #ddd;
-	transition: background-color 0.09s ease-in-out;
-	position: relative;
-}
-QCheckBox:checked 
-{
-	background-color: #3af;
-}
-QCheckBox::indicator:unchecked{
-	content: ' ';
-	width: 1.5em;
-	height: 1.5em;
-	background-color: white;
-	border-radius: 12px;
-	position: absolute;
-	trasform: scale(0.7);
-	left: 3;
-	transition: left 0.09s ease-in-out;
+     <string notr="true">QCheckBox::indicator{
+	width: 50px;
+	height: 50px;
 }
 
-QCheckBox::indicator:checked{
-	content: ' ';
-	width: 1.5em;
-	height: 1.5em;
-	background-color: white;
-	border-radius: 12px;
-	position: absolute;
-	trasform: scale(0.7);
-	left: 32;
-	transition: left 0.09s ease-in-out;
+QCheckBox::indicator:unchecked {
+	image: url(:/images/switch_off.png);
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/images/switch_on.png);
 }</string>
     </property>
     <property name="text">
@@ -2379,6 +2265,8 @@ QCheckBox::indicator:checked{
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Images/images.qrc"/>
+ </resources>
  <connections/>
 </ui>
