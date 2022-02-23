@@ -12,6 +12,8 @@ import Weather
 import Video
 import ntpath
 
+import os
+
 # importing required packages
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QTimer, Qt
@@ -29,16 +31,24 @@ settingsNotificationPath = current_directory + \
     '/../Images/settingsNotification.png'
 settingsIcon = current_directory + '/../Images/settingsLogo.png'
 
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
+
+Link = parent+'/UI/MainWindow.ui'
+Link1 = parent+'/UI/SplashScreen.ui'
+
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/MainWindow.ui"))
+    ntpath.dirname(__file__), Link))
 FormClass2, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/SplashScreen.ui"))
+    ntpath.dirname(__file__), Link1))
 
 VarGlobal = None
 
-
+global thread1
 # Exit button
+
+
 def Handle_Exit():
     sys.exit()
 
@@ -48,6 +58,7 @@ class SplashScreen(QWidget, FormClass2):
     def __init__(self, parent=None):
         self.Window_Loop = MainAPP()
         global VarGlobal
+        global thread1
         super(SplashScreen, self).__init__(parent)
         QWidget.__init__(self)
         self.setupUi(self)
@@ -70,7 +81,6 @@ class SplashScreen(QWidget, FormClass2):
     # Loading Screen Function
     def loading(self):
         self.counter = self.counter + 1
-
         if self.counter > 100:
             self.timer2.stop()
             time.sleep(1)
@@ -135,6 +145,7 @@ class MainAPP(QWidget, FormClass):
         self.Phone.show()
 
     def Handle_Setting(self):
+        self.settings.setIcon(QtGui.QIcon(settingsIcon))
         self.Setting.show()
 
     def Handle_Video(self):
@@ -148,6 +159,7 @@ class MainAPP(QWidget, FormClass):
 
     # Timer Function to update time label
     def showTime(self):
+        global thread1
         # getting current time
         currentTime = datetime.datetime.now()
         day = currentTime.strftime("%a")
@@ -156,11 +168,11 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setText(day + " " + hour)
         self.time_label.setAlignment(Qt.AlignCenter)
         # Condition to change settings to have a software update notification
-        if Comm.Read_Data() == 1:
+        if Comm.Comm_Read(1) == 1:
             # Sets the image of notification to replace the default settings image
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
-        else:  # Condition must be added (If user views the software update)
-            self.settings.setIcon(QtGui.QIcon(settingsIcon))
+        # else:  # Condition must be added (If user views the software update)
+            # self.settings.setIcon(QtGui.QIcon(settingsIcon))
 
 
 # Executing main window

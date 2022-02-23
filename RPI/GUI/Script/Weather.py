@@ -7,11 +7,18 @@ from PyQt5.QtCore import QThread, pyqtSignal, QTimer
 from PyQt5.QtGui import QPixmap
 import requests
 import urllib.request
+import os
+
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
+
+Link = parent+'/UI/Weather.ui'
+
 
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Weather.ui"))
+    ntpath.dirname(__file__), Link))
 
 
 # Thread for accessing weather api

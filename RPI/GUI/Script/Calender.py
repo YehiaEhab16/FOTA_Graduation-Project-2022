@@ -3,10 +3,14 @@ import ntpath
 from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUiType
 
+import os
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
 
+Link = parent+'/UI/Calendar.ui'
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Calendar.ui"))
+    ntpath.dirname(__file__), Link))
 
 
 # Define main window

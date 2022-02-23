@@ -3,19 +3,24 @@ import ntpath
 from PyQt5.QtWidgets import QStyle, QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.uic import loadUiType
+#import PyQt5.QtMultimedia
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtCore import QThread, pyqtSignal
 import os
 import pathlib
 import time
 
+
 # Listing available music files from specific directory (Currently -> Music directory inside GUI)
 current_directory = str(pathlib.Path(__file__).parent.absolute())
 MusicFiles = os.listdir(current_directory + '/../Music')
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
 
+Link = parent+'/UI/Music.ui'
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Music.ui"))
+    ntpath.dirname(__file__), Link))
 
 # Initializing global variables
 currentIndicator = ""

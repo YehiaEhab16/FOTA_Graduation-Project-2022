@@ -1,4 +1,3 @@
-# importing required packages
 from PyQt5 import QtGui
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QUrl, QSize
@@ -11,11 +10,14 @@ import os
 import sys
 import cv2
 
-# Getting Current Directory
+# Gettsing Current Directory
 current_directory = str(pathlib.Path(__file__).parent.absolute())
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
 
+Link = parent+'/Videos'
 # Listing available videos from specific directory
-videoFiles = os.listdir(current_directory + '/../Videos')
+videoFiles = os.listdir(Link)
 
 
 # Main Window
