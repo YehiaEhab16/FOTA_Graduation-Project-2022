@@ -5,7 +5,7 @@ import Comm
 import Calender
 import Music
 import Radio
-import Maps
+import Guide
 import Phone
 import Settings
 import Weather
@@ -95,7 +95,7 @@ class MainAPP(QWidget, FormClass):
         self.Calender = Calender.MainAPP_Calender()
         self.Music = Music.MainAPP_Music()
         self.Radio = Radio.MainAPP_Radio()
-        self.Maps = Maps.MainAPP_Map()
+        self.Guide = Guide.MainAPP_Guide()
         self.Phone = Phone.MainAPP_Phone()
         self.Setting = Settings.MainAPP_Setting()
         self.Video = Video.MainAPP_Video()
@@ -119,7 +119,7 @@ class MainAPP(QWidget, FormClass):
         self.weather.clicked.connect(Handle_Weather)
         self.radio.clicked.connect(self.Handle_Radio)
         self.video.clicked.connect(self.Handle_Video)
-        self.maps.clicked.connect(self.Handle_Maps)
+        self.guide.clicked.connect(self.Handle_Guide)
         self.settings.clicked.connect(self.Handle_Setting)
         self.phone.clicked.connect(self.Handle_Phone)
         self.exit.clicked.connect(Handle_Exit)
@@ -128,8 +128,8 @@ class MainAPP(QWidget, FormClass):
     def Handle_Radio(self):
         self.Radio.show()
 
-    def Handle_Maps(self):
-        self.Maps.show()
+    def Handle_Guide(self):
+        self.Guide.show()
 
     def Handle_Phone(self):
         self.Phone.show()

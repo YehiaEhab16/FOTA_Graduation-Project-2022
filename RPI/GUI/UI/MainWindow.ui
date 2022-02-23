@@ -620,7 +620,7 @@ QPushButton
     padding-bottom: 2px;
     padding-left: 10px;
     padding-right: 10px;
-    border-radius: 4px;
+    border-radius: 8px;
     /* outline: none; */
     /* min-width: 40px; */
 }
@@ -1281,7 +1281,7 @@ ColorButton::disabled {
     <string>Radio</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="maps">
+  <widget class="QPushButton" name="guide">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -1298,7 +1298,7 @@ ColorButton::disabled {
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Images/mapsLogo.png</normaloff>../Images/mapsLogo.png</iconset>
+     <normaloff>../Images/guide.jpg</normaloff>../Images/guide.jpg</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1328,7 +1328,7 @@ ColorButton::disabled {
     <string notr="true">color:rgb(255, 255, 255)</string>
    </property>
    <property name="text">
-    <string>Maps</string>
+    <string>Guide</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">

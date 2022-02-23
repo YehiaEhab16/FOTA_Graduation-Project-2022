@@ -6,22 +6,21 @@ from PyQt5.uic import loadUiType
 
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Calendar.ui"))
+    ntpath.dirname(__file__), "../UI/Guide.ui"))
 
 
 # Define main window
-class MainAPP_Calender (QWidget, FormClass):
+class MainAPP_Guide (QWidget, FormClass):
     def __init__(self, parent=None):
-        super(MainAPP_Calender, self).__init__(parent)
+        super(MainAPP_Guide, self).__init__(parent)
         QWidget.__init__(self)
         self.setupUi(self)
         self.Handle_Buttons()
         self.window()
 
     def window(self):
-        self.setWindowTitle("Calendar")
+        self.setWindowTitle("Guide")
         self.setFixedSize(800, 480)
-    # GUI buttons
 
     def Handle_Buttons(self):
         self.back.clicked.connect(self.Handle_Exit)
