@@ -1,32 +1,29 @@
 # Functions for communication protocol
-# import serial
+import serial
 import threading
 import time
 
-# Receive Function
-global data
-data = '1'
+global Serial_Port
+Serial_Port = None
 
 
-class Read_thread(threading.Thread):
-    def _init__(self):
-        threading.Thread.__init__(self)
-
-    def run(self):
-        pass
+def Comm_Init():
+    global Serial_Port
+    Serial_Port = serial.Serial("/dev/ttyS0", 9600)
 
 
-def Stop_Read(Read_thread):
-    return 0
+def Comm_Read(lenght):
+    global Serial_Port
+    #Serial_Port = serial.Serial("/dev/ttyS0", 9600)
+    data = Serial_Port.read(lenght)
+    return data
 
 
-def Start_Read(Read_thread):
-    return 0
+def Comm_Write(data):
+    global Serial_Port
+    Serial_Port.write(data)
+    
 
-
-def Read():
-    return 0
-
-
-def Send(data):
-    return 0
+def Comm_Kill_Port():
+    global Serial_Port
+    Serial_Port.close()

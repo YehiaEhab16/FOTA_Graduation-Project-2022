@@ -1,7 +1,7 @@
 # importing defined Modules
 import time
 
-import Comm
+from Comm import *
 import Calender
 import Music
 import Radio
@@ -45,7 +45,8 @@ FormClass2, _ = loadUiType(ntpath.join(
 
 VarGlobal = None
 
-global thread1
+global counter
+counter =0 
 # Exit button
 
 
@@ -86,6 +87,7 @@ class SplashScreen(QWidget, FormClass2):
             time.sleep(1)
             # CLose load window and open main window
             self.close()
+            Comm_Init()
             self.Window_Loop.show()
 
 
@@ -159,7 +161,7 @@ class MainAPP(QWidget, FormClass):
 
     # Timer Function to update time label
     def showTime(self):
-        global thread1
+        global counter
         # getting current time
         currentTime = datetime.datetime.now()
         day = currentTime.strftime("%a")
@@ -167,10 +169,20 @@ class MainAPP(QWidget, FormClass):
         # showing it to the label
         self.time_label.setText(day + " " + hour)
         self.time_label.setAlignment(Qt.AlignCenter)
+        counter =counter +1
         # Condition to change settings to have a software update notification
-        if Comm.Read() == 1:
-            # Sets the image of notification to replace the default settings image
-            self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
+        #Comm_Write(str.encode('2'));
+        if counter == 100000 :
+            data =0
+            Comm_Write(str.encode('2'));
+            time.sleep(0.03)
+            data = int(Comm_Read(1))
+            print(data)        
+            if data == 1:
+                print(1)
+                Comm_Write(str.encode('2'));
+                self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
+            counter=0
         # else:  # Condition must be added (If user views the software update)
             # self.settings.setIcon(QtGui.QIcon(settingsIcon))
 

@@ -5,9 +5,13 @@ from PyQt5.uic import loadUiType
 import Comm
 import os
 
+cwd = os.getcwd()
+parent = os.path.dirname(cwd)
+
+Link = parent+'/UI/Settings.ui'
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
-    ntpath.dirname(__file__), "../UI/Settings.ui"))
+    ntpath.dirname(__file__), Link))
 
 
 # Define main window
