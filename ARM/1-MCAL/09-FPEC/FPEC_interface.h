@@ -24,14 +24,14 @@ void FPEC_voidInit(void);
  * @param Copy_u8EndPage  End Page
  * @return Error Flag when erase  the Boot Loader code
  */
-u8 FPEC_voidEraseFlashArea(u8 Copy_u8StartPage , u8 Copy_u8EndPage );
+u8 FPEC_voidEraseFlashArea(u32 Copy_u32StartPageAddress , u32 Copy_u32EndPageAdress );
 
 /**
  * @def Erase all flash memory
  * @return Error Flag when erase the boot loader code
  */
 
-u8 FPEC_voidEraseFlash(void);
+void FPEC_voidEraseFlash(void);
 
 
 

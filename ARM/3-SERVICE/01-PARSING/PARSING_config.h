@@ -12,7 +12,7 @@
 
 /*Base of Flash Memory in STM32*/
 
-#define PARSING_BASE_ADDRESS				0x80000000
+#define PARSING_BASE_ADDRESS				0x08000000
 
 
 

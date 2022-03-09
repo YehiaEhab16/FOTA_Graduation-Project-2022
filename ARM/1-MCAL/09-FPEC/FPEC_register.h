@@ -11,11 +11,6 @@
 #define FPEC_REGISTER_H_
 
 
-
-
-
-
-
 typedef struct
 {
 	volatile u32 FLASH_ACR    ;
@@ -31,7 +26,7 @@ typedef struct
 }FPEC_T;
 
 
-#define FPEC			(FPEC_T*)(0x4002 2000)
+#define FPEC			((FPEC_T*)(0x40022000))
 
 
 
