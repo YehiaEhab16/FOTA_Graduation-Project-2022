@@ -123,7 +123,7 @@ void FPEC_voidFlashWrite(u32 Copy_u32Address, u16* Copy_u16Data, u8 Copy_u8Lengt
 		SET_BIT(FPEC->FLASH_SR,5);
 		CLR_BIT(FPEC->FLASH_CR,0);
 
-		Copy_u32Address++;
+		Copy_u32Address=Copy_u32Address+2;
 
 
 
