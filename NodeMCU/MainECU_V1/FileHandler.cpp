@@ -1,30 +1,46 @@
-#if defined(ESP32)
-#include <WiFi.h>
-#elif defined(ESP8266)
-#include <ESP8266WiFi.h>
-#endif
+#include "Debug.h"
+#include "FileHandler.h"
 
-#include <Firebase_ESP_Client.h>
-#include <addons/TokenHelper.h>                           //Provide the token generation process info.
-#include "FS.h"
-#include "SPIFFS.h"
-
-
-void SendFile(fs::FS &fs, const char * path)
+void SendFile(fs::FS &fs, String path) 
 {
-  Serial.printf("Reading file: %s\r\n", path);
+  char FileByte;
+  debugf("Reading file: %s\r\n", path);
 
   File file = fs.open(path);
   if (!file || file.isDirectory()) {
-    Serial.println("Failed to open file for reading");
+    debugln("- failed to open file for reading");
     return;
   }
 
-  Serial.println("Read from file:");
+  debugln("- read from file:");
   while (file.available()) {
-    temp = file.read();
-    Serial.write(temp);
+    FileByte = file.read();
+    Serial.write(FileByte);
   }
-  file.close();
+  file.close(); 
+}
+
+String Read_FileName(void)
+{
+  char inChar;
+  String inputString = "";
+  bool stringComplete = false;
+  while (!stringComplete) {
+    if(Serial.available())
+    {
+      inChar = (char)Serial.read();   //Reading character from serial
+      if (inChar == '#')                   //Checking for stop bit '#'
+      {
+        stringComplete = true;             //Setting flag to indicate recieving of string
+      }
+      if(!stringComplete)
+      inputString += inChar;            //Concatenating string until reaching full message
+    }
+  }
+  if(stringComplete == true)
+  {
+    stringComplete=false;
+    return inputString;
+  }
 }
 
