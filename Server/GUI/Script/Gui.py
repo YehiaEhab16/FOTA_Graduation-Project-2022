@@ -23,7 +23,7 @@ def update(self, version, error, db, QMessageBox):
     # Error Detection
     if error is not None:
         if error != '0':
-            db.child("Feedback").update({"Uid": "0"})
+            db.child("FactoryFeedback").update({"Uid": "0"})
             self.error.setText("Error Code 0xff")
             QMessageBox.warning(self, 'Error Detected',
                                 'Check the error code for more details')
@@ -42,18 +42,18 @@ def upload(self, db, storage, QMessageBox):
         fileNameWithoutExtension = filePath.split('\\')[-1][:-2]
 
     try:
-        versionCheck = db.child("Software").child(
+        versionCheck = db.child("FactorySoftware").child(
             fileNameWithoutExtension).get()  # checking if the file is already on the server
         if versionCheck.val() is None:
             # if file doesn't exist -> add path in database and update the storage
             storage.child(fileName).put(filePath)
-            db.child("Software").update(
+            db.child("FactorySoftware").update(
                 {fileNameWithoutExtension: "1"})
         else:
             # if file is existing -> update version in database and update storage
             storage.child(fileName).put(filePath)
             versionNumber = str(int(versionCheck.val()) + 1)
-            db.child("Software").update(
+            db.child("FactorySoftware").update(
                 {fileNameWithoutExtension: versionNumber})
         QMessageBox.information(self, 'Done Uploading',
                                 'The file was successfully uploaded to the server')
