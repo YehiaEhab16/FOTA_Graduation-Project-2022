@@ -16,5 +16,6 @@
  * @return CRC Value
  */
 u32 CRC_u8CalculationHardware(u32 Copy_u32Data);
+void CRC_voidInit (void) ;
 
 #endif

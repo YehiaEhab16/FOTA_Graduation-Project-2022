@@ -52,7 +52,7 @@ void USART_voidTransmitSync(u8 Copy_u8UsartPort, u8 Copy_u8DataArr[])
 	while (Copy_u8DataArr[Local_u8Iterator] != '\0')
 	{
 		USART -> DR = Copy_u8DataArr[Local_u8Iterator];
-		while(GET_BIT (USART -> SR , TC) == 0);
+		while(GET_BIT (USART -> SR , 6) == 0);
 		Local_u8Iterator++;
 	}
 

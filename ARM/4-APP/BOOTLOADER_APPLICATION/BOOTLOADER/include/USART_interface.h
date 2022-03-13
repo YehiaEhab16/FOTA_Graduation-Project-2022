@@ -61,6 +61,7 @@ u8 USART_u8CallBackFunc (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void));
  * @return ErrorFlag
  */
 u8 USART_u8ReceiveAsy (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void));
+void MUSART1_voidTransmit(u8 arr[]);
 
 
 #endif

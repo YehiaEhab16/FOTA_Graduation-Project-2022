@@ -17,7 +17,7 @@ volatile u32 CRC_CR ;
 
 }CRC_T;
 
-#define CRC		((CRC_T*)(0x40023400))
+#define CRC		((CRC_T*)(0x40023000))
 
 
 

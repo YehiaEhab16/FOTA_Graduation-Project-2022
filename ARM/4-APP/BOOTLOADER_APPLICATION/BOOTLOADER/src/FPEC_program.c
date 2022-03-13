@@ -81,6 +81,14 @@ void FPEC_voidEraseFlash(void)
 u8 FPEC_voidFlashPageErase(u8 Copy_u8PageNumber)
 {
 	u8 Local_u8ErrorState =OK ;
+	while (GET_BIT(FPEC->FLASH_SR ,0)==1);
+
+	/*Un lock the flash and FPEC_CR */
+	if (GET_BIT(FPEC->FLASH_CR,7)== 1)
+	{
+		FPEC->FLASH_KEYR =  0x45670123;
+		FPEC->FLASH_KEYR =  0xCDEF89AB;
+	}
 
 	if (Copy_u8PageNumber<=FPEC_MAX_NUM_PAGE)
 	{
@@ -107,9 +115,17 @@ u8 FPEC_voidFlashPageErase(u8 Copy_u8PageNumber)
 
 void FPEC_voidFlashWrite(u32 Copy_u32Address, u16* Copy_u16Data, u8 Copy_u8Length)
 {
+	u8 Local_u8Counter ;
+	while (GET_BIT(FPEC->FLASH_SR ,0)==1);
 
+	/*Un lock the flash and FPEC_CR */
+	if (GET_BIT(FPEC->FLASH_CR,7)== 1)
+	{
+		FPEC->FLASH_KEYR =  0x45670123;
+		FPEC->FLASH_KEYR =  0xCDEF89AB;
+	}
 
-	for (u8 Local_u8Counter = 0 ; Local_u8Counter<Copy_u8Length ; Local_u8Counter++)
+	for (Local_u8Counter = 0 ; Local_u8Counter<Copy_u8Length ; Local_u8Counter++)
 	{
 
 		SET_BIT(FPEC->FLASH_CR,0);
@@ -123,18 +139,9 @@ void FPEC_voidFlashWrite(u32 Copy_u32Address, u16* Copy_u16Data, u8 Copy_u8Lengt
 		SET_BIT(FPEC->FLASH_SR,5);
 		CLR_BIT(FPEC->FLASH_CR,0);
 
-		Copy_u32Address++;
-
-
-
-
+		Copy_u32Address=Copy_u32Address +2 ;
 
 	}
-
-
-
-
-
 
 
 

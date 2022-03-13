@@ -67,7 +67,7 @@ Option1 Select : 1- PORT_INPUT_ANALOG_MODE
 #define PORTA_PIN7_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN8_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN9_DIR                     PORT_OUPUT_10MHZ_AF_PUSH_PULL
-#define PORTA_PIN10_DIR                    PORT_INPUT_PULL_UP_DOWN
+#define PORTA_PIN10_DIR                    PORT_INPUT_FLOATING
 #define PORTA_PIN11_DIR                    PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN12_DIR                    PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN13_DIR                    PORT_OUPUT_2MMHZ_PUSH_PULL
@@ -107,12 +107,12 @@ Option Select : 1- (1) 				: HIGH Level
 
 
 
-#define PORTA_PIN0_INITIAL					1
-#define PORTA_PIN1_INITIAL                  1
-#define PORTA_PIN2_INITIAL                  1
-#define PORTA_PIN3_INITIAL                  1
-#define PORTA_PIN4_INITIAL                  1
-#define PORTA_PIN5_INITIAL                  1
+#define PORTA_PIN0_INITIAL					0
+#define PORTA_PIN1_INITIAL                  0
+#define PORTA_PIN2_INITIAL                  0
+#define PORTA_PIN3_INITIAL                  0
+#define PORTA_PIN4_INITIAL                  0
+#define PORTA_PIN5_INITIAL                  0
 #define PORTA_PIN6_INITIAL                  1
 #define PORTA_PIN7_INITIAL                  1
 #define PORTA_PIN8_INITIAL                  1

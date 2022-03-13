@@ -27,7 +27,7 @@
 /**
  * maxium Page
  */
-#define FPEC_MAX_NUM_PAGE			64
+#define FPEC_MAX_NUM_PAGE			128
 
 
 /**
