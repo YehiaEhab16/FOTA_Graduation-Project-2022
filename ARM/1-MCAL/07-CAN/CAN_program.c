@@ -9,6 +9,7 @@
 #include "CAN_private.h"
 #include "CAN_config.h"
 
+
 CAN_msg  CAN_TxMsg, CAN_RxMsg;
 
 static CAN_t *CAN_Get(u8 can) {
@@ -35,8 +36,8 @@ static void CAN_PinConfig(u8 can) {
     }
 }
 
-PERIPHERAL_t CAN_Peripherals[] = {{RCC_APB1,RCC_APB1_CAN1_EN},
-								  {RCC_APB1,RCC_APB1_CAN2_EN}};
+PERIPHERAL_t CAN_Peripherals[] = {{RCC_APB1,RCC_APB1_CAN_EN},
+								  {RCC_APB1,RCC_APB1_CAN_EN}};
 
 void CAN_voidInit(u8 Copy_u8CAN, u32 Copy_u32Mode)
 {
@@ -110,7 +111,7 @@ static void CAN_write (CAN_t *CAN, CAN_msg *msg, u8 Copy_u8MailBoxIndex)
 	 Copy_u8FrameType :  (DATA_FRAME \OR REMOTE_FRAME)
      Mailbox :			 to send the Message
 
-*/
+//*/
 void CAN_voidTransmit(u8 Copy_u8CAN, u32 Copy_u32ID, u8 Copy_u8IDType, u8 Copy_u8FrameType, u8 *m, u8 mailIndex)
 {  	u8 Local_u8ByteCount;
 	CAN_t *CAN = CAN_Get(Copy_u8CAN);
@@ -125,52 +126,7 @@ void CAN_voidTransmit(u8 Copy_u8CAN, u32 Copy_u32ID, u8 Copy_u8IDType, u8 Copy_u
   	CAN_write(CAN, &CAN_TxMsg, mailIndex);   // transmit message
 }
 
-//Initialize Filters
-static void CAN_wrFilter (CAN_t *CAN, u32 Copy_u32ID, u8 Copy_u8IDFormat) /***** temporary *****/
-{
-	static u8 Local_u8FilterNumber = FilterNumber;
-		u32   CAN_msgId = 0;
 
-		if (Local_u8FilterNumber > 27) {return;}
-		// Setup identifier information
-		switch (Copy_u8IDFormat)
-		{
-		case CAN_ID_STD: CAN_msgId  |= (u32)(Copy_u32ID << 21) ; break;
-		case CAN_ID_EXT: CAN_msgId  |= (u32)(Copy_u32ID <<3) | 4; break;
-		}
-
-
-		CAN->FA1R &=  ~(u32)(1 << Local_u8FilterNumber); // deactivate filter
-
-		// initialize filter
-		CAN->FS1R |= (u32)(1 << Local_u8FilterNumber);// set 32-bit scale configuration
-		CAN->FM1R |= (u32)(1 << Local_u8FilterNumber);// set 2 32-bit identifier list mode
-
-		CAN->sFilterRegister[Local_u8FilterNumber].FR1 = CAN_msgId; //  32-bit identifier
-		CAN->sFilterRegister[Local_u8FilterNumber].FR2 = CAN_msgId; //  32-bit identifier
-
-		switch (FilterFIFO)
-		{
-			case CAN_FIFO_0: CAN->FFA1R &= ~(u32)(1 << Local_u8FilterNumber); break;  // assign filter to FIFO 0
-			case CAN_FIFO_1: CAN->FFA1R |= (u32)(1 << Local_u8FilterNumber); break;  // assign filter to FIFO 1
-			default: CAN->FFA1R &= ~(u32)(1 << Local_u8FilterNumber);
-		}
-
-		CAN->FA1R  |=  (u32)(1 << Local_u8FilterNumber);  // activate filter
-
-		Local_u8FilterNumber += 1;                             // increase filter index
-		CAN->RF0R=RELEASE;
-
-}
-
-void CAN_voidFiltersInit(u8 Copy_u8CAN, u32 Copy_u32ID)
-{
-	CAN_t *CAN = CAN_Get(Copy_u8CAN);
-	CAN->FMR = 1;                                   		   		 //init mode for filters
-	CAN_wrFilter (CAN, Copy_u32ID, CAN_ID_EXT);
-	CAN->FMR &= ~1;                         						 // Active filters mode.
-
-}
 
 static void CAN_voidRead(CAN_t* CAN, CAN_msg *msg, u8 Copy_u8FIFOIndex)
 {
@@ -223,6 +179,185 @@ void CAN_voidReceive(u8 Copy_u8CAN, CAN_msg *msg, u8 Copy_u8FIFOIndex)
 	{
 		CAN_voidRead(CAN, msg, Copy_u8FIFOIndex);
 	}
-	Receive_FIFO_Reg |= RELEASE;		// Release FIFO
+	//Receive_FIFO_Reg |= RELEASE;		// Release FIFO
 }
 
+void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct)
+{
+
+	CAN_t *CAN = CAN_Get(Copy_u8CAN);
+
+	    u32 Local_u32filterNumberPosition ; // filter posotion number in the register
+	    u8  Local_u8FilterBankExidId ;	   //contain exdended [15 :17] of filter id
+	    u8  Local_u8FilterBankRtrId  ; //contain rtr offilter id
+	    u8  Local_u8FilterBankIdeId  ; //contain ide of filter id
+	    u16 Local_u16FilterBankStdId ;//contain std id of filter id
+
+		u8  Local_u8FilterBankExidMaskId ;	//contain exdended [15 :17] of filter mask id
+	    u8  Local_u8FilterBankRtrMaskId  ;  //contain rtr of filter  mask id
+	    u8  Local_u8FilterBankIdeIdMask  ;  //contain ide of filter  mask id
+	    u16 Local_u16FilterBankStdIdMask ; //contain std id of filter mask id
+
+		u16 Local_u16FilterbankId  ;  // new id to set in 16-scale filter bank
+		u16 Local_u16FilterbankMaskId  ;  // new maske id to set in 16-scale filter bank
+
+
+	            /*Get STID[10:3] STID[2:0] RTR IDE EXID[17:15] of filter id */
+		Local_u8FilterBankExidId   = (u8)   ((0x00038000 & CAN_FilterInitStruct->CAN_FilterId) >> 15  ) ;
+		Local_u8FilterBankRtrId    = (u8)   ((0x00000002 & CAN_FilterInitStruct->CAN_FilterId) << 3   ) ;
+		Local_u8FilterBankIdeId    = (u8)   ((0x00000004 & CAN_FilterInitStruct->CAN_FilterId) << 1   ) ;
+		Local_u16FilterBankStdId   = (u16)  ((0xFFE00000 & CAN_FilterInitStruct->CAN_FilterId) >> 16  );
+
+			            /*Get STID[10:3] STID[2:0] RTR IDE EXID[17:15] of  filter mask id */
+		Local_u8FilterBankExidMaskId = (u8) ((0x00038000 & CAN_FilterInitStruct->CAN_FilterMaskId) >> 15  ) ;
+		Local_u8FilterBankRtrMaskId  = (u8) ((0x00000002 & CAN_FilterInitStruct->CAN_FilterMaskId) << 3   ) ;
+		Local_u8FilterBankIdeIdMask  = (u8) ((0x00000004 & CAN_FilterInitStruct->CAN_FilterMaskId) << 1   ) ;
+		Local_u16FilterBankStdIdMask =(u16) ((0xFFE00000 & CAN_FilterInitStruct->CAN_FilterMaskId) >> 16  ) ;
+
+
+
+		Local_u32filterNumberPosition = ( (u32)(1) ) << CAN_FilterInitStruct->CAN_FilterBankNumber;
+
+	/* Initialisation mode for the filter */
+	CAN->FMR |= CAN_FMR_FINIT;
+	/* Filter Deactivation */
+	CAN->FA1R &= ~(u32)Local_u32filterNumberPosition;
+
+
+	switch (CAN_FilterInitStruct->CAN_FilterBankScale )
+	{
+		case (CAN_FILTERSCALE_16BIT):
+			/* 16-bit scale for the filter */
+			CAN->FS1R &= ~(u32)Local_u32filterNumberPosition;
+
+				/* Filter mapping
+			 *   15-8        7-5    4   3     2-0
+			 * STID[10:3] STID[2:0] RTR IDE EXID[17:15]
+			 * */
+										   /*Get masked filter id and filter mask id*/
+			Local_u16FilterbankId         = (u16) ( Local_u8FilterBankExidId       | Local_u8FilterBankRtrId
+										 			 | Local_u8FilterBankIdeId        | Local_u16FilterBankStdId    );
+
+			Local_u16FilterbankMaskId      = (u16)( Local_u8FilterBankExidMaskId   | Local_u8FilterBankRtrMaskId
+													 | Local_u8FilterBankIdeIdMask    | Local_u16FilterBankStdIdMask);
+
+			/* Filter Mode */
+			switch (CAN_FilterInitStruct->CAN_FilterMode)
+			{
+				case(CAN_FILTERMODE_IDMASK):
+				/*Id/Mask mode for the filter*/
+					CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
+														 /*FR1 =FR2 = [Local_u16FilterbankMaskId |Local_u16FilterbankId]*/
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 =  ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
+																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 =  ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
+																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
+				break;
+
+				case (CAN_FILTERMODE_IDLIST):
+				/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
+
+					/*Identifier list mode for the filter*/
+					CAN->FM1R |= (u32)Local_u32filterNumberPosition;
+
+									   /*FR1 =FR2 = [Local_u16FilterbankId |Local_u16FilterbankId]*/
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
+																							| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
+																						| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
+					break;
+			}
+		break;
+
+		case(CAN_FILTERSCALE_32BIT):
+			/* 32-bit scale for the filter */
+			CAN->FS1R |= (u32)Local_u32filterNumberPosition;
+
+			/* Filter Mode */
+			switch (CAN_FilterInitStruct->CAN_FilterMode )
+			{
+				case (CAN_FILTERMODE_IDMASK):
+					/*Id/Mask mode for the filter*/
+					CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
+
+					/* for scale 32bit FilterbankID = FR1 and FilterbankMASK = FR2 */
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = (u32)CAN_FilterInitStruct->CAN_FilterMaskId ;
+				break;
+
+				case (CAN_FILTERMODE_IDLIST):
+				/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
+
+					/*Id list mode for the filter*/
+					CAN->FM1R |= (u32)Local_u32filterNumberPosition;
+					/* for scale 32bit FilterbankID = FilterbankMASK = FR1 = FR2 */
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
+					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
+				break;
+			}
+		break;
+	}
+		/* specify Filter FIFO  */
+	switch(CAN_FilterInitStruct->CAN_FilterFIFONumber)
+	{
+		case (CAN_FIFO_0):
+			CAN->FFA1R &= ~(u32)Local_u32filterNumberPosition;     // FIFO 0 chosen for the filter
+		break;
+		case (CAN_FIFO_1):
+			CAN->FFA1R |= (u32)Local_u32filterNumberPosition;   // FIFO 1 chosen for the filter
+ 		break;
+	}
+	// Filter activation
+	if (CAN_FilterInitStruct->CAN_FilterActivation == 1) CAN->FA1R |= Local_u32filterNumberPosition;
+
+    CAN->FMR &= ~CAN_FMR_FINIT;     //release init mode for the input filter */
+}
+
+
+//
+//////Initialize Filters
+////static void CAN_wrFilter (CAN_t *CAN, u32 Copy_u32ID, u8 Copy_u8IDFormat) /***** temporary *****/
+////{
+////	static u8 Local_u8FilterNumber = FilterNumber;
+////		u32   CAN_msgId = 0;
+////
+////		if (Local_u8FilterNumber > 27) {return;}
+////		// Setup identifier information
+////		switch (Copy_u8IDFormat)
+////		{
+////		case CAN_ID_STD: CAN_msgId  |= (u32)(Copy_u32ID << 21) ; break;
+////		case CAN_ID_EXT: CAN_msgId  |= (u32)(Copy_u32ID <<3) | 4; break;
+////		}
+////
+////
+////		CAN->FA1R &=  ~(u32)(1 << Local_u8FilterNumber); // deactivate filter
+////
+////		// initialize filter
+////		CAN->FS1R |= (u32)(1 << Local_u8FilterNumber);// set 32-bit scale configuration
+////		CAN->FM1R |= (u32)(1 << Local_u8FilterNumber);// set 2 32-bit identifier list mode
+////
+////		CAN->sFilterRegister[Local_u8FilterNumber].FR1 = CAN_msgId; //  32-bit identifier
+////		CAN->sFilterRegister[Local_u8FilterNumber].FR2 = CAN_msgId; //  32-bit identifier
+////
+////		switch (FilterFIFO)
+////		{
+////			case CAN_FIFO_0: CAN->FFA1R &= ~(u32)(1 << Local_u8FilterNumber); break;  // assign filter to FIFO 0
+////			case CAN_FIFO_1: CAN->FFA1R |= (u32)(1 << Local_u8FilterNumber); break;  // assign filter to FIFO 1
+////			default: CAN->FFA1R &= ~(u32)(1 << Local_u8FilterNumber);
+////		}
+////
+////		CAN->FA1R  |=  (u32)(1 << Local_u8FilterNumber);  // activate filter
+////
+////		Local_u8FilterNumber += 1;                             // increase filter index
+////		CAN->RF0R=RELEASE;
+////
+////}
+////
+////void CAN_voidFiltersInit(u8 Copy_u8CAN, u32 Copy_u32ID)
+////{
+////	CAN_t *CAN = CAN_Get(Copy_u8CAN);
+////	CAN->FMR = 1;                                   		   		 //init mode for filters
+////	CAN_wrFilter (CAN, Copy_u32ID, CAN_ID_EXT);
+////	CAN->FMR &= ~1;                         						 // Active filters mode.
+////
+////}

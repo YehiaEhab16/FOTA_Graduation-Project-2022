@@ -2,17 +2,20 @@
 #ifndef CAN_H
 #define CAN_H
 
-#define CAN1                            0
-#define CAN2                            1
+#include "STD_TYPES.h"
+#include "CAN_private.h"
+#include "CAN_config.h"
+
 
 #define CAN_ID_STD  		            0
 #define CAN_ID_EXT  		            1
 #define DATA_FRAME       	            0
 #define REMOTE_FRAME     	            1
 
-#define CAN_MODE_NORMAL                 CAN_BTR_LBKM & CAN_BTR_SILM
 #define CAN_MODE_LOOPBACK               CAN_BTR_LBKM
 #define CAN_MODE_SILENT                 CAN_BTR_SILM
+#define CAN_MODE_NORMAL                 CAN_BTR_LBKM & CAN_BTR_SILM
+
 
 #define CAN_TXMAILBOX_0		            0
 #define CAN_TXMAILBOX_1		            1
@@ -40,4 +43,6 @@ void CAN_voidInit(u8 Copy_u8CAN, u32 Copy_u32Mode);
 void CAN_voidTransmit(u8 Copy_u8CAN, u32 Copy_u32ID, u8 Copy_u8IDType, u8 Copy_u8FrameType, u8 *m, u8 mailIndex);
 void CAN_voidFiltersInit(u8 Copy_u8CAN, u32 Copy_u32ID);
 void CAN_voidReceive(u8 Copy_u8CAN, CAN_msg *msg, u8 Copy_u8FIFOIndex);
+void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct);
+
 #endif
