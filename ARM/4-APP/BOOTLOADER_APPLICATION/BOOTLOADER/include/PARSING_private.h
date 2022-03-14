@@ -12,12 +12,9 @@
 
 
 #define ASCI_ZERO		48
-#define ASCI_NINE		56
+#define ASCI_NINE		57
 
 #define ASCI_A_10		55
-
-
-
 
 
 #endif

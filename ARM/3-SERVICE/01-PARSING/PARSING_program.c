@@ -16,7 +16,8 @@
 #include "PARSING_config.h"
 #include "PARSING_private.h"
 
-u16 Data[100];
+u16 Data[100] = {0};
+u32 Address= 0x08000000;
 
 
 u8 PARSING_u8AsciToHex (u8 Copy_u8Asci)
@@ -47,7 +48,7 @@ void PARSING_voidWriteData (u8* Copy_u8Data)
 	u8 Local_u8Address1 ;
 	u8 Local_u8Address2 ;
 	u8 Local_u8Address3 ;
-	u8 Local_u8MainAddress ;
+	u32 Local_u8MainAddress ;
 
 	/******************        Local Variable to Extract Data          **********************/
 	u8 Local_u8Data0 ;
@@ -68,7 +69,8 @@ void PARSING_voidWriteData (u8* Copy_u8Data)
 		Local_u8Address2 = PARSING_u8AsciToHex(Copy_u8Data[5]);
 		Local_u8Address3 = PARSING_u8AsciToHex(Copy_u8Data[6]);
 
-		Local_u8MainAddress = PARSING_BASE_ADDRESS | (Local_u8Address3)|(Local_u8Address2<<4)|(Local_u8Address1<<8)|(Local_u8Address0<<12);
+		Address = Address & 0xFFFF0000;
+		Local_u8MainAddress = Address | (Local_u8Address3)|(Local_u8Address2<<4)|(Local_u8Address1<<8)|(Local_u8Address0<<12);
 
 
 		for (u8 Local_u8Counter =0 ; Local_u8Counter<Local_u8NumByte/2;Local_u8Counter++)
@@ -88,5 +90,3 @@ void PARSING_voidWriteData (u8* Copy_u8Data)
 		//nothing
 	}
 }
-
-

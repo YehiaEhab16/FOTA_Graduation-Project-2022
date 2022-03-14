@@ -25,5 +25,4 @@ u8 PARSING_u8AsciToHex (u8 Copy_u8Asci);
  */
 void PARSING_voidWriteData (u8* Copy_u8Data);
 
-
 #endif

@@ -73,35 +73,47 @@ void main (void)
 	RCC_u8EnableClock(&PORTA);
 	RCC_u8EnableClock(&FPEC1);
 	RCC_u8EnableClock(&CRC);
+
 	/*Initialize USART*/
 	PORT_voidInit() ;
+
 	/*Initialize USART*/
 	USART_voidInit (USART1);
 
-
 	/**************************Init the FPEC Driver ******************/
 	FPEC_voidInit();
+	u16 Update = 0;
+	u16 No_update =1 ;
+	FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Update, 1);
 
-	u16 DATA = 0;
-	FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &DATA, 1);
 	if ((*((volatile u16*)0x080028C0)) == 0)
 	{
-		GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_1, GPIO_PIN_LOW);
+		//GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_3, GPIO_PIN_HIGH);
+
 	}
 
+	// Array of Data
 	u8 BOOT_u8RecData[100];
-	u8 BOOT_u8FinRecFlag = 0 ;
-	u32 BOOT_u32RecCounter =0 ;
-	u32 BOOT_u32EraseCounter =0 ;
-	u32 BOOT_u32CRCCounter =0 ;
-	u8 BOOT_u8CRCVal =0 ;
-	u8 BOOt_u8CRCTest =0 ;
-	u32 BOOT_u32EraseFlag =1 ;
-	u32 BOOT_u32NumChar =0 ;
-	u8 BOOT_u8AscitoHex =0 ;
 
-	u16 BOOT_u16ConFlag = 0 ;
-	u16 APP_u16Flag = 1 ;
+	// Flag to Write
+	u8 BOOT_u8FinRecFlag = 0 ;
+
+	//index of Data
+	u32 BOOT_u32RecCounter =0 ;
+	//index of Erase pages
+	u32 BOOT_u32EraseCounter =0 ;
+
+	//Check Sum
+	u8 Check_s32Sum = 0 ;
+	u32 Check_s32Counter = 1;
+	u8 BOOT_u8Digit0 ;
+	u8 BOOT_u8Digit1 ;
+	u8 BOOT_u8Data ;
+	u8 Check_sum_Validation ;
+
+	// flage to start and end Erase operation
+	u32 BOOT_u32EraseFlag =1 ;
+
 
 
 
@@ -124,56 +136,63 @@ void main (void)
 				if (BOOT_u32EraseFlag==1)
 				{
 
-					for (BOOT_u32EraseCounter=12 ;BOOT_u32EraseCounter<128 ;BOOT_u32EraseCounter++)
+					for (BOOT_u32EraseCounter=12 ;BOOT_u32EraseCounter<60 ;BOOT_u32EraseCounter++)
 					{
 						FPEC_voidFlashPageErase(BOOT_u32EraseCounter);
 					}
 					BOOT_u32EraseFlag = 0 ;
 				}
-				/**************************************************************************************/
-				/**************************************************************************************/
 
+				Check_s32Sum =0 ;
+				Check_s32Counter = 1 ;
 
-				/****************************Erase APPLICATION 1 **************************************/
-
-				for (BOOT_u32CRCCounter=1 ; BOOT_u32CRCCounter <BOOT_u32RecCounter-2 ;BOOT_u32CRCCounter++)
+				while(Check_s32Counter<BOOT_u32RecCounter-2)
 				{
+					BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
 
-					BOOT_u8AscitoHex = PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32CRCCounter]);
-					BOOT_u8CRCVal=CRC_u8CalculationHardware(BOOT_u8AscitoHex) ;
+					BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
+
+					BOOT_u8Data = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
+
+					Check_s32Sum =Check_s32Sum + BOOT_u8Data ;
+
+					Check_s32Counter = Check_s32Counter+2 ;
 
 				}
+				Check_s32Sum =~(Check_s32Sum -1) ;
 
-				BOOt_u8CRCTest = (u8)((BOOT_u8RecData[BOOT_u32RecCounter-2]<<4)|(BOOT_u8RecData[BOOT_u32RecCounter-1]));
+				// Validation
+				BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-2]);
+
+				BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
+
+				Check_sum_Validation = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
 
 
-				if (BOOt_u8CRCTest != (u8)BOOT_u8CRCVal)
+				if (Check_s32Sum !=Check_sum_Validation)
 				{
-					GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_1, GPIO_PIN_HIGH);
+					//Data Corruption
+					GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_4, GPIO_PIN_HIGH);
+					FPEC_voidFlashPageErase(10);
+					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
+					APP2();
 
-					/*Data Corruption (RED) */
-					/*Jump to application 2*/
-					/*Send message to Main ECU "The data is corrupted"*/
-					//USART_voidTransmitSync(USART2,(u8 *)"NOK\r");
-					/*SET Request Flag */
-					//BOOT_u8REQUESTFLAG = 1 ;
 
 				}
-
 				/**************************************************************************************/
 				/*********************************Write Operation *************************************/
 				PARSING_voidWriteData(BOOT_u8RecData);
 				USART_voidTransmitSync(USART1,(u8*)"ok");
+				BOOT_u32RecCounter =0 ;
 
 				if (BOOT_u8RecData[8]=='1')
 				{
-					GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_HIGH);
-					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &APP_u16Flag, 1);
+					FPEC_voidFlashPageErase(10);
+					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
+					//GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_HIGH);
 					APP1();
 				}
-				/**************************************************************************************/
-				/**********************************Init the second record*******************************/
-				BOOT_u32RecCounter =0 ;
+
 
 			}
 			else
@@ -207,17 +226,13 @@ void main (void)
 }
 /*****************************************************************************************/
 /*****************************************************************************************/
-
-
-
 /********************************Application Layer ***************************************/
 
 void APP1(void)
 {
-	GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_2, GPIO_PIN_HIGH);
-	SCB_VTOR =0x08001800;
-	AddrAPP1 =*((Application*)0x08001804);
 
+	SCB_VTOR =0x08003000;
+	AddrAPP1 =*(Application*)(0x08003004);
 	AddrAPP1();
 
 }
