@@ -9,6 +9,14 @@
 
 
 /* Functions Implementation */
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
+
+#include "GPIO_interface.h"
+
+#include "DCM_config.h"
+#include "DCM_interface.h"
+#include "DCM_private.h"
 
 //Controlling motor direction (2 pins)
 void DCM_voidRotateCCW(DCM_t* Copy_pDCM_tStructMotor)

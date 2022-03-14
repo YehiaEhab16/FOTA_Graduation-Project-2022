@@ -8,6 +8,14 @@
 /*******************************************************************************/
 
 /* Functions Implementation */
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
+
+#include "GPIO_interface.h"
+
+#include "LED_config.h"
+#include "LED_interface.h"
+#include "LED_private.h"
 
 void LED_voidLedOn(LED_t* Copy_pLED_tStructLed)
 {
