@@ -19,11 +19,9 @@
 #include "RCC_interface.h"
 #include "USART_interface.h"
 #include "PORT_interface.h"
-#include "CRC_interface.h"
 #include "FPEC_interface.h"
 #include "GPIO_interface.h"
-#include "STK_interface.h"
-
+#include "WWDG_interface.h"
 
 /*******************************************************************************/
 /*******************************************************************************/
@@ -65,14 +63,14 @@ void main (void)
 	struct Peripheral UART2 = {RCC_APB1,RCC_APB1_USART2_EN};
 	struct Peripheral PORTA = {RCC_APB2,RCC_APB2_IOPA_EN};
 	struct Peripheral FPEC1 = {RCC_AHB,RCC_AHB_FLITF_EN};
-	struct Peripheral CRC = {RCC_AHB,RCC_AHB_CRC_EN};
+	struct Peripheral WWD = {RCC_APB1,RCC_APB1_WWDG_EN};
 
 	/*Enable Perpherial UART, PORTA , FPEC  */
 	RCC_u8EnableClock(&UART1);
 	RCC_u8EnableClock(&UART2);
 	RCC_u8EnableClock(&PORTA);
 	RCC_u8EnableClock(&FPEC1);
-	RCC_u8EnableClock(&CRC);
+	RCC_u8EnableClock(&WWD);
 
 	/*Initialize USART*/
 	PORT_voidInit() ;
@@ -84,13 +82,9 @@ void main (void)
 	FPEC_voidInit();
 	u16 Update = 0;
 	u16 No_update =1 ;
-	FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Update, 1);
+	u16 Corruption =2 ;
 
-	if ((*((volatile u16*)0x080028C0)) == 0)
-	{
-		//GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_3, GPIO_PIN_HIGH);
-
-	}
+	//FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Update, 1);
 
 	// Array of Data
 	u8 BOOT_u8RecData[100];
@@ -174,9 +168,8 @@ void main (void)
 					//Data Corruption
 					GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_4, GPIO_PIN_HIGH);
 					FPEC_voidFlashPageErase(10);
-					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
-					APP2();
-
+					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Corruption, 1);
+					WWDG_voidReset(1,10);
 
 				}
 				/**************************************************************************************/
@@ -189,8 +182,7 @@ void main (void)
 				{
 					FPEC_voidFlashPageErase(10);
 					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
-					//GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0, GPIO_PIN_HIGH);
-					APP1();
+					WWDG_voidReset(1,10);
 				}
 
 

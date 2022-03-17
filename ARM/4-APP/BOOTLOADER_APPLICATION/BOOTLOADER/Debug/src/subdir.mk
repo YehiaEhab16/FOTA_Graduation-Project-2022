@@ -4,36 +4,33 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/CRC_program.c \
 ../src/FPEC_program.c \
 ../src/GPIO_program.c \
 ../src/PARSING_program.c \
 ../src/PORT_program.c \
 ../src/RCC_program.c \
-../src/STK_program.c \
 ../src/UART_program.c \
+../src/WWDG_program.c \
 ../src/main.c 
 
 OBJS += \
-./src/CRC_program.o \
 ./src/FPEC_program.o \
 ./src/GPIO_program.o \
 ./src/PARSING_program.o \
 ./src/PORT_program.o \
 ./src/RCC_program.o \
-./src/STK_program.o \
 ./src/UART_program.o \
+./src/WWDG_program.o \
 ./src/main.o 
 
 C_DEPS += \
-./src/CRC_program.d \
 ./src/FPEC_program.d \
 ./src/GPIO_program.d \
 ./src/PARSING_program.d \
 ./src/PORT_program.d \
 ./src/RCC_program.d \
-./src/STK_program.d \
 ./src/UART_program.d \
+./src/WWDG_program.d \
 ./src/main.d 
 
 
