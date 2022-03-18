@@ -29,7 +29,7 @@
 #define RCC_HSI_READY			1
 
 #define RCC_PLL_ON 				24
-#define RCC_HSE_ON				18
+#define RCC_HSE_ON				16
 #define RCC_HSI_ON 				0
 
 /*
