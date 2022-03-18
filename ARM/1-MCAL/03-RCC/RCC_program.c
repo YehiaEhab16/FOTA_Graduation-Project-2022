@@ -147,6 +147,26 @@ SET_BIT (RCC_CFGR,16);
 
 }
 
+
+void RCC_voidEnableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
+{
+	if (Copy_u8PerId <= 31)
+	{
+		switch (Copy_u8BusId)
+		{
+			case RCC_AHB  : SET_BIT(RCC_AHBENR  ,Copy_u8PerId);   break;
+			case RCC_APB1 : SET_BIT(RCC_APB1ENR ,Copy_u8PerId);   break;
+			case RCC_APB2 : SET_BIT(RCC_APB2ENR ,Copy_u8PerId);   break;
+		}
+	}
+
+	else
+	{
+		/* Return Error */
+	}
+
+}
+
 u8 RCC_u8EnableClock (struct Peripheral *Copy_Peripheral)
 {
 	u8 Local_u8ErrorState = OK  ;

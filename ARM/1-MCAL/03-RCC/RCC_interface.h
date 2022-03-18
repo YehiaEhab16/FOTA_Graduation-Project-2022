@@ -162,5 +162,6 @@ u8 RCC_u8DisableClock (struct Peripheral *Copy_Peripheral);
 
 u8 RCC_u8ChangeModeBuses (u8 Copy_u8Bus , u8 Copy_u8StateBus);
 
+void RCC_voidEnableClock(u8 Copy_u8BusId, u8 Copy_u8PerId);
 
 #endif
