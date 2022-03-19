@@ -3,15 +3,15 @@
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :SERVICE                ***********************/
 /***********************   SWC (DRIVER):FPEC 			 ***********************/
-/***********************   DATE : 15-3-2022 			 ***********************/
+/***********************   DATA : 15-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 
-#include "RCC_interface"
-#include "FPEC_interface"
+#include "RCC_interface.h"
+#include "FPEC_interface.h"
 
 #include "FPEC_S_interface.h"
 #include "FPEC_S_private.h"
@@ -20,13 +20,22 @@
 u16 Data[100] = {0};
 u32 Address= 0x08000000;
 
+struct Peripheral FPEC1  = {RCC_AHB,RCC_AHB_FLITF_EN} ;
+
 void FPEC_S_voidInit(void)
 {
+
+	RCC_u8EnableClock(&FPEC1);
 	
+
 }
 
 void FPEC_S_voidDisable(void)
 {
+
+	RCC_u8DisableClock(&FPEC1);
+		
+
 	
 }
 

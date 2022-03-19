@@ -1,8 +1,9 @@
 /*******************************************************************************/
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
-/***********************   Bootloader Application        ***********************/
-/***********************   DATA : 15-3-2022  			 ***********************/
+/***********************   Layer :MCAL                   ***********************/
+/***********************   SWC (DRIVER):FPEC 			 ***********************/
+/***********************   DATA : 7-3-2022  			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -21,6 +22,7 @@
 #include "FPEC_interface.h"
 #include "GPIO_interface.h"
 #include "WWDG_interface.h"
+#include "IWDG_interface.h"
 
 /*******************************************************************************/
 /*******************************************************************************/
@@ -28,9 +30,9 @@
 
 /********************************SERV LAYER*************************************/
 
+#include "FPEC_S_interface.h"
 
-
-#include "PARSING_interface.h"
+//#include "PARSING_interface.h"
 
 
 /*******************************************************************************/
@@ -61,14 +63,16 @@ void main (void)
 	struct Peripheral UART1 = {RCC_APB2,RCC_APB2_USART1_EN};
 	struct Peripheral UART2 = {RCC_APB1,RCC_APB1_USART2_EN};
 	struct Peripheral PORTA = {RCC_APB2,RCC_APB2_IOPA_EN};
-	struct Peripheral FPEC1 = {RCC_AHB,RCC_AHB_FLITF_EN};
+	//struct Peripheral FPEC1 = {RCC_AHB,RCC_AHB_FLITF_EN};
 	struct Peripheral WWD = {RCC_APB1,RCC_APB1_WWDG_EN};
+
+
 
 	/*Enable Perpherial UART, PORTA , FPEC  */
 	RCC_u8EnableClock(&UART1);
 	RCC_u8EnableClock(&UART2);
 	RCC_u8EnableClock(&PORTA);
-	RCC_u8EnableClock(&FPEC1);
+	//RCC_u8EnableClock(&FPEC1);
 	RCC_u8EnableClock(&WWD);
 
 	/*Initialize USART*/
@@ -141,9 +145,9 @@ void main (void)
 
 				while(Check_s32Counter<BOOT_u32RecCounter-2)
 				{
-					BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
+					BOOT_u8Digit0=FPEC_S_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
 
-					BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
+					BOOT_u8Digit1 =FPEC_S_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
 
 					BOOT_u8Data = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
 
@@ -155,9 +159,9 @@ void main (void)
 				Check_s32Sum =~(Check_s32Sum -1) ;
 
 				// Validation
-				BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-2]);
+				BOOT_u8Digit0=FPEC_S_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-2]);
 
-				BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
+				BOOT_u8Digit1 =FPEC_S_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
 
 				Check_sum_Validation = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
 
@@ -168,12 +172,13 @@ void main (void)
 					GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_4, GPIO_PIN_HIGH);
 					FPEC_voidFlashPageErase(10);
 					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Corruption, 1);
-					WWDG_voidReset(1,10);
+					//WWDG_voidReset(1,10);
+					IWDG_voidReset(100);
 
 				}
 				/**************************************************************************************/
 				/*********************************Write Operation *************************************/
-				PARSING_voidWriteData(BOOT_u8RecData);
+				FPEC_S_voidWriteData(BOOT_u8RecData);
 				USART_voidTransmitSync(USART1,(u8*)"ok");
 				BOOT_u32RecCounter =0 ;
 
