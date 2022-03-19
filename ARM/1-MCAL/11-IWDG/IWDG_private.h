@@ -15,5 +15,9 @@
 
 #define IWDG_MAX_RELOAD_VALUE	4095
 
+#define IWDG_PROTECTION_KEY		0x5555
+#define IWDG_RELOAD_KEY			0xAAAA
+#define IWDG_COUNTER_KEY		0xCCCC
+
 
 #endif

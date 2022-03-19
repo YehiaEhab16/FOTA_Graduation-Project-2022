@@ -17,25 +17,25 @@
 
 void IWDG_voidReset(u16 Copy_u16TimeoutValue)
 {
-	IWDG_KR = 0x5555;
+	//Enabling write operations to Prescalar and Reload Registers
+	IWDG_KR = IWDG_PROTECTION_KEY;
 	
-
-	while (GET_BIT(IWDG_SR,IWDG_SR_PVU));
 	//Updating Prescalar
+	while (GET_BIT(IWDG_SR,IWDG_SR_PVU));	//Bit is set by hardware to indicate write operation is ongoing
+	
 	CLR_BIT(IWDG_SR,IWDG_SR_PVU);
 	IWDG_PR &= IWDG_PRESCALAR_MASK;
 	IWDG_PR |= IWDG_PRESCALAR_VALUE;
 	
 	//Reload Counter
-	//CLR_BIT(IWDG_SR,IWDG_SR_RVU);
-	while (GET_BIT(IWDG_SR,IWDG_SR_RVU));
+	while (GET_BIT(IWDG_SR,IWDG_SR_RVU));	//Bit is set by hardware to indicate write operation is ongoing
 
 	if(Copy_u16TimeoutValue<=IWDG_MAX_RELOAD_VALUE)
 		IWDG_RLR = Copy_u16TimeoutValue;
 	else
 		IWDG_RLR = IWDG_MAX_RELOAD_VALUE;
-	IWDG_KR = 0xAAAA;
+	IWDG_KR = IWDG_RELOAD_KEY;
 	
 	//Staring Counter
-	IWDG_KR = 0xCCCC;
+	IWDG_KR = IWDG_COUNTER_KEY;
 }
