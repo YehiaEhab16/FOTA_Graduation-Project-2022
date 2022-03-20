@@ -2,8 +2,6 @@
 /* GRADUATION PROJECT : (FOTA)							  */
 /* Version   : V01                                        */
 /**********************************************************/
-
-
 #ifndef CAN_PRIVATE_H
 #define CAN_PRIVATE_H
 
@@ -12,8 +10,40 @@
 #define CAN2_BASE                       ((u32)0x40006800)
 
 
+typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
+typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
+typedef struct
+{
+  u16 CAN_Prescaler;  /* Specifies the length of a time quantum.
+                          This parameter must be a number between Min_Data = 1 and Max_Data = 1024. */
 
+  u8  CAN_MODE;        /* Specifies the CAN operating mode.*/
+
+  u8  CAN_SJW;         /* Specifies the maximum number of time quanta */
+
+  u8  CAN_BS1;         /* Specifies the number of time quanta in Bit Segment 1.*/
+
+  u8  CAN_BS2;         /* Specifies the number of time quanta in Bit Segment 2.*/
+
+  u32 CAN_TTCM;       /* Enable or disable the time triggered communication mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_ABOM;       /* Enable or disable the automatic bus-off management.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_AWUM;       /* Enable or disable the automatic wake-up mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_NART;       /* Enable or disable the non-automatic retransmission mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_RFLM;       /* Enable or disable the Receive FIFO Locked mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_TXFP;       /* Enable or disable the transmit FIFO priority.
+                          This parameter can be set to ENABLE or DISABLE. */
+}CAN_InitTypeDef;
 
 typedef struct
 {
@@ -64,6 +94,50 @@ typedef struct
        	   u32 RESERVED5[8];
   CAN_FilterRegister_TypeDef sFilterRegister[28];
 } CAN_t;
+
+
+
+
+typedef struct
+{
+  u32 StdId;    /* Specifies the standard identifier.*/
+                  
+  u32 ExtId;    /* Specifies the extended identifier.*/
+					  
+  u32 IDE;      /* Specifies the type of identifier for the message that will be transmitted.*/
+  
+  u32 RTR;      /* Specifies the type of frame for the message that will be transmitted.*/
+                   
+  u32 DLC;      /* Specifies the length of the frame that will be transmitted.*/
+
+  u8 Data[8];   /* Contains the data to be transmitted.*/
+   
+}CanTxMsgTypeDef;
+
+
+typedef struct
+{
+  u32 StdId;       /* Specifies the standard identifier.*/
+     
+  u32 ExtId;       /* Specifies the extended identifier.*/
+                        
+  u32 IDE;         /* Specifies the type of identifier for the message that will be received.*/
+     
+  u32 RTR;         /* Specifies the type of frame for the received message.*/
+                         
+  u32 DLC;         /* Specifies the length of the frame that will be received.*/
+                          
+  u8 Data[8];      /* Contains the data to be received. */                    
+
+  u32 FMI;         /* Specifies the index of the filter the message stored in the mailbox passes through.*/
+     
+  u32 FIFONumber;  /* Specifies the receive FIFO number. */
+                             
+
+}CanRxMsgTypeDef;
+
+
+#define		RELEASE 		((u32)1<<5)
 
 
 //Registers Definitions
@@ -247,12 +321,7 @@ typedef struct
 /*******************  Bit definition for CAN_FMR register  ********************/
 #define  CAN_FMR_FINIT                       ((u8)0x01)               /*!< Filter Init Mode */
 
-typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
 
 #define IS_FUNCTIONAL_STATE(STATE) (((STATE) == DISABLE) || ((STATE) == ENABLE))
 
-typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
-
-#define CAN1                0
-#define CAN2                1
 #endif
