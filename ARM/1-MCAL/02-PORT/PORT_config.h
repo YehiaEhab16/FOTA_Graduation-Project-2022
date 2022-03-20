@@ -66,8 +66,8 @@ Option1 Select : 1- PORT_INPUT_ANALOG_MODE
 #define PORTA_PIN6_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN7_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN8_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
-#define PORTA_PIN9_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
-#define PORTA_PIN10_DIR                    PORT_OUPUT_2MMHZ_PUSH_PULL
+#define PORTA_PIN9_DIR                     PORT_OUPUT_50MHZ_AF_PUSH_PULL
+#define PORTA_PIN10_DIR                    PORT_OUPUT_50MHZ_AF_PUSH_PULL
 #define PORTA_PIN11_DIR                    PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN12_DIR                    PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN13_DIR                    PORT_OUPUT_2MMHZ_PUSH_PULL
