@@ -146,13 +146,13 @@
 
  */
 
-struct Peripheral
+typedef struct
 {
 	u8 RCC_u8BusID ;
 	u8 RCC_u8PeripheralId ;
 
 
-};
+}RCC_t;
 
 void RCC_voidInit (void);
 

@@ -16,12 +16,14 @@
 #include "CRC_S_private.h"
 #include "CRC_S_config.h"
 
+RCC_t Global_RCC_tCRC  = {RCC_AHB,RCC_AHB_CRC_EN};
+
 void CRC_S_voidInit(void)
 {
-	
+	RCC_u8EnableClock(&Global_RCC_tCRC);
 }
 
 void CRC_S_voidDisable(void)
 {
-	
+	RCC_u8EnableClock(&Global_RCC_tCRC);
 }

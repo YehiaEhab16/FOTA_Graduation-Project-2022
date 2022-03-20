@@ -20,23 +20,16 @@
 u16 Data[100] = {0};
 u32 Address= 0x08000000;
 
-struct Peripheral FPEC1  = {RCC_AHB,RCC_AHB_FLITF_EN} ;
+RCC_t Global_RCC_tFPEC  = {RCC_AHB,RCC_AHB_FLITF_EN};
 
 void FPEC_S_voidInit(void)
 {
-
-	RCC_u8EnableClock(&FPEC1);
-	
-
+	RCC_u8EnableClock(&Global_RCC_tFPEC);
 }
 
 void FPEC_S_voidDisable(void)
 {
-
-	RCC_u8DisableClock(&FPEC1);
-		
-
-	
+	RCC_u8DisableClock(&Global_RCC_tFPEC);
 }
 
 u8 FPEC_S_u8AsciToHex (u8 Copy_u8Asci)
