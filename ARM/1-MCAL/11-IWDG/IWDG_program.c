@@ -23,7 +23,6 @@ void IWDG_voidReset(u16 Copy_u16TimeoutValue)
 	//Updating Prescalar
 	while (GET_BIT(IWDG_SR,IWDG_SR_PVU));	//Bit is set by hardware to indicate write operation is ongoing
 	
-	CLR_BIT(IWDG_SR,IWDG_SR_PVU);
 	IWDG_PR &= IWDG_PRESCALAR_MASK;
 	IWDG_PR |= IWDG_PRESCALAR_VALUE;
 	
