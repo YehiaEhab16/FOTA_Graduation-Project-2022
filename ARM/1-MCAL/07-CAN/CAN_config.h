@@ -1,3 +1,7 @@
+/**********************************************************/
+/* GRADUATION PROJECT : (FOTA)							  */
+/* Version   : V01                                        */
+/**********************************************************/
 #ifndef CAN_CONFIG_H
 #define CAN_CONFIG_H
 
@@ -15,20 +19,22 @@
 Description: CAN Init structure configuration
 */
 
-typedef struct{
-  u16 CAN_Prescaler;  //describe time quantum length
-
-  u8 CAN_MODE;     // describe the operation mode of can driver
-
-  u8 CAN_SJW;  // describe max number of time quantum
-
-  u8 CAN_BS1;   // describe time quantum in segment 1
-
-  u8 CAN_BS2;   // describe time quantum in seqment 2
+#define CAN_INITSTATUS_FAILED       ((uint32_t)0x00000000)  /* CAN initialization failed */
+#define CAN_INITSTATUS_SUCCESS      ((uint32_t)0x00000001)  /* CAN initialization OK */
 
 
+typedef struct
+{
+  u8		                 Instance;  		 /* CAN peripheral  (1 or 2)       */
 
-} CAN_InitTypeDef;
+  CAN_InitTypeDef             Init;      		 /* CAN required parameters        */
+
+  CanTxMsgTypeDef*            pTxMsg;    		 /* Pointer to transmit structure  */
+
+  CanRxMsgTypeDef*            pRxMsg;    		 /* Pointer to reception structure */
+
+}CAN_HandleTypeDef;
+
 
 /*
 Description: CAN filter init structure definition
@@ -53,20 +59,4 @@ typedef struct
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
