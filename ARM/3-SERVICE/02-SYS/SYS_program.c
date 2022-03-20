@@ -2,17 +2,23 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :SERVICE                ***********************/
-/***********************   SWC (DRIVER):CRC 			 ***********************/
-/***********************   DATE : 15-3-2022 			 ***********************/
+/***********************   SWC (DRIVER):SYS 			 ***********************/
+/***********************   DATA : 21-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
-#ifndef CRC_S_INTERFACE_H_
-#define CRC_S_INTERFACE_H_
+#include "STD_TYPES.h"
+
+#include "RCC_interface.h"
+#include "PORT_interface.h"
+
+#include "SYS_interface.h"
+#include "SYS_private.h"
+#include "SYS_config.h"
 
 
-void CRC_S_voidInit(void);
-void CRC_S_voidDisable(void);
-
-
-#endif
+void SYS_voidInit(void)
+{
+	RCC_voidInit();
+	PORT_voidInit();
+}

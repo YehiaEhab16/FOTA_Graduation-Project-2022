@@ -20,13 +20,13 @@ u32 CRC_u8CalculationHardware(u32 Copy_u32Data)
 	u32 Local_u32Crc =0 ;
 	/*Reset the CRC peripheral */
 
-	SET_BIT(CRC->CRC_CR,0) ;
+	SET_BIT(CRC_CRC_CR,0) ;
 
 	/*Put the data to CRC DATA REGISTER*/
 
-	CRC->CRC_DR = Copy_u32Data ;
+	CRC_CRC_DR = Copy_u32Data ;
 
-	Local_u32Crc = CRC->CRC_DR ;
+	Local_u32Crc = CRC_CRC_DR ;
 
 
 	return Local_u32Crc ;
