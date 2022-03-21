@@ -22,16 +22,23 @@ Description: CAN Init structure configuration
 #define CAN_INITSTATUS_FAILED       ((uint32_t)0x00000000)  /* CAN initialization failed */
 #define CAN_INITSTATUS_SUCCESS      ((uint32_t)0x00000001)  /* CAN initialization OK */
 
+typedef struct  {
+  u32 id;                 // message identifier
+  u8  data[8];            // Data field
+  u8  len;                // Length of data field in bytes
+  u8  format;             // 0 - STANDARD, 1- EXTENDED IDENTIFIER
+  u8  type;               // 0 - DATA FRAME, 1 - REMOTE FRAME
+} CAN_msg;
 
 typedef struct
 {
-  u8		                 Instance;  		 /* CAN peripheral  (1 or 2)       */
+  u8		                 Instance;  		 /* CAN peripheral  (0 or 1)       */
 
   CAN_InitTypeDef             Init;      		 /* CAN required parameters        */
 
   CanTxMsgTypeDef*            pTxMsg;    		 /* Pointer to transmit structure  */
 
-  CanRxMsgTypeDef*            pRxMsg;    		 /* Pointer to reception structure */
+  CAN_msg*            pRxMsg;    		 /* Pointer to reception structure */
 
 }CAN_HandleTypeDef;
 
