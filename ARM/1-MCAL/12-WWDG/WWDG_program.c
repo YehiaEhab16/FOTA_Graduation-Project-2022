@@ -37,11 +37,12 @@ void WWDG_voidReset(u8 Copy_u8WindowValue, u8 Copy_u8TimeoutValue)
 		SET_BIT(WWDG_CFR,WWDG_CFR_EWI);
 	
 	//Setting Counter Value
-	SET_BIT(WWDG_CR,WWDG_CR_T6);
 	if(Copy_u8TimeoutValue<=WWDG_MAX_TIMEOUT_VALUE)
 		WWDG_CR = Copy_u8TimeoutValue;
 	else
 		WWDG_CR = WWDG_MAX_TIMEOUT_VALUE;
+	
+	SET_BIT(WWDG_CR,WWDG_CR_T6);
 	
 	//Enabling Watchdog
 	SET_BIT(WWDG_CR,WWDG_CR_WDGA);
