@@ -3,7 +3,7 @@
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :MCAL                   ***********************/
 /***********************   SWC (DRIVER):RCC 			 ***********************/
-/***********************   DATA : 21-11-2021 			 ***********************/
+/***********************   DATA : 21-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -89,12 +89,35 @@ void RCC_voidInit (void)
 
 
 	RCC_voidAjustmentClockSys();
+	
+	#if RCC_IOPA == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPA);
+	#elif RCC_IOPB == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPB);
+	#endif
+}
 
+u8 RCC_u8DisablePeripheral(u8 Copy_u8PeripheralID)
+{
+	u8 Local_u8ErrorState = OK;
+	if(Copy_u8PeripheralID>RCC_MIN_AHB && Copy_u8PeripheralID<RCC_MAX_AHB)
+		RCC_u8DisableClock(RCC_AHB,Copy_u8PeripheralID);
+	
+	else if(Copy_u8PeripheralID>RCC_MIN_APB1 && Copy_u8PeripheralID<RCC_MAX_APB1)
+		RCC_u8DisableClock(RCC_APB1,Copy_u8PeripheralID);
+	
+	else if(Copy_u8PeripheralID>RCC_MIN_APB2 && Copy_u8PeripheralID<RCC_MAX_APB2)
+		RCC_u8DisableClock(RCC_APB2,Copy_u8PeripheralID);
+	
+	else
+		Local_u8ErrorState = NOK;
+	
+	return Local_u8ErrorState;
 }
 
 u8 RCC_u8EnableClock(Copy_u8BusID, Copy_u8PeripheralId)
 {
-	u8 Local_u8ErrorState = OK  ;
+	u8 Local_u8ErrorState = OK;
 	if(Copy_u8PeripheralId < RCC_NUM_REGISTER)
 		switch (Copy_u8BusID)
 		{

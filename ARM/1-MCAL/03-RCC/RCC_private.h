@@ -3,7 +3,7 @@
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :MCAL                   ***********************/
 /***********************   SWC (DRIVER):RCC 			 ***********************/
-/***********************   DATA : 21-11-2021 			 ***********************/
+/***********************   DATA : 21-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -123,6 +123,15 @@
 #define RCC_HSI				0
 #define RCC_HSE		 		17
 #define RCC_PLL				24
+
+#define RCC_MIN_AHB			0
+#define RCC_MAX_AHB			0
+
+#define RCC_MIN_APB1		0
+#define RCC_MAX_APB1		0
+
+#define RCC_MIN_APB2		0
+#define RCC_MAX_APB2		0
 
 u8 RCC_u8EnableClock(Copy_u8BusID, Copy_u8PeripheralId);
 u8 RCC_u8DisableClock(Copy_u8BusID, Copy_u8PeripheralId);
