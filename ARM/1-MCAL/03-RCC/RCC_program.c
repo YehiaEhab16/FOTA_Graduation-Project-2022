@@ -18,9 +18,9 @@
 
 void RCC_voidInit (void)
 {
-	RCC_u8ChangeModeBuses (RCC_HSI , RCC_ENABLE) ;
-	RCC_u8ChangeModeBuses (RCC_HSE , RCC_ENABLE) ;
-	RCC_u8ChangeModeBuses (RCC_PLL , RCC_ENABLE) ;
+	RCC_u8ChangeModeBuses (RCC_CR_HSI , RCC_ENABLE) ;
+	RCC_u8ChangeModeBuses (RCC_CR_HSE , RCC_ENABLE) ;
+	RCC_u8ChangeModeBuses (RCC_CR_PLL , RCC_ENABLE) ;
 
 	/*
 	 *Selection  Section
@@ -92,21 +92,29 @@ void RCC_voidInit (void)
 	
 	#if RCC_IOPA == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPA);
-	#elif RCC_IOPB == RCC_ENABLE
+	#endif
+	#if RCC_IOPB == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPB);
-	#elif RCC_IOPC == RCC_ENABLE
+	#endif
+	#if RCC_IOPC == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPC);
-	#elif RCC_IOPD == RCC_ENABLE
+	#endif
+	#if RCC_IOPD == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPD);
-	#elif RCC_IOPE == RCC_ENABLE
+	#endif
+	#if RCC_IOPE == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPE);
-	#elif RCC_IOPF == RCC_ENABLE
+	#endif
+	#if RCC_IOPF == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPF);
-	#elif RCC_IOPG == RCC_ENABLE
+	#endif
+	#if RCC_IOPG == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPG);
-	#elif RCC_AFIO == RCC_ENABLE
+	#endif
+	#if RCC_AFIO == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_AFIO);
-	#elif RCC_SDIO == RCC_ENABLE
+	#endif
+	#if RCC_SDIO == RCC_ENABLE
 	RCC_u8EnableClock(RCC_AHB, RCC_AHB_SDIO);
 	#endif
 }
@@ -190,18 +198,18 @@ u8 RCC_u8ChangeModeBuses (u8 Copy_u8SysClock , u8 Copy_u8StateBus)
 	if (Copy_u8StateBus == RCC_ENABLE)
 		switch (Copy_u8SysClock)
 		{
-			case RCC_HSI:  SET_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSI_READY)==0);break;
-			case RCC_HSE:  SET_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSE_READY)==0);break;
-			case RCC_PLL:  SET_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_PLL_READY)==0);break;
+			case RCC_CR_HSI:  SET_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSI_READY)==0);break;
+			case RCC_CR_HSE:  SET_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSE_READY)==0);break;
+			case RCC_CR_PLL:  SET_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_PLL_READY)==0);break;
 			default : Local_u8StateError = NOK;break;
 		}
 
 	else if (Copy_u8StateBus == RCC_DISABLE)
 		switch (Copy_u8SysClock)
 		{
-		case RCC_HSI:  CLR_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSI_READY)!=0);  break;
-		case RCC_HSE:  CLR_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSE_READY)!=0) ; break;
-		case RCC_PLL:  CLR_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_PLL_READY)!=0) ; break;
+		case RCC_CR_HSI:  CLR_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSI_READY)!=0);  break;
+		case RCC_CR_HSE:  CLR_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_HSE_READY)!=0) ; break;
+		case RCC_CR_PLL:  CLR_BIT(RCC_CR,Copy_u8SysClock);while (GET_BIT(RCC_CR,RCC_PLL_READY)!=0) ; break;
 		default : Local_u8StateError = NOK;break;
 		}
 		

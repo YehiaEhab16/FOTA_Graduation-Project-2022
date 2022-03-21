@@ -15,7 +15,7 @@
 #include  "EXTI_private.h"
 
 
-static void (* EXTI0_CallBack) (void) = NULL ;
+static void (* EXTI_CallBack) (void) = NULL ;
 
 void EXTI_voidInit(void)
 {
@@ -74,12 +74,12 @@ void EXTI_voidSoftwareTrigger(u8 Copy_u8EXTILine)
 
 void EXTI_voidSetCallBack(void (*ptr) (void)) 
 {
-		EXTI0_CallBack = ptr ; 
+		EXTI_CallBack = ptr ; 
 }
 
 void	EXTI0_IRQHandler(void)
 {
-	EXTI0_CallBack();
+	EXTI_CallBack();
 	/*	Clear pending Bit  */
 	SET_BIT(EXTI_PR , 0);
 	

@@ -119,11 +119,6 @@
 #define RCC_APB1			1
 #define RCC_APB2			2
 
-//Clock States
-#define RCC_HSI				0
-#define RCC_HSE		 		17
-#define RCC_PLL				24
-
 #define RCC_MIN_AHB			0
 #define RCC_MAX_AHB			0
 

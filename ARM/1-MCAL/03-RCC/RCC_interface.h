@@ -12,7 +12,7 @@
 
 /*Peripherals*/
 //GPIOs
-#define RCC_IOPA					0
+#define RCC_IOPA_PER				0
 #define RCC_IOPB					1
 #define RCC_IOPC					2
 #define RCC_IOPD					3

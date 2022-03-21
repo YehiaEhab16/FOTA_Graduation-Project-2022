@@ -22,6 +22,10 @@
 #define RCC_BDCR                 (*(volatile u32*)0x40021020)
 #define RCC_RCC_CSR              (*(volatile u32*)0x40021024)
 
+#define RCC_CR_HSI				0
+#define RCC_CR_HSE		 		16
+#define RCC_CR_PLL				24
+
 #define RCC_AHB_SDIO			10
 #define RCC_AHB_FSMC			8
 #define RCC_AHB_CRC				6
