@@ -94,6 +94,20 @@ void RCC_voidInit (void)
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPA);
 	#elif RCC_IOPB == RCC_ENABLE
 	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPB);
+	#elif RCC_IOPC == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPC);
+	#elif RCC_IOPD == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPD);
+	#elif RCC_IOPE == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPE);
+	#elif RCC_IOPF == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPF);
+	#elif RCC_IOPG == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_IOPG);
+	#elif RCC_AFIO == RCC_ENABLE
+	RCC_u8EnableClock(RCC_APB2, RCC_APB2_AFIO);
+	#elif RCC_SDIO == RCC_ENABLE
+	RCC_u8EnableClock(RCC_AHB, RCC_AHB_SDIO);
 	#endif
 }
 
