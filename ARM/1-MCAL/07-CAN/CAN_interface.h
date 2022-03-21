@@ -98,8 +98,7 @@
 #define CAN_FIFO_1         		  1
 
 															
-#define CAN_ID_STD             		((u32)0x00000000)  // Standard Id
-#define CAN_ID_EXT             		((u32)0x00000004)  // Extended Id
+
 															
 #define CAN_RTR_DATA                ((u32)0x00000000)  // Data frame
 #define CAN_RTR_REMOTE              ((u32)0x00000002)  // Remote frame
@@ -120,13 +119,6 @@
 #define CAN_TDL0R_DATA2_BIT_POSITION  ((u32)16)  /* Position of LSB bits DATA2 in register CAN_TDL0R */
 #define CAN_TDL0R_DATA3_BIT_POSITION  ((u32)24)  /* Position of LSB bits DATA3 in register CAN_TDL0R */
 
-typedef struct  {
-  u32 id;                 // message identifier
-  u8  data[8];            // Data field
-  u8  len;                // Length of data field in bytes
-  u8  format;             // 0 - STANDARD, 1- EXTENDED IDENTIFIER
-  u8  type;               // 0 - DATA FRAME, 1 - REMOTE FRAME
-} CAN_msg;
 
 
 
