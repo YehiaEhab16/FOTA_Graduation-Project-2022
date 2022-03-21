@@ -3,12 +3,80 @@
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :MCAL                   ***********************/
 /***********************   SWC (DRIVER):RCC 			 ***********************/
-/***********************   DATA : 21-3-2022 			 ***********************/
+/***********************   DATA : 15-11-2021 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
-
 #ifndef RCC_CONFIG_H_
 #define RCC_CONFIG_H_
+
+
+/**
+ *
+ * ENABLE : enable the peripheral
+ * DISABLE : disable the peripheral
+ *
+ */
+
+
+/**
+ * @def buss iD of Periherial for AHB
+ */
+#define RCC_AHB_SDIO_STATE		             DISABLE
+#define RCC_AHB_FSMC_STATE		             DISABLE
+#define RCC_AHB_CRC_STATE		             DISABLE
+#define RCC_AHB_FLITF_STATE		             DISABLE
+#define RCC_AHB_SRAM_STATE		             DISABLE
+#define RCC_AHB_DMA2_STATE		             DISABLE
+#define RCC_AHB_DMA1_STATE		             DISABLE
+
+/**
+ * @def buss iD of Periherial for APB2
+ */
+#define RCC_APB2_TIM11_STATE	             DISABLE
+#define RCC_APB2_TIM10_STATE	             DISABLE
+#define RCC_APB2_TIM9_STATE	                 DISABLE
+#define RCC_APB2_ADC3_STATE	                 DISABLE
+#define RCC_APB2_USART1_STATE	             DISABLE
+#define RCC_APB2_TIM8_STATE	                 DISABLE
+#define RCC_APB2_SPI1_STATE	                 DISABLE
+#define RCC_APB2_TIM1_STATE	                 DISABLE
+#define RCC_APB2_ADC2_STATE	                 DISABLE
+#define RCC_APB2_ADC1_STATE	                 DISABLE
+#define RCC_APB2_IOPG_STATE	                 DISABLE
+#define RCC_APB2_IOPF_STATE	                 DISABLE
+#define RCC_APB2_IOPE_STATE	                 DISABLE
+#define RCC_APB2_IOPD_STATE	                 DISABLE
+#define RCC_APB2_IOPC_STATE	                 DISABLE
+#define RCC_APB2_IOPB_STATE	                 DISABLE
+#define RCC_APB2_IOPA_STATE	                 DISABLE
+#define RCC_APB2_AFIO_STATE	                 DISABLE
+
+/**
+ * @def buss iD of Periherial for APB1
+ */
+#define RCC_APB1_DAC_STATE					 DISABLE
+#define RCC_APB1_PWR_STATE	                 DISABLE
+#define RCC_APB1_BKP_STATE	                 DISABLE
+#define RCC_APB1_CAN_STATE	                 DISABLE
+#define RCC_APB1_USB_STATE	                 DISABLE
+#define RCC_APB1_I2C1_STATE	                 DISABLE
+#define RCC_APB1_I2C2_STATE	                 DISABLE
+#define RCC_APB1_UART5_STATE	             DISABLE
+#define RCC_APB1_UART4_STATE	             DISABLE
+#define RCC_APB1_USART3_STATE	             DISABLE
+#define RCC_APB1_USART2_STATE	             DISABLE
+#define RCC_APB1_SPI3_STATE	                 DISABLE
+#define RCC_APB1_SPI2_STATE	                 DISABLE
+#define RCC_APB1_WWDG_STATE	                 DISABLE
+#define RCC_APB1_TIM14_STATE	             DISABLE
+#define RCC_APB1_TIM13_STATE	             DISABLE
+#define RCC_APB1_TIM12_STATE	             DISABLE
+#define RCC_APB1_TIM7_STATE	                 DISABLE
+#define RCC_APB1_TIM6_STATE	                 DISABLE
+#define RCC_APB1_TIM5_STATE	                 DISABLE
+#define RCC_APB1_TIM4_STATE	                 DISABLE
+#define RCC_APB1_TIM3_STATE	                 DISABLE
+#define RCC_APB1_TIM2_STATE	                 DISABLE
 
 
 /*
@@ -18,6 +86,7 @@
  * 			 3- RCC_APB1_DIV4
  * 			 4- RCC_APB1_DIV6
  * 			 5- RCC_APB1_DIV8
+ *
  * */
 #define  RCC_APB1_PRESCALER		    RCC_APB1_DIV1
 
@@ -28,6 +97,7 @@
  * 			 3-RCC_APB2_DIV4
  * 			 4-RCC_APB2_DIV6
  * 			 5-RCC_APB2_DIV8
+ *
  * */
 #define RCC_APB2_PRESCALER			RCC_APB2_DIV1
 
@@ -41,6 +111,7 @@
  * 			 6- RCC_APB2_DIV64
  * 			 7- RCC_APB2_DIV128
  * 			 8- RCC_APB2_DIV256
+ *
  * */
 
 #define RCC_AHB_PRESCALER 			RCC_APB2_DIV1
@@ -65,9 +136,11 @@
  * 			14 -RCC_PLL_MUL_15
  * 			15 -RCC_PLL_MUL_16
  * 			16 -RCC_PLL_MUL_16
+ *
+ *
  * */
 
-#define RCC_PLL_MULL				RCC_PLL_MUL_2
+#define RCC_PLL_MULL	RCC_PLL_MUL_2
 
 /*
  * Select the Clock System
@@ -77,106 +150,36 @@
  *					3- RCC_PLL_SELECTION
  */
 
-#define RCC_CLOCK_SYS 				RCC_HSI_SELECTION
+#define RCC_CLOCK_SYS 		RCC_HSI_SELECTION
 
 /*
  * Select the SECURITY MODE :
  * 							1- ENABLE : RCC_ENABLE
  * 							2- DISABLE : RCC_DISABLE
+ *
  * */
-#define RCC_SECURITY 				RCC_DISABLE
+#define RCC_SECURITY 			RCC_DISABLE
 
 /*
  * Selection of Chooses of PLL
  * Select : 1- RCC_PLL_HSE_1
  * 			2- RCC_PLL_HSE_12
+ *
  * */
 
-#define RCC_PLL_HSE_ENTRY			RCC_PLL_HSE_1
+#define RCC_PLL_HSE_ENTRY		RCC_PLL_HSE_12
 
 
 /*
  * Selection of Chooses of PLL
  * Select : 1- RCC_PLL_HSI
  * 			2- RCC_PLL_HSE_ENTRY
+ *
  * */
 
-#define RCC_PLL_ENTRY				RCC_PLL_HSI
-
-/*
- * Selection of Peripherals
- * Select : 1- RCC_ENABLE
- * 			2- RCC_DISABLE
- * */
- 
-//GPIOs
-#define RCC_IOPA					RCC_DISABLE
-#define RCC_IOPB					RCC_DISABLE
-#define RCC_IOPC					RCC_DISABLE
-#define RCC_IOPD					RCC_DISABLE
-#define RCC_IOPE					RCC_DISABLE
-#define RCC_IOPF					RCC_DISABLE
-#define RCC_IOPG					RCC_DISABLE
-#define RCC_AFIO					RCC_DISABLE
-#define RCC_SDIO					RCC_DISABLE
-
-//ADC & DAC
-#define RCC_ADC1					RCC_DISABLE
-#define RCC_ADC2					RCC_DISABLE
-#define RCC_ADC3					RCC_DISABLE
-#define RCC_DAC						RCC_DISABLE
-
-//Timers
-#define RCC_TIM1					RCC_DISABLE
-#define RCC_TIM2					RCC_DISABLE
-#define RCC_TIM3					RCC_DISABLE
-#define RCC_TIM4					RCC_DISABLE
-#define RCC_TIM5					RCC_DISABLE
-#define RCC_TIM6					RCC_DISABLE
-#define RCC_TIM7					RCC_DISABLE
-#define RCC_TIM8					RCC_DISABLE
-#define RCC_TIM9					RCC_DISABLE
-#define RCC_TIM10					RCC_DISABLE
-#define RCC_TIM11					RCC_DISABLE
-#define RCC_TIM12					RCC_DISABLE
-#define RCC_TIM13					RCC_DISABLE
-#define RCC_TIM14					RCC_DISABLE
-
-//Communcation Protocols
-#define RCC_USART1					RCC_DISABLE
-#define RCC_USART2					RCC_DISABLE
-#define RCC_USART3					RCC_DISABLE
-#define RCC_UART4					RCC_DISABLE
-#define RCC_UART5					RCC_DISABLE
-
-#define RCC_SPI1					RCC_DISABLE
-#define RCC_SPI2					RCC_DISABLE
-#define RCC_SPI3					RCC_DISABLE
+#define RCC_PLL_ENTRY			RCC_PLL_HSE_ENTRY
 
 
-#define RCC_I2C1					RCC_DISABLE
-#define RCC_I2C2					RCC_DISABLE
-
-#define RCC_CAN						RCC_DISABLE
-
-#define RCC_USB						RCC_DISABLE
-
-//Memory Access
-#define RCC_DMA1					RCC_DISABLE
-#define RCC_DMA2					RCC_DISABLE
-#define RCC_SRAM					RCC_DISABLE
-#define RCC_FSMC					RCC_DISABLE
-
-//Watchdog
-#define RCC_WWDG					RCC_DISABLE
-
-//Error Check
-#define RCC_CRC						RCC_DISABLE
-#define RCC_FLITF					RCC_DISABLE
-
-//Power and Backup
-#define RCC_PWR						RCC_DISABLE
-#define RCC_BKP						RCC_DISABLE
 
 
 #endif
