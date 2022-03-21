@@ -15,7 +15,7 @@
 #include "WWDG_private.h"
 #include "WWDG_register.h"
 
-void WWDG_voidReset(u8 Copy_u8WindowValue, u8 Copy_u8TimeoutValue)
+void WWDG_voidReset(u8 Copy_u8TimeoutValue)
 {
 	//Seting Prescalar
 	switch(WWDG_PRESCALAR_VALUE)
@@ -27,22 +27,21 @@ void WWDG_voidReset(u8 Copy_u8WindowValue, u8 Copy_u8TimeoutValue)
 	}
 	
 	//Seting Window Value
-	if(Copy_u8WindowValue<=WWDG_MAX_WINDOW_VALUE)
-		WWDG_CFR = Copy_u8WindowValue;
+	WWDG_CFR = WWDG_MAX_WINDOW_VALUE;
+	
+	//Setting Counter Value
+	if(Copy_u8TimeoutValue>=WWDG_MAX_WINDOW_VALUE)
+		WWDG_CR = WWDG_MAX_WINDOW_VALUE;
+	
+	else if(Copy_u8TimeoutValue<=WWDG_MIN_TIMEOUT_VALUE)
+		WWDG_CR = WWDG_MIN_TIMEOUT_VALUE;
+	
 	else
-		WWDG_CFR = WWDG_MAX_WINDOW_VALUE;
+		WWDG_CR = Copy_u8TimeoutValue;
 	
 	//Setting Early Wakeup Interrupt
 	if(WWDG_EARLY_WAKEUP_INTERRUPT==1)
 		SET_BIT(WWDG_CFR,WWDG_CFR_EWI);
-	
-	//Setting Counter Value
-	if(Copy_u8TimeoutValue<=WWDG_MAX_TIMEOUT_VALUE)
-		WWDG_CR = Copy_u8TimeoutValue;
-	else
-		WWDG_CR = WWDG_MAX_TIMEOUT_VALUE;
-	
-	SET_BIT(WWDG_CR,WWDG_CR_T6);
 	
 	//Enabling Watchdog
 	SET_BIT(WWDG_CR,WWDG_CR_WDGA);

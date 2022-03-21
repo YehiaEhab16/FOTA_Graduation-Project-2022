@@ -3,83 +3,66 @@
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :MCAL                   ***********************/
 /***********************   SWC (DRIVER):RCC 			 ***********************/
-/***********************   DATA : 15-11-2021 			 ***********************/
+/***********************   DATA : 21-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 #ifndef RCC_PRIVATE_H_
 #define RCC_PRIVATE_H_
 
+
+//Max number of peripherals
 #define RCC_NUM_REGISTER 		32
 
-/*the speed of high speed internal */
+//The speed of high speed internal
 #define RCC_HSI_SPEED 			8000000
 
-
-#define ENABLE 			1
-#define DISABLE			0
-
-
+//AHB Range
 #define AHB_START		10
 #define AHB_END			20
 
-#define APB1_START		51
-#define APB1_END		30
+//APB1 Range
+#define APB1_START		70
+#define APB1_END		99
 
-#define APB2_START		70
-#define APB2_END		99
+//APB2 Range
+#define APB2_START		30
+#define APB2_END		51
 
-
-/*
- * the offset of all busses
- * 												*/
+//Bus Offsets
 #define RCC_AHB_OFFSET			10
 #define RCC_APB2_OFFSET			30
 #define RCC_APB1_OFFSET			70
 
-/*
- * CLOCK CONTROL REGISTER
- * */
+//Clock Control Registers
 #define RCC_PLL_READY 			25
 #define RCC_HSE_READY			17
 #define RCC_HSI_READY			1
 
+//Clock Control Registers
 #define RCC_PLL_ON 				24
 #define RCC_HSE_ON				16
 #define RCC_HSI_ON 				0
 
-/*
- * The Clock Selection
- *
- */
-
+//Clock Selection
 #define RCC_HSE_SELECTION		0b01
 #define RCC_PLL_SELECTION		0b10
 #define RCC_HSI_SELECTION		0b00
 
-/*
- * prescaler of APB1
- * */
+//APB1 Prescalar
 #define RCC_APB1_DIV1		0b000
 #define RCC_APB1_DIV2		0b100
 #define RCC_APB1_DIV4		0b101
 #define RCC_APB1_DIV6      0b110
 #define RCC_APB1_DIV8      0b111
 
-
-/*
- * prescaler of APB2
- * */
-
+//APB2 Prescalar
 #define RCC_APB2_DIV1		0b000
 #define RCC_APB2_DIV2		0b100
 #define RCC_APB2_DIV4		0b101
 #define RCC_APB2_DIV6       0b110
 #define RCC_APB2_DIV8       0b111
 
-/*
- * prescaler of AHB
- *
- */
+//AHB Prescalar
 #define RCC_AHB_DIV1		0b0000
 #define RCC_AHB_DIV2		0b1000
 #define RCC_AHB_DIV4		0b1001
@@ -89,9 +72,7 @@
 #define RCC_AHB_DIV128		0b1101
 #define RCC_AHB_DIV256      0b1110
 
-/*
- * Multiplication of pll
- * */
+//Multiplication of PLL
 #define RCC_PLL_MUL_2       0b0000
 #define RCC_PLL_MUL_3       0b0001
 #define RCC_PLL_MUL_4       0b0010
@@ -109,56 +90,21 @@
 #define RCC_PLL_MUL_16_1    0b1110
 #define RCC_PLL_MUL_16_2    0b1111
 
-
-
-/*Select the Pll entry
- *
- * Select :
- * 			1- HSI
- * 			2- HSE
- *
- * */
-
+//PLL Entry
 #define RCC_PLL_HSI 	 100
 #define RCC_PLL_HSE		 200
 
-
-/*
- * Select the HSE of PLL
- * select =
- * */
+//HSE of PLL
 #define RCC_PLL_HSE_1		 210
 #define RCC_PLL_HSE_12		 110
 
+//Bus IDs
+#define RCC_AHB				0
+#define RCC_APB1			1
+#define RCC_APB2			2
 
-
-/**
- * @def this Function That organize the Clock of Crystal
- */
+//Function to orgainise clock crystal
 void RCC_voidAjustmentClockSys (void);
-
-
-/**
- *
- * @param Copy_u8Bus
- * @param Copy_u8StateBus
- * @return Error Flag
- */
-u8 RCC_u8ChangeModeBuses (u8 Copy_u8Bus , u8 Copy_u8StateBus);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif

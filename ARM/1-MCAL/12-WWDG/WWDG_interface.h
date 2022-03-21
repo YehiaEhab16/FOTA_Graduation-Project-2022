@@ -16,7 +16,7 @@
 #define WWDG_DIVIDE_BY_4		2
 #define WWDG_DIVIDE_BY_8		3
 
-void WWDG_voidReset(u8 Copy_u8WindowValue, u8 Copy_u8TimeoutValue);
+void WWDG_voidReset(u8 Copy_u8TimeoutValue);
 
 
 #endif
