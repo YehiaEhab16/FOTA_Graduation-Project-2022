@@ -34,11 +34,16 @@ static void Scheduler(void)
 			RTOS_sTasks.RTOS_pvoid();
 	}
 }
-
+	u32 RTOS_u32FirstDelay;
+	void *RTOS_pvoid(void)=NULL;
+	u8 RTOS_u8TaskState;
 /*Tasks Handling Functions*/
 //Crearte Task with specific parameters (ex:Priority, Periodicity, ...)
-void RTOS_voidCreateTask(void)
+void RTOS_voidCreateTask(u8 Copy_u8RTOSpriority ,u32 Copy_u32RTOSPeriodicity ,u32 Copy_u32RTOSFirstDelay ,void (*Copy_voidRTOSpvoid)(void))
 {
+	RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u32Periodicity = Copy_u32RTOSPeriodicity;
+	RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u32FirstDelay	 = Copy_u32RTOSFirstDelay;
+	RTOS_sTasks[Copy_u8RTOSpriority].RTOS_pvoid 		 = Copy_voidRTOSpvoid;
 	
 }
 //Set Task State as suspended

@@ -12,14 +12,14 @@
 #define RTOS_PRIVATE_H_
 
 
-struct RTOS_sTasks
+typedef struct
 {
 	u32 RTOS_u32Periodicity;
 	u32 RTOS_u32FirstDelay;
-	void *RTOS_pvoid(void)=NULL;
+	void (*RTOS_pvoid)(void);
 	u8 RTOS_u8Priority;
 	u8 RTOS_u8TaskState;
-};
+}RTOS_Tasks;
 
 //RTOS Task States
 #define RTOS_READY			0
