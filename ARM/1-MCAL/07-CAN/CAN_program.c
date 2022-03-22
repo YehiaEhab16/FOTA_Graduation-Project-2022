@@ -8,102 +8,102 @@
 //#include "PORT_interface.h"
 //#include "PORT_register.h"
 //#include "RCC_interface.h"
-//#include "GPIO_interface.h"
+#include "GPIO_interface.h"
 //#include "GPIO_register.h"
 #include "CAN_interface.h"
 #include "CAN_private.h"
 #include "CAN_config.h"
 
-static CAN_t *CAN_Get(u8 can)
-{
-	switch(can)
-	{
-	case CAN1: return (CAN_t*)CAN1_BASE;
-	case CAN2: return (CAN_t*)CAN2_BASE;
-	default:  return (CAN_t*)CAN1_BASE;
-	}
-}
+//static CAN_t *CAN_Get(u8 can)
+//{
+//	switch(can)
+//	{
+//	case CAN1: return CAN1_BASE;
+//	case CAN2: return CAN2_BASE;
+//	default:  return CAN1_BASE;
+//	}
+//}
 
 void CAN_VoidInit(CAN_HandleTypeDef* hcan){
   
-	CAN_t *CAN_ptr=CAN_Get(hcan->Instance);
+	//CAN_t *hcan->Instance=CAN_Get(hcan->Instance);
   /* Exit from sleep mode */
-  CLR_BIT(CAN_ptr->MCR, CAN_MCR_SLEEP);
+  CLR_BIT(hcan->Instance->MCR, CAN_MCR_SLEEP);
 
   /* Request initialization */
-  SET_BIT(CAN_ptr->MCR, CAN_MCR_INRQ);
+  SET_BIT(hcan->Instance->MCR, CAN_MCR_INRQ);
   
   /* Check acknowledge */
-  if ((CAN_ptr->MSR & CAN_MSR_INAK) == CAN_MSR_INAK)
+  if ((hcan->Instance->MSR & CAN_MSR_INAK) == CAN_MSR_INAK)
   {
 	  /* Set the time triggered communication mode */
     if (hcan->Init.CAN_TTCM == ENABLE)
     {
-      CAN_ptr->MCR |= CAN_MCR_TTCM;
+      hcan->Instance->MCR |= CAN_MCR_TTCM;
     }
 	else
     {
-      CAN_ptr->MCR &= ~(u32)CAN_MCR_TTCM;
+      hcan->Instance->MCR &= ~(u32)CAN_MCR_TTCM;
     }
 	
 	/* Set the automatic bus-off management */
     if (hcan->Init.CAN_ABOM == ENABLE)
     {
-      CAN_ptr->MCR |= CAN_MCR_ABOM;
+      hcan->Instance->MCR |= CAN_MCR_ABOM;
     }
     else
     {
-      CAN_ptr->MCR &= ~(u32)CAN_MCR_ABOM;
+      hcan->Instance->MCR &= ~(u32)CAN_MCR_ABOM;
     }
 
     /* Set the automatic wake-up mode */
     if (hcan->Init.CAN_AWUM == ENABLE)
     {
-      CAN_ptr->MCR |= CAN_MCR_AWUM;
+      hcan->Instance->MCR |= CAN_MCR_AWUM;
     }
     else
     {
-      CAN_ptr->MCR &= ~(u32)CAN_MCR_AWUM;
+      hcan->Instance->MCR &= ~(u32)CAN_MCR_AWUM;
     }
 	
 	/* Set the no automatic retransmission */
     if (hcan->Init.CAN_NART == ENABLE)
     {
-      CAN_ptr->MCR |= CAN_MCR_NART;
+      hcan->Instance->MCR |= CAN_MCR_NART;
     }
     else
     {
-      CAN_ptr->MCR &= ~(u32)CAN_MCR_NART;
+      hcan->Instance->MCR &= ~(u32)CAN_MCR_NART;
     }
 
     /* Set the receive FIFO locked mode */
     if (hcan->Init.CAN_RFLM == ENABLE)
 	{
-      CAN_ptr->MCR |= CAN_MCR_RFLM;
+      hcan->Instance->MCR |= CAN_MCR_RFLM;
     }
     else
     {
-      CAN_ptr->MCR &= ~(u32)CAN_MCR_RFLM;
+      hcan->Instance->MCR &= ~(u32)CAN_MCR_RFLM;
     }
     
     /* Set the transmit FIFO priority */
     if (hcan->Init.CAN_TXFP == ENABLE)
     {
-      CAN_ptr->MCR |= CAN_MCR_TXFP;
+      hcan->Instance->MCR |= CAN_MCR_TXFP;
     }
     else
     {
-      CAN_ptr->MCR &= ~(u32)CAN_MCR_TXFP;
+      hcan->Instance->MCR &= ~(u32)CAN_MCR_TXFP;
     }
 	
-	CAN_ptr->BTR =(u32)     ((u32)hcan->Init.CAN_MODE << 30   )
+	hcan->Instance->BTR =(u32)     ((u32)hcan->Init.CAN_MODE << 30   )
 							 |     ((u32)hcan->Init.CAN_SJW  << 24   )
 							 |     ((u32)hcan->Init.CAN_BS1  << 16   )
 							 |     ((u32)hcan->Init.CAN_BS2  << 20   )
 							 |     ((u32)hcan->Init.CAN_Prescaler-1  ) ;
 		
     /* Request leave initialisation */
-    CLR_BIT(CAN_ptr->MCR, CAN_MCR_INRQ);
+    CLR_BIT(hcan->Instance->MCR, CAN_MCR_INRQ);
 	
   }
 }
@@ -111,10 +111,10 @@ void CAN_VoidInit(CAN_HandleTypeDef* hcan){
 /****************************************************************************************/
 /****************************************************************************************/
 
-void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct)
+void CAN_VoidFilterSet(CAN_FilterInitTypeDef* CAN_FilterInitStruct)
 {
 
-	CAN_t *CAN = CAN_Get(Copy_u8CAN);
+//	CAN_t *CAN = CAN_Get(Copy_u8CAN);
 
 	    u32 Local_u32filterNumberPosition ; // filter posotion number in the register
 	    u8  Local_u8FilterBankExidId ;	   //contain exdended [15 :17] of filter id
@@ -148,16 +148,16 @@ void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct
 		Local_u32filterNumberPosition = ( (u32)(1) ) << CAN_FilterInitStruct->CAN_FilterBankNumber;
 
 	/* Initialisation mode for the filter */
-	CAN->FMR |= CAN_FMR_FINIT;
+	CAN1->FMR |= CAN_FMR_FINIT;
 	/* Filter Deactivation */
-	CAN->FA1R &= ~(u32)Local_u32filterNumberPosition;
+	CAN1->FA1R &= ~(u32)Local_u32filterNumberPosition;
 
 
 	switch (CAN_FilterInitStruct->CAN_FilterBankScale )
 	{
 		case (CAN_FILTERSCALE_16BIT):
 			/* 16-bit scale for the filter */
-			CAN->FS1R &= ~(u32)Local_u32filterNumberPosition;
+			CAN1->FS1R &= ~(u32)Local_u32filterNumberPosition;
 
 				/* Filter mapping
 			 *   15-8        7-5    4   3     2-0
@@ -175,11 +175,11 @@ void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct
 			{
 				case(CAN_FILTERMODE_IDMASK):
 				/*Id/Mask mode for the filter*/
-					CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
+					CAN1->FM1R &= ~(u32)Local_u32filterNumberPosition;
 														 /*FR1 =FR2 = [Local_u16FilterbankMaskId |Local_u16FilterbankId]*/
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 =  ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 =  ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
 																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 =  ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 =  ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
 																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
 				break;
 
@@ -187,12 +187,12 @@ void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct
 				/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
 
 					/*Identifier list mode for the filter*/
-					CAN->FM1R |= (u32)Local_u32filterNumberPosition;
+					CAN1->FM1R |= (u32)Local_u32filterNumberPosition;
 
 									   /*FR1 =FR2 = [Local_u16FilterbankId |Local_u16FilterbankId]*/
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
 																							| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
 																						| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
 					break;
 			}
@@ -200,28 +200,28 @@ void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct
 
 		case(CAN_FILTERSCALE_32BIT):
 			/* 32-bit scale for the filter */
-			CAN->FS1R |= (u32)Local_u32filterNumberPosition;
+			CAN1->FS1R |= (u32)Local_u32filterNumberPosition;
 
 			/* Filter Mode */
 			switch (CAN_FilterInitStruct->CAN_FilterMode )
 			{
 				case (CAN_FILTERMODE_IDMASK):
 					/*Id/Mask mode for the filter*/
-					CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
+					CAN1->FM1R &= ~(u32)Local_u32filterNumberPosition;
 
 					/* for scale 32bit FilterbankID = FR1 and FilterbankMASK = FR2 */
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = (u32)CAN_FilterInitStruct->CAN_FilterMaskId ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = (u32)CAN_FilterInitStruct->CAN_FilterMaskId ;
 				break;
 
 				case (CAN_FILTERMODE_IDLIST):
 				/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
 
 					/*Id list mode for the filter*/
-					CAN->FM1R |= (u32)Local_u32filterNumberPosition;
+					CAN1->FM1R |= (u32)Local_u32filterNumberPosition;
 					/* for scale 32bit FilterbankID = FilterbankMASK = FR1 = FR2 */
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
-					CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
 				break;
 			}
 		break;
@@ -230,16 +230,16 @@ void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct
 	switch(CAN_FilterInitStruct->CAN_FilterFIFONumber)
 	{
 		case (CAN_FIFO_0):
-			CAN->FFA1R &= ~(u32)Local_u32filterNumberPosition;     // FIFO 0 chosen for the filter
+			CAN1->FFA1R &= ~(u32)Local_u32filterNumberPosition;     // FIFO 0 chosen for the filter
 		break;
 		case (CAN_FIFO_1):
-			CAN->FFA1R |= (u32)Local_u32filterNumberPosition;   // FIFO 1 chosen for the filter
+			CAN1->FFA1R |= (u32)Local_u32filterNumberPosition;   // FIFO 1 chosen for the filter
  		break;
 	}
 	// Filter activation
-	if (CAN_FilterInitStruct->CAN_FilterActivation == 1) CAN->FA1R |= Local_u32filterNumberPosition;
+	if (CAN_FilterInitStruct->CAN_FilterActivation == 1) CAN1->FA1R |= Local_u32filterNumberPosition;
 
-    CAN->FMR &= ~CAN_FMR_FINIT;     //release init mode for the input filter */
+    CAN1->FMR &= ~CAN_FMR_FINIT;     //release init mode for the input filter */
 }
 
 
@@ -297,18 +297,18 @@ void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct
 void CAN_VoidTransmit(CAN_HandleTypeDef* hcan){
 	
 	u32 transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
-	CAN_t *CAN_ptr=CAN_Get(hcan->Instance);
+	//CAN_t *hcan->Instance=CAN_Get(hcan->Instance);
 	
 	 /* Select one empty transmit mailbox */
-  if ((CAN_ptr->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)			//check if mailox 0 is empty -- TSR/transmit status register -- TME/Transmit mailbox 0 empty
+  if ((hcan->Instance->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)			//check if mailox 0 is empty -- TSR/transmit status register -- TME/Transmit mailbox 0 empty
   {
 	transmitmailbox = 0;
   }
-  else if ((CAN_ptr->TSR & CAN_TSR_TME1) == CAN_TSR_TME1)	//check if mailox 1 is empty
+  else if ((hcan->Instance->TSR & CAN_TSR_TME1) == CAN_TSR_TME1)	//check if mailox 1 is empty
   {
     transmitmailbox = 1;
   }
-  else if ((CAN_ptr->TSR & CAN_TSR_TME2) == CAN_TSR_TME2)	//check if mailox 2 is empty
+  else if ((hcan->Instance->TSR & CAN_TSR_TME2) == CAN_TSR_TME2)	//check if mailox 2 is empty
   {
     transmitmailbox = 2;
   }
@@ -320,41 +320,42 @@ void CAN_VoidTransmit(CAN_HandleTypeDef* hcan){
   if (transmitmailbox != CAN_TXSTATUS_NOMAILBOX)
   {
     /* Set up the Id */
-    CAN_ptr->sTxMailBox[transmitmailbox].TIR &= CAN_TI0R_TXRQ;                // TXRQ/ Transmit Mailbox Request
+    hcan->Instance->sTxMailBox[transmitmailbox].TIR &= CAN_TI0R_TXRQ;                // TXRQ/ Transmit Mailbox Request
     if (hcan->pTxMsg->IDE == CAN_ID_STD)
     {
-      CAN_ptr->sTxMailBox[transmitmailbox].TIR |= ((hcan->pTxMsg->StdId << CAN_TI0R_STID_BIT_POSITION) |
+      hcan->Instance->sTxMailBox[transmitmailbox].TIR |= ((hcan->pTxMsg->StdId << CAN_TI0R_STID_BIT_POSITION) |
                                                            hcan->pTxMsg->RTR);
-	  //CAN_ptr->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 3); //standard
+
+      //hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 3); //standard
     }
     else
     {
-      CAN_ptr->sTxMailBox[transmitmailbox].TIR |= ((hcan->pTxMsg->ExtId << CAN_TI0R_EXID_BIT_POSITION) |
+      hcan->Instance->sTxMailBox[transmitmailbox].TIR |= ((hcan->pTxMsg->ExtId << CAN_TI0R_EXID_BIT_POSITION) |
                                                            hcan->pTxMsg->IDE |
                                                            hcan->pTxMsg->RTR);
     }
-	   //CAN_ptr->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 21); //extended
+	   //hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 21); //extended
 
     
     /* Set up the DLC */ // Data Length Code
     hcan->pTxMsg->DLC &= (u8)0x0000000F;
-    CAN_ptr->sTxMailBox[transmitmailbox].TDTR &= (u32)0xFFFFFFF0;
-    CAN_ptr->sTxMailBox[transmitmailbox].TDTR |= hcan->pTxMsg->DLC;
+    hcan->Instance->sTxMailBox[transmitmailbox].TDTR &= (u32)0xFFFFFFF0;
+    hcan->Instance->sTxMailBox[transmitmailbox].TDTR |= hcan->pTxMsg->DLC;
 
     /* Set up the data field */
-    CAN_ptr->sTxMailBox[transmitmailbox].TDLR= (u32) ((u32)hcan->pTxMsg->Data[3] << CAN_TDL0R_DATA3_BIT_POSITION)
+    hcan->Instance->sTxMailBox[transmitmailbox].TDLR= (u32) ((u32)hcan->pTxMsg->Data[3] << CAN_TDL0R_DATA3_BIT_POSITION)
 														|	((u32)hcan->pTxMsg->Data[2] << CAN_TDL0R_DATA2_BIT_POSITION)
 														|	((u32)hcan->pTxMsg->Data[1] << CAN_TDL0R_DATA1_BIT_POSITION)
 														|	((u32)hcan->pTxMsg->Data[0] << CAN_TDL0R_DATA0_BIT_POSITION);
 														
-    CAN_ptr->sTxMailBox[transmitmailbox].TDHR= (u32) ((u32)hcan->pTxMsg->Data[7] << CAN_TDL0R_DATA3_BIT_POSITION)
+    hcan->Instance->sTxMailBox[transmitmailbox].TDHR= (u32) ((u32)hcan->pTxMsg->Data[7] << CAN_TDL0R_DATA3_BIT_POSITION)
 														|	((u32)hcan->pTxMsg->Data[6] << CAN_TDL0R_DATA2_BIT_POSITION)
 														|	((u32)hcan->pTxMsg->Data[5] << CAN_TDL0R_DATA1_BIT_POSITION)
 														|	((u32)hcan->pTxMsg->Data[4] << CAN_TDL0R_DATA0_BIT_POSITION);
 															
 	
     /* Request transmission */
-    SET_BIT(CAN_ptr->sTxMailBox[transmitmailbox].TIR, CAN_TI0R_TXRQ);
+    SET_BIT(hcan->Instance->sTxMailBox[transmitmailbox].TIR, CAN_TI0R_TXRQ);
   }
 }
 
@@ -400,17 +401,19 @@ static void CAN_voidRead(CAN_t* CAN, CAN_msg *msg, u8 Copy_u8FIFOIndex)
 
 }
 
-void CAN_voidReceive(u8 Copy_u8CAN, CAN_msg *msg, u8 Copy_u8FIFOIndex)
+void CAN_voidReceive( CAN_msg *msg, u8 Copy_u8FIFOIndex)
 {
-	CAN_t *CAN = CAN_Get(Copy_u8CAN);
 	u32 Receive_FIFO_Reg ;
-	if (Copy_u8FIFOIndex==0) {Receive_FIFO_Reg = CAN->RF0R;}
-	else {Receive_FIFO_Reg = CAN->RF1R;}
+	if (Copy_u8FIFOIndex==0) {Receive_FIFO_Reg = CAN1->RF0R;}
+	else {Receive_FIFO_Reg = CAN1->RF1R;}
 
 	/* Check that there is a message pending */
 	if ((Receive_FIFO_Reg & 0x0003) != 0)		//check FMP bits
 	{
-		CAN_voidRead(CAN, msg, Copy_u8FIFOIndex);
+//	  	GPIO_u8SetPinValue(GPIO_PORTA , GPIO_PIN_5 , GPIO_PIN_LOW);
+//	  	for(int i=0;i<50000000;i++){};
+		CAN_voidRead(CAN1, msg, Copy_u8FIFOIndex);
+
 	}
 	Receive_FIFO_Reg |= RELEASE;		// Release FIFO
 }
@@ -497,15 +500,15 @@ void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
   {
     
 	// Select one empty transmit mailbox 
-	if ((CAN_ptr->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)			//check if mailox 0 is empty
+	if ((hcan->Instance->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)			//check if mailox 0 is empty
 	{
 		transmitmailbox = 0;
 	}
-	else if ((CAN_ptr->TSR & CAN_TSR_TME1) == CAN_TSR_TME1)		//check if mailox 1 is empty
+	else if ((hcan->Instance->TSR & CAN_TSR_TME1) == CAN_TSR_TME1)		//check if mailox 1 is empty
 	{
 		transmitmailbox = 1;
 	}
-	else if ((CAN_ptr->TSR & CAN_TSR_TME2) == CAN_TSR_TME2)		//check if mailox 2 is empty
+	else if ((hcan->Instance->TSR & CAN_TSR_TME2) == CAN_TSR_TME2)		//check if mailox 2 is empty
 	{
 		transmitmailbox = 2;
 	}
@@ -519,28 +522,28 @@ void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
     if(transmitmailbox != CAN_TXSTATUS_NOMAILBOX)
     {
       // Set up the Id 
-      CAN_ptr->sTxMailBox[transmitmailbox].TIR &= CAN_TI0R_TXRQ;
+      hcan->Instance->sTxMailBox[transmitmailbox].TIR &= CAN_TI0R_TXRQ;
       if (hcan->pTxMsg->IDE == CAN_ID_STD)
       {											   
-        CAN_ptr->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 3); //extended
+        hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 3); //extended
       }
       else
       {
-        CAN_ptr->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 21); //standard
+        hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 21); //standard
       }
       
       // Set up the DLC 
       hcan->pTxMsg->DLC &= (u8)0x0000000F;
-      CAN_ptr->sTxMailBox[transmitmailbox].TDTR &= (u32)0xFFFFFFF0;
-      CAN_ptr->sTxMailBox[transmitmailbox].TDTR |= hcan->pTxMsg->DLC;
+      hcan->Instance->sTxMailBox[transmitmailbox].TDTR &= (u32)0xFFFFFFF0;
+      hcan->Instance->sTxMailBox[transmitmailbox].TDTR |= hcan->pTxMsg->DLC;
       
       // Set up the data field 
-      CAN_ptr->sTxMailBox[transmitmailbox].TDLR= (u32) ((u32)hcan->pTxMsg->Data[3] << CAN_TDL0R_DATA3_BIT_POSITION)
+      hcan->Instance->sTxMailBox[transmitmailbox].TDLR= (u32) ((u32)hcan->pTxMsg->Data[3] << CAN_TDL0R_DATA3_BIT_POSITION)
       													|	((u32)hcan->pTxMsg->Data[2] << CAN_TDL0R_DATA2_BIT_POSITION)
       													|	((u32)hcan->pTxMsg->Data[1] << CAN_TDL0R_DATA1_BIT_POSITION)
       													|	((u32)hcan->pTxMsg->Data[0] << CAN_TDL0R_DATA0_BIT_POSITION);
       													
-      CAN_ptr->sTxMailBox[transmitmailbox].TDHR= (u32) ((u32)hcan->pTxMsg->Data[7] << CAN_TDL0R_DATA3_BIT_POSITION)
+      hcan->Instance->sTxMailBox[transmitmailbox].TDHR= (u32) ((u32)hcan->pTxMsg->Data[7] << CAN_TDL0R_DATA3_BIT_POSITION)
       													|	((u32)hcan->pTxMsg->Data[6] << CAN_TDL0R_DATA2_BIT_POSITION)
       													|	((u32)hcan->pTxMsg->Data[5] << CAN_TDL0R_DATA1_BIT_POSITION)
       													|	((u32)hcan->pTxMsg->Data[4] << CAN_TDL0R_DATA0_BIT_POSITION);
@@ -555,7 +558,7 @@ void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
       //  - Enable Error Interrupt 
       //  - Enable Transmit mailbox empty Interrupt 
 
-      CAN_ptr->IER =  CAN_IT_EWG
+      hcan->Instance->IER =  CAN_IT_EWG
                             |CAN_IT_EPV
                             |CAN_IT_BOF
                             |CAN_IT_LEC
@@ -563,7 +566,7 @@ void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
                             |CAN_IT_TME;
       
       // Request transmission 
-      CAN_ptr->sTxMailBox[transmitmailbox].TIR |= CAN_TI0R_TXRQ;
+      hcan->Instance->sTxMailBox[transmitmailbox].TIR |= CAN_TI0R_TXRQ;
     }
   }
 }

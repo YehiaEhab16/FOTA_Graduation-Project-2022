@@ -15,8 +15,8 @@
 #define DATA_FRAME       	            0
 #define REMOTE_FRAME     	            1
 
-#define CAN1                0
-#define CAN2                1
+//#define CAN1                0
+//#define CAN2                1
 
 /* Mailboxes definitions */
 #define CAN_TXMAILBOX_0   			((u8)0x00)										//Mailbox1
@@ -129,8 +129,8 @@ void CAN_VoidTransmit(CAN_HandleTypeDef* hcan);
 u8 CAN_U8Transmit(CAN_t* hcan, CanTxMsgTypeDef* TxMessage);
 void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan);
 //void CAN_voidTransmit(u8 Copy_u8CAN, u32 Copy_u32ID, u8 Copy_u8IDType, u8 Copy_u8FrameType, u8 *m, u8 mailIndex);
-void CAN_voidFiltersInit(u8 Copy_u8CAN, u32 Copy_u32ID);
-void CAN_voidReceive(u8 Copy_u8CAN, CAN_msg *msg, u8 Copy_u8FIFOIndex);
-void CAN_VoidFilterSet(u8 Copy_u8CAN,CAN_FilterInitTypeDef* CAN_FilterInitStruct);
+//void CAN_voidFiltersInit( u32 Copy_u32ID);
+void CAN_voidReceive( CAN_msg *msg, u8 Copy_u8FIFOIndex);
+void CAN_VoidFilterSet(CAN_FilterInitTypeDef* CAN_FilterInitStruct);
 
 #endif

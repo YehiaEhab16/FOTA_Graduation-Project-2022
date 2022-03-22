@@ -6,8 +6,7 @@
 #define CAN_PRIVATE_H
 
 
-#define CAN1_BASE                       ((u32)0x40006400)
-#define CAN2_BASE                       ((u32)0x40006800)
+//#define CAN2_BASE                       ((u32)0x40006800)
 
 
 typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
@@ -138,6 +137,7 @@ typedef struct
 
 
 #define		RELEASE 		((u32)1<<5)
+#define CAN1                       ((CAN_t *)0x40006400)
 
 
 //Registers Definitions

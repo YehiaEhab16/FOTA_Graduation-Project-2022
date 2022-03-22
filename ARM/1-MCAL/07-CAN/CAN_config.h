@@ -32,7 +32,7 @@ typedef struct  {
 
 typedef struct
 {
-  u8		                 Instance;  		 /* CAN peripheral  (0 or 1)       */
+  CAN_t*		                 Instance;  		 /* CAN peripheral  (0 or 1)       */
 
   CAN_InitTypeDef             Init;      		 /* CAN required parameters        */
 
