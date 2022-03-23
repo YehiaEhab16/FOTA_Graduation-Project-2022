@@ -24,7 +24,7 @@ void STK_voidInit(void)
 #if SLK_CLOCK_PRE == AHB_CLOCK_SOURCE
 	STK -> STK_CTRL =0x00000004
 #elif SLK_CLOCK_PRE == AHB_8_CLOCK_SOURCE
-			STK->STK_CTRL =0x00000000 ;
+	STK->STK_CTRL =0x00000000 ;
 #else
 #error "Please enter the correct Prescaler"
 #endif
@@ -45,8 +45,10 @@ void STK_voidDisableTimer (void)
 	STK->STK_VAL = 0;
 }
 
+
 void STK_voidDelay(u32 Copy_u8TimeMilleSecond)
 {
+
 	u32 Local_u8LoadVal ;
 	Local_u8LoadVal= Copy_u8TimeMilleSecond*1000;
 	/*Set the value in Load Register */
@@ -56,7 +58,7 @@ void STK_voidDelay(u32 Copy_u8TimeMilleSecond)
 	/*Start The Time */
 	SET_BIT(STK->STK_CTRL, EN_ABLE) ;
 
-	while (GET_BIT(STK->STK_CTRL,COUNT_FLAG)==1);
+	while (GET_BIT(STK->STK_CTRL,COUNT_FLAG)==0);
 
 	/*Disable the Timer*/
 	CLR_BIT(STK->STK_CTRL, EN_ABLE) ;

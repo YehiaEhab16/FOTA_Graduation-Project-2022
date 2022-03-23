@@ -19,7 +19,7 @@ typedef struct
 }STK_TYPE;
 
 
-#define STK		((STK_TYPE *)(0xE000E010))
+#define STK		((volatile STK_TYPE *)(0xE000E010))
 
 
 
