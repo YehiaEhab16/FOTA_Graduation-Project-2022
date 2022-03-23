@@ -36,7 +36,7 @@ typedef struct
 
   CAN_InitTypeDef             Init;      		 /* CAN required parameters        */
 
-  CanTxMsgTypeDef*            pTxMsg;    		 /* Pointer to transmit structure  */
+  CAN_msg*            pTxMsg;    		 /* Pointer to transmit structure  */
 
   CAN_msg*            pRxMsg;    		 /* Pointer to reception structure */
 
@@ -66,4 +66,3 @@ typedef struct
 
 
 #endif
-

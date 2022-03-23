@@ -1,7 +1,3 @@
-/**********************************************************/
-/* GRADUATION PROJECT : (FOTA)							  */
-/* Version   : V01                                        */
-/**********************************************************/
 
 #include "BIT_MATH.h"
 #include "STD_TYPES.h"
@@ -9,7 +5,7 @@
 //#include "PORT_register.h"
 //#include "RCC_interface.h"
 #include "GPIO_interface.h"
-//#include "GPIO_register.h"
+#include "GPIO_register.h"
 #include "CAN_interface.h"
 #include "CAN_private.h"
 #include "CAN_config.h"
@@ -294,72 +290,86 @@ void CAN_VoidFilterSet(CAN_FilterInitTypeDef* CAN_FilterInitStruct)
 /****************************************************************************************/
 /****************************************************************************************/
 
-void CAN_VoidTransmit(CAN_HandleTypeDef* hcan){
-	
-	u32 transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
-	//CAN_t *hcan->Instance=CAN_Get(hcan->Instance);
-	
-	 /* Select one empty transmit mailbox */
-  if ((hcan->Instance->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)			//check if mailox 0 is empty -- TSR/transmit status register -- TME/Transmit mailbox 0 empty
+
+
+u8 CAN_VoidTransmit(CAN_HandleTypeDef* hcan)
+{
+
+
+  u8 transmitmailbox = 0;       //empty
+  u8 DataCounter ;              //counter to set data into Transit Data register byte by byte
+
+  if ((hcan->Instance->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)      //check if mailox 0 is empty
   {
-	transmitmailbox = 0;
+    transmitmailbox = 0;
   }
-  else if ((hcan->Instance->TSR & CAN_TSR_TME1) == CAN_TSR_TME1)	//check if mailox 1 is empty
+  else if ((hcan->Instance->TSR & CAN_TSR_TME1) == CAN_TSR_TME1) //check if mailox 1 is empty
   {
     transmitmailbox = 1;
   }
-  else if ((hcan->Instance->TSR & CAN_TSR_TME2) == CAN_TSR_TME2)	//check if mailox 2 is empty
+  else if ((hcan->Instance->TSR & CAN_TSR_TME2) == CAN_TSR_TME2) //check if mailox 2 is empty
   {
     transmitmailbox = 2;
   }
   else
   {
-    transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
+    transmitmailbox = 0;                   // No mail box is empty
+	hcan->Instance->sTxMailBox[transmitmailbox].TDLR = 0;
+	hcan->Instance->sTxMailBox[transmitmailbox].TDHR = 0;
+
   }
-  
-  if (transmitmailbox != CAN_TXSTATUS_NOMAILBOX)
-  {
-    /* Set up the Id */
-    hcan->Instance->sTxMailBox[transmitmailbox].TIR &= CAN_TI0R_TXRQ;                // TXRQ/ Transmit Mailbox Request
-    if (hcan->pTxMsg->IDE == CAN_ID_STD)
-    {
-      hcan->Instance->sTxMailBox[transmitmailbox].TIR |= ((hcan->pTxMsg->StdId << CAN_TI0R_STID_BIT_POSITION) |
-                                                           hcan->pTxMsg->RTR);
 
-      //hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 3); //standard
-    }
-    else
-    {
-      hcan->Instance->sTxMailBox[transmitmailbox].TIR |= ((hcan->pTxMsg->ExtId << CAN_TI0R_EXID_BIT_POSITION) |
-                                                           hcan->pTxMsg->IDE |
-                                                           hcan->pTxMsg->RTR);
-    }
-	   //hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 21); //extended
+ if (transmitmailbox != CAN_TXSTATUS_NOMAILBOX)
+ {
+	hcan->Instance->sTxMailBox[transmitmailbox].TIR = 0;                                               //Reset Identifier Register
 
-    
-    /* Set up the DLC */ // Data Length Code
-    hcan->pTxMsg->DLC &= (u8)0x0000000F;
-    hcan->Instance->sTxMailBox[transmitmailbox].TDTR &= (u32)0xFFFFFFF0;
-    hcan->Instance->sTxMailBox[transmitmailbox].TDTR |= hcan->pTxMsg->DLC;
+	hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->format << 2) | (hcan->pTxMsg->type << 1 ) ;//set RTR and IDE of input frame
 
-    /* Set up the data field */
-    hcan->Instance->sTxMailBox[transmitmailbox].TDLR= (u32) ((u32)hcan->pTxMsg->Data[3] << CAN_TDL0R_DATA3_BIT_POSITION)
-														|	((u32)hcan->pTxMsg->Data[2] << CAN_TDL0R_DATA2_BIT_POSITION)
-														|	((u32)hcan->pTxMsg->Data[1] << CAN_TDL0R_DATA1_BIT_POSITION)
-														|	((u32)hcan->pTxMsg->Data[0] << CAN_TDL0R_DATA0_BIT_POSITION);
-														
-    hcan->Instance->sTxMailBox[transmitmailbox].TDHR= (u32) ((u32)hcan->pTxMsg->Data[7] << CAN_TDL0R_DATA3_BIT_POSITION)
-														|	((u32)hcan->pTxMsg->Data[6] << CAN_TDL0R_DATA2_BIT_POSITION)
-														|	((u32)hcan->pTxMsg->Data[5] << CAN_TDL0R_DATA1_BIT_POSITION)
-														|	((u32)hcan->pTxMsg->Data[4] << CAN_TDL0R_DATA0_BIT_POSITION);
-															
-	
-    /* Request transmission */
-    SET_BIT(hcan->Instance->sTxMailBox[transmitmailbox].TIR, CAN_TI0R_TXRQ);
-  }
+		//set CAN identifier
+		if (hcan->pTxMsg->format) //extended
+		{
+			hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->id << 3); //extended
+		}
+
+		else //standard
+		{
+			hcan->Instance->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->id << 21); //standard
+		}
+
+		hcan->Instance->sTxMailBox[transmitmailbox].TDTR = (hcan->Instance->sTxMailBox[transmitmailbox].TDTR & (~0x0f))		//set data length
+				                                               | hcan->pTxMsg->len ;
+
+		//reset transmit data registers
+		hcan->Instance->sTxMailBox[transmitmailbox].TDLR = 0;
+		hcan->Instance->sTxMailBox[transmitmailbox].TDHR = 0;
+
+		for ( DataCounter = 0; DataCounter < hcan->pTxMsg->len; DataCounter++)
+		{
+
+			if (DataCounter < 4)                //set LSB (16 bits) of the Data
+			{
+
+				hcan->Instance->sTxMailBox[transmitmailbox].TDLR |= (hcan->pTxMsg->data[DataCounter] << (8 * DataCounter)); // masking word byte by byte to low register
+
+			}
+			else                                //(DataCounter >= 4) - //set MSB (16 bits) of the Data
+			{
+
+				hcan->Instance->sTxMailBox[transmitmailbox].TDHR |= (hcan->pTxMsg->data[DataCounter] << (8 * (DataCounter - 4)));// masking word byte by byte to high register
+
+			}
+
+		}
+//		GPIO_u8SetPinValue(GPIO_PORTA , GPIO_PIN_5 , GPIO_PIN_LOW);
+
+
+
 }
+		hcan->Instance->sTxMailBox[transmitmailbox].TIR |= CAN_TI0R_TXRQ;  //Transmit Mailbox Request
 
+ return transmitmailbox;           // result state
 
+}
 
 
 static void CAN_voidRead(CAN_t* CAN, CAN_msg *msg, u8 Copy_u8FIFOIndex)
@@ -410,6 +420,12 @@ void CAN_voidReceive( CAN_msg *msg, u8 Copy_u8FIFOIndex)
 	/* Check that there is a message pending */
 	if ((Receive_FIFO_Reg & 0x0003) != 0)		//check FMP bits
 	{
+		int i,j;
+		for(j=0;j<3;j++)
+		{GPIO_u8SetPinValue(GPIO_PORTA,  GPIO_PIN_5 , GPIO_PIN_HIGH);
+	for(i=0;i<500000;i++){}
+	GPIO_u8SetPinValue(GPIO_PORTA , GPIO_PIN_5 , GPIO_PIN_LOW);
+	for(i=0;i<500000;i++){}}
 //	  	GPIO_u8SetPinValue(GPIO_PORTA , GPIO_PIN_5 , GPIO_PIN_LOW);
 //	  	for(int i=0;i<50000000;i++){};
 		CAN_voidRead(CAN1, msg, Copy_u8FIFOIndex);
@@ -419,83 +435,11 @@ void CAN_voidReceive( CAN_msg *msg, u8 Copy_u8FIFOIndex)
 }
 
 /****************************************************************************************/
-/*
-u8 CAN_U8Transmit(CAN_t* hcan, CanTxMsgTypeDef* TxMessage)
-{
 
-  u8 transmitmailbox = 0;       //empty 
-  u8 DataCounter ; //counter to set data into Transit Data register byte by byte	
-	
-	if ((hcan->instance->TSR & CAN_TSR_TME0) == CAN_TSR_TME0) //check if mailox 0 is empty
-  {
-    transmitmailbox = 0;
-  }
-  else if ((hcan->instance->TSR & CAN_TSR_TME1) == CAN_TSR_TME1) //check if mailox 1 is empty
-  {
-    transmitmailbox = 1;
-  }
-  else if ((hcan->instance->TSR & CAN_TSR_TME2) == CAN_TSR_TME2) //check if mailox 2 is empty
-  {
-    transmitmailbox = 2;
-  }
-  else
-  {
-    transmitmailbox = CAN_TXSTATUS_NOMAILBOX; // no mail box is empty
-  }
-	
- if (transmitmailbox != CAN_TXSTATUS_NOMAILBOX) //
- {
-	hcan->instance->sTxMailBox[transmitmailbox].TIR = 0;                                               //reset identifier register
-		
-	hcan->instance->sTxMailBox[transmitmailbox].TIR |= (TxMessage->IDE << 2) | (TxMessage->RTR << 1 ) ;//set RTR and IDE of input frame
-		
-		//set CAN identifier		
-		if (TxMessage->IDE) //standard
-		{	
-			hcan->instance->sTxMailBox[transmitmailbox].TIR |= (TxMessage->ID << 3); //standard
-		}
-		
-		else //extended
-		{	
-			hcan->instance->sTxMailBox[transmitmailbox].TIR |= (TxMessage->ID << 21); //extended
-		}
-		
-		hcan->instance->sTxMailBox[transmitmailbox].TDTR = (hcan->instance->sTxMailBox[transmitmailbox].TDTR & (~0x0f))		//set data length
-				                                               | TxMessage->DLC ;
-		
-		//reset transmit data registers
-		hcan->instance->sTxMailBox[transmitmailbox].TDLR = 0;
-		hcan->instance->sTxMailBox[transmitmailbox].TDHR = 0;
-		
-		for ( DataCounter = 0; DataCounter < TxMessage->DLC; DataCounter++)
-		{
-			
-			if (DataCounter < 4)           //set LSB (16 bits) of the Data 
-			{
-				hcan->instance->sTxMailBox[transmitmailbox].TDLR |= (TxMessage->DATA[DataCounter] << (8 * DataCounter)); // masking word byte by byte to low register
-			}
-			else //(Local_u8DataCounter >= 4)   //set MSB (16 bits) of the Data
-			{
-				hcan->instance->sTxMailBox[transmitmailbox].TDHR |= (TxMessage->DATA[DataCounter] << (8 * (DataCounter - 4)));// masking word byte by byte to high register
-			}
-			
-		}
-		
-		hcan->instance->sTxMailBox[transmitmailbox].TIR |= CAN_TI0R_TXRQ;  //Transmit Mailbox Request
-  
-
-		  return transmitmailbox; // return result state
-
-}
-
-}*/
-/****************************************************************************************/
 /*
 void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
 {
   u32 transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
-
-
   if((hcan->State == CAN_STATE_READY) && (hcan->txState == CAN_RXTX_STATE_READY))
   {
     
@@ -518,7 +462,6 @@ void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
 	}
 	
 	
-
     if(transmitmailbox != CAN_TXSTATUS_NOMAILBOX)
     {
       // Set up the Id 
@@ -557,7 +500,6 @@ void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
       //  - Enable Last error code Interrupt 
       //  - Enable Error Interrupt 
       //  - Enable Transmit mailbox empty Interrupt 
-
       hcan->Instance->IER =  CAN_IT_EWG
                             |CAN_IT_EPV
                             |CAN_IT_BOF
@@ -607,23 +549,18 @@ void CAN_voidInit(u8 Copy_u8CAN, u32 Copy_u32Mode)
 	CAN_t *CAN = CAN_Get(Copy_u8CAN);
 	RCC_u8EnableClock (&CAN_Peripherals[Copy_u8CAN]);	       	  // enable clock for CAN1
 	RCC_voidEnableClock(RCC_APB2,0);            	// enable clock for Alternate Function
-
 	CAN_PinConfig(Copy_u8CAN);
-
 	CAN->MCR |= CAN_MCR_TXFP;					  //set TXFP (priority by request order)
 	CAN->MCR &= ~CAN_MCR_RFLM;					  //overrun fifo
 	CAN->MCR |= CAN_MCR_NART;                     //no auto retransmission
 	CAN->MCR |= CAN_MCR_ABOM;					  //auto bus off management
-
 	CAN->BTR =  0x031C0009;    			          //bit-timing / temporary 
     CAN->BTR |= Copy_u32Mode;
-
     CAN->MCR &= ~CAN_MCR_SLEEP;                   // exit sleep mode
     CAN->MCR |= CAN_MCR_INRQ;                     // init mode
     // wait for initialization mode
     while(((CAN->MSR & CAN_MCR_SLEEP) == CAN_MCR_SLEEP)
     	|| ((CAN->MSR & CAN_MCR_INRQ) != CAN_MCR_INRQ));
-
     CAN->MCR &= ~1;                      // reset INRQ (normal operating mode)
 }
 */
@@ -638,31 +575,26 @@ static void CAN_write (CAN_t *CAN, CAN_msg *msg, u8 Copy_u8MailBoxIndex)
 		case CAN_TXMAILBOX_2: while(!(CAN->TSR & CAN_TSR_TME2)); break;
 		default : CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR  = (u32)(msg->id << 21) ;
 	}
-
 	switch (msg->format)
 	{
 		case CAN_ID_STD: CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR  = (u32)(msg->id << 21) ; break;
 		case CAN_ID_EXT: CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR  = (u32)(msg->id <<3) | 4; break;
 		default : CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR  = (u32)(msg->id << 21) ;
 	}
-
 	switch (msg->type)
 	{
 		case DATA_FRAME  : CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR &= ~(1<<1); break;
 		case REMOTE_FRAME: CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR |= 1<<1; break;
 		default: CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR |= 1<<1;
 	}
-
 	CAN->sTxMailBox[Copy_u8MailBoxIndex].TDLR = (((u32)msg->data[3] << 24)|
 												((u32)msg->data[2] << 16) |
 												((u32)msg->data[1] <<  8) |
 												((u32)msg->data[0]));
-
 	CAN->sTxMailBox[Copy_u8MailBoxIndex].TDHR =  (((u32)msg->data[7] << 24)|
 											     ((u32)msg->data[6] << 16) |
 											     ((u32)msg->data[5] <<  8) |
 											     ((u32)msg->data[4]));
-
 	CAN->sTxMailBox[Copy_u8MailBoxIndex].TDTR &= ~0xf; 					// Setup length
 	CAN->sTxMailBox[Copy_u8MailBoxIndex].TDTR |=  (msg->len & 0xf);
 	CAN->sTxMailBox[Copy_u8MailBoxIndex].TIR |=  1;                     // transmit message
