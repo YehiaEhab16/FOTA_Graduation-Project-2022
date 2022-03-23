@@ -2,7 +2,7 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :RTOS			         ***********************/
-/***********************   DATE : 19-3-2022 			 ***********************/
+/***********************   DATE : 23-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -12,10 +12,10 @@
 #define RTOS_INTERFACE_H_
 
 //Scheduler Functions
-void RTOS_voidStart(void);
+void RTOS_voidInit(void);
 
 //Tasks Handling Functions
-void RTOS_voidCreateTask(u8 Copy_u8RTOSpriority ,u32 Copy_u32RTOSPeriodicity ,u32 Copy_u32RTOSFirstDelay ,void (*Copy_voidRTOSpvoid)(void));
+u8 RTOS_u8CreateTask(u8 Copy_u8RTOSpriority ,u16 Copy_u16RTOSPeriodicity ,u16 Copy_u16RTOSFirstDelay ,void (*Copy_voidRTOSpvoid)(void));
 void RTOS_voidResumeTask(void);
 void RTOS_voidSuspendTask(void);
 void RTOS_voidDeleteTask(void);

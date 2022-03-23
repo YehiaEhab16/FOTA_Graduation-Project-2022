@@ -2,7 +2,7 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :RTOS			         ***********************/
-/***********************   DATE : 19-3-2022 			 ***********************/
+/***********************   DATE : 23-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -14,21 +14,20 @@
 
 typedef struct
 {
-	u32 RTOS_u32Periodicity;
-	u32 RTOS_u32FirstDelay;
+	u16 RTOS_u16Periodicity;
+	u16 RTOS_u16FirstDelay;
 	void (*RTOS_pvoid)(void);
 	u8 RTOS_u8Priority;
 	u8 RTOS_u8TaskState;
-}RTOS_Tasks;
+}RTOS_t;
 
 //RTOS Task States
 #define RTOS_READY			0
-#define RTOS_SUSPENDED		0
-
+#define RTOS_SUSPENDED		1
 
 #define RTOS_NUM_TASKS	100
 
-#define RTOS_TICKTIME	5
+#define RTOS_TICKTIME	1
 		
 static void Scheduler(void);
 

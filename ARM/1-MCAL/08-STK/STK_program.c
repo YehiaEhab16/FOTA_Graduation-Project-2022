@@ -110,7 +110,7 @@ u8 STK_u8DelayAsyPeriodic (u32 Copy_u32TimeMilleSecond , void(*Copy_pvNotifi)(vo
 		/*Set call back function */
 		STK_voidCallBackFunc = Copy_pvNotifi ;
 		/*Set mode of Periodic */
-		STK_u32_MODE = STK_SINGLE_MODE;
+		STK_u32_MODE = STK_PERIODIC_MODE;
 		/*Set the Interrupt */
 		SET_BIT(STK->STK_CTRL,TICK_INT);
 	}
