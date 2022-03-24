@@ -44,7 +44,7 @@ static void Scheduler(void)
 
 /*Tasks Handling Functions*/
 //Crearte Task with specific parameters (ex:Priority, Periodicity, ...)
-u8 RTOS_u8CreateTask(u8 Copy_u8RTOSpriority ,u16 Copy_u16RTOSPeriodicity ,u16 Copy_u16RTOSFirstDelay ,void (*Copy_voidRTOSpvoid)(void))
+u8 RTOS_u8CreateTask(u8 Copy_u8RTOSpriority ,u16 Copy_u16RTOSPeriodicity ,u16 Copy_u16RTOSFirstDelay ,u8 Copy_u8RTOSTaskState ,void (*Copy_voidRTOSpvoid)(void))
 {
 	u8 Local_u8ErrorState = OK;
 	if(Copy_voidRTOSpvoid != NULL)
@@ -55,25 +55,34 @@ u8 RTOS_u8CreateTask(u8 Copy_u8RTOSpriority ,u16 Copy_u16RTOSPeriodicity ,u16 Co
 		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u16Periodicity = Copy_u16RTOSPeriodicity;
 		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u16FirstDelay	 = Copy_u16RTOSFirstDelay;
 		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_pvoid 		 = Copy_voidRTOSpvoid;
-			
+		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u8TaskState    = Copy_u8RTOSTaskState;
+		
+		if ((RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u8TaskState) == RTOS_SUSPENDED)
+			 RTOS_voidSuspendTask(Copy_u8RTOSpriority);
+		
 	}
+	
 	else
 		Local_u8ErrorState=NOK;
 	
 	return Local_u8ErrorState;
 }
 //Set Task State as suspended
-void RTOS_voidSuspendTask(void)
+void RTOS_voidSuspendTask(u8 Copy_u8RTOSTaskNUM)
 {
-	
+	RTOS_sTasks[Copy_u8RTOSTaskNUM].RTOS_u8TaskState         = RTOS_SUSPENDED;
 }
 //Set Task State as resumed
-void RTOS_voidResumeTask(void)
+void RTOS_voidResumeTask(u8 Copy_u8RTOSTaskNUM)
 {
-	
+	RTOS_sTasks[Copy_u8RTOSTaskNUM].RTOS_u8TaskState         = RTOS_READY;
+
 }
 //Completly delete task
-void RTOS_voidDeleteTask(void)
+void RTOS_voidDeleteTask(u8 Copy_u8RTOSTaskNUM)
 {
-	
+		RTOS_sTasks[Copy_u8RTOSTaskNUM].RTOS_u16Periodicity  = NULL;
+		RTOS_sTasks[Copy_u8RTOSTaskNUM].RTOS_u16FirstDelay	 = NULL;
+		RTOS_sTasks[Copy_u8RTOSTaskNUM].RTOS_pvoid 		     = NULL;
+		RTOS_sTasks[Copy_u8RTOSTaskNUM].RTOS_u8TaskState     = NULL;
 }

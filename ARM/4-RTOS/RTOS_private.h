@@ -21,9 +21,14 @@ typedef struct
 	u8 RTOS_u8TaskState;
 }RTOS_t;
 
+
+
+
+
 //RTOS Task States
 #define RTOS_READY			0
 #define RTOS_SUSPENDED		1
+
 
 #define RTOS_NUM_TASKS	100
 

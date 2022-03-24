@@ -16,8 +16,8 @@ void RTOS_voidInit(void);
 
 //Tasks Handling Functions
 u8 RTOS_u8CreateTask(u8 Copy_u8RTOSpriority ,u16 Copy_u16RTOSPeriodicity ,u16 Copy_u16RTOSFirstDelay ,void (*Copy_voidRTOSpvoid)(void));
-void RTOS_voidResumeTask(void);
-void RTOS_voidSuspendTask(void);
-void RTOS_voidDeleteTask(void);
+void RTOS_voidResumeTask (u8 Copy_u8RTOSTaskNUM);
+void RTOS_voidSuspendTask(u8 Copy_u8RTOSTaskNUM);
+void RTOS_voidDeleteTask (u8 Copy_u8RTOSTaskNUM);
 
 #endif
