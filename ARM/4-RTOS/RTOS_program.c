@@ -57,9 +57,6 @@ u8 RTOS_u8CreateTask(u8 Copy_u8RTOSpriority ,u16 Copy_u16RTOSPeriodicity ,u16 Co
 		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_pvoid 		 = Copy_voidRTOSpvoid;
 		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u8TaskState    = Copy_u8RTOSTaskState;
 		
-		if ((RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u8TaskState) == RTOS_SUSPENDED)
-			 RTOS_voidSuspendTask(Copy_u8RTOSpriority);
-		
 	}
 	
 	else
