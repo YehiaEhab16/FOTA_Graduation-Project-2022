@@ -1268,6 +1268,11 @@ ColorButton::disabled {
    <number>0</number>
   </property>
   <widget class="QWidget" name="tab">
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
    <attribute name="title">
     <string>Keypad</string>
    </attribute>
@@ -1610,15 +1615,15 @@ ColorButton::disabled {
    <widget class="QPushButton" name="back">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
+      <x>710</x>
+      <y>400</y>
+      <width>81</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>16</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -1633,9 +1638,9 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>350</y>
-      <width>301</width>
-      <height>91</height>
+      <y>360</y>
+      <width>291</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
