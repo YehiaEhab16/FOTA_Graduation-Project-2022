@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>470</height>
+    <width>780</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="font">
@@ -1270,7 +1270,7 @@ ColorButton::disabled {
 }</string>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="tab">
    <property name="font">
@@ -1632,8 +1632,8 @@ ColorButton::disabled {
    <widget class="QPushButton" name="back">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>370</y>
+      <x>690</x>
+      <y>300</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -1655,8 +1655,8 @@ ColorButton::disabled {
    <widget class="QPushButton" name="dial">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>350</y>
+      <x>390</x>
+      <y>270</y>
       <width>291</width>
       <height>81</height>
      </rect>
