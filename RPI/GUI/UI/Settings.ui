@@ -10,6 +10,11 @@
     <height>480</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>18</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Contacts</string>
   </property>
@@ -1743,29 +1748,6 @@ QCheckBox::indicator:checked {
    <attribute name="title">
     <string>Diagnostics</string>
    </attribute>
-   <widget class="QPushButton" name="back_4">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(170, 0, 0);</string>
-    </property>
-    <property name="text">
-     <string>Back</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="CheckUp">
     <property name="geometry">
      <rect>
@@ -2290,6 +2272,29 @@ QCheckBox::indicator:checked {
     </property>
     <property name="text">
      <string>2/2/2022</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back_4">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>390</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
     </property>
    </widget>
   </widget>

@@ -1257,28 +1257,6 @@ ColorButton::disabled {
     border: 1px solid #AAAAAA;
 }</string>
   </property>
-  <widget class="QPushButton" name="back">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>450</y>
-     <width>71</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(170, 0, 0);</string>
-   </property>
-   <property name="text">
-    <string>Back</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="freq">
    <property name="geometry">
     <rect>
@@ -1312,6 +1290,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>40</pointsize>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -1335,6 +1314,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>18</pointsize>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
      <strikeout>false</strikeout>
@@ -1359,6 +1339,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>17</pointsize>
+     <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
@@ -1400,6 +1381,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>13</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -1464,6 +1446,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>30</pointsize>
+     <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
@@ -1486,6 +1469,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>30</pointsize>
+     <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
@@ -1526,6 +1510,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>40</pointsize>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -1549,6 +1534,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>18</pointsize>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
      <strikeout>false</strikeout>
@@ -1559,6 +1545,29 @@ ColorButton::disabled {
    </property>
    <property name="text">
     <string>&lt;&lt;&lt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="back">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>430</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(170, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string>Back</string>
    </property>
   </widget>
  </widget>

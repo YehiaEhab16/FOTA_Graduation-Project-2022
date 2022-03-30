@@ -1298,7 +1298,7 @@ ColorButton::disabled {
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Images/guide.jpg</normaloff>../Images/guide.jpg</iconset>
+     <normaloff>../Images/guide.png</normaloff>../Images/guide.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1770,6 +1770,7 @@ ColorButton::disabled {
    <property name="font">
     <font>
      <pointsize>17</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>

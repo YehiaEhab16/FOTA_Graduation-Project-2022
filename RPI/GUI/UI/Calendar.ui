@@ -1262,7 +1262,7 @@ ColorButton::disabled {
      <x>0</x>
      <y>0</y>
      <width>801</width>
-     <height>451</height>
+     <height>431</height>
     </rect>
    </property>
    <property name="font">
@@ -1288,15 +1288,16 @@ icon-size:25px.25px;
   <widget class="QPushButton" name="back">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>450</y>
-     <width>71</width>
-     <height>31</height>
+     <x>710</x>
+     <y>430</y>
+     <width>81</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
