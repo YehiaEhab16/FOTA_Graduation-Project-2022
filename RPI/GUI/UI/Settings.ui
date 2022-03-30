@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>18</pointsize>
+    <pointsize>22</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -1192,29 +1192,6 @@ ColorButton::disabled {
    <attribute name="title">
     <string>Wi-FI</string>
    </attribute>
-   <widget class="QPushButton" name="back">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(170, 0, 0);</string>
-    </property>
-    <property name="text">
-     <string>Back</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
@@ -1286,7 +1263,7 @@ QCheckBox::indicator:checked {
       <x>0</x>
       <y>50</y>
       <width>801</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="font">
@@ -1389,23 +1366,18 @@ QCheckBox::indicator:checked {
      </property>
     </item>
    </widget>
-  </widget>
-  <widget class="QWidget" name="tab_1">
-   <attribute name="title">
-    <string>Bluetooth</string>
-   </attribute>
-   <widget class="QPushButton" name="back_2">
+   <widget class="QPushButton" name="back">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
+      <x>700</x>
+      <y>380</y>
+      <width>81</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>16</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -1417,6 +1389,11 @@ QCheckBox::indicator:checked {
      <string>Back</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QWidget" name="tab_1">
+   <attribute name="title">
+    <string>Bluetooth</string>
+   </attribute>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -1476,7 +1453,7 @@ QCheckBox::indicator:checked {
       <x>0</x>
       <y>50</y>
       <width>801</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="font">
@@ -1579,23 +1556,18 @@ QCheckBox::indicator:checked {
      </property>
     </item>
    </widget>
-  </widget>
-  <widget class="QWidget" name="tab_2">
-   <attribute name="title">
-    <string>Updates</string>
-   </attribute>
-   <widget class="QPushButton" name="back_3">
+   <widget class="QPushButton" name="back_2">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
+      <x>710</x>
+      <y>380</y>
+      <width>81</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>16</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -1607,6 +1579,11 @@ QCheckBox::indicator:checked {
      <string>Back</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QWidget" name="tab_2">
+   <attribute name="title">
+    <string>Updates</string>
+   </attribute>
    <widget class="QTableWidget" name="UpdateHistory">
     <property name="geometry">
      <rect>
@@ -1741,6 +1718,29 @@ QCheckBox::indicator:checked {
     </property>
     <property name="text">
      <string>Check for updates</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back_3">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>380</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
     </property>
    </widget>
   </widget>
@@ -2278,7 +2278,7 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>390</y>
+      <y>380</y>
       <width>81</width>
       <height>41</height>
      </rect>

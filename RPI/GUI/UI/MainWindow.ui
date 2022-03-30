@@ -1261,9 +1261,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>280</y>
-     <width>61</width>
-     <height>31</height>
+     <y>270</y>
+     <width>111</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1311,9 +1311,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>80</y>
-     <width>61</width>
-     <height>31</height>
+     <y>70</y>
+     <width>111</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1335,9 +1335,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>280</y>
-     <width>61</width>
-     <height>31</height>
+     <y>270</y>
+     <width>111</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1358,10 +1358,10 @@ ColorButton::disabled {
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>80</y>
-     <width>61</width>
-     <height>31</height>
+     <x>90</x>
+     <y>70</y>
+     <width>131</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1409,9 +1409,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>80</y>
-     <width>91</width>
-     <height>31</height>
+     <y>70</y>
+     <width>131</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1537,9 +1537,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>280</y>
-     <width>61</width>
-     <height>31</height>
+     <y>270</y>
+     <width>111</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1561,9 +1561,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>280</y>
-     <width>81</width>
-     <height>31</height>
+     <y>270</y>
+     <width>151</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1699,9 +1699,9 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>80</y>
-     <width>81</width>
-     <height>31</height>
+     <y>70</y>
+     <width>151</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">

@@ -7,12 +7,12 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>470</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <pointsize>18</pointsize>
+    <pointsize>22</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -1270,7 +1270,7 @@ ColorButton::disabled {
 }</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="tab">
    <property name="font">
@@ -1633,7 +1633,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>390</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -1695,7 +1695,7 @@ ColorButton::disabled {
      <rect>
       <x>10</x>
       <y>-10</y>
-      <width>691</width>
+      <width>681</width>
       <height>71</height>
      </rect>
     </property>
@@ -1717,7 +1717,7 @@ ColorButton::disabled {
    <widget class="QPushButton" name="erase">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>690</x>
       <y>0</y>
       <width>81</width>
       <height>61</height>
@@ -1772,36 +1772,13 @@ ColorButton::disabled {
    <attribute name="title">
     <string>Recents</string>
    </attribute>
-   <widget class="QPushButton" name="back_2">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(170, 0, 0);</string>
-    </property>
-    <property name="text">
-     <string>Back</string>
-    </property>
-   </widget>
    <widget class="QTableWidget" name="Recents_table">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>801</width>
-      <height>411</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="font">
@@ -1864,23 +1841,18 @@ ColorButton::disabled {
      </property>
     </column>
    </widget>
-  </widget>
-  <widget class="QWidget" name="tab_2">
-   <attribute name="title">
-    <string>Contacts</string>
-   </attribute>
-   <widget class="QPushButton" name="back_3">
+   <widget class="QPushButton" name="back_2">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
+      <x>710</x>
+      <y>380</y>
+      <width>81</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>16</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -1892,13 +1864,18 @@ ColorButton::disabled {
      <string>Back</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QWidget" name="tab_2">
+   <attribute name="title">
+    <string>Contacts</string>
+   </attribute>
    <widget class="QTableWidget" name="Contacts_table">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>801</width>
-      <height>411</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="font">
@@ -1955,6 +1932,29 @@ ColorButton::disabled {
       <string>Number</string>
      </property>
     </column>
+   </widget>
+   <widget class="QPushButton" name="back_3">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>380</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(170, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
    </widget>
   </widget>
  </widget>
