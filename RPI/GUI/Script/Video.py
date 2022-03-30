@@ -40,7 +40,7 @@ class MainAPP_Video (QWidget):
                 border-radius: 2px;
                 padding: 2px;
                 min-width: 75px;
-                font-size: 15px;
+                font-size: 30px;
             }
             QWidget{
                 color: silver;

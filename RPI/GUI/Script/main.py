@@ -47,14 +47,10 @@ VarGlobal = None
 
 global counter
 counter = 0
-# Exit button
-
-
-def Handle_Exit():
-    sys.exit()
-
 
 # Define splash screen window
+
+
 class SplashScreen(QWidget, FormClass2):
     def __init__(self, parent=None):
         self.Window_Loop = MainAPP()
@@ -135,7 +131,6 @@ class MainAPP(QWidget, FormClass):
         self.guide.clicked.connect(self.Handle_Guide)
         self.settings.clicked.connect(self.Handle_Setting)
         self.phone.clicked.connect(self.Handle_Phone)
-        self.exit.clicked.connect(Handle_Exit)
 
     # Calling other UIs when on clicking their buttons
     def Handle_Radio(self):
