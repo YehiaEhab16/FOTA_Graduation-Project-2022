@@ -15,33 +15,43 @@
 
 
 
-/*
-Description: CAN Init structure configuration
-*/
-
 #define CAN_INITSTATUS_FAILED       ((uint32_t)0x00000000)  /* CAN initialization failed */
 #define CAN_INITSTATUS_SUCCESS      ((uint32_t)0x00000001)  /* CAN initialization OK */
 
-typedef struct  {
-  u32 id;                 // message identifier
-  u8  data[8];            // Data field
-  u8  len;                // Length of data field in bytes
-  u8  format;             // 0 - STANDARD, 1- EXTENDED IDENTIFIER
-  u8  type;               // 0 - DATA FRAME, 1 - REMOTE FRAME
-} CAN_msg;
-
+/*
+Description: CAN Init structure configuration
+*/
 typedef struct
 {
-  CAN_t*		                 Instance;  		 /* CAN peripheral  (0 or 1)       */
+  u16 CAN_Prescaler;  /* Specifies the length of a time quantum.
+                          This parameter must be a number between Min_Data = 1 and Max_Data = 1024. */
 
-  CAN_InitTypeDef             Init;      		 /* CAN required parameters        */
+  u8  CAN_MODE;        /* Specifies the CAN operating mode.*/
 
-  CAN_msg*            pTxMsg;    		 /* Pointer to transmit structure  */
+  u8  CAN_SJW;         /* Specifies the maximum number of time quanta */
 
-  CAN_msg*            pRxMsg;    		 /* Pointer to reception structure */
+  u8  CAN_BS1;         /* Specifies the number of time quanta in Bit Segment 1.*/
 
-}CAN_HandleTypeDef;
+  u8  CAN_BS2;         /* Specifies the number of time quanta in Bit Segment 2.*/
 
+  u32 CAN_TTCM;       /* Enable or disable the time triggered communication mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_ABOM;       /* Enable or disable the automatic bus-off management.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_AWUM;       /* Enable or disable the automatic wake-up mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_NART;       /* Enable or disable the non-automatic retransmission mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_RFLM;       /* Enable or disable the Receive FIFO Locked mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_TXFP;       /* Enable or disable the transmit FIFO priority.
+                          This parameter can be set to ENABLE or DISABLE. */
+}CAN_Init_t;
 
 /*
 Description: CAN filter init structure definition
@@ -62,7 +72,7 @@ typedef struct
 
   FunctionalState CAN_FilterActivation; // specify the state of the filter "ENABLE OR DISABLE"
 
-} CAN_FilterInitTypeDef;
+} CAN_FilterInit_t;
 
 
 #endif

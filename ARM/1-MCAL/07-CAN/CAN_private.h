@@ -6,43 +6,12 @@
 #define CAN_PRIVATE_H
 
 
-//#define CAN2_BASE                       ((u32)0x40006800)
-
+#define 	CAN_BASE                 (0x40006400u)
 
 typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
-typedef struct
-{
-  u16 CAN_Prescaler;  /* Specifies the length of a time quantum.
-                          This parameter must be a number between Min_Data = 1 and Max_Data = 1024. */
 
-  u8  CAN_MODE;        /* Specifies the CAN operating mode.*/
-
-  u8  CAN_SJW;         /* Specifies the maximum number of time quanta */
-
-  u8  CAN_BS1;         /* Specifies the number of time quanta in Bit Segment 1.*/
-
-  u8  CAN_BS2;         /* Specifies the number of time quanta in Bit Segment 2.*/
-
-  u32 CAN_TTCM;       /* Enable or disable the time triggered communication mode.
-                         This parameter can be set to ENABLE or DISABLE. */
-
-  u32 CAN_ABOM;       /* Enable or disable the automatic bus-off management.
-                         This parameter can be set to ENABLE or DISABLE. */
-
-  u32 CAN_AWUM;       /* Enable or disable the automatic wake-up mode.
-                         This parameter can be set to ENABLE or DISABLE. */
-
-  u32 CAN_NART;       /* Enable or disable the non-automatic retransmission mode.
-                         This parameter can be set to ENABLE or DISABLE. */
-
-  u32 CAN_RFLM;       /* Enable or disable the Receive FIFO Locked mode.
-                         This parameter can be set to ENABLE or DISABLE. */
-
-  u32 CAN_TXFP;       /* Enable or disable the transmit FIFO priority.
-                          This parameter can be set to ENABLE or DISABLE. */
-}CAN_InitTypeDef;
 
 typedef struct
 {
@@ -100,51 +69,51 @@ typedef struct
 typedef struct
 {
   u32 StdId;    /* Specifies the standard identifier.*/
-                  
+
   u32 ExtId;    /* Specifies the extended identifier.*/
-					  
+
   u32 IDE;      /* Specifies the type of identifier for the message that will be transmitted.*/
-  
+
   u32 RTR;      /* Specifies the type of frame for the message that will be transmitted.*/
-                   
+
   u32 DLC;      /* Specifies the length of the frame that will be transmitted.*/
 
   u8 Data[8];   /* Contains the data to be transmitted.*/
-   
+
 }CanTxMsgTypeDef;
 
 
 typedef struct
 {
   u32 StdId;       /* Specifies the standard identifier.*/
-     
+
   u32 ExtId;       /* Specifies the extended identifier.*/
-                        
+
   u32 IDE;         /* Specifies the type of identifier for the message that will be received.*/
-     
+
   u32 RTR;         /* Specifies the type of frame for the received message.*/
-                         
+
   u32 DLC;         /* Specifies the length of the frame that will be received.*/
-                          
-  u8 Data[8];      /* Contains the data to be received. */                    
+
+  u8 Data[8];      /* Contains the data to be received. */
 
   u32 FMI;         /* Specifies the index of the filter the message stored in the mailbox passes through.*/
-     
+
   u32 FIFONumber;  /* Specifies the receive FIFO number. */
-                             
+
 
 }CanRxMsgTypeDef;
 
 
-#define		RELEASE 		((u32)1<<5)
-#define CAN1                       ((CAN_t *)0x40006400)
+#define		RELEASE_FIFO 		((u32)1<<5)
+
 
 
 //Registers Definitions
 
 
 							/******1-CAN control and status registers*******/
-							
+
 //1-1- CAN master control register (CAN_MCR) -- Address offset: 0x00
 #define		CAN_MCR_INRQ 		((u32)0x00000001)	//Initialization request 	  		-- The software clears this bit to switch the hardware into normal mode
 #define     CAN_MCR_SLEEP       ((u32)0x00000002)	//Sleep mode request 		  		-- Sleep mode will be entered as soon as the current CAN activity (transmission or reception of a CAN frame) has been completed
@@ -182,14 +151,14 @@ typedef struct
 #define     CAN_TSR_ALST2       ((u32)0x00040000)   //Arbitration lost for mailbox2
 #define     CAN_TSR_TERR2       ((u32)0x00080000)   //Transmission error of mailbox2
 #define     CAN_TSR_ABRQ2       ((u32)0x00800000)   //Abort request for mailbox2
-                            
+
 #define     CAN_TSR_TME0		((u32)0x04000000)	//Transmit mailbox 0 empty	    -- This bit is set by hardware when no transmit request is pending for mailbox 0
 #define     CAN_TSR_TME1        ((u32)0x08000000)	//Transmit mailbox 1 empty
 #define     CAN_TSR_TME2        ((u32)0x10000000)	//Transmit mailbox 2 empty
 
 /*------------------------------------*/
 //1-4- CAN receive FIFO 0 register (CAN_RF0R) -- Address offset: 0x0C
-#define		CAN_RF0R_FMP0		((u8)0x03)			//FIFO 0 message pending		-- These bits indicate how many messages are pending in the receive FIFO.
+#define		CAN_RF0R_FMP0		((u32)0x03)			//FIFO 0 message pending		-- These bits indicate how many messages are pending in the receive FIFO.
 #define     CAN_RF0R_FULL0		((u8)0x08)			//FIFO 0 full					-- Set by hardware when three messages are stored in the FIFO.
 #define     CAN_RF0R_FOVR0		((u8)0x10)			//FIFO 0 overrun				-- This bit is set by hardware when a new message has been received and passed the filter while the FIFO was full.
 #define     CAN_RF0R_RFOM0		((u8)0x20)			//Release FIFO 0 output mailbox -- Set by software to release the output mailbox of the FIFO.
@@ -229,12 +198,12 @@ typedef struct
 #define     CAN_BTR_SJW		   ((u32)0x03000000)	//Resynchronization jump width		   	  -- define the maximum number of time quanta the CAN hardware is allowed to lengthen or shorten
 #define  	CAN_BTR_LBKM       ((u32)0x40000000)	//Loop back mode (debug)			   	  -- 0: Loop Back Mode disabled / 1: Loop Back Mode enabled
 #define  	CAN_BTR_SILM       ((u32)0x80000000)	//Silent mode (debug)				   	  -- 0: Normal operation / 1: Silent Mode
-	
-	
-	
-	
+
+
+
+
 							/******2-CAN mailbox registers*******/
-							
+
 //2-1- CAN TX mailbox identifier register (CAN_TIxR) -- Address offset: 0x180, 0x190, 0x1A0
 #define  	CAN_TI0R_TXRQ      ((u32)0x00000001)   // Transmit Mailbox Request 					  -- Set by software to request the transmission for the corresponding mailbox / Cleared by hardware when the mailbox becomes empty.
 #define  	CAN_TI0R_RTR       ((u32)0x00000002)   // Remote Transmission Request 				  -- Remote transmission request /0: Data frame / 1: Remote frame
@@ -250,20 +219,20 @@ typedef struct
 
 /*------------------------------------*/
 //2-3- CAN mailbox data low register (CAN_TDLxR) -- Address offset: 0x188, 0x198, 0x1A8
-#define     TDL0R_DATA0    ((u32)0x000000FF)        // Data byte 0 
-#define     TDL0R_DATA1    ((u32)0x0000FF00)        // Data byte 1 
-#define     TDL0R_DATA2    ((u32)0x00FF0000)        // Data byte 2 
-#define     TDL0R_DATA3    ((u32)0xFF000000)        // Data byte 3 
+#define     TDL0R_DATA0    ((u32)0x000000FF)        // Data byte 0
+#define     TDL0R_DATA1    ((u32)0x0000FF00)        // Data byte 1
+#define     TDL0R_DATA2    ((u32)0x00FF0000)        // Data byte 2
+#define     TDL0R_DATA3    ((u32)0xFF000000)        // Data byte 3
 
 /*------------------------------------*/
 //2-4- CAN mailbox data high register (CAN_TDHxR) -- Address offset: 0x18C, 0x19C, 0x1AC
-#define     TDH0R_DATA4    ((u32)0x000000FF)        // Data byte 4 
-#define     TDH0R_DATA5    ((u32)0x0000FF00)        // Data byte 5 
-#define     TDH0R_DATA6    ((u32)0x00FF0000)        // Data byte 6 
-#define     TDH0R_DATA7    ((u32)0xFF000000)        // Data byte 7 
+#define     TDH0R_DATA4    ((u32)0x000000FF)        // Data byte 4
+#define     TDH0R_DATA5    ((u32)0x0000FF00)        // Data byte 5
+#define     TDH0R_DATA6    ((u32)0x00FF0000)        // Data byte 6
+#define     TDH0R_DATA7    ((u32)0xFF000000)        // Data byte 7
 
 /*------------------------------------*/
-//2-5- CAN receive FIFO mailbox identifier register (CAN_RIxR) -- Address offset: 0x18C, 0x19C, 0x1AC  
+//2-5- CAN receive FIFO mailbox identifier register (CAN_RIxR) -- Address offset: 0x18C, 0x19C, 0x1AC
 #define  	RI1R_RTR       ((u32)0x00000002)        // Remote Transmission Request					-- 0: Data frame / 1: Remote frame
 #define  	RI1R_IDE       ((u32)0x00000004)        // Identifier Extension 						-- This bit defines the identifier type of message in the mailbox. / 0: Standard identifier. / 1: Extended identifier.
 #define  	RI1R_EXID      ((u32)0x001FFFF8)        // Extended identifier 							-- The LSBs of the extended identifier.
@@ -274,24 +243,24 @@ typedef struct
 #define  	RDT1R_DLC      ((u32)0x0000000F)        // Data Length Code 							-- defines the number of data bytes a data frame contains (0 to 8).
 #define  	RDT1R_FMI      ((u32)0x0000FF00)        // Filter Match Index 							-- contains the index of the filter the message stored in the mailbox passed through.
 #define  	RDT1R_TIME     ((u32)0xFFFF0000)        // Message Time Stamp 							-- This field contains the 16-bit timer value captured at the SOF detection
-	
+
 /*------------------------------------*/
-//2-7- CAN receive FIFO mailbox data low register (CAN_RDLxR) -- Address offset: 0x1B8, 0x1C8  
-#define  	RDL1R_DATA0    ((u32)0x000000FF)        // Data byte 0 
-#define  	RDL1R_DATA1    ((u32)0x0000FF00)        // Data byte 1 
-#define  	RDL1R_DATA2    ((u32)0x00FF0000)        // Data byte 2 
-#define  	RDL1R_DATA3    ((u32)0xFF000000)        // Data byte 3 
+//2-7- CAN receive FIFO mailbox data low register (CAN_RDLxR) -- Address offset: 0x1B8, 0x1C8
+#define  	RDL1R_DATA0    ((u32)0x000000FF)        // Data byte 0
+#define  	RDL1R_DATA1    ((u32)0x0000FF00)        // Data byte 1
+#define  	RDL1R_DATA2    ((u32)0x00FF0000)        // Data byte 2
+#define  	RDL1R_DATA3    ((u32)0xFF000000)        // Data byte 3
 
 /*------------------------------------*/
 //2-8- CAN receive FIFO mailbox data high register (CAN_RDHxR) -- Address offset: 0x1BC, 0x1CC
-#define  	RDH1R_DATA4    ((u32)0x000000FF)        // Data byte 4 
-#define  	RDH1R_DATA5    ((u32)0x0000FF00)        // Data byte 5 
-#define  	RDH1R_DATA6    ((u32)0x00FF0000)        // Data byte 6 
-#define  	RDH1R_DATA7    ((u32)0xFF000000)        // Data byte 7 
-	
-	
-	
-	
+#define  	RDH1R_DATA4    ((u32)0x000000FF)        // Data byte 4
+#define  	RDH1R_DATA5    ((u32)0x0000FF00)        // Data byte 5
+#define  	RDH1R_DATA6    ((u32)0x00FF0000)        // Data byte 6
+#define  	RDH1R_DATA7    ((u32)0xFF000000)        // Data byte 7
+
+
+
+
 							/******3-CAN filter registers*******/
 //3-1- CAN filter master register (CAN_FMR) -- Address offset: 0x200
 #define     FMR_CAN2SB	   ((u32)0x00003F00)		//CAN2 start bank        -- These bits are set and cleared by software. They define the start bank for the CAN2 interface (Slave) in the range 0 to 27.
@@ -315,7 +284,7 @@ typedef struct
 
 /*------------------------------------*/
 //Filter bank i register x (CAN_FiRx) -- Address offset: 0x240..0x31C
-#define		FiRx_FB 	   ((u32)0xFFFFFFFFF)	  //Filter bits    -- identifier -0: Dominant bit is expected / 1: Recessive bit is expected / Mask - 0: Don’t care, the bit is not used for the comparison 1: Must match,
+#define		FiRx_FB 	   ((u32)0xFFFFFFFFF)	  //Filter bits    -- identifier -0: Dominant bit is expected / 1: Recessive bit is expected / Mask - 0: Don�t care, the bit is not used for the comparison 1: Must match,
 
 /*!< CAN filter registers */
 /*******************  Bit definition for CAN_FMR register  ********************/
