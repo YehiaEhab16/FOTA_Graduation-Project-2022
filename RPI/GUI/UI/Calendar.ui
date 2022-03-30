@@ -1262,7 +1262,7 @@ ColorButton::disabled {
      <x>0</x>
      <y>0</y>
      <width>801</width>
-     <height>431</height>
+     <height>421</height>
     </rect>
    </property>
    <property name="font">
@@ -1272,7 +1272,8 @@ ColorButton::disabled {
    </property>
    <property name="styleSheet">
     <string notr="true">QToolButton{
-icon-size:25px.25px;
+icon-size:40px.40px;
+padding:0px 10px 0px 10px;
 }</string>
    </property>
    <property name="firstDayOfWeek">

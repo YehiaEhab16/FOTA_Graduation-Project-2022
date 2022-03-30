@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>470</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1756,30 +1756,6 @@ ColorButton::disabled {
      <width>140</width>
      <height>120</height>
     </size>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="exit">
-   <property name="geometry">
-    <rect>
-     <x>760</x>
-     <y>0</y>
-     <width>41</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>17</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(170, 0, 0);
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>X</string>
    </property>
   </widget>
  </widget>

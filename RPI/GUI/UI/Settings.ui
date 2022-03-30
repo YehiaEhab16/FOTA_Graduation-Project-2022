@@ -1186,7 +1186,7 @@ ColorButton::disabled {
 }</string>
   </property>
   <property name="currentIndex">
-   <number>3</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="tab">
    <attribute name="title">
@@ -1197,8 +1197,8 @@ ColorButton::disabled {
      <rect>
       <x>90</x>
       <y>10</y>
-      <width>61</width>
-      <height>31</height>
+      <width>71</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1234,10 +1234,10 @@ QCheckBox::indicator:checked {
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>10</y>
-      <width>61</width>
-      <height>31</height>
+      <width>81</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -1261,14 +1261,14 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>50</y>
+      <y>60</y>
       <width>801</width>
-      <height>331</height>
+      <height>321</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>20</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -1369,7 +1369,7 @@ QCheckBox::indicator:checked {
    <widget class="QPushButton" name="back">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>710</x>
       <y>380</y>
       <width>81</width>
       <height>41</height>
@@ -1397,10 +1397,10 @@ QCheckBox::indicator:checked {
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>10</y>
-      <width>101</width>
-      <height>31</height>
+      <width>111</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -1425,8 +1425,8 @@ QCheckBox::indicator:checked {
      <rect>
       <x>120</x>
       <y>10</y>
-      <width>61</width>
-      <height>31</height>
+      <width>71</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1451,14 +1451,14 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>50</y>
+      <y>60</y>
       <width>801</width>
-      <height>331</height>
+      <height>321</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>20</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -1595,7 +1595,7 @@ QCheckBox::indicator:checked {
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>20</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -1819,7 +1819,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>81</width>
+      <width>181</width>
       <height>41</height>
      </rect>
     </property>
@@ -1842,7 +1842,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>30</x>
       <y>90</y>
-      <width>101</width>
+      <width>181</width>
       <height>41</height>
      </rect>
     </property>
@@ -1865,7 +1865,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>30</x>
       <y>160</y>
-      <width>81</width>
+      <width>181</width>
       <height>41</height>
      </rect>
     </property>
@@ -1888,7 +1888,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>30</x>
       <y>230</y>
-      <width>161</width>
+      <width>181</width>
       <height>41</height>
      </rect>
     </property>
@@ -1911,7 +1911,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>30</x>
       <y>300</y>
-      <width>131</width>
+      <width>181</width>
       <height>41</height>
      </rect>
     </property>
@@ -1934,7 +1934,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>220</x>
       <y>230</y>
-      <width>151</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -1957,7 +1957,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>220</x>
       <y>160</y>
-      <width>151</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -1980,7 +1980,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>220</x>
       <y>20</y>
-      <width>151</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -2003,7 +2003,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>220</x>
       <y>90</y>
-      <width>151</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -2026,7 +2026,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>220</x>
       <y>300</y>
-      <width>151</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -2049,7 +2049,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>620</x>
       <y>90</y>
-      <width>151</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -2072,7 +2072,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>620</x>
       <y>20</y>
-      <width>151</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -2118,7 +2118,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>420</x>
       <y>160</y>
-      <width>161</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -2141,7 +2141,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>420</x>
       <y>300</y>
-      <width>131</width>
+      <width>191</width>
       <height>41</height>
      </rect>
     </property>
@@ -2164,7 +2164,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>620</x>
       <y>160</y>
-      <width>151</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -2187,7 +2187,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>620</x>
       <y>230</y>
-      <width>151</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -2210,7 +2210,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>420</x>
       <y>20</y>
-      <width>131</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -2233,7 +2233,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>420</x>
       <y>90</y>
-      <width>151</width>
+      <width>201</width>
       <height>41</height>
      </rect>
     </property>
@@ -2256,7 +2256,7 @@ QCheckBox::indicator:checked {
      <rect>
       <x>620</x>
       <y>300</y>
-      <width>131</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>

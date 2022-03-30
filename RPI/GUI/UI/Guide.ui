@@ -1260,7 +1260,7 @@ ColorButton::disabled {
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>140</y>
      <width>191</width>
      <height>41</height>
@@ -1377,7 +1377,7 @@ ColorButton::disabled {
      <x>660</x>
      <y>40</y>
      <width>91</width>
-     <height>71</height>
+     <height>81</height>
     </rect>
    </property>
    <property name="text">
@@ -1488,9 +1488,9 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_17">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>170</y>
-     <width>161</width>
+     <x>10</x>
+     <y>180</y>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1514,7 +1514,7 @@ ColorButton::disabled {
     <rect>
      <x>210</x>
      <y>140</y>
-     <width>181</width>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1537,8 +1537,8 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>170</y>
-     <width>181</width>
+     <y>180</y>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1562,7 +1562,7 @@ ColorButton::disabled {
     <rect>
      <x>410</x>
      <y>140</y>
-     <width>181</width>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1585,8 +1585,8 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>170</y>
-     <width>181</width>
+     <y>180</y>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1608,9 +1608,9 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>620</x>
+     <x>610</x>
      <y>140</y>
-     <width>171</width>
+     <width>181</width>
      <height>41</height>
     </rect>
    </property>
@@ -1632,9 +1632,9 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>170</y>
-     <width>91</width>
+     <x>610</x>
+     <y>180</y>
+     <width>181</width>
      <height>31</height>
     </rect>
    </property>
@@ -1656,9 +1656,9 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>360</y>
-     <width>141</width>
+     <x>10</x>
+     <y>350</y>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1682,7 +1682,7 @@ ColorButton::disabled {
     <rect>
      <x>210</x>
      <y>350</y>
-     <width>171</width>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1704,8 +1704,8 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_23">
    <property name="geometry">
     <rect>
-     <x>640</x>
-     <y>380</y>
+     <x>610</x>
+     <y>390</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -1728,9 +1728,9 @@ ColorButton::disabled {
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>620</x>
-     <y>350</y>
-     <width>191</width>
+     <x>610</x>
+     <y>340</y>
+     <width>171</width>
      <height>41</height>
     </rect>
    </property>
@@ -1753,8 +1753,8 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>360</y>
-     <width>181</width>
+     <y>350</y>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>
@@ -1777,8 +1777,8 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>380</y>
-     <width>171</width>
+     <y>390</y>
+     <width>191</width>
      <height>41</height>
     </rect>
    </property>

@@ -1330,10 +1330,10 @@ ColorButton::disabled {
   <widget class="QPushButton" name="play_pause">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>340</x>
      <y>320</y>
-     <width>61</width>
-     <height>41</height>
+     <width>91</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -1437,10 +1437,10 @@ ColorButton::disabled {
   <widget class="QPushButton" name="dec_sound">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>170</x>
      <y>320</y>
-     <width>61</width>
-     <height>41</height>
+     <width>81</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -1460,10 +1460,10 @@ ColorButton::disabled {
   <widget class="QPushButton" name="inc_sound">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>520</x>
      <y>320</y>
-     <width>61</width>
-     <height>41</height>
+     <width>81</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
