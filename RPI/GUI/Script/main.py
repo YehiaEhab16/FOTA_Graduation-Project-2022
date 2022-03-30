@@ -58,6 +58,7 @@ def Handle_Exit():
 class SplashScreen(QWidget, FormClass2):
     def __init__(self, parent=None):
         self.Window_Loop = MainAPP()
+
         global VarGlobal
         global thread1
         super(SplashScreen, self).__init__(parent)
