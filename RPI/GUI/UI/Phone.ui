@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>780</width>
-    <height>440</height>
+    <width>800</width>
+    <height>470</height>
    </rect>
   </property>
   <property name="font">
@@ -1776,9 +1776,9 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>30</y>
       <width>801</width>
-      <height>381</height>
+      <height>351</height>
      </rect>
     </property>
     <property name="font">
@@ -1873,9 +1873,9 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>50</y>
       <width>801</width>
-      <height>381</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="font">
