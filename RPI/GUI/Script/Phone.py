@@ -74,7 +74,6 @@ class MainAPP_Phone(QTabWidget, FormClass):
     # Window Size and Title
     def window(self):
         self.setWindowTitle("Phone")
-        self.setFixedSize(800, 480)
 
     # Function to load data in contacts tab
     def loadData(self):
@@ -241,13 +240,13 @@ class MainAPP_Phone(QTabWidget, FormClass):
     def Recent_Call(self, row):
         QTabWidget.setCurrentIndex(self, 0)
         self.OP.setText("Calling")
-        self.name.setText(self.Recents_table.item(row,0).text())
+        self.name.setText(self.Recents_table.item(row, 0).text())
         # Add number in recent tab
         self.Recents_table.insertRow(0)
         self.Recents_table.setItem(
-            0, 0, QtWidgets.QTableWidgetItem(self.Recents_table.item(row+1,0).text()))
+            0, 0, QtWidgets.QTableWidgetItem(self.Recents_table.item(row+1, 0).text()))
         self.Recents_table.setItem(
-            0, 1, QtWidgets.QTableWidgetItem(self.Recents_table.item(row+1,1).text()))
+            0, 1, QtWidgets.QTableWidgetItem(self.Recents_table.item(row+1, 1).text()))
         # Get Current Day
         t_day = str(datetime.date.today()).split('-')
         t_day = t_day[2] + '/' + t_day[1]

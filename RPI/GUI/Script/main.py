@@ -46,7 +46,7 @@ FormClass2, _ = loadUiType(ntpath.join(
 VarGlobal = None
 
 global counter
-counter =0 
+counter = 0
 # Exit button
 
 
@@ -87,7 +87,7 @@ class SplashScreen(QWidget, FormClass2):
             time.sleep(1)
             # CLose load window and open main window
             self.close()
-            Comm_Init()
+            # Comm_Init()
             self.Window_Loop.show()
 
 
@@ -122,7 +122,7 @@ class MainAPP(QWidget, FormClass):
     # Window Size and Title
     def window(self):
         self.setWindowTitle("Main Window")
-        self.setFixedSize(800, 480)
+        #self.setFixedSize(800, 480)
 
     # GUI buttons
     def Handle_Buttons(self):
@@ -169,22 +169,22 @@ class MainAPP(QWidget, FormClass):
         # showing it to the label
         self.time_label.setText(day + " " + hour)
         self.time_label.setAlignment(Qt.AlignCenter)
-        counter =counter +1
+        counter = counter + 1
         # Condition to change settings to have a software update notification
-        #Comm_Write(str.encode('2'));
-        if counter == 100000 :
-            data =0
-            Comm_Write(str.encode('2'));
-            time.sleep(0.03)
-            data = int(Comm_Read(1))
-            print(data)        
-            if data == 1:
-                print(1)
-                Comm_Write(str.encode('2'));
-                self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
-            counter=0
+        # Comm_Write(str.encode('2'));
+        # if counter == 100000 :
+        #data =0
+        # Comm_Write(str.encode('2'));
+        # time.sleep(0.03)
+        # data = int(Comm_Read(1))
+        #  print(data)
+        #  if data == 1:
+        #      print(1)
+        #      Comm_Write(str.encode('2'));
+        #      self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
+        #  counter=0
         # else:  # Condition must be added (If user views the software update)
-            # self.settings.setIcon(QtGui.QIcon(settingsIcon))
+        # self.settings.setIcon(QtGui.QIcon(settingsIcon))
 
 
 # Executing main window
