@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>26</pointsize>
+    <pointsize>28</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -1285,7 +1285,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>50</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1310,7 +1310,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>60</y>
+      <y>50</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1335,7 +1335,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>60</y>
+      <y>50</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1360,7 +1360,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>150</y>
+      <y>140</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1385,7 +1385,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>150</y>
+      <y>140</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1410,7 +1410,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>150</y>
+      <y>140</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1435,7 +1435,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>240</y>
+      <y>230</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1460,7 +1460,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>240</y>
+      <y>230</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1485,7 +1485,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>240</y>
+      <y>230</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1510,7 +1510,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>330</y>
+      <y>320</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1535,7 +1535,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>330</y>
+      <y>320</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1560,7 +1560,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>330</y>
+      <y>320</y>
       <width>131</width>
       <height>91</height>
      </rect>
@@ -1633,7 +1633,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>380</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -1656,7 +1656,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>340</y>
+      <y>330</y>
       <width>291</width>
       <height>81</height>
      </rect>
@@ -1696,7 +1696,7 @@ ColorButton::disabled {
       <x>10</x>
       <y>0</y>
       <width>681</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
