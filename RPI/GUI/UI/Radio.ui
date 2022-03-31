@@ -1313,7 +1313,7 @@ ColorButton::disabled {
    </property>
    <property name="font">
     <font>
-     <pointsize>18</pointsize>
+     <pointsize>16</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -1533,7 +1533,7 @@ ColorButton::disabled {
    </property>
    <property name="font">
     <font>
-     <pointsize>18</pointsize>
+     <pointsize>16</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>

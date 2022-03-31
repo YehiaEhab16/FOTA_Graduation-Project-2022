@@ -1468,10 +1468,7 @@ ColorButton::disabled {
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">QComboBox{
-justify-content: center;
-align-items: center;
-}</string>
+    <string notr="true"/>
    </property>
    <property name="currentText">
     <string/>

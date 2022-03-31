@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>22</pointsize>
+    <pointsize>26</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -1195,16 +1195,16 @@ ColorButton::disabled {
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>10</y>
-      <width>71</width>
-      <height>41</height>
+      <x>170</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QCheckBox::indicator{
-	width: 50px;
-	height: 50px;
+	width: 75px;
+	height: 75px;
 }
 
 QCheckBox::indicator:unchecked {
@@ -1235,14 +1235,14 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
-      <width>81</width>
-      <height>41</height>
+      <y>0</y>
+      <width>161</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <pointsize>22</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -1261,9 +1261,9 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>60</y>
+      <y>70</y>
       <width>801</width>
-      <height>321</height>
+      <height>311</height>
      </rect>
     </property>
     <property name="font">
@@ -1398,14 +1398,14 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
-      <width>111</width>
-      <height>41</height>
+      <y>0</y>
+      <width>161</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <pointsize>22</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -1423,16 +1423,21 @@ QCheckBox::indicator:checked {
    <widget class="QCheckBox" name="checkBox_2">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>10</y>
-      <width>71</width>
-      <height>41</height>
+      <x>170</x>
+      <y>0</y>
+      <width>81</width>
+      <height>71</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QCheckBox::indicator{
-	width: 50px;
-	height: 50px;
+	width: 75px;
+	height: 75px;
 }
 
 QCheckBox::indicator:unchecked {
@@ -1451,9 +1456,9 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>60</y>
+      <y>70</y>
       <width>801</width>
-      <height>321</height>
+      <height>311</height>
      </rect>
     </property>
     <property name="font">

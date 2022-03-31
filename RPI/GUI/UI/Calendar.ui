@@ -1273,7 +1273,7 @@ ColorButton::disabled {
    <property name="styleSheet">
     <string notr="true">QToolButton{
 icon-size:40px.40px;
-padding:0px 10px 0px 10px;
+padding:15px 20px 15px 20px;
 }</string>
    </property>
    <property name="firstDayOfWeek">
