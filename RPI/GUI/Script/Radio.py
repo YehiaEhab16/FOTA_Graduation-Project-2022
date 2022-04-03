@@ -38,6 +38,7 @@ class MainAPP_Radio(QWidget, FormClass):
         self.play_pause.setIcon(
             self.style().standardIcon(QStyle.SP_MediaPause))
         self.sound.setValue(100)
+        self.player.setVolume(100)
 
     # GUI buttons
     def Handle_Buttons(self):
