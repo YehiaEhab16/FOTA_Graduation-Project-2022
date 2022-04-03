@@ -61,13 +61,21 @@ class MainAPP_Radio(QWidget, FormClass):
         self.player.setVolume(currentVolume)
         self.sound.setValue(currentVolume)
         print(currentVolume)
-
+        print("this is the current player volume")
+        print(self.player.volume())
+        print("this is current sound volume")
+        print(self.sound.value())
     # Function to decrease volume
+
     def DecreaseVolume(self):
         currentVolume = self.player.volume() - 5
         self.player.setVolume(currentVolume)
         self.sound.setValue(currentVolume)
         print(currentVolume)
+        print("this is the current player volume")
+        print(self.player.volume())
+        print("this is current sound volume")
+        print(self.sound.value())
 
     # Function for next channel
     def NextChannel(self):
