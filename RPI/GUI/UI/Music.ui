@@ -1382,7 +1382,7 @@ ColorButton::disabled {
     </font>
    </property>
    <property name="value">
-    <number>0</number>
+    <number>50</number>
    </property>
   </widget>
   <widget class="QPushButton" name="IncreaseSound">

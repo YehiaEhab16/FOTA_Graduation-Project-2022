@@ -37,7 +37,7 @@ class MainAPP_Radio(QWidget, FormClass):
         Freq = float(self.freq.text())
         self.play_pause.setIcon(
             self.style().standardIcon(QStyle.SP_MediaPause))
-        self.sound.setValue(self.player.volume())
+        self.sound.setValue(100)
 
     # GUI buttons
     def Handle_Buttons(self):
@@ -57,13 +57,17 @@ class MainAPP_Radio(QWidget, FormClass):
 
     # Function to increase volume
     def IncreaseVolume(self):
-        self.sound.setValue(self.player.volume() + 5)
-        self.player.setVolume(self.player.volume() + 5)
+        currentVolume = self.player.volume() + 5
+        self.player.setVolume(currentVolume)
+        self.sound.setValue(currentVolume)
+        print(currentVolume)
 
     # Function to decrease volume
     def DecreaseVolume(self):
-        self.sound.setValue(self.player.volume() - 5)
-        self.player.setVolume(self.player.volume() - 5)
+        currentVolume = self.player.volume() - 5
+        self.player.setVolume(currentVolume)
+        self.sound.setValue(currentVolume)
+        print(currentVolume)
 
     # Function for next channel
     def NextChannel(self):
