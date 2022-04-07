@@ -124,17 +124,16 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 
 
 	            /*Get STID[10:3] STID[2:0] RTR IDE EXID[17:15] of filter id */
-		Local_u8FilterBankExidId   = (u8)   ((0x00038000 & CAN_FilterInitStruct->CAN_FilterId) >> 15  ) ;
-		Local_u8FilterBankRtrId    = (u8)   ((0x00000002 & CAN_FilterInitStruct->CAN_FilterId) << 3   ) ;
-		Local_u8FilterBankIdeId    = (u8)   ((0x00000004 & CAN_FilterInitStruct->CAN_FilterId) << 1   ) ;
-		Local_u16FilterBankStdId   = (u16)  ((0xFFE00000 & CAN_FilterInitStruct->CAN_FilterId) >> 16  );
+		Local_u8FilterBankExidId   = (u8)   ((RI1R_EXID& CAN_FilterInitStruct->CAN_FilterId) << 3 ) ;
+		Local_u8FilterBankRtrId    = (u8)   ((RI1R_RTR & CAN_FilterInitStruct->CAN_FilterId) << 1   ) ;
+		Local_u8FilterBankIdeId    = (u8)   ((RI1R_IDE & CAN_FilterInitStruct->CAN_FilterId) << 2   ) ;
+		Local_u16FilterBankStdId   = (u16)  ((RI1R_STID& CAN_FilterInitStruct->CAN_FilterId) << 21  );
 
 			            /*Get STID[10:3] STID[2:0] RTR IDE EXID[17:15] of  filter mask id */
-		Local_u8FilterBankExidMaskId = (u8) ((0x00038000 & CAN_FilterInitStruct->CAN_FilterMaskId) >> 15  ) ;
-		Local_u8FilterBankRtrMaskId  = (u8) ((0x00000002 & CAN_FilterInitStruct->CAN_FilterMaskId) << 3   ) ;
-		Local_u8FilterBankIdeIdMask  = (u8) ((0x00000004 & CAN_FilterInitStruct->CAN_FilterMaskId) << 1   ) ;
-		Local_u16FilterBankStdIdMask =(u16) ((0xFFE00000 & CAN_FilterInitStruct->CAN_FilterMaskId) >> 16  ) ;
-
+		Local_u8FilterBankExidMaskId = (u8) ((RI1R_EXID& CAN_FilterInitStruct->CAN_FilterMaskId) << 3  ) ;
+		Local_u8FilterBankRtrMaskId  = (u8) ((RI1R_RTR & CAN_FilterInitStruct->CAN_FilterMaskId) << 1   ) ;
+		Local_u8FilterBankIdeIdMask  = (u8) ((RI1R_IDE & CAN_FilterInitStruct->CAN_FilterMaskId) << 2   ) ;
+		Local_u16FilterBankStdIdMask =(u16) ((RI1R_STID& CAN_FilterInitStruct->CAN_FilterMaskId) << 21  ) ;
 
 
 		Local_u32filterNumberPosition = ( (u32)(1 << CAN_FilterInitStruct->CAN_FilterBankNumber));
@@ -379,84 +378,4 @@ void USB_LP_CAN_RX0_IRQHandler(void)
 		CAN_msgReceived = 1;
 	}
 }
-/****************************************************************************************/
-
-/*
-void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
-{
-  u32 transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
-  if((hcan->State == CAN_STATE_READY) && (hcan->txState == CAN_RXTX_STATE_READY))
-  {
-
-	// Select one empty transmit mailbox
-	if ((CAN1->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)			//check if mailox 0 is empty
-	{
-		transmitmailbox = 0;
-	}
-	else if ((CAN1->TSR & CAN_TSR_TME1) == CAN_TSR_TME1)		//check if mailox 1 is empty
-	{
-		transmitmailbox = 1;
-	}
-	else if ((CAN1->TSR & CAN_TSR_TME2) == CAN_TSR_TME2)		//check if mailox 2 is empty
-	{
-		transmitmailbox = 2;
-	}
-	else
-	{
-		transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
-	}
-
-
-    if(transmitmailbox != CAN_TXSTATUS_NOMAILBOX)
-    {
-      // Set up the Id
-      CAN1->sTxMailBox[transmitmailbox].TIR &= CAN_TI0R_TXRQ;
-      if (hcan->pTxMsg->IDE == CAN_ID_STD)
-      {
-        CAN1->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 3); //extended
-      }
-      else
-      {
-        CAN1->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 21); //standard
-      }
-
-      // Set up the DLC
-      hcan->pTxMsg->DLC &= (u8)0x0000000F;
-      CAN1->sTxMailBox[transmitmailbox].TDTR &= (u32)0xFFFFFFF0;
-      CAN1->sTxMailBox[transmitmailbox].TDTR |= hcan->pTxMsg->DLC;
-
-      // Set up the data field
-      CAN1->sTxMailBox[transmitmailbox].TDLR= (u32) ((u32)hcan->pTxMsg->Data[3] << CAN_TDL0R_DATA3_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[2] << CAN_TDL0R_DATA2_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[1] << CAN_TDL0R_DATA1_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[0] << CAN_TDL0R_DATA0_BIT_POSITION);
-
-      CAN1->sTxMailBox[transmitmailbox].TDHR= (u32) ((u32)hcan->pTxMsg->Data[7] << CAN_TDL0R_DATA3_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[6] << CAN_TDL0R_DATA2_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[5] << CAN_TDL0R_DATA1_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[4] << CAN_TDL0R_DATA0_BIT_POSITION);
-
-
-
-      // Enable interrupts:
-      //  - Enable Error warning Interrupt
-      //  - Enable Error passive Interrupt
-      //  - Enable Bus-off Interrupt
-      //  - Enable Last error code Interrupt
-      //  - Enable Error Interrupt
-      //  - Enable Transmit mailbox empty Interrupt
-      CAN1->IER =  CAN_IT_EWG
-                            |CAN_IT_EPV
-                            |CAN_IT_BOF
-                            |CAN_IT_LEC
-                            |CAN_IT_ERR
-                            |CAN_IT_TME;
-
-      // Request transmission
-      CAN1->sTxMailBox[transmitmailbox].TIR |= CAN_TI0R_TXRQ;
-    }
-  }
-}
-*/
-/************************************************************************/
 
