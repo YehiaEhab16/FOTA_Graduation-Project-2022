@@ -11,8 +11,8 @@
 
 #define CAN1                ((CAN_t *)CAN_BASE)
 
-#define CAN_ID_STD  		            u32(0x00000000)    // Standard Id */
-#define CAN_ID_EXT  		            u32(0x00000004)    // Extended Id */
+#define CAN_ID_STD  		            0    // Standard Id */
+#define CAN_ID_EXT  		            1    // Extended Id */
 #define DATA_FRAME       	            0
 #define REMOTE_FRAME     	            1
 
