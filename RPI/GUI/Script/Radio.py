@@ -58,7 +58,7 @@ class MainAPP_Radio(QWidget, FormClass):
 
     # Function to increase volume
     def IncreaseVolume(self):
-        currentVolume = self.sound.value() + 5
+        currentVolume = self.player.volume() + 5
         self.player.setVolume(currentVolume)
         self.sound.setValue(currentVolume)
         print(currentVolume)
@@ -69,7 +69,7 @@ class MainAPP_Radio(QWidget, FormClass):
     # Function to decrease volume
 
     def DecreaseVolume(self):
-        currentVolume = self.sound.value() - 5
+        currentVolume = self.player.volume() - 5
         self.player.setVolume(currentVolume)
         self.sound.setValue(currentVolume)
         print(currentVolume)
