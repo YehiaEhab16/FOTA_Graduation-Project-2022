@@ -16,15 +16,15 @@
 typedef struct
 {
 	volatile u32 ISER[3];
-	volatile u32 EXTRA_BYTE[17];
+	volatile u32 EXTRA_BYTE[29];
 	volatile u32 ICER[3];
 	volatile u32 EXTRA_BYTE1[2];
 	volatile u32 ISPR[3];
-	volatile u32 EXTRA_BYTE2[17];
+	volatile u32 EXTRA_BYTE2[29];
 	volatile u32 ICPR[3];
-	volatile u32 EXTRA_BYTE3[2];
+	volatile u32 EXTRA_BYTE3[29];
 	volatile u32 IABR[3];
-	volatile u32 EXTRA_BYTE4[17];
+	volatile u32 EXTRA_BYTE4[29];
 	volatile u8  IPR[59];
 
 
