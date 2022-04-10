@@ -11,6 +11,9 @@
 #define SYS_INTERFACE_H_
 
 
+/**
+ * @def initializing all peripherals
+ */
 void SYS_voidInit(void);
 
 

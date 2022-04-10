@@ -15,142 +15,122 @@
 #include "GPIO_config.h"
 #include "GPIO_register.h"
 
-
-u8 GPIO_u8TogglePinValue (u8 Copy_u8Port, u8 Copy_u8Pin)
+//Initializing all pins direction
+void GPIO_voidDirectionInit()
 {
-	u8 Local_u8ErrorState = OK ; 
-	if (Copy_u8Pin <= GPIO_PIN_15)
-	{
-		switch (Copy_u8Port)
-		{
-			case GPIO_PORTA : TOGGLE_BIT(PORTA_ODR,Copy_u8Pin);break;
-			case GPIO_PORTB : TOGGLE_BIT(PORTB_ODR,Copy_u8Pin);break;
-			case GPIO_PORTC :if (Copy_u8Pin >= GPIO_PIN_13){TOGGLE_BIT(PORTC_ODR,Copy_u8Pin);}else{Local_u8ErrorState =NOK ;}break;
-		    default : Local_u8ErrorState =NOK ;
-		}
-		
-	}
-	else 
-	{
-		Local_u8ErrorState = NOK ;
-	}
+	//PortA Direction
+	GPIOA->CRL  = PORTA_DIR1;
+	GPIOA->CRH  = PORTA_DIR;
 
+	//PortB Direction
+	GPIOB->CRL  = PORTB_DIR1;
+	GPIOB->CRH  = PORTB_DIR;
 	
-	return Local_u8ErrorState ;
+	//PortC Direction
+	GPIOB->CRH  = PORTC_DIR;
+	
+	//Ports Initial Value
+	GPIOA->ODR  = PORTA_VAlUE;
+	GPIOB->ODR  = PORTB_VALUE;
+	GPIOC->ODR  = PORTC_VALUE
 }
 
-u8 GPIO_u8SetPinValue (u8 Copy_u8Port, u8 Copy_u8Pin,u8 Copy_u8Value)
+//Seting Output value for certain pin
+u8 GPIO_u8SetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin,u8 Copy_u8Value)
 {
 	u8 Local_u8ErrorState = OK ;
-	if (Copy_u8Pin <= GPIO_PIN_15)
-	{
-		
-		if (Copy_u8Value == GPIO_PIN_HIGH)
-		{
+	if (Copy_u8Pin <= GPIO_PIN_15)	//Input Validation
+		//Output High
+		if(Copy_u8Value == GPIO_PIN_HIGH)
 			switch (Copy_u8Port)
 			{
-				case GPIO_PORTA : SET_BIT(PORTA_ODR,Copy_u8Pin);break;
-				case GPIO_PORTB : SET_BIT(PORTB_ODR,Copy_u8Pin);break;
-				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13){SET_BIT(PORTC_ODR,Copy_u8Pin);}else{Local_u8ErrorState =NOK ;}break;
+				case GPIO_PORTA : SET_BIT(GPIOA->ODR,Copy_u8Pin);break;
+				case GPIO_PORTB : SET_BIT(GPIOB->ODR,Copy_u8Pin);break;
+				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13)SET_BIT(GPIOC->ODR,Copy_u8Pin);elseLocal_u8ErrorState =NOK;break;
 				default : Local_u8ErrorState =NOK ;
-				
-				
 			}
-		}
-		else if (Copy_u8Value == GPIO_PIN_LOW)
-		{
+		//Output Low
+		else if(Copy_u8Value == GPIO_PIN_LOW)
 			switch (Copy_u8Port)
 			{
-				case GPIO_PORTA : CLR_BIT(PORTA_ODR,Copy_u8Pin);break;
-				case GPIO_PORTB : CLR_BIT(PORTB_ODR,Copy_u8Pin);break;
-				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13){CLR_BIT(PORTC_ODR,Copy_u8Pin);}else{Local_u8ErrorState =NOK ;}break;
-				default : Local_u8ErrorState =NOK ;
-					
-					
+				case GPIO_PORTA : CLR_BIT(GPIOA->ODR,Copy_u8Pin);break;
+				case GPIO_PORTB : CLR_BIT(GPIOB->ODR,Copy_u8Pin);break;
+				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13)CLR_BIT(GPIOC->ODR,Copy_u8Pin);elseLocal_u8ErrorState =NOK;break;
+				default : Local_u8ErrorState =NOK;		
 			}
-		}	
+		//Wrong Input	
 		else 
-		{
 			Local_u8ErrorState =NOK;
-		}
-	
-	
-	}
+	//Wrong Input
 	else 
-	{
-		
 		Local_u8ErrorState =NOK ;
-	}
-	
-	
 	
 	return Local_u8ErrorState ;
 }
 
-
-u8 GPIO_u8SetPortValue (u8 Copy_u8Port,u8 Copy_u8Value)
+//Setting Output for a certain port
+u8 GPIO_u8SetPortValue(u8 Copy_u8Port,u8 Copy_u8Value)
 {
 	u8 Local_u8ErrorState =OK;
-	if (Copy_u8Value == GPIO_PIN_HIGH)
+	//Output High
+	if(Copy_u8Value == GPIO_PIN_HIGH)
+		switch (Copy_u8Port)
 		{
-			switch (Copy_u8Port)
-			{
-				case GPIO_PORTA : PORTA_ODR = Copy_u8Port;break;
-				case GPIO_PORTB : PORTB_ODR = Copy_u8Port;break;
-				case GPIO_PORTC : PORTC_ODR = Copy_u8Port;break;
-				default : Local_u8ErrorState =NOK ; break ;
-				
-				
-			}
+			case GPIO_PORTA : GPIOA->ODR = Copy_u8Port;break;
+			case GPIO_PORTB : GPIOB->ODR = Copy_u8Port;break;
+			case GPIO_PORTC : GPIOC->ODR = Copy_u8Port;break;
+			default : Local_u8ErrorState =NOK;		   break;	
 		}
-	else if (Copy_u8Value == GPIO_PIN_LOW)
+	//Output Low	
+	else if(Copy_u8Value == GPIO_PIN_LOW)
+		switch (Copy_u8Port)
 		{
-			switch (Copy_u8Port)
-			{
-				case GPIO_PORTA : PORTA_ODR = Copy_u8Port;break;
-				case GPIO_PORTB : PORTB_ODR = Copy_u8Port;break;	
-				case GPIO_PORTC : PORTC_ODR = Copy_u8Port;break;	
-				default : Local_u8ErrorState =NOK ; break;
-			} 			
-			
-		}	
+			case GPIO_PORTA : GPIOA->ODR = Copy_u8Port;break;
+			case GPIO_PORTB : GPIOB->ODR = Copy_u8Port;break;	
+			case GPIO_PORTC : GPIOC->ODR = Copy_u8Port;break;	
+			default : Local_u8ErrorState =NOK ; break;
+		} 			
+	//Wrong Input	
 	else 
-		{
-			Local_u8ErrorState =NOK;
-		}
-	
-	
-	
-	
+		Local_u8ErrorState =NOK;
+		
 	return Local_u8ErrorState;
 }
 
+//Toggling output on a certin pin
+u8 GPIO_u8TogglePinValue(u8 Copy_u8Port, u8 Copy_u8Pin)
+{
+	u8 Local_u8ErrorState = OK; 
+	if (Copy_u8Pin <= GPIO_PIN_15)	//Input Validation
+		switch (Copy_u8Port)
+		{
+			case GPIO_PORTA : TOGGLE_BIT(GPIOA->ODR,Copy_u8Pin);break;
+			case GPIO_PORTB : TOGGLE_BIT(GPIOB->ODR,Copy_u8Pin);break;
+			case GPIO_PORTC :if (Copy_u8Pin >= GPIO_PIN_13)TOGGLE_BIT(GPIOC->ODR,Copy_u8Pin);else Local_u8ErrorState=NOK;break;
+		    default: Local_u8ErrorState = NOK;
+		}
+	//Wrong Input
+	else
+		Local_u8ErrorState = NOK ;
+	
+	return Local_u8ErrorState ;
+}
 
-u8 GPIO_u8GetPinValue (u8 Copy_u8Port , u8 Copy_u8Pin , u8*Copy_pu8Value)
+//Reading Input Value from a certain pin
+u8 GPIO_u8GetPinValue(u8 Copy_u8Port , u8 Copy_u8Pin , u8*Copy_pu8Value)
 {
 	u8 Local_u8ErrorState =OK ;
-	
-	if (Copy_u8Pin <= GPIO_PIN_15)
-	{
+	if(Copy_u8Pin <= GPIO_PIN_15)	//Input Validation
 		switch (Copy_u8Port)
 			{
-				case GPIO_PORTA :*Copy_pu8Value=GET_BIT(PORTA_IDR,Copy_u8Pin);break;
-				case GPIO_PORTB :*Copy_pu8Value=GET_BIT(PORTB_IDR,Copy_u8Pin);break;
-				case GPIO_PORTC :if (Copy_u8Pin >= GPIO_PIN_13){*Copy_pu8Value=GET_BIT(PORTC_IDR,Copy_u8Pin);}else{Local_u8ErrorState =NOK ;}break;
-				default : Local_u8ErrorState =NOK ; break ;
-				
-				
+				case GPIO_PORTA :*Copy_pu8Value=GET_BIT(GPIOA->IDR,Copy_u8Pin);break;
+				case GPIO_PORTB :*Copy_pu8Value=GET_BIT(GPIOB->IDR,Copy_u8Pin);break;
+				case GPIO_PORTC :if (Copy_u8Pin >= GPIO_PIN_13)*Copy_pu8Value=GET_BIT(GPIOC->IDR,Copy_u8Pin);else Local_u8ErrorState=NOK;break;
+				default: Local_u8ErrorState=NOK;break;
 			}
-	}
+	//Wrong Input
 	else 
-	{
-		Local_u8ErrorState =NOK ;
-	}
-
-	
-	
-	
-	
+		Local_u8ErrorState = NOK;	
 	
 	return Local_u8ErrorState ; 
 }

@@ -45,9 +45,14 @@ typedef struct
 	u8 SW_u8Port;
 	u8 SW_u8Pin;
 	u8 SW_u8Connection;
-	u32 SW_u32DebounceTime;
 }SW_t;
 
+/**
+ * @def   Read Switch Value
+ * @param Copy_pSW_tStruct: struct contains Switch Info
+ * @return PRESSED / NOT_PRESSED
+ */
 u8 SW_u8ReadSwicth(SW_t* Copy_pSW_tStruct);
+
 
 #endif

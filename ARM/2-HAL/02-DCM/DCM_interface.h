@@ -42,12 +42,35 @@ typedef struct
 }DCM_t;
 
 //Controlling motor direction (2 pins)
+/**
+ * @def   Rotate Motor CCW
+ * @param Copy_pDCM_tStructMotor: struct contains Motor Info
+ */
 void DCM_voidRotateCCW(DCM_t* Copy_pDCM_tStructMotor);
+
+/**
+ * @def   Rotate Motor CW
+ * @param Copy_pDCM_tStructMotor: struct contains Motor Info
+ */
 void DCM_voidRotateCW(DCM_t* Copy_pDCM_tStructMotor);
+
+/**
+ * @def   Stop Motor
+ * @param Copy_pDCM_tStructMotor: struct contains Motor Info
+ */
 void DCM_voidStop2(DCM_t* Copy_pDCM_tStructMotor);
 
 //Controlling motor from 1 pin (1 direction)
+/**
+ * @def   Rotate Motor
+ * @param Copy_pDCM_tStructMotor: struct contains Motor Info
+ */
 void DCM_voidRotate(DCM_t* Copy_pDCM_tStructMotor);
+
+/**
+ * @def   Stop Motor
+ * @param Copy_pDCM_tStructMotor: struct contains Motor Info
+ */
 void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor);
 
 #endif

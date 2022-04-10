@@ -22,9 +22,6 @@ typedef struct
 }RTOS_t;
 
 
-
-
-
 //RTOS Task States
 #define RTOS_READY			0
 #define RTOS_SUSPENDED		1

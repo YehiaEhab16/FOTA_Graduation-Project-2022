@@ -2,7 +2,7 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :HAL                    ***********************/
-/***********************   SWC (DRIVER):SW 			 ***********************/
+/***********************   SWC (DRIVER):SW 			 	 ***********************/
 /***********************   DATA : 14-3-2022  			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
@@ -13,12 +13,12 @@
 #include "BIT_MATH.h"
 
 #include "GPIO_interface.h"
-#include "STK_interface.h"
 
 #include "SW_config.h"
 #include "SW_interface.h"
 #include "SW_private.h"
 
+//Reading Switch Value
 u8 SW_u8ReadSwicth(SW_t* Copy_pSW_tStruct)
 {
 	u8 Local_u8SwicthValue, Local_u8Value;
@@ -35,6 +35,5 @@ u8 SW_u8ReadSwicth(SW_t* Copy_pSW_tStruct)
 		GPIO_u8GetPinValue(Copy_pSW_tStruct->SW_u8Port, Copy_pSW_tStruct->SW_u8Pin, &Local_u8Value);
 		Local_u8SwicthValue = Local_u8Value;
 	}
-	STK_voidDelay(Copy_pSW_tStruct->SW_u32DebounceTime);
 	return Local_u8SwicthValue;
 }

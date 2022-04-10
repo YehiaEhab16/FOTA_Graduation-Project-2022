@@ -9,16 +9,16 @@
 
 #include "STD_TYPES.h"
 
+#include "GPIO_interface.h"
 #include "RCC_interface.h"
-#include "PORT_interface.h"
 
 #include "SYS_interface.h"
 #include "SYS_private.h"
 #include "SYS_config.h"
 
-
+//Initializing All Peripherals
 void SYS_voidInit(void)
 {
 	RCC_voidInit();
-	PORT_voidInit();
+	GPIO_voidDirectionInit();
 }

@@ -1,7 +1,7 @@
 #include"STD_TYPES.h"
 #include"STRING_COMPARE.h"
 
-u8 STR_COMPARE(u8 * ptr1,u8 * ptr2){
+u8 STR_COMPARE(u8 *ptr1,u8 *ptr2){
 
 	u8 x,i=0;
 

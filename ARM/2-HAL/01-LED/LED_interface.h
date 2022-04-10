@@ -45,9 +45,22 @@ typedef struct
 	u8 LED_u8Connection;
 }LED_t;
 
+/**
+ * @def   Turn On LED
+ * @param Copy_pLED_tStructLed: struct contains LED Info
+ */
 void LED_voidLedOn(LED_t* Copy_pLED_tStructLed);
+
+/**
+ * @def   Turn Off LED
+ * @param Copy_pLED_tStructLed: struct contains LED Info
+ */
 void LED_voidLedOff(LED_t* Copy_pLED_tStructLed);
 
+/**
+ * @def   Toggle LED
+ * @param Copy_pLED_tStructLed: struct contains LED Info
+ */
 void LED_voidLedToggle(LED_t* Copy_pLED_tStructLed);
 
 

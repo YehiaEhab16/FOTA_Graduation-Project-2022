@@ -17,6 +17,7 @@
 #include "LED_interface.h"
 #include "LED_private.h"
 
+//Turning LED On
 void LED_voidLedOn(LED_t* Copy_pLED_tStructLed)
 {
 	if(Copy_pLED_tStructLed->LED_u8Connection == LED_ACTIVE_HIGH)
@@ -24,6 +25,8 @@ void LED_voidLedOn(LED_t* Copy_pLED_tStructLed)
 	else
 		GPIO_u8SetPinValue(Copy_pLED_tStructLed->LED_u8Port, Copy_pLED_tStructLed->LED_u8Pin, GPIO_PIN_LOW);
 }
+
+//Turning LED Off
 void LED_voidLedOff(LED_t* Copy_pLED_tStructLed)
 {
 	if(Copy_pLED_tStructLed->LED_u8Connection == LED_ACTIVE_HIGH)
@@ -32,6 +35,7 @@ void LED_voidLedOff(LED_t* Copy_pLED_tStructLed)
 		GPIO_u8SetPinValue(Copy_pLED_tStructLed->LED_u8Port, Copy_pLED_tStructLed->LED_u8Pin, GPIO_PIN_HIGH);
 }
 
+//Toggling LED 
 void LED_voidLedToggle(LED_t* Copy_pLED_tStructLed)
 {
 	GPIO_u8TogglePinValue(Copy_pLED_tStructLed->LED_u8Port, Copy_pLED_tStructLed->LED_u8Pin);

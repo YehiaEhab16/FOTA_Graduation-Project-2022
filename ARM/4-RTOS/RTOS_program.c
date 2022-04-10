@@ -44,19 +44,18 @@ static void Scheduler(void)
 
 /*Tasks Handling Functions*/
 //Crearte Task with specific parameters (ex:Priority, Periodicity, ...)
-u8 RTOS_u8CreateTask(u8 Copy_u8RTOSpriority ,u16 Copy_u16RTOSPeriodicity ,u16 Copy_u16RTOSFirstDelay ,u8 Copy_u8RTOSTaskState ,void (*Copy_voidRTOSpvoid)(void))
+u8 RTOS_u8CreateTask(TASK_t* Copy_TASK_tInfo)
 {
 	u8 Local_u8ErrorState = OK;
-	if(Copy_voidRTOSpvoid != NULL)
+	if(Copy_TASK_tInfo->TASK_pvoid != NULL)
 	{
-		while(RTOS_sTasks[Copy_u8RTOSpriority].RTOS_pvoid != NULL)
-			Copy_u8RTOSpriority++;
+		while(RTOS_sTasks[Copy_TASK_tInfo->TASK_u8Priority].RTOS_pvoid != NULL)
+			Copy_TASK_tInfo->TASK_u8Priority++;
 		
-		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u16Periodicity = Copy_u16RTOSPeriodicity;
-		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u16FirstDelay	 = Copy_u16RTOSFirstDelay;
-		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_pvoid 		 = Copy_voidRTOSpvoid;
-		RTOS_sTasks[Copy_u8RTOSpriority].RTOS_u8TaskState    = Copy_u8RTOSTaskState;
-		
+		RTOS_sTasks[Copy_TASK_tInfo->TASK_u8Priority].RTOS_u16Periodicity = Copy_TASK_tInfo->TASK_u16Periodicity;
+		RTOS_sTasks[Copy_TASK_tInfo->TASK_u8Priority].RTOS_u16FirstDelay  = Copy_TASK_tInfo->TASK_u16FirstDelay;
+		RTOS_sTasks[Copy_TASK_tInfo->TASK_u8Priority].RTOS_pvoid 		  = Copy_TASK_tInfo->TASK_pvoid;
+		RTOS_sTasks[Copy_TASK_tInfo->TASK_u8Priority].RTOS_u8TaskState    = Copy_TASK_tInfo->TASK_u8TaskState;	
 	}
 	
 	else

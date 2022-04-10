@@ -10,9 +10,12 @@
 #ifndef GPIO_INTERFACE_H_
 #define GPIO_INTERFACE_H_
 
-/*
-Definition pins 
-*/
+//Port Options
+#define GPIO_PORTA          0
+#define GPIO_PORTB          1
+#define GPIO_PORTC          2
+
+//Pin Options
 #define GPIO_PIN_0			0
 #define GPIO_PIN_1          1
 #define GPIO_PIN_2          2
@@ -29,40 +32,52 @@ Definition pins
 #define GPIO_PIN_13         13
 #define GPIO_PIN_14         14
 #define GPIO_PIN_15         15
-							
-/*
-Definition Ports
-*/
-#define GPIO_PORTA          0
-#define GPIO_PORTB          1
-#define GPIO_PORTC          2
 
-
-/*
-States of pins or ports
-*/
+//Pin and Port States
 #define GPIO_PORT_HIGH		0xff
 #define GPIO_PORT_LOW		0
 
 #define GPIO_PIN_HIGH		1
 #define GPIO_PIN_LOW		0
 
-/*
-APIS
-*/
+/**
+ * @def initialize all pin directions and initial values
+ */
+void GPIO_voidDirectionInit();
 
-u8 GPIO_u8TogglePinValue (u8 Copy_u8Port, u8 Copy_u8Pin);
-
+/**
+ * @def function that sets output value to specific pin
+ * @param Copy_u8Port required GPIO Port
+ * @param Copy_u8Pin required GPIO Pin
+ * @param Copy_u8Value required Output Value
+ * @return ErrorFlag
+ */
 u8 GPIO_u8SetPinValue (u8 Copy_u8Port, u8 Copy_u8Pin,u8 Copy_u8Value);
-/*this function return error status and it needs to three argument (port , direction) */
 
+/**
+ * @def function that sets output value to specific port
+ * @param Copy_u8Port required GPIO Port
+ * @param Copy_u8Value required Output Value
+ * @return ErrorFlag
+ */
 u8 GPIO_u8SetPortValue (u8 Copy_u8Port,u8 Copy_u8Value);
 
-/*this function return error status and return the value of bin 
- and it needs to three argument (port ,pin _direction) */
+/**
+ * @def function that gets toggles output on specific pin
+ * @param Copy_u8Port required GPIO Port
+ * @param Copy_u8Pin required GPIO Pin
+ * @return ErrorFlag
+ */
+u8 GPIO_u8TogglePinValue (u8 Copy_u8Port, u8 Copy_u8Pin);
 
-u8 GPIO_u8GetPinValue (u8 Copy_u8Port , u8 Copy_u8Pin , u8*Copy_pu8Value);
-
+/**
+ * @def function that sets output value to specific pin
+ * @param Copy_u8Port required GPIO Port
+ * @param Copy_u8Pin required GPIO Pin
+ * @param Copy_pu8Value is the read input value
+ * @return ErrorFlag
+ */
+u8 GPIO_u8GetPinValue (u8 Copy_u8Port , u8 Copy_u8Pin , u8 *Copy_pu8Value);
 
 
 #endif
