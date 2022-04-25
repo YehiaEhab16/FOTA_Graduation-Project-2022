@@ -95,45 +95,7 @@ void CAN_VoidInit(CAN_HandleTypeDef* hcan)
 									 |     ((u32)hcan->Init.CAN_Prescaler-1  ) ;
 
 
-//		  CAN1->FMR |= CAN_FMR_FINIT;
-//
-//		  /* Set filer mode, 1 and 3 list, 2 and 4 mask */
-//		  CAN1->FM1R &= ~(4 | 16);
-//		  CAN1->FM1R |= (2 | 8);
-//
-//		  /* Set FIFO 0 for all filters */
-//		  CAN1->FFA1R &= ~(2 | 4
-//		      | 8 | 16);
-//
-//		  /* Filter mapping
-//		   *   15-8          7-5    4   3    2-0
-//		   * STID[10:3] STID[2:0] RTR IDE EXID[17:15]
-//		   * */
-//
-//		  /* Filter 0 Deactivated ID Mask (16-bit) No. 0, 1 */
-//
-////		  /* Set filter 1, list mode with ID = 0x25 */
-////		  CAN1->sFilterRegister[1].FR1 = 0x04A004A0; /* No. 2, 3 */
-////		  CAN1->sFilterRegister[1].FR2 = 0x04A004A0; /* No. 4, 5 */
-////
-////		  /* Set filter 2, mask mode with ID = 0x10:0x1F */
-////		  CAN1->sFilterRegister[2].FR1 = 0xFE1F0200; /* No. 6 */
-////		  CAN1->sFilterRegister[2].FR2 = 0xFE1F0200; /* No. 7 */
-//
-//		  /* Set filter 3, list mode with ID = 0x15 */
-//		  CAN1->sFilterRegister[3].FR1 = 0x02A002A0; /* No. 8, 9 */
-//		  CAN1->sFilterRegister[3].FR2 = 0x02A002A0; /* No. 10, 11 */
-//
-////		  /* Set filter 4, mask mode with ID = 0x20:0x2F */
-////		  CAN1->sFilterRegister[4].FR1 = 0xFE1F0400; /* No. 12 */
-////		  CAN1->sFilterRegister[4].FR2 = 0xFE1F0400; /* No. 13 */
-//
-//		  /* Activate filters */
-//		  CAN1->FA1R |= (2 | 4
-//		      | 8 | 16);
-//
-//		  /* Active filters mode */
-//		  CAN1->FMR &= ~CAN_FMR_FINIT;
+
 
 
 		/* exit initialization mode */
@@ -212,12 +174,10 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 				/*Id/Mask mode for the filter*/
 					CAN1->FM1R &= ~(u32)Local_u32filterNumberPosition;
 														 /*FR1 =FR2 = [Local_u16FilterbankMaskId |Local_u16FilterbankId]*/
-					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = 0x02A002A0;
-//							((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
-//																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
-					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = 0x02A002A0;
-//							((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
-//																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
+																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
+																							 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
 				break;
 
 				case (CAN_FILTERMODE_IDLIST):
@@ -227,12 +187,10 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 					CAN1->FM1R |= (u32)Local_u32filterNumberPosition;
 
 									   /*FR1 =FR2 = [Local_u16FilterbankId |Local_u16FilterbankId]*/
-					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = 0x02A002A0;
-							//((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
-							//																| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
-					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 =0x02A002A0;
-//							((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
-//																						| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
+																							| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
+					CAN1->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 =	((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
+																							| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
 					break;
 			}
 		break;
@@ -284,8 +242,6 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 
 
 
-/****************************************************************************************/
-/****************************************************************************************/
 
 
 
@@ -418,87 +374,5 @@ void CAN_voidReceive( CAN_msg *msg, u8 Copy_u8FIFOIndex)
 	}
 	*Receive_FIFO_Reg |= RELEASE_FIFO;
 }
-
-
-/****************************************************************************************/
-
-/*
-void CAN_voidTransmit_IT(CAN_HandleTypeDef* hcan)
-{
-  u32 transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
-  if((hcan->State == CAN_STATE_READY) && (hcan->txState == CAN_RXTX_STATE_READY))
-  {
-
-	// Select one empty transmit mailbox
-	if ((CAN1->TSR & CAN_TSR_TME0) == CAN_TSR_TME0)			//check if mailox 0 is empty
-	{
-		transmitmailbox = 0;
-	}
-	else if ((CAN1->TSR & CAN_TSR_TME1) == CAN_TSR_TME1)		//check if mailox 1 is empty
-	{
-		transmitmailbox = 1;
-	}
-	else if ((CAN1->TSR & CAN_TSR_TME2) == CAN_TSR_TME2)		//check if mailox 2 is empty
-	{
-		transmitmailbox = 2;
-	}
-	else
-	{
-		transmitmailbox = CAN_TXSTATUS_NOMAILBOX;
-	}
-
-
-    if(transmitmailbox != CAN_TXSTATUS_NOMAILBOX)
-    {
-      // Set up the Id
-      CAN1->sTxMailBox[transmitmailbox].TIR &= CAN_TI0R_TXRQ;
-      if (hcan->pTxMsg->IDE == CAN_ID_STD)
-      {
-        CAN1->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 3); //extended
-      }
-      else
-      {
-        CAN1->sTxMailBox[transmitmailbox].TIR |= (hcan->pTxMsg->->IDE << 21); //standard
-      }
-
-      // Set up the DLC
-      hcan->pTxMsg->DLC &= (u8)0x0000000F;
-      CAN1->sTxMailBox[transmitmailbox].TDTR &= (u32)0xFFFFFFF0;
-      CAN1->sTxMailBox[transmitmailbox].TDTR |= hcan->pTxMsg->DLC;
-
-      // Set up the data field
-      CAN1->sTxMailBox[transmitmailbox].TDLR= (u32) ((u32)hcan->pTxMsg->Data[3] << CAN_TDL0R_DATA3_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[2] << CAN_TDL0R_DATA2_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[1] << CAN_TDL0R_DATA1_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[0] << CAN_TDL0R_DATA0_BIT_POSITION);
-
-      CAN1->sTxMailBox[transmitmailbox].TDHR= (u32) ((u32)hcan->pTxMsg->Data[7] << CAN_TDL0R_DATA3_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[6] << CAN_TDL0R_DATA2_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[5] << CAN_TDL0R_DATA1_BIT_POSITION)
-      													|	((u32)hcan->pTxMsg->Data[4] << CAN_TDL0R_DATA0_BIT_POSITION);
-
-
-
-      // Enable interrupts:
-      //  - Enable Error warning Interrupt
-      //  - Enable Error passive Interrupt
-      //  - Enable Bus-off Interrupt
-      //  - Enable Last error code Interrupt
-      //  - Enable Error Interrupt
-      //  - Enable Transmit mailbox empty Interrupt
-      CAN1->IER =  CAN_IT_EWG
-                            |CAN_IT_EPV
-                            |CAN_IT_BOF
-                            |CAN_IT_LEC
-                            |CAN_IT_ERR
-                            |CAN_IT_TME;
-
-      // Request transmission
-      CAN1->sTxMailBox[transmitmailbox].TIR |= CAN_TI0R_TXRQ;
-    }
-  }
-}
-*/
-/************************************************************************/
 
 
