@@ -1,6 +1,7 @@
 /*******************************************************************************/
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
+
 /***********************   Layer :App ECU Application   ***********************/
 /***********************   DATA : 25/4/2022 			 ***********************/
 /*******************************************************************************/
@@ -10,9 +11,7 @@
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
-#include "RCC_interface.h"
-#include "GPIO_interface.h"
-#include "RTOS_interface.h"
+#include "Apps.h"
 
 
 /*parameters for task creation where The formate will be like:
@@ -51,7 +50,6 @@ int main(void)
 	
 	
 	
-	Scheduler();
 	while(1){
 	
 	
