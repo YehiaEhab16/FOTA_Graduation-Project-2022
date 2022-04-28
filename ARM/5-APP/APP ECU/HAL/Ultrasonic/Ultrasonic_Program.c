@@ -23,9 +23,11 @@ u32 Ultrasonic_u32Reading()
 
 
 	/*  Echo=>Output Pin to read the sensor’s measurements output */
-	while(!GPIO_u8GetPinValue(GPIO_PORTB , GPIO_PIN_7, &GetPinValue));
+	GPIO_u8GetPinValue(GPIO_PORTB , GPIO_PIN_7, &GetPinValue);
+	
+	while(!GetPinValue);
 	/*  We can use timer to get the time */
-	while(GPIO_u8GetPinValue(GPIO_PORTB , GPIO_PIN_7, &GetPinValue))
+	while(GetPinValue)
 	{
 		local_time ++;
 		STK_voidDelay(1);
