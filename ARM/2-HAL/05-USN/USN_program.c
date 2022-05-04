@@ -2,16 +2,25 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :HAL                    ***********************/
-/***********************   SWC (DRIVER):SW 			 ***********************/
-/***********************   DATA : 14-3-2022  			 ***********************/
+/***********************   SWC (DRIVER):USN 			 ***********************/
+/***********************   DATA : 5-4-2022  			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
-/* Preprocessor file guard 
-   Static functions*/
-#ifndef SW_PRIVATE_H_
-#define SW_PRIVATE_H_
+/* Functions Implementation */
+#include "STD_TYPES.h"
 
+#include "GPIO_interface.h"
+#include "TIMER_interface.h"
 
+#include "USN_config.h"
+#include "USN_interface.h"
+#include "USN_private.h"
 
-#endif
+//Reading Distance in cm
+u8 USN_u8ReadDistance(u8 *Copy_pu8DistValue)
+{
+	u8 Local_u8ErrorState=OK;
+	
+	return Local_u8ErrorState;
+}
