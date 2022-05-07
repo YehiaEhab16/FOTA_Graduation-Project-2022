@@ -2,18 +2,21 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :MCAL                   ***********************/
-/***********************   SWC (DRIVER):TIMER			 ***********************/
-/***********************   DATA : 11-04-2022 			 ***********************/
+/***********************   SWC (DRIVER):Dec 22, 2021	 ***********************/
+/***********************   DATA : 15-11-2021 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
+
+
 #ifndef TIMER_INTERFACE_H_
 #define TIMER_INTERFACE_H_
 
 
-#define 	TIM1						    0
-#define 	TIM2		    				1
-#define 	TIM3		    				2
-#define 	TIM4		    				3
+
+#define 	TIM1		    0
+#define 	TIM2		    1
+#define 	TIM3		    2
+#define 	TIM4		    3
 
 #define 	CHANNEL1		                1
 #define 	CHANNEL2		                2
@@ -55,7 +58,23 @@
 #define PORTB_PIN0		TIM3_CH3
 #define PORTB_PIN1		TIM3_CH4
 
-//Functions Prototypes
+
+typedef struct
+{
+	u16 Prescaler;
+	u16 Period;
+	u8 Period_Mode;					/* PERIODIC_MODE or ONE_PULSE_MODE */
+	u8 Direction;					/* UP_COUNT or DOWN_COUNT */
+	u8 Clock_Div;					/* DIV_1, DIV_2 or DIV_3 */
+	u8 Center_Aligned_Mode;			/* EDGE_ALIGNED_MODE, CENTER_ALIGNED_MODE_(1,2 OR 3)*/
+	u8 Update_State;	            /* ENABLE or DISABLE */
+	u8 AutoReloadBuffer;            /* ENABLE or DISABLE */
+	u8 Counter_State;               /* ENABLE or DISABLE */
+	u8 UDI_State;                   /* ENABLE or DISABLE */
+}GPT_Config;
+
+/*Function Prototypes*/
+
 /**
  * @def   Configures timer properties (doesn't start timer)
  * @param Copy_u8Timer: TIM1, TIM2, TIM3 or TIM4
@@ -63,21 +82,18 @@
  * @return
  */
 void TIMER_voidTimerConfig(u8 Copy_u8Timer, GPT_Config *GPT_ConfigPtr);
-
 /**
  * @def   Start timer
  * @param Copy_u8Timer: TIM1, TIM2, TIM3 or TIM4
  * @return
  */
-void TIMER_voidStartTimer(u8 Copy_u8Timer);
-
+void TIMER_StartTimer(u8 Copy_u8Timer);
 /**
  * @def   Stop timer
  * @param Copy_u8Timer: TIM1, TIM2, TIM3 or TIM4
  * @return
  */
-void TIMER_voidStopTimer(u8 Copy_u8Timer);
-
+void TIMER_StopTimer(u8 Copy_u8Timer);
 /**
  * @def   Busy waiting
  * @param Copy_u8Timer: TIM1, TIM2, TIM3 or TIM4
@@ -85,15 +101,13 @@ void TIMER_voidStopTimer(u8 Copy_u8Timer);
  * 		  Copy_u16Unit: unit of delay time (mSEC or uSEC)
  * @return
  */
-void TIMER_voidDelay(u8 Copy_u8Timer, u32 Copy_u32Delay, u32 Copy_u16Unit);
-
+void TIMER_Delay(u8 Copy_u8Timer, u32 Copy_u32Delay, u32 Copy_u16Unit);
 /**
  * @def   Read current value of counter register
  * @param Copy_u8Timer: TIM1, TIM2, TIM3 or TIM4
  * @return
  */
 u16 TIMER_u16GetCount(u8 Copy_u8Timer);
-
 /**
  * @def   Output Compare (toggle mode) for desired channel
  * @param PORTx_PINx: port and pin for the desired timer channel
@@ -102,8 +116,7 @@ u16 TIMER_u16GetCount(u8 Copy_u8Timer);
  * 		  Copy_u16Unit: unit of toggling period and compare value (mSEC or uSEC)
  * @return
  */
-void TIMER_voidOutputCompare(TIM_CH_t* PORT_PIN, u16 Copy_u16Period, u16 Copy_u16CompareValue, u16 Copy_u16Unit);
-
+void TIMER_OutputCompare(u8 Copy_u8PORT_PIN, u16 Copy_u16Period, u16 Copy_u16CompareValue, u16 Copy_u16Unit);
 /**
  * @def   Generates PWM signal
  * @param PORTx_PINx: port and pin for the desired timer channel
@@ -112,7 +125,8 @@ void TIMER_voidOutputCompare(TIM_CH_t* PORT_PIN, u16 Copy_u16Period, u16 Copy_u1
  * 		  Copy_u16Unit: unit of toggling period and compare value (mSEC or uSEC)
  * @return
  */
-void TIMER_voidPWM(TIM_CH_t* PORT_PIN, u16 Copy_u16Period, u16 Copy_u16DutyCycle, u16 Copy_u16Unit);
+void TIMER_PWM(u8 Copy_u8PORT_PIN, u16 Copy_u16Period, u16 Copy_u16DutyCycle, u16 Copy_u16Unit);
+
 
 
 #endif
