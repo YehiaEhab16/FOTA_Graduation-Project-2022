@@ -13,7 +13,6 @@
 #define USN_INTERFACE_H_
 
 
-
 /**
  * @def   Read Distance Value
  * @param Distance Value in cm read from sensor
