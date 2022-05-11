@@ -10,6 +10,10 @@
 #define TASKS_H_
 
 
+#define FORWARD			0
+#define BACKWARD		1
+#define STOP			2
+
 /**
  * @def Activate buzzer and LED for collision avoidance
  */

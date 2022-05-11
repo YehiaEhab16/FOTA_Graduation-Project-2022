@@ -36,8 +36,8 @@
 #define PRESSED						1
 #define NOT_PRESSED					0
 
-#define SW_u8PULL_UP 				0
-#define SW_u8PULL_DOWN				1
+#define SW_PULL_UP 					0
+#define SW_PULL_DOWN				1
 
 typedef struct
 {
@@ -51,7 +51,7 @@ typedef struct
  * @param Copy_pSW_tStruct: struct contains Switch Info
  * @return PRESSED / NOT_PRESSED
  */
-u8 SW_u8ReadSwicth(SW_t* Copy_pSW_tStruct);
+u8 SW_u8ReadSwitch(SW_t* Copy_pSW_tStruct);
 
 
 #endif
