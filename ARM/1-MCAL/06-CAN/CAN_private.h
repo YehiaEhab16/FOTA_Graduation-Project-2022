@@ -11,47 +11,7 @@
 #define CAN_PRIVATE_H
 
 
-typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
-
-
-typedef struct
-{
-  u32 StdId;    /* Specifies the standard identifier.*/
-
-  u32 ExtId;    /* Specifies the extended identifier.*/
-
-  u32 IDE;      /* Specifies the type of identifier for the message that will be transmitted.*/
-
-  u32 RTR;      /* Specifies the type of frame for the message that will be transmitted.*/
-
-  u32 DLC;      /* Specifies the length of the frame that will be transmitted.*/
-
-  u8 Data[8];   /* Contains the data to be transmitted.*/
-
-}CanTxMsgTypeDef;
-
-
-typedef struct
-{
-  u32 StdId;       /* Specifies the standard identifier.*/
-
-  u32 ExtId;       /* Specifies the extended identifier.*/
-
-  u32 IDE;         /* Specifies the type of identifier for the message that will be received.*/
-
-  u32 RTR;         /* Specifies the type of frame for the received message.*/
-
-  u32 DLC;         /* Specifies the length of the frame that will be received.*/
-
-  u8 Data[8];      /* Contains the data to be received. */
-
-  u32 FMI;         /* Specifies the index of the filter the message stored in the mailbox passes through.*/
-
-  u32 FIFONumber;  /* Specifies the receive FIFO number. */
-  
-}CanRxMsgTypeDef;
-
 
 #define		RELEASE_FIFO 		((u32)1<<5)
 
@@ -102,21 +62,15 @@ typedef struct
 #define     CAN_TSR_TME2        ((u32)0x10000000)	//Transmit mailbox 2 empty
 
 /*------------------------------------*/
-//1-4- CAN receive FIFO 0 register (CAN_RF0R) -- Address offset: 0x0C
-#define		CAN_RF0R_FMP0		((u32)0x03)			//FIFO 0 message pending		-- These bits indicate how many messages are pending in the receive FIFO.
-#define     CAN_RF0R_FULL0		((u8)0x08)			//FIFO 0 full					-- Set by hardware when three messages are stored in the FIFO.
-#define     CAN_RF0R_FOVR0		((u8)0x10)			//FIFO 0 overrun				-- This bit is set by hardware when a new message has been received and passed the filter while the FIFO was full.
-#define     CAN_RF0R_RFOM0		((u8)0x20)			//Release FIFO 0 output mailbox -- Set by software to release the output mailbox of the FIFO.
+//1-4- CAN receive FIFO register (CAN_RF0R/CAN_RF1R)
+#define		CAN_FIFO_FMP		((u32)0x03)			//FIFO 0 message pending		-- These bits indicate how many messages are pending in the receive FIFO.
+#define     CAN_FIFO_FULL		((u8)0x08)			//FIFO 0 full					-- Set by hardware when three messages are stored in the FIFO.
+#define     CAN_FIFO_FOVR		((u8)0x10)			//FIFO 0 overrun				-- This bit is set by hardware when a new message has been received and passed the filter while the FIFO was full.
+#define     CAN_FIFO_RFOM		((u8)0x20)			//Release FIFO 0 output mailbox -- Set by software to release the output mailbox of the FIFO.
+
 
 /*------------------------------------*/
-//1-5- CAN receive FIFO 1 register (CAN_RF1R) -- Address offset: 0x10
-#define		CAN_RF1R_FMP1		((u8)0x03)			//FIFO 1 message pending
-#define     CAN_RF1R_FULL1		((u8)0x08)			//FIFO 1 full
-#define     CAN_RF1R_FOVR1		((u8)0x10)			//FIFO 1 overrun
-#define     CAN_RF1R_RFOM1		((u8)0x20)			//Release FIFO 1 output mailbox
-
-/*------------------------------------*/
-//1-6- CAN interrupt enable register (CAN_IER) -- Address offset: 0x14
+//1-5- CAN interrupt enable register (CAN_IER) -- Address offset: 0x14
 #define		CAN_IER_TMEIE		((u32)0x00000001)	//Transmit mailbox empty interrupt enable -- 0: No interrupt when RQCPx bit is set // 1: Interrupt generated when RQCPx bit is set
 #define		CAN_IER_FMPIE0		((u32)0x00000002)	//FIFO message pending interrupt enable	  -- 0: No interrupt generated when state of FMP[1:0] bits are not 00b // 1: Interrupt generated when state of FMP[1:0] bits are not 00b.
 #define     CAN_IER_FFIE0		((u32)0x00000004)	//FIFO full interrupt enable			  -- 0: No interrupt when FULL bit is set // 1: Interrupt generated when FULL bit is set
@@ -130,21 +84,19 @@ typedef struct
 #define     CAN_IER_SLKIE		((u32)0x00020000)	//Sleep interrupt enable				  -- 0: No interrupt when SLAKI bit is set // 1: Interrupt generated when SLAKI bit is set
 
 /*------------------------------------*/
-//1-7- CAN error status register (CAN_ESR) -- Address offset: 0x18
+//1-6- CAN error status register (CAN_ESR) -- Address offset: 0x18
 #define		CAN_ESR_LEC		    ((u32)0x00000070)	//Last error code 000: No Error // 001: Stuff Error // 010: Form Error // 011: Acknowledgment Error // 100: Bit recessive Error // 101: Bit dominant Error // 110: CRC Error // 111: Set by software
 #define     CAN_ESR_TEC		    ((u32)0x00FF0000)	//Least significant byte of the 9-bit transmit error counter -- The implementing part of the fault confinement mechanism of the CAN protocol.
 #define     CAN_ESR_REC		    ((u32)0xFF000000)	//Receive error counter
 
 /*------------------------------------*/
-//1-8- CAN bit timing register (CAN_BTR) -- Address offset: 0x1C
+//1-7- CAN bit timing register (CAN_BTR) -- Address offset: 0x1C
 #define		CAN_BTR_BRP		   ((u32)0x000003FF)	//Baud rate prescaler				   	  -- define the length of a time quanta.
 #define     CAN_BTR_TS1		   ((u32)0x000F0000)	//Least significant 				   	  -- define the number of time quanta in Time Segment 1.
 #define     CAN_BTR_TS2		   ((u32)0x00700000)	//Receive error count				   	  -- define the number of time quanta in Time Segment 2.
 #define     CAN_BTR_SJW		   ((u32)0x03000000)	//Resynchronization jump width		   	  -- define the maximum number of time quanta the CAN hardware is allowed to lengthen or shorten
 #define  	CAN_BTR_LBKM       ((u32)0x40000000)	//Loop back mode (debug)			   	  -- 0: Loop Back Mode disabled / 1: Loop Back Mode enabled
 #define  	CAN_BTR_SILM       ((u32)0x80000000)	//Silent mode (debug)				   	  -- 0: Normal operation / 1: Silent Mode
-
-
 
 
 							/******2-CAN mailbox registers*******/
@@ -178,10 +130,10 @@ typedef struct
 
 /*------------------------------------*/
 //2-5- CAN receive FIFO mailbox identifier register (CAN_RIxR) -- Address offset: 0x18C, 0x19C, 0x1AC
-#define  	RI1R_RTR       ((u32)0x00000002)        // Remote Transmission Request					-- 0: Data frame / 1: Remote frame
-#define  	RI1R_IDE       ((u32)0x00000004)        // Identifier Extension 						-- This bit defines the identifier type of message in the mailbox. / 0: Standard identifier. / 1: Extended identifier.
-#define  	RI1R_EXID      ((u32)0x001FFFF8)        // Extended identifier 							-- The LSBs of the extended identifier.
-#define  	RI1R_STID      ((u32)0xFFE00000)        // Standard Identifier or Extended Identifier	-- The standard identifier or the MSBs of the extended identifier
+#define  	RIR_RTR       ((u32)0x00000002)        // Remote Transmission Request					-- 0: Data frame / 1: Remote frame
+#define  	RIR_IDE       ((u32)0x00000004)        // Identifier Extension 						-- This bit defines the identifier type of message in the mailbox. / 0: Standard identifier. / 1: Extended identifier.
+#define  	RIR_EXID      ((u32)0x001FFFF8)        // Extended identifier 							-- The LSBs of the extended identifier.
+#define  	RIR_STID      ((u32)0xFFE00000)        // Standard Identifier or Extended Identifier	-- The standard identifier or the MSBs of the extended identifier
 
 /*------------------------------------*/
 //2-6- CAN receive FIFO mailbox data length control and time stamp register(CAN_RDTxR) -- Address offset: 0x1B4, 0x1C4

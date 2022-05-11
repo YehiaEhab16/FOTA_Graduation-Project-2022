@@ -9,7 +9,7 @@
 #ifndef CAN_REGISTER_H
 #define CAN_REGISTER_H
 
-//FPEC Base Address
+//CAN Base Address
 #define 	CAN_BASE                 (*((volatile CAN_t*)0x40006400))
 
 //CAN Registers

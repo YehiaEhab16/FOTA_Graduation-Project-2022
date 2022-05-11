@@ -10,23 +10,23 @@
 #ifndef CAN_INTERFACE_H
 #define CAN_INTERFACE_H
 
-#define CAN1                ((CAN_t *)CAN_BASE)
+#define CAN                ((CAN_t *)(&CAN_BASE))
 
-#define CAN_ID_STD  		            0    			// Standard Id 
-#define CAN_ID_EXT  		            1    			// Extended Id
+#define CAN_ID_STD  		            0    // Standard Id */
+#define CAN_ID_EXT  		            1    // Extended Id */
 #define DATA_FRAME       	            0
 #define REMOTE_FRAME     	            1
 
 
 /* Mailboxes definitions */
-#define CAN_TXMAILBOX_0   			((u8)0x00)			//Mailbox1
-#define CAN_TXMAILBOX_1   			((u8)0x01)			//Mailbox2
-#define CAN_TXMAILBOX_2   			((u8)0x02)			//Mailbox3
+#define CAN_TXMAILBOX_0   			((u8)0x00)										//Mailbox1
+#define CAN_TXMAILBOX_1   			((u8)0x01)										//Mailbox2
+#define CAN_TXMAILBOX_2   			((u8)0x02)										//Mailbox3
 
-#define CAN_TxStatus_Failed         ((u8)0x00) 			// Transmission failed
-#define CAN_TxStatus_Ok             ((u8)0x01) 			// Transmission succeeded
-#define CAN_TxStatus_Pending        ((u8)0x02) 			// Transmission pending
-#define CAN_TXSTATUS_NOMAILBOX      ((u8)0x04) 			// No empty mailbox
+#define CAN_TxStatus_Failed         ((u8)0x00) 										// Transmission failed
+#define CAN_TxStatus_Ok             ((u8)0x01) 										// Transmission succeeded
+#define CAN_TxStatus_Pending        ((u8)0x02) 										// Transmission pending
+#define CAN_TXSTATUS_NOMAILBOX      ((u8)0x04) 										// No empty mailbox
 
 /*INITIAL TYPE DEFINITIONS*/
 /*MODE OPTIONS*/
@@ -36,43 +36,48 @@
 #define CAN_MODE_SILENT_LOOPBACK   ((u8)0x03) //CAN_BTR_SILM | CAN_BTR_LBKM                              // Loopback combined with silent mode
 
 /*SJW OPTIONS*/
-#define CAN_SJW_1TQ                0     					                         // 1 time quantum
-#define CAN_SJW_2TQ                BTR_SJW_0 				                         // 2 time quantum
-#define CAN_SJW_3TQ                BTR_SJW_1 				                         // 3 time quantum
-#define CAN_SJW_4TQ                BTR_SJW    				                         // 4 time quantum
+typedef enum {
+	CAN_SJW_1TQ=0,     // 1 time quantum
+	CAN_SJW_2TQ,       // 2 time quanta
+	CAN_SJW_3TQ,       // 3 time quanta
+	CAN_SJW_4TQ        // 4 time quanta
+}ResynchJumpWidth;
 
 /*BS1 OPTIONS*/
-#define CAN_BS1_1TQ                0                                                // 1 time quantum
-#define CAN_BS1_2TQ                BTR_TS1_0                                        // 2 time quantum
-#define CAN_BS1_3TQ                BTR_TS1_1                                        // 3 time quantum
-#define CAN_BS1_4TQ                BTR_TS1_1 | BTR_TS1_0                            // 4 time quantum
-#define CAN_BS1_5TQ                BTR_TS1_2                                        // 5 time quantum
-#define CAN_BS1_6TQ                BTR_TS1_2 | BTR_TS1_0                            // 6 time quantum
-#define CAN_BS1_7TQ                BTR_TS1_2 | BTR_TS1_1                            // 7 time quantum
-#define CAN_BS1_8TQ                BTR_TS1_2 | BTR_TS1_1 | CAN_BTR_TS1_0            // 8 time quantum
-#define CAN_BS1_9TQ                BTR_TS1_3                                        // 9 time quantum
-#define CAN_BS1_10TQ               BTR_TS1_3 | BTR_TS1_0                            // 10 time quantum
-#define CAN_BS1_11TQ               BTR_TS1_3 | BTR_TS1_1                            // 11 time quantum
-#define CAN_BS1_12TQ               BTR_TS1_3 | BTR_TS1_1 | CAN_BTR_TS1_0            // 12 time quantum
-#define CAN_BS1_13TQ               BTR_TS1_3 | BTR_TS1_2                            // 13 time quantum
-#define CAN_BS1_14TQ               BTR_TS1_3 | BTR_TS1_2 | CAN_BTR_TS1_0            // 14 time quantum
-#define CAN_BS1_15TQ               BTR_TS1_3 | BTR_TS1_2 | CAN_BTR_TS1_1            // 15 time quantum
-#define CAN_BS1_16TQ               BTR_TS1									        // 16 time quantum
+typedef enum {
+	CAN_BS1_1TQ=0,     // 1 time quantum
+	CAN_BS1_2TQ,       // 2 time quanta
+	CAN_BS1_3TQ,       // 3 time quanta
+	CAN_BS1_4TQ,       // 4 time quanta
+	CAN_BS1_5TQ,       // 5 time quanta
+	CAN_BS1_6TQ,       // 6 time quanta
+	CAN_BS1_7TQ,       // 7 time quanta
+	CAN_BS1_8TQ,       // 8 time quanta
+	CAN_BS1_9TQ,       // 9 time quanta
+	CAN_BS1_10TQ,      // 10 time quanta
+	CAN_BS1_11TQ,      // 11 time quanta
+	CAN_BS1_12TQ,      // 12 time quanta
+	CAN_BS1_13TQ,      // 13 time quanta
+	CAN_BS1_14TQ,      // 14 time quanta
+	CAN_BS1_15TQ,      // 15 time quanta
+	CAN_BS1_16TQ       // 16 time quanta
+} TimeSegmentOne;
+
 
 /*BS2 OPTIONS*/
-#define CAN_BS2_1TQ                0                                                 // 1 time quantum
-#define CAN_BS2_2TQ                BTR_TS2_0                                         // 2 time quantum
-#define CAN_BS2_3TQ                BTR_TS2_1                                         // 3 time quantum
-#define CAN_BS2_4TQ                BTR_TS2_1 | BTR_TS2_0                             // 4 time quantum
-#define CAN_BS2_5TQ                BTR_TS2_2                                         // 5 time quantum
-#define CAN_BS2_6TQ                BTR_TS2_2 | BTR_TS2_0                             // 6 time quantum
-#define CAN_BS2_7TQ                BTR_TS2_2 | BTR_TS2_1                             // 7 time quantum
-#define CAN_BS2_8TQ                BTR_TS2                                           // 8 time quantum
-
+typedef enum {
+	CAN_BS2_1TQ=0,      // 1 time quantum
+	CAN_BS2_2TQ,        // 2 time quanta
+	CAN_BS2_3TQ,        // 3 time quanta
+	CAN_BS2_4TQ,        // 4 time quanta
+	CAN_BS2_5TQ,        // 5 time quanta
+	CAN_BS2_6TQ,        // 6 time quanta
+	CAN_BS2_7TQ,        // 7 time quanta
+	CAN_BS2_8TQ         // 8 time quanta
+} TimeSegmentTwo;
 
 /*TTCM , ABOM , AWUM , NART , RFLM , TXFP OPTIONS*/
-#define ENABLE                1
-#define DISABLE               0
+typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
 
 /***************************************************************************/
 							/*CAN_Error_Code */
@@ -94,8 +99,10 @@
 #define CAN_FILTERMODE_IDMASK           0
 #define CAN_FILTERMODE_IDLIST           1
 
-#define CAN_FIFO_0         		 		0
-#define CAN_FIFO_1         		  		1
+#define CAN_FIFO_0         		  0
+#define CAN_FIFO_1         		  1
+
+
 
 
 #define CAN_RTR_DATA                ((u32)0x00000000)  // Data frame
@@ -120,36 +127,104 @@
 
 typedef struct  {
   u32 id;                 // message identifier
-  u8  data[8];            // Data field
+  u8  data[8];               // Data field
   u8  len;                // Length of data field in bytes
   u8  format;             // 0 - STANDARD, 1- EXTENDED IDENTIFIER
   u8  type;               // 0 - DATA FRAME, 1 - REMOTE FRAME
-}CAN_msg;
+} CAN_msg;
+
+
+/*
+Description: CAN Init structure configuration
+*/
+typedef struct
+{
+  u16 CAN_Prescaler;  /* Specifies the length of a time quantum.
+                          This parameter must be a number between Min_Data = 1 and Max_Data = 1024. */
+
+  u8  CAN_MODE;        /* Specifies the CAN operating mode.*/
+
+  u8  CAN_SJW;         /* Specifies the maximum number of time quanta */
+
+  u8  CAN_BS1;         /* Specifies the number of time quanta in Bit Segment 1.*/
+
+  u8  CAN_BS2;         /* Specifies the number of time quanta in Bit Segment 2.*/
+
+  u32 CAN_TTCM;       /* Enable or disable the time triggered communication mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_ABOM;       /* Enable or disable the automatic bus-off management.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_AWUM;       /* Enable or disable the automatic wake-up mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_NART;       /* Enable or disable the non-automatic retransmission mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_RFLM;       /* Enable or disable the Receive FIFO Locked mode.
+                         This parameter can be set to ENABLE or DISABLE. */
+
+  u32 CAN_TXFP;       /* Enable or disable the transmit FIFO priority.
+                          This parameter can be set to ENABLE or DISABLE. */
+}CAN_Init_t;
+
+
+/*
+Description: CAN filter init structure definition
+*/
+typedef struct
+{
+  u32 CAN_FilterId;         // contain ID of filter bank
+
+  u32 CAN_FilterMaskId;     //contain Mask of filter bank
+
+  u8 CAN_FilterMode;        // specify the mode of filter "ID OR MASK"
+
+  u8 CAN_FilterBankNumber;  //contain the filter bank number to specify
+
+  u8 CAN_FilterBankScale;   // Specify the bank scale type " 16 or 32"
+
+  u8 CAN_FilterFIFONumber; //contain the FIFO number to add bank to it
+
+  FunctionalState CAN_FilterActivation; // specify the state of the filter "ENABLE OR DISABLE"
+
+} CAN_FilterInit_t;
+
 
 typedef struct
 {
-  CAN_t*		         Instance;  		 //CAN peripheral  (0 or 1)
+  u32 StdId;       /* Specifies the standard identifier.*/
 
-  CAN_Init_t             Init;      		 //CAN required parameters
+  u32 ExtId;       /* Specifies the extended identifier.*/
 
-  CAN_msg*            	 pTxMsg;    		 //Pointer to transmit structure
+  u32 IDE;         /* Specifies the type of identifier for the message that will be received.*/
 
-  CAN_msg*            	 pRxMsg;    	 	 //Pointer to reception structure
+  u32 RTR;         /* Specifies the type of frame for the received message.*/
 
-}CAN_HandleTypeDef;
+  u32 DLC;         /* Specifies the length of the frame that will be received.*/
+
+  u8 Data[8];      /* Contains the data to be received. */
+
+  u32 FMI;         /* Specifies the index of the filter the message stored in the mailbox passes through.*/
+
+  u32 FIFONumber;  /* Specifies the receive FIFO number. */
+
+
+}CanRxMsgTypeDef;
 
 /**
  * @def function to initialize CAN
  * @param hcan struct contains info about CAN
  */
-void CAN_voidInit(CAN_HandleTypeDef* hcan);
+void CAN_voidInit(CAN_Init_t* hcan);
 
 /**
- * @def function for transmision
- * @param hcan struct contains info about CAN
+ * @def function for transmission
+ * @param CAN message struct contains info about message
  * @return Error Flag
  */
-u8 CAN_u8Transmit(CAN_HandleTypeDef* hcan);
+u8 CAN_u8Transmit(CAN_msg* pTxMsg);
 
 /**
  * @def function for receiving
@@ -163,6 +238,11 @@ void CAN_voidReceive(CAN_msg *msg, u8 Copy_u8FIFOIndex);
  * @param CAN_FilterInitStruct struct contains info about filter
  */
 void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct);
+
+/**
+ * @def function to set callback function
+ */
+void CAN_voidCallBackFunc(void(*pv_CallBack)(void));
 
 
 #endif
