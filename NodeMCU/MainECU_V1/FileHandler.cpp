@@ -1,10 +1,15 @@
 #include "Debug.h"
 #include "FileHandler.h"
+#include "Cipher.h"
+
+Cipher * cipher = new Cipher();
 
 void SendFile(fs::FS &fs, String path) 
 {
-  char FileByte;
+  unsigned char FileByte;
   debugf("Reading file: %s\r\n", path);
+
+  cipher->setKey(CIPHER_KEY);
 
   File file = fs.open(path);
   if (!file || file.isDirectory()) {
@@ -15,6 +20,7 @@ void SendFile(fs::FS &fs, String path)
   debugln("- read from file:");
   while (file.available()) {
     FileByte = file.read();
+    cipher->decrypt(&FileByte,CIPHER_KEY,&FileByte);
     Serial.write(FileByte);
   }
   file.close(); 
