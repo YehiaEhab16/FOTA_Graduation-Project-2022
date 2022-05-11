@@ -7,57 +7,64 @@
 /*******************************************************************************/
 
 #include "STD_TYPES.h"
-#include "RCC_interface.h"
-#include "GPIO_interface.h"
-#include "NVIC_interface.h"
 
 #include "CAN_interface.h"
+
+#include "SW_interface.h"
+#include "LED_interface.h"
 #include "BZR_interface.h"
+#include "DCM_interface.h"
+#include "TMP_interface.h"
 #include "USN_interface.h"
+
 #include "Tasks.h"
 
-
-CAN_HandleTypeDef CAN_Handler;
-
-
-u8 TempSensor (){
+//Activating LED and Buzzer
+void Task_voidAlert(void)
+{
 	
 }
 
-
-/*this function will 
-					Operate the motors			
-*/
-u8 Motors (){
+//Reading Direction from 2 switches
+u8 Task_u8ReadDirection(void)
+{
 	
 }
 
-/*this function will 
-					Operate the ultrasonic sensor
-					Return a flag when the reading is over or below the normal values(no reading of garpage).
-					Return a message if the value has suddenly changed by a large absolute differance (the current and the previous value).
-					In the last case the fuction will operate a buzzer and flash.					
-*/
-u8 CollisionSystem (){
-	u16 Distance=0;
-	Distance = Ultrasonic_u32Calc();
-	if (Distance < 10){
-		/*Tack action*/
-		/*EXAMPLE*/
-		Buzzer_u8Signal();
-	}
+//Reading Temperature from LM35
+u8 Task_u8ReadTemperature(void)
+{
 	
-
 }
 
-void send(){
-	CAN_u8Transmit(&CAN_Handler);
+//Reading Dstance from Ultrasonic
+u8 Task_u8ReadDistance(void)
+{
+	
 }
 
-void receive(){	
+//Diagnostics Check
+u8 Task_u8SystemCheck(void)
+{
+	
 }
 
+//Forward and backward motion
+u8 Task_u8MoveVehicle(u8 Copy_u8Direction)
+{
+	
+}
 
-  
+//Recieving update or diagnostics rewuest
+u8 Task_u8RecieveRequest(void)
+{
+	
+}
+
+//Sending Diagnostics Data
+void Task_voidSendDiagnostics(u8 Copy_u8Message)
+{
+	
+}
 
 
