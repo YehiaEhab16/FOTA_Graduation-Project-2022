@@ -35,10 +35,11 @@ typedef struct
   volatile u32 DR;
 }ADC_t;
 
+
 //ADC Base Addresses
-#define ADC1						(*((volatile ADC_t *)0x40012400))
-#define ADC2						(*((volatile ADC_t *)0x40012800))
-#define ADC3						(*((volatile ADC_t *)0x40013C00))
+#define ADC1						(((volatile ADC_t *)0x40012400))
+#define ADC2						(((volatile ADC_t *)0x40012800))
+#define ADC3						(((volatile ADC_t *)0x40013C00))
 
 
 #endif
