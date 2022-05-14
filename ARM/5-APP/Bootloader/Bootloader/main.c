@@ -17,12 +17,14 @@
 /********************************MCAL LAYER*************************************/
 
 #include "RCC_interface.h"
-#include "USART_interface.h"
 #include "PORT_interface.h"
 #include "FPEC_interface.h"
 #include "GPIO_interface.h"
 #include "WWDG_interface.h"
 #include "IWDG_interface.h"
+#include "CAN_interface.h"
+	
+
 
 /*******************************************************************************/
 /*******************************************************************************/
@@ -30,7 +32,7 @@
 
 /********************************SERV LAYER*************************************/
 
-#include "FPEC_S_interface.h"
+#include "PARSING_interface.h"
 
 //#include "PARSING_interface.h"
 
@@ -45,6 +47,17 @@
 #define READ_REQUEST_FLAG					(*((volatile u16*)0x080028C0))
 #define SCB_VTOR   							(*((volatile u32*)0xE000ED08))
 
+
+
+extern CAN_Init_t CAN_InitStruct;
+extern CAN_FilterInit_t CAN_FilterUserResponse;
+CAN_msg CAN_RXmsg;
+CAN_msg CAN_TXmsg;
+
+
+
+
+
 void APP1(void) ;
 void APP2(void) ;
 
@@ -52,6 +65,7 @@ typedef void (*Application)(void) ;
 
 Application AddrAPP1 ;
 Application AddrAPP2 ;
+
 
 
 void main (void)
@@ -78,8 +92,21 @@ void main (void)
 	/*Initialize USART*/
 	PORT_voidInit() ;
 
+	CAN_voidInit(&CAN_InitStruct);
+	CAN_VoidFilterSet(&CAN_FilterUserResponse);
+
+
+	CAN_TXmsg.len = 1;
+	CAN_TXmsg.id = 0x30;
+	CAN_TXmsg.format = CAN_ID_STD;
+	CAN_TXmsg.type = CAN_RTR_DATA;
+	CAN_TXmsg.data[0] = 'o';
+	CAN_TXmsg.data[0] = 'k';
+
+
+
+
 	/*Initialize USART*/
-	USART_voidInit (USART1);
 
 	/**************************Init the FPEC Driver ******************/
 	FPEC_voidInit();
@@ -111,6 +138,8 @@ void main (void)
 	// flage to start and end Erase operation
 	u32 BOOT_u32EraseFlag =1 ;
 
+	//counter for CAN
+	u8 Counter_CAN = 0 ;
 
 
 
@@ -124,7 +153,25 @@ void main (void)
 		while (BOOT_u8FinRecFlag == 0)
 		{
 
-			BOOT_u8RecData[BOOT_u32RecCounter]=USART_u8ReceiveChar(USART1);
+			CAN_voidReceive(&CAN_RXmsg, 0);
+			
+			while (!(BOOT_u32RecCounter%4))
+			{
+				BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN]; 
+				if (BOOT_u8RecData[BOOT_u32RecCounter]=='\n')
+{
+	Counter_CAN =0 ;
+BOOT_u32RecCounter++; 
+ break ; 
+
+
+}
+
+BOOT_u32RecCounter++; 
+Counter_CAN++;
+
+			}
+				
 
 			/**************************************************************************************/
 			if (BOOT_u8RecData[BOOT_u32RecCounter]=='\n')
@@ -145,9 +192,9 @@ void main (void)
 
 				while(Check_s32Counter<BOOT_u32RecCounter-2)
 				{
-					BOOT_u8Digit0=FPEC_S_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
+					BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
 
-					BOOT_u8Digit1 =FPEC_S_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
+					BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
 
 					BOOT_u8Data = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
 
@@ -159,9 +206,9 @@ void main (void)
 				Check_s32Sum =~(Check_s32Sum -1) ;
 
 				// Validation
-				BOOT_u8Digit0=FPEC_S_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-2]);
+				BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-2]);
 
-				BOOT_u8Digit1 =FPEC_S_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
+				BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
 
 				Check_sum_Validation = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
 
@@ -178,8 +225,8 @@ void main (void)
 				}
 				/**************************************************************************************/
 				/*********************************Write Operation *************************************/
-				FPEC_S_voidWriteData(BOOT_u8RecData);
-				USART_voidTransmitSync(USART1,(u8*)"ok");
+				PARSING_voidWriteData(BOOT_u8RecData);
+    	        CAN_u8Transmit(&CAN_TXmsg);
 				BOOT_u32RecCounter =0 ;
 
 				if (BOOT_u8RecData[8]=='1')
