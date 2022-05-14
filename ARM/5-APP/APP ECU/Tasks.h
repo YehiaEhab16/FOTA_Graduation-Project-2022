@@ -10,9 +10,12 @@
 #define TASKS_H_
 
 
-#define FORWARD			0
-#define BACKWARD		1
-#define STOP			2
+#define FORWARD					0
+#define BACKWARD				1
+#define STOP					2
+
+#define QUEUE_SIZE				3
+#define QUEUE_ITEM_SIZE			4
 
 /**
  * @def Activate buzzer and LED for collision avoidance
@@ -21,46 +24,38 @@ void Task_voidAlert(void);
 
 /**
  * @def read direction from 2 switches to indicate forward or backward motion
- * @return Direction (FORWARD, BACKWARD)
  */ 
-u8 Task_u8ReadDirection(void);
+void Task_voidReadDirection(void);
 
 /**
  * @def read temperature from sensor
- * @return temperature value
  */ 
-u8 Task_u8ReadTemperature(void);
+void Task_voidReadTemperature(void);
 
 /**
  * @def read distance from Ultrasonic sensor
- * @return distance value
  */
-u8 Task_u8ReadDistance(void);
+void Task_voidReadDistance(void);
 
 /**
  * @def check for malfunctions in system
- * @return error state (error in vehicle)
- */ 
-u8 Task_u8SystemCheck(void);
+ */
+void Task_voidSystemCheck(void);
 
 /**
  * @def move vehicle forward or backward
- * @param Copy_u8Direction Direction of motion
- * @return temperature value
  */ 
-u8 Task_u8MoveVehicle(u8 Copy_u8Direction);
+void Task_voidMoveVehicle(void);
 
 /**
  * @def recieve update or diagnostics request
- * @return recieved message
  */ 
-u8 Task_u8RecieveRequest(void);
+void Task_voidRecieveRequest(void);
 
 /**
  * @def send diagnostics data to Main ECU
- * @param Copy_u8Message message to be sent
  */ 
-void Task_voidSendDiagnostics(u8 Copy_u8Message);
+void Task_voidSendDiagnostics(void);
 
 
 #endif

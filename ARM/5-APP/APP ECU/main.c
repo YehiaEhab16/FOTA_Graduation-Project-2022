@@ -11,33 +11,36 @@
 
 #include "../OS/org/Source/include/FreeRTOS.h"
 #include "../OS/org/Source/include/task.h"
+#include "../OS/org/Source/include/queue.h"
 
 #include "Tasks.h"
 
-//Task Definition
-TaskHandle_t Task1_Handler = NULL ;
-TaskHandle_t Task2_Handler = NULL ;
-TaskHandle_t Task3_Handler = NULL ;
-TaskHandle_t Task4_Handler = NULL ;
-TaskHandle_t Task5_Handler = NULL ;
-TaskHandle_t Task6_Handler = NULL ;
-TaskHandle_t Task7_Handler = NULL ;
-TaskHandle_t Task8_Handler = NULL ;
+//Create Queues
+xQueueHandle Global_xQueueHandleDistance=0;
+xQueueHandle Global_xQueueHandleDirection=0;
+xQueueHandle Global_xQueueHandleTemperature=0;
+xQueueHandle Global_xQueueMainRequest=0;
 
 int main(void)
 {
 	//Initialization
 	SYS_voidInit();
 	
+	//Create Queues
+	Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleDirection =   xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleTemperature = xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueMainRequest =		 xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	
 	//Task Creation
-	xTaskCreate((TaskFunction_t)Task_voidAlert, 	      "Task1", configMINIMAL_STACK_SIZE, NULL, 0, &Task1_Handler);
-	xTaskCreate((TaskFunction_t)Task_u8ReadDirection, 	  "Task2", configMINIMAL_STACK_SIZE, NULL, 0, &Task2_Handler);
-	xTaskCreate((TaskFunction_t)Task_u8ReadTemperature,   "Task3", configMINIMAL_STACK_SIZE, NULL, 0, &Task3_Handler);
-	xTaskCreate((TaskFunction_t)Task_u8ReadDistance,      "Task4", configMINIMAL_STACK_SIZE, NULL, 0, &Task4_Handler);
-	xTaskCreate((TaskFunction_t)Task_u8SystemCheck,       "Task5", configMINIMAL_STACK_SIZE, NULL, 0, &Task5_Handler);
-	xTaskCreate((TaskFunction_t)Task_u8MoveVehicle,       "Task6", configMINIMAL_STACK_SIZE, NULL, 0, &Task6_Handler);
-	xTaskCreate((TaskFunction_t)Task_u8RecieveRequest,    "Task7", configMINIMAL_STACK_SIZE, NULL, 0, &Task7_Handler);
-	xTaskCreate((TaskFunction_t)Task_voidSendDiagnostics, "Task8", configMINIMAL_STACK_SIZE, NULL, 0, &Task8_Handler);
+	xTaskCreate(Task_voidAlert, 	      "Task1", configMINIMAL_STACK_SIZE, NULL, 0, NULL);
+	xTaskCreate(Task_voidReadDirection,   "Task2", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+	xTaskCreate(Task_voidReadTemperature, "Task3", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
+	xTaskCreate(Task_voidReadDistance,    "Task4", configMINIMAL_STACK_SIZE, NULL, 0, NULL);
+	xTaskCreate(Task_voidSystemCheck,     "Task5", configMINIMAL_STACK_SIZE, NULL, 3, NULL);
+	xTaskCreate(Task_voidMoveVehicle,     "Task6", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+	xTaskCreate(Task_voidRecieveRequest,  "Task7", configMINIMAL_STACK_SIZE, NULL, 3, NULL);
+	xTaskCreate(Task_voidSendDiagnostics, "Task8", configMINIMAL_STACK_SIZE, NULL, 3, NULL);
 	
 	//Start Scheduler
 	vTaskStartScheduler();

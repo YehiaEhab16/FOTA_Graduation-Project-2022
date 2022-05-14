@@ -30,60 +30,82 @@ SW_t Global_SW_tBackward = {SW_PORTA,SW_PIN3,SW_PULL_UP};
 //Activating LED and Buzzer
 void Task_voidAlert(void)
 {
-	BZR_voidOn(BZR_PORTA,BZR_PIN0);
-	LED_voidLedOn(&Global_LED_tRed);
+	while(1)
+	{
+		BZR_voidOn(BZR_PORTA,BZR_PIN0);
+		LED_voidLedOn(&Global_LED_tRed);
+	}
 }
 
 //Reading Direction from 2 switches
-u8 Task_u8ReadDirection(void)
+void Task_voidReadDirection(void)
 {
 	u8 Local_u8Dir;
-	if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
-		Local_u8Dir=FORWARD;
-	else if(SW_u8ReadSwitch(Global_SW_tBackward)==PRESSED)
-		Local_u8Dir=BACKWARD;
-	else
-		Local_u8Dir=STOP;
+	while(1)
+	{
+		if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
+			Local_u8Dir=FORWARD;
+		else if(SW_u8ReadSwitch(Global_SW_tBackward)==PRESSED)
+			Local_u8Dir=BACKWARD;
+		else
+			Local_u8Dir=STOP;
+	}
 }
 
 //Reading Temperature from LM35
-u8 Task_u8ReadTemperature(void)
+void Task_voidReadTemperature(void)
 {
 	u8 Local_u8TempVal;
-	TMP_u8ReadValue(&Local_u8TempVal);
-	return Local_u8TempVal;
+	while(1)
+	{
+		TMP_u8ReadValue(&Local_u8TempVal);
+	}
 }
 
 //Reading Dstance from Ultrasonic
-u8 Task_u8ReadDistance(void)
+void Task_voidReadDistance(void)
 {
 	u8 Local_u8DistVal;
-	USN_u8ReadDistance(&Local_u8DistVal);
-	return Local_u8DistVal;
+	while(1)
+	{
+		USN_u8ReadDistance(&Local_u8DistVal);
+	}
 }
 
 //Diagnostics Check
-u8 Task_u8SystemCheck(void)
+void Task_voidSystemCheck(void)
 {
-	
+	while(1)
+	{
+		
+	}
 }
 
 //Forward and backward motion
-u8 Task_u8MoveVehicle(u8 Copy_u8Direction)
+void Task_voidMoveVehicle(void)
 {
-	
+	while(1)
+	{
+		
+	}
 }
 
 //Recieving update or diagnostics rewuest
-u8 Task_u8RecieveRequest(void)
+void Task_voidRecieveRequest(void)
 {
-	
+	while(1)
+	{
+		
+	}
 }
 
 //Sending Diagnostics Data
-void Task_voidSendDiagnostics(u8 Copy_u8Message)
+void Task_voidSendDiagnostics(void)
 {
-	
+	while(1)
+	{
+		
+	}
 }
 
 
