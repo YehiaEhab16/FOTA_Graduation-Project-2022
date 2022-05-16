@@ -18,13 +18,13 @@
 #define 	TIM3		    2
 #define 	TIM4		    3
 
-#define 	CHANNEL1		                1
-#define 	CHANNEL2		                2
-#define 	CHANNEL3		                3
-#define 	CHANNEL4		                4
+#define 	TIM_CHANNEL1		                1
+#define 	TIM_CHANNEL2		                2
+#define 	TIM_CHANNEL3		                3
+#define 	TIM_CHANNEL4		                4
 
-#define 	DISABLE			                0
-#define 	ENABLE			                1
+#define 	TIM_DISABLE		                0
+#define 	TIM_ENABLE		                1
 
 #define 	UP_COUNT		                0
 #define 	DOWN_COUNT  	                1
