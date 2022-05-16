@@ -62,8 +62,8 @@ void STK_voidDelay(u32 Copy_u8TimeMilleSecond)
 
 	/*Disable the Timer*/
 	CLR_BIT(STK->CTRL, EN_ABLE) ;
-	STK->STK_LOAD = 0;
-	STK->STK_VAL =  0;
+	STK->LOAD = 0;
+	STK->VAL =  0;
 }
 
 //Asynchronous Delay (Single)

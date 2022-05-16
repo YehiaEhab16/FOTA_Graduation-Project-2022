@@ -18,7 +18,7 @@ typedef struct
 	volatile u32 SR;	//Status Register
 }WWDG_t;
 
-#define WWDG					(*((volatile WWDG_t *)0x40002C00))
+#define WWDG					((volatile WWDG_t *)0x40002C00)
 
 #define WWDG_CR_WDGA			7
 #define WWDG_CR_T6				6

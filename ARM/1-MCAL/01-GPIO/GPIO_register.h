@@ -24,9 +24,9 @@ typedef struct
 }GPIO_t;
 
 //GPIO Base Addresses
-#define GPIOA					(*((volatile GPIO_t*)0x40010800))
-#define GPIOB					(*((volatile GPIO_t*)0x40010C00))
-#define GPIOC					(*((volatile GPIO_t*)0x40011000))
+#define GPIOA					((volatile GPIO_t*)0x40010800)
+#define GPIOB					((volatile GPIO_t*)0x40010C00)
+#define GPIOC					((volatile GPIO_t*)0x40011000)
 
 
 #endif

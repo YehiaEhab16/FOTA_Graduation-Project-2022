@@ -24,9 +24,9 @@ typedef struct
 }USART_t;
 
 //USART Base Addresses
-#define USART1_BASE	    		(*((volatile USART_t*)0x40013800))
-#define USART2_BASE	    		(*((volatile USART_t*)0x40004400))
-#define USART3_BASE	   			(*((volatile USART_t*)0x40004800))
+#define USART1_BASE	    		((volatile USART_t*)0x40013800)
+#define USART2_BASE	    		((volatile USART_t*)0x40004400)
+#define USART3_BASE	   			((volatile USART_t*)0x40004800)
 
 
 #endif

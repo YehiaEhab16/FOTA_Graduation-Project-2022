@@ -20,7 +20,7 @@ typedef struct
 }STK_t;
 
 //STK Base Address
-#define STK			(*((volatile STK_t*)0xE000E010))
+#define STK			((volatile STK_t*)0xE000E010)
 
 
 #endif

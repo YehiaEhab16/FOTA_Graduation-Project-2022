@@ -19,7 +19,7 @@ typedef struct
 	volatile u32 SR;	//Status Register
 }IWDG_t;
 
-#define IWDG					(*((volatile IWDG_t *)0x40003000))
+#define IWDG					((volatile IWDG_t *)0x40003000)
 
 #define IWDG_SR_PVU				0	//Watchdog prescaler value update
 #define IWDG_SR_RVU				1	//Watchdog counter reload value update

@@ -23,7 +23,7 @@ typedef struct
 }EXTI_t;
 
 //EXTI Base Address
-#define EXTI				(*((volatile EXTI_t*)0x40010400))
+#define EXTI				((volatile EXTI_t*)0x40010400)
 
 
 #endif

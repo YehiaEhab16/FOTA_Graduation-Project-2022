@@ -25,7 +25,7 @@ typedef struct
 }FPEC_t;
 
 //FPEC Base Address
-#define FPEC			(*((volatile FPEC_t*)0x40022000))
+#define FPEC			((volatile FPEC_t*)0x40022000)
 
 
 #endif

@@ -25,7 +25,7 @@ typedef struct
 }RCC_t;
 
 //RCC Base Address
-#define RCC		     (*(volatile RCC_t*)0x40021000)
+#define RCC		     ((volatile RCC_t*)0x40021000)
 
 //Control Register Pins
 #define RCC_CR_HSI				0

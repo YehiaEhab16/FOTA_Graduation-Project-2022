@@ -46,7 +46,7 @@ u8 GPIO_u8SetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin,u8 Copy_u8Value)
 			{
 				case GPIO_PORTA : SET_BIT(GPIOA->ODR,Copy_u8Pin);break;
 				case GPIO_PORTB : SET_BIT(GPIOB->ODR,Copy_u8Pin);break;
-				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13)SET_BIT(GPIOC->ODR,Copy_u8Pin);elseLocal_u8ErrorState =NOK;break;
+				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13)SET_BIT(GPIOC->ODR,Copy_u8Pin);else Local_u8ErrorState=NOK;break;
 				default : Local_u8ErrorState =NOK ;
 			}
 		//Output Low
@@ -55,7 +55,7 @@ u8 GPIO_u8SetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin,u8 Copy_u8Value)
 			{
 				case GPIO_PORTA : CLR_BIT(GPIOA->ODR,Copy_u8Pin);break;
 				case GPIO_PORTB : CLR_BIT(GPIOB->ODR,Copy_u8Pin);break;
-				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13)CLR_BIT(GPIOC->ODR,Copy_u8Pin);elseLocal_u8ErrorState =NOK;break;
+				case GPIO_PORTC : if (Copy_u8Pin >= GPIO_PIN_13)CLR_BIT(GPIOC->ODR,Copy_u8Pin);else Local_u8ErrorState=NOK;break;
 				default : Local_u8ErrorState =NOK;		
 			}
 		//Wrong Input	

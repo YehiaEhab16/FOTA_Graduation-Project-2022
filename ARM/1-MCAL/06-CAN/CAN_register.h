@@ -10,7 +10,7 @@
 #define CAN_REGISTER_H
 
 //CAN Base Address
-#define 	CAN_BASE                 (*((volatile CAN_t*)0x40006400))
+#define 	CAN_BASE                 ((volatile CAN_t*)0x40006400)
 
 //CAN Registers
 typedef struct
