@@ -48,6 +48,40 @@
 
 
 
+typedef enum
+{
+   CHANNEL_0,
+   CHANNEL_1,
+   CHANNEL_2,
+   CHANNEL_3,
+   CHANNEL_4,
+   CHANNEL_5,
+   CHANNEL_6,
+   CHANNEL_7,
+   CHANNEL_8,
+   CHANNEL_9,
+   CHANNEL_10,
+   CHANNEL_11,
+   CHANNEL_12,
+   CHANNEL_13,
+   CHANNEL_14,
+   CHANNEL_15,
+   CHANNEL_16,
+   CHANNEL_17
+}ADC_Channels;
+
+
+typedef enum
+{
+	_1_AND_HALF_CYCLE = 0,
+   _7_AND_HALF_CYCLE,
+   _13_AND_HALF_CYCLE,
+   _28_AND_HALF_CYCLE,
+   _41_AND_HALF_CYCLE,
+   _55_AND_HALF_CYCLE,
+   _71_AND_HALF_CYCLE,
+   _239_AND_HALF_CYCLE
+}ADCSampleTime_t;
 
 
 /**
@@ -55,4 +89,5 @@
  */
 void ADC_voidInit(void);
 void ADC_VidStartConv(u32 Copy_u32DATA,u32 Copy_u32JDATA);
+void ADC_voidSamplingTime(ADC_Channels Copy_u8Channel, ADCSampleTime_t Copy_u8SamplingTime);
 #endif
