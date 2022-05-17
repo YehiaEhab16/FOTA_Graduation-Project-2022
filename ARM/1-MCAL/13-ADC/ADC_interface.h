@@ -88,6 +88,6 @@ typedef enum
  * @def function to initialize ADC
  */
 void ADC_voidInit(void);
-void ADC_VidStartConv(u32 Copy_u32DATA,u32 Copy_u32JDATA);
+void ADC_VidStartConv(u32 *Copy_u32DATA,u32 *Copy_u32JDATA);
 void ADC_voidSamplingTime(ADC_Channels Copy_u8Channel, ADCSampleTime_t Copy_u8SamplingTime);
 #endif

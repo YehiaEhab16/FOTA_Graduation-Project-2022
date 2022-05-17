@@ -105,7 +105,7 @@ void ADC_voidSamplingTime(ADC_Channels Copy_u8Channel, ADCSampleTime_t Copy_u8Sa
 	   {
 	   }
 }
-void ADC_VidStartConv(u32 Copy_u32DATA,u32 Copy_u32JDATA){
+void ADC_VidStartConv(u32 *Copy_u32DATA,u32 *Copy_u32JDATA){
 
 	 ADC1->SQR1  |= ( (ADC_SQ13)|(ADC_SQ14<<5)|(ADC_SQ15<<10)|(ADC_SQ16<<15)|(SQ_L<<20));
 	 ADC1->SQR2  |= ( (ADC_SQ7) |(ADC_SQ8<<5) |(ADC_SQ9<<10) |(ADC_SQ10<<15)|(ADC_SQ11<<20)|(ADC_SQ12<<25));
@@ -121,7 +121,7 @@ void ADC_VidStartConv(u32 Copy_u32DATA,u32 Copy_u32JDATA){
 		for(int i=0;i<500000;i++)
 		while (GET_BIT(ADC1->SR, ADC_SR_EOC)  == 0);
 
-		Copy_u32DATA = (ADC1->DR)&(0x0FFF);
+		*Copy_u32DATA = (ADC1->DR)&(0x0FFF);
 
 		CLR_BIT(ADC1 -> SR , ADC_SR_EOC);
 		CLR_BIT(ADC1 -> SR , ADC_SR_STRT);
