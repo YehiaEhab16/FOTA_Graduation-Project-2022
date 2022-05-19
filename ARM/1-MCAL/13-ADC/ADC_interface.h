@@ -25,7 +25,7 @@
 #define  Left               0
 
 
-/*channel selected for conversion*/
+/*channel selected for convers	ion*/
 #define NOCHANNEL		((u32)0x00000000)
 #define CHANNEL0		((u32)0x00000000)
 #define CHANNEL1		((u32)0x00000001)
@@ -88,6 +88,6 @@ typedef enum
  * @def function to initialize ADC
  */
 void ADC_voidInit(void);
-void ADC_VidStartConv(u32 *Copy_u32DATA,u32 *Copy_u32JDATA);
+void ADC_VidStartConv(u16 *Copy_u32DATA,u8 Copy_u8Channel);
 void ADC_voidSamplingTime(ADC_Channels Copy_u8Channel, ADCSampleTime_t Copy_u8SamplingTime);
 #endif

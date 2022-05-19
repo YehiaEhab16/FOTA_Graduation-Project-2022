@@ -39,7 +39,7 @@
 -Single
 -DISCON
 */
-#define ADC_CONV_MODE       DISCON
+#define ADC_CONV_MODE       Single
 
 
 /*Alignment of data after conversion
