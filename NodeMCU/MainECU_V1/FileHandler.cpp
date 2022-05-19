@@ -1,29 +1,46 @@
 #include "Debug.h"
 #include "FileHandler.h"
-#include "Cipher.h"
+#include "HardwareSerial.h"
+char ackn = 'A';
 
-Cipher * cipher = new Cipher();
-
-void SendFile(fs::FS &fs, String path) 
+void SendFile(fs::FS &fs)
 {
-  unsigned char FileByte;
-  debugf("Reading file: %s\r\n", path);
-
-  cipher->setKey(CIPHER_KEY);
-
-  File file = fs.open(path);
+  char FileByte;
+  debugf("Reading file: %s\r\n", "/TestStorage.hex");
+  File file = fs.open("/TestStorage.hex");
+  
   if (!file || file.isDirectory()) {
     debugln("- failed to open file for reading");
     return;
   }
-
   debugln("- read from file:");
   while (file.available()) {
-    FileByte = file.read();
-    cipher->decrypt(&FileByte,CIPHER_KEY,&FileByte);
-    Serial.write(FileByte);
+    do {
+      debugln("Waiting for ackn: ");
+      if (ackn == 'A')
+      {
+        debugln("ackn recieved = ");
+        debugln(ackn);
+
+        do {
+          FileByte = file.read();
+          Serial2.write(FileByte);
+          ackn = 'B';
+        } while (FileByte != '\n');
+
+      }
+      else
+      {
+        debugln("ackn not recieved = ");
+        debugln(ackn);
+        
+      }
+      ackn = Serial2.read();
+
+    } while (ackn == 'A');
+
   }
-  file.close(); 
+  file.close();
 }
 
 String Read_FileName(void)
@@ -32,21 +49,20 @@ String Read_FileName(void)
   String inputString = "";
   bool stringComplete = false;
   while (!stringComplete) {
-    if(Serial.available())
+    if (Serial.available())
     {
       inChar = (char)Serial.read();   //Reading character from serial
       if (inChar == '#')                   //Checking for stop bit '#'
       {
         stringComplete = true;             //Setting flag to indicate recieving of string
       }
-      if(!stringComplete)
-      inputString += inChar;            //Concatenating string until reaching full message
+      if (!stringComplete)
+        inputString += inChar;            //Concatenating string until reaching full message
     }
   }
-  if(stringComplete == true)
+  if (stringComplete == true)
   {
-    stringComplete=false;
+    stringComplete = false;
     return inputString;
   }
 }
-

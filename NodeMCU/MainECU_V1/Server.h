@@ -4,8 +4,8 @@
 #include <Arduino.h>
 
 //Define the WiFi credentials
-#define WIFI_SSID                       "Dr.Ehab"
-#define WIFI_PASSWORD                   "0000000009"
+#define WIFI_SSID                       ""
+#define WIFI_PASSWORD                   ""
 
 //Define the API Key
 #define API_KEY                         "AIzaSyBRrnJB5r0m9v9YsBj-em7ZefzYT4LVkp4"
@@ -18,6 +18,8 @@
 #define STORAGE_BUCKET_ID               "fota-project-new.appspot.com"
 
 #define BAUD_RATE                       9600
+#define RXD2 16
+#define TXD2 17
 
 //Function to connect to Wifi
 void Wifi_Connect(void);

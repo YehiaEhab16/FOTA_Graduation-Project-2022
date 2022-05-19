@@ -19,6 +19,7 @@ bool taskCompleted = false;
 void Wifi_Connect(void)
 {
   Serial.begin(BAUD_RATE);
+  Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2);
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   debug("Connecting to Wi-Fi");
@@ -62,7 +63,7 @@ void Server_Download(String file)
   if (Firebase.ready() && !taskCompleted)
   {
     taskCompleted = true;
-    test =  Firebase.Storage.download(&fbdo, STORAGE_BUCKET_ID /* Firebase Storage bucket id */, file /* path of remote file stored in the bucket */, "/Update.hex" /* path to local file */, mem_storage_type_flash /* memory storage type, mem_storage_type_flash and mem_storage_type_sd */);
+    test =  Firebase.Storage.download(&fbdo, STORAGE_BUCKET_ID /* Firebase Storage bucket id */, file /* path of remote file stored in the bucket */, "/TestStorage.hex" /* path to local file */, mem_storage_type_flash /* memory storage type, mem_storage_type_flash and mem_storage_type_sd */);
     if (test == 0)
     {
       debugln("******************");
@@ -71,4 +72,3 @@ void Server_Download(String file)
     }
   }
 }
-
