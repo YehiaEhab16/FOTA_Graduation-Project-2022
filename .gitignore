@@ -3,6 +3,10 @@
 *.iml
 *.xml
 
+*.pptx
+*.docx
+*.pdf
+
 *.mp3
 !Test1.mp3
 !Test2.mp3
@@ -12,7 +16,4 @@
 !Test2.mp4
 
 App_ECU.c
-
-*.pptx
-*.docx
-*.pdf
+fileToBeEncrypted.hex

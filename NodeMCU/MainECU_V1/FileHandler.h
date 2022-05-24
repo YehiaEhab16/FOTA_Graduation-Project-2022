@@ -8,10 +8,10 @@
 #include "SPIFFS.h"
 
 #define DOWNLOAD_PERMISSION     '1'
+#define ACKN 'a'
 
-void SendFile(fs::FS &fs, String path);
+void SendFile(fs::FS &fs);
 
 String Read_FileName(void);
-
 
 #endif

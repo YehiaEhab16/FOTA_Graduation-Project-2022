@@ -30,9 +30,9 @@ class MyThread(QThread):
         while True:
             cnt += 1
             time.sleep(1)   # Accessing server every 1 sec
-            version = str(db.child("FactorySoftware").child(
+            version = str(db.child("aW0PKEndkpi4Wp4qksi3HA==").child(
                 "App_ECU").get().val())
-            error = str(db.child("FactoryFeedback").child("Uid").get().val())
+            error = str(db.child("zPPO6sJUEU5WrqeEnB2N9g==").child("Uid").get().val())
             self.change_value.emit(cnt)
 
 
