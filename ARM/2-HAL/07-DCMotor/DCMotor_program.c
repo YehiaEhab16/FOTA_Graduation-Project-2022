@@ -24,8 +24,10 @@ void (*MOTOR_CallBack)(void) = NULL;
 
 
 
-void setMotor(int dir, int pwmVal, int pwm, int in1, int in2){
+void setMotor(u8 dir, u16 Copy_u16PWMValue){
+	
   GPIO_u8SetPinValue (PWMPORT, PWM_PIN,Copy_u16PWMValue);  //this pin is analog pin
+  
   if(dir == 1){
     GPIO_u8SetPinValue (PWMPORT, DR1_PIN, HIGH);  
 	GPIO_u8SetPinValue (PWMPORT, DR2_PIN, LOW);  
@@ -42,8 +44,8 @@ void setMotor(int dir, int pwmVal, int pwm, int in1, int in2){
 }
 
 void DCMOTOR_vidReadEncoder(){
-  int ENCB_VALUE=0;
-  GPIO_u8GetPinValue(PWMPORT , ENCB , ENCB_VALUE);
+  u8 ENCB_VALUE=0;
+  GPIO_u8GetPinValue(PWMPORT , ENCB , &ENCB_VALUE);
   if(ENCB_VALUE > 0){
     Count_pulses++;
   }
@@ -52,7 +54,10 @@ void DCMOTOR_vidReadEncoder(){
   }
 }
 void DCMOTOR_vidIRQHandler(void){
-	if(ENCA !=0){
+	u8 ENCA_VALUE=0;
+	GPIO_u8GetPinValue(PWMPORT , ENCA , &ENCA_VALUE);
+
+	if(ENCA_VALUE !=0){
 		MOTOR_CallBack();
 	}
 	else

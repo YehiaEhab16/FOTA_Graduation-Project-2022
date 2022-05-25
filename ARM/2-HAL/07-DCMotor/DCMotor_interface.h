@@ -25,7 +25,7 @@
 /**
 
  */
-void setMotor(int dir, int pwmVal, int pwm, int in1, int in2);
+void setMotor(int dir, int Copy_u16PWMValue);
 /**
 
  */
