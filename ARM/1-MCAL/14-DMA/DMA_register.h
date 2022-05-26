@@ -3,7 +3,7 @@
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer : MCAL                  ***********************/
 /***********************   SWC (DRIVER):DMA				 ***********************/
-/***********************   DATE : 16-5-2022  			 ***********************/
+/***********************   DATE : 26-5-2022  			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -50,12 +50,28 @@ typedef struct
   volatile u32 CPAR7;
   volatile u32 CMAR7;
   volatile u32 RESERVED7;
-}DMA_t;
-
+}DMA_r;
 
 //DMA Base Addresses
-#define DMA1						((volatile DMA_t *)0x40020000)
-#define DMA2						((volatile DMA_t *)0x40020400)
+#define DMA1						((volatile DMA_r *)0x40020000)
+#define DMA2						((volatile DMA_r *)0x40020400)
+
+//DMA CCR Control Pins
+#define	MEM2MEM						14
+#define	PL1							13
+#define PL0							12
+#define MSIZE1						11
+#define	MSIZE0						10
+#define PSIZE1						9
+#define	PSIZE0						8
+#define MINC						7
+#define PINC						6	
+#define CIRC						5
+#define DIR							4
+#define	TEIE						3		
+#define	HTIE						2
+#define	TCIE						1
+#define	EN							0
 
 
 #endif
