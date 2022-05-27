@@ -50,6 +50,7 @@ void Task_voidMoveVehicle(void);
 /**
  * @def recieve update or diagnostics request
  */ 
+void Task_voidRecieveFunction(void);
 void Task_voidRecieveRequest(void);
 
 /**

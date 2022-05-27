@@ -19,6 +19,10 @@
 
 #include "Tasks.h"
 
+// CAN Recieving
+CAN_msg CAN_TXmsg;
+extern u8 CAN_msgReceived;
+
 //LEDs
 LED_t Global_LED_tRed = {LED_PORTA,LED_PIN1,LED_ACTIVE_HIGH};
 
@@ -89,14 +93,26 @@ void Task_voidMoveVehicle(void)
 		
 	}
 }
-
+void Task_voidRecieveFunction(void)
+{
+	CAN_voidReceive(&CAN_RXmsg, 0);
+	CAN_msgReceived = 1;
+}
 //Recieving update or diagnostics rewuest
 void Task_voidRecieveRequest(void)
 {
+	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+	CAN_voidCallBackFunc(CAN_voidReceive( &Task_voidRecieveFunction);
+
 	while(1)
 	{
-		
-	}
+		if (CAN_msgReceived)
+    	{
+			//Write on flash and reset the controller
+    		}
+
+   	}
+	
 }
 
 //Sending Diagnostics Data

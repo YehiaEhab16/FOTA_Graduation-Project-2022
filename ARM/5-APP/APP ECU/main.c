@@ -24,7 +24,7 @@ xQueueHandle Global_xQueueMainRequest=0;
 int main(void)
 {
 	//Initialization
-	SYS_voidInit();
+	SYSAPP_voidInit();
 	
 	//Create Queues
 	Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
