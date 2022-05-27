@@ -392,9 +392,6 @@ void USB_LP_CAN_RX0_IRQHandler(void)
 	{
 		CAN_CallBack();
 	}
-	else if (CAN->RF1R & CAN_FIFO_FMP)
-	{
 
-	}
 }
 
