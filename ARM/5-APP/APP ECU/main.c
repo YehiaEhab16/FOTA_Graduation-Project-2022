@@ -2,7 +2,7 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :App ECU Application   ***********************/
-/***********************   DATA : 10/5/2022 			 ***********************/
+/***********************   DATE : 10/5/2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -13,6 +13,7 @@
 #include "../OS/org/Source/include/task.h"
 #include "../OS/org/Source/include/queue.h"
 
+#include "ISR.h"
 #include "Tasks.h"
 
 //Create Queues
@@ -24,8 +25,7 @@ xQueueHandle Global_xQueueMainRequest=0;
 int main(void)
 {
 	//Initialization
-	SYSAPP_voidInit();
-	Task_voidreceiveCANInterrupt();
+	SYS_voidAppInit(&Task_voidRecieveCANFunctionISR);
 	
 	//Create Queues
 	Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);

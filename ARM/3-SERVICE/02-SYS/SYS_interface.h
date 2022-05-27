@@ -3,7 +3,7 @@
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
 /***********************   Layer :SERVICE                ***********************/
 /***********************   SWC (DRIVER):SYS 			 ***********************/
-/***********************   DATA : 21-3-2022 			 ***********************/
+/***********************   DATE : 21-3-2022 			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -14,10 +14,10 @@
 /**
  * @def initializing all peripherals for Main ECU
  */
-void SYSMAIN_voidInit(void);
+void SYS_voidMainInit(void);
 
 /**
  * @def initializing all peripherals for Application ECU
  */
-void SYSAPP_voidInit(void);
+void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void));
 #endif

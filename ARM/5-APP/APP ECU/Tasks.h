@@ -2,7 +2,7 @@
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)  ***********************/
 /***********************   Layer :App ECU Application   ***********************/
-/***********************   DATA : 10/5/2022 			***********************/
+/***********************   DATE : 10/5/2022 			***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -14,8 +14,8 @@
 #define BACKWARD				1
 #define STOP					2
 
-#define QUEUE_SIZE				3
-#define QUEUE_ITEM_SIZE			4
+#define QUEUE_SIZE				1
+#define QUEUE_ITEM_SIZE			1
 
 /**
  * @def Activate buzzer and LED for collision avoidance
@@ -46,12 +46,6 @@ void Task_voidSystemCheck(void);
  * @def move vehicle forward or backward
  */ 
 void Task_voidMoveVehicle(void);
-
-/**
- * @def recieve update or diagnostics request
- */ 
-void Task_voidRecieveCANFunctionISR(void);
-void Task_voidreceiveCANInterrupt(void);
 
 /**
  * @def send diagnostics data to Main ECU
