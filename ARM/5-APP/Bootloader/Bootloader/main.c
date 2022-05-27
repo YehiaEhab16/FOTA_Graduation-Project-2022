@@ -72,7 +72,7 @@ void main (void)
 	CAN_TXmsg.format = CAN_ID_STD;
 	CAN_TXmsg.type = CAN_RTR_DATA;
 	CAN_TXmsg.data[0] = 'O';
-	CAN_TXmsg.data[0] = 'k';
+	CAN_TXmsg.data[1] = 'k';
 
 
 
