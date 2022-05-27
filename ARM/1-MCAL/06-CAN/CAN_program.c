@@ -12,6 +12,7 @@
 
 #include "CAN_private.h"
 #include "CAN_register.h"
+#include "CAN_config.h"
 #include "CAN_interface.h"
 
 

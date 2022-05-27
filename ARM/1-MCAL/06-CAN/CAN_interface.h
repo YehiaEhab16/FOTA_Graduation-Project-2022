@@ -10,7 +10,7 @@
 #ifndef CAN_INTERFACE_H
 #define CAN_INTERFACE_H
 
-#define CAN                ((CAN_t *)(&CAN_BASE))
+#define CAN             		   CAN_BASE
 
 #define CAN_ID_STD  		            0    // Standard Id */
 #define CAN_ID_EXT  		            1    // Extended Id */

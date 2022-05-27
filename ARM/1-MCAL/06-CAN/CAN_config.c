@@ -11,6 +11,7 @@
 #include "CAN_Interface.h"
 
 
+
 CAN_Init_t        CAN_InitStruct = {12, CAN_MODE_NORMAL, CAN_SJW_1TQ, CAN_BS1_2TQ, CAN_BS2_3TQ, DISABLE , DISABLE , DISABLE , ENABLE , DISABLE , ENABLE};
 
 /* Main ECU Filters */
