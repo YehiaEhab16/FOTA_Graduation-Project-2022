@@ -12,9 +12,12 @@
 
 
 /**
- * @def initializing all peripherals
+ * @def initializing all peripherals for Main ECU
  */
-void SYS_voidInit(void);
+void SYSMAIN_voidInit(void);
 
-
+/**
+ * @def initializing all peripherals for Application ECU
+ */
+void SYSAPP_voidInit(void);
 #endif
