@@ -32,7 +32,7 @@ void GPIO_voidDirectionInit()
 	//Ports Initial Value
 	GPIOA->ODR  = PORTA_VAlUE;
 	GPIOB->ODR  = PORTB_VALUE;
-	GPIOC->ODR  = PORTC_VALUE
+	GPIOC->ODR  = PORTC_VALUE;
 }
 
 //Seting Output value for certain pin
