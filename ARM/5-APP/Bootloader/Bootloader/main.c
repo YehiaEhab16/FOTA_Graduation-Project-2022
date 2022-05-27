@@ -6,65 +6,53 @@
 /***********************   DATA : 7-3-2022  			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
-
-
 /********************************LIBRARY LAYER**********************************/
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 /*******************************************************************************/
 /*******************************************************************************/
-
 /********************************MCAL LAYER*************************************/
-
 #include "RCC_interface.h"
-#include "PORT_interface.h"
 #include "FPEC_interface.h"
 #include "GPIO_interface.h"
 #include "WWDG_interface.h"
-#include "IWDG_interface.h"
 #include "CAN_interface.h"
-	
-
-
 /*******************************************************************************/
 /*******************************************************************************/
-
-
 /********************************SERV LAYER*************************************/
-
 #include "PARSING_interface.h"
-
-//#include "PARSING_interface.h"
-
-
 /*******************************************************************************/
 /*******************************************************************************/
-/****************************************************************************************************/
-/*************BOOTLOADER DESIGN*************/
-
-/********************************PreLoad Block***********************************/
+/*******************************************************************************/
+/*****************************BOOTLOADER DESIGN*********************************/
+/********************************PreLoad Block**********************************/
 #define BOOT_u8REQUESTFLAG					0x080028C0
 #define READ_REQUEST_FLAG					(*((volatile u16*)0x080028C0))
 #define SCB_VTOR   							(*((volatile u32*)0xE000ED08))
 
-
-
+/**
+ *********************************************************************************
+Initialize the CAN Protocol 
+ *********************************************************************************
+ **/
 extern CAN_Init_t CAN_InitStruct;
 extern CAN_FilterInit_t CAN_FilterUserResponse;
 CAN_msg CAN_RXmsg;
 CAN_msg CAN_TXmsg;
-
-
-
-
+/*********************************************************************************/
+/*********************************************************************************/
+/*****************************Application ***************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void APP1(void) ;
 void APP2(void) ;
 
+/*Pointer point to the Application Location */
 typedef void (*Application)(void) ;
 
-Application AddrAPP1 ;
-Application AddrAPP2 ;
+Application AddrAPP1 ;  //Application 1
+Application AddrAPP2 ;  //Application 2
 
 
 
@@ -72,36 +60,20 @@ void main (void)
 {
 
 	RCC_voidInit();
-
-	/*Create Perpherial UART, PORTA , FPEC  */
-	struct Peripheral UART1 = {RCC_APB2,RCC_APB2_USART1_EN};
-	struct Peripheral UART2 = {RCC_APB1,RCC_APB1_USART2_EN};
-	struct Peripheral PORTA = {RCC_APB2,RCC_APB2_IOPA_EN};
-	//struct Peripheral FPEC1 = {RCC_AHB,RCC_AHB_FLITF_EN};
-	struct Peripheral WWD = {RCC_APB1,RCC_APB1_WWDG_EN};
-
-
-
-	/*Enable Perpherial UART, PORTA , FPEC  */
-	RCC_u8EnableClock(&UART1);
-	RCC_u8EnableClock(&UART2);
-	RCC_u8EnableClock(&PORTA);
-	//RCC_u8EnableClock(&FPEC1);
-	RCC_u8EnableClock(&WWD);
-
-	/*Initialize USART*/
-	PORT_voidInit() ;
+	GPIO_voidDirectionInit();
 
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterUserResponse);
 
+	FPEC_voidInit();
 
 	CAN_TXmsg.len = 1;
 	CAN_TXmsg.id = 0x30;
 	CAN_TXmsg.format = CAN_ID_STD;
 	CAN_TXmsg.type = CAN_RTR_DATA;
-	CAN_TXmsg.data[0] = 'o';
+	CAN_TXmsg.data[0] = 'O';
 	CAN_TXmsg.data[0] = 'k';
+
 
 
 
@@ -109,11 +81,11 @@ void main (void)
 	/*Initialize USART*/
 
 	/**************************Init the FPEC Driver ******************/
-	FPEC_voidInit();
 	u16 Update = 0;
 	u16 No_update =1 ;
 	u16 Corruption =2 ;
 
+	//Simulation of Update 
 	//FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Update, 1);
 
 	// Array of Data
@@ -154,24 +126,16 @@ void main (void)
 		{
 
 			CAN_voidReceive(&CAN_RXmsg, 0);
-			
-			while (!(BOOT_u32RecCounter%4))
+
+			while (Counter_CAN == 4 )
 			{
 				BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN]; 
-				if (BOOT_u8RecData[BOOT_u32RecCounter]=='\n')
-{
-	Counter_CAN =0 ;
-BOOT_u32RecCounter++; 
- break ; 
 
-
-}
-
-BOOT_u32RecCounter++; 
-Counter_CAN++;
+				BOOT_u32RecCounter++;
+				Counter_CAN++;
 
 			}
-				
+			Counter_CAN = 0 ;
 
 			/**************************************************************************************/
 			if (BOOT_u8RecData[BOOT_u32RecCounter]=='\n')
@@ -219,21 +183,20 @@ Counter_CAN++;
 					GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_4, GPIO_PIN_HIGH);
 					FPEC_voidFlashPageErase(10);
 					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Corruption, 1);
-					//WWDG_voidReset(1,10);
-					IWDG_voidReset(100);
+					WWDG_voidReset(100);
 
 				}
 				/**************************************************************************************/
 				/*********************************Write Operation *************************************/
 				PARSING_voidWriteData(BOOT_u8RecData);
-    	        CAN_u8Transmit(&CAN_TXmsg);
+				CAN_u8Transmit(&CAN_TXmsg);
 				BOOT_u32RecCounter =0 ;
 
 				if (BOOT_u8RecData[8]=='1')
 				{
 					FPEC_voidFlashPageErase(10);
 					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
-					WWDG_voidReset(1,10);
+					WWDG_voidReset(10);
 				}
 
 
@@ -248,7 +211,6 @@ Counter_CAN++;
 
 	/*******************************************************************************************/
 	/*******************************************************************************************/
-
 	/********************************APPLICATION1************************************************/
 	else if (READ_REQUEST_FLAG==1 )
 	{
@@ -256,8 +218,7 @@ Counter_CAN++;
 	}
 	/*****************************************************************************************/
 	/*****************************************************************************************/
-
-	/********************************APPLICATION1************************************************/
+	/********************************APPLICATION2*********************************************/
 	else
 	{
 
@@ -274,15 +235,15 @@ Counter_CAN++;
 void APP1(void)
 {
 
-	SCB_VTOR =0x08003000;
-	AddrAPP1 =*(Application*)(0x08003004);
+	SCB_VTOR =0x08003000; // Edit
+	AddrAPP1 =*(Application*)(0x08003004); //Edit
 	AddrAPP1();
 
 }
 void APP2(void)
 {
-	SCB_VTOR = 0x0800E800 ;
+	SCB_VTOR = 0x0800E800 ; // Edit
 
-	AddrAPP2 =*((Application*)0x0800E804);
+	AddrAPP2 =*((Application*)0x0800E804); //Edit
 	AddrAPP2();
 }

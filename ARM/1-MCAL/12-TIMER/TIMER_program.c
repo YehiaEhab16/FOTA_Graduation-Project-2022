@@ -47,7 +47,7 @@ void TIMER_voidTimerConfig(u8 Copy_u8Timer, GPT_Config *GPT_ConfigPtr)
 	case TIM_ENABLE: SET_BIT(timer->CR[0],1);break;
 	}
 
-	switch(GPT_ConfigPtr->Period_Mode)
+	switch(GPT_ConfigPtr->Period_Mode)	
 	{
 	case ONE_PULSE_MODE:CLR_BIT(timer->CR[0],3); break;
 	case PERIODIC_MODE:	SET_BIT(timer->CR[0],3); break;
@@ -168,9 +168,9 @@ void TIMER_voidTimerConfig(u8 Copy_u8Timer, GPT_Config *GPT_ConfigPtr)
 #endif
 
 //select the triggger select the counter
-CLR_BIT(timer->SMCR,5);
+CLR_BIT(timer->SMCR,4);
 SET_BIT(timer->SMCR,5);
-SET_BIT(timer->SMCR,5);
+SET_BIT(timer->SMCR,6);
 //reset mode
 CLR_BIT(timer->SMCR,0);
 CLR_BIT(timer->SMCR,1);
