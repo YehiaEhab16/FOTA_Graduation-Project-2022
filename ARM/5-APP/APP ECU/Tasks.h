@@ -50,8 +50,8 @@ void Task_voidMoveVehicle(void);
 /**
  * @def recieve update or diagnostics request
  */ 
-void Task_voidRecieveFunction(void);
-void Task_voidRecieveRequest(void);
+void Task_voidRecieveCANFunctionISR(void);
+void Task_voidreceiveCANInterrupt(void);
 
 /**
  * @def send diagnostics data to Main ECU

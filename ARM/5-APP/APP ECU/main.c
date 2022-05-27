@@ -25,6 +25,7 @@ int main(void)
 {
 	//Initialization
 	SYSAPP_voidInit();
+	Task_voidreceiveCANInterrupt();
 	
 	//Create Queues
 	Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);

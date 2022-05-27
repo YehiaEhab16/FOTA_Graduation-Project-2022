@@ -93,25 +93,16 @@ extern u8 CAN_msgReceived;
 //
 //	}
 //}
-void Task_voidRecieveFunction(void)
+void Task_voidRecieveCANFunctionISR(void)
 {
 	CAN_voidReceive(&CAN_RXmsg, 0);
 	CAN_msgReceived = 1;
 }
 //Recieving update or diagnostics rewuest
-void Task_voidRecieveRequest(void)
+void Task_voidreceiveCANInterrupt(void)
 {
 	NVIC_u8EnableInterrupt(USB_LP_CAN_RX0_IRQHandler());
-	CAN_voidCallBackFunc(&Task_voidRecieveFunction);
-
-	while(1)
-	{
-		if (CAN_msgReceived)
-    	{
-			//Write on flash and reset the controller
-    		}
-
-   	}
+	CAN_voidCallBackFunc(&Task_voidRecieveCANFunctionISR);
 	
 }
 
