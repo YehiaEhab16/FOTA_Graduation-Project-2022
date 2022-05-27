@@ -11,27 +11,14 @@
 
 #include "../OS/org/Source/include/FreeRTOS.h"
 #include "../OS/org/Source/include/task.h"
-#include "../OS/org/Source/include/queue.h"
 
 #include "ISR.h"
 #include "Tasks.h"
-
-//Create Queues
-xQueueHandle Global_xQueueHandleDistance=0;
-xQueueHandle Global_xQueueHandleDirection=0;
-xQueueHandle Global_xQueueHandleTemperature=0;
-xQueueHandle Global_xQueueMainRequest=0;
 
 int main(void)
 {
 	//Initialization
 	SYS_voidAppInit(&Task_voidRecieveCANFunctionISR);
-	
-	//Create Queues
-	Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleDirection =   xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleTemperature = xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueMainRequest =		 xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
 	
 	//Task Creation
 	xTaskCreate(Task_voidAlert, 	      "Task1", configMINIMAL_STACK_SIZE, NULL, 0, NULL);

@@ -14,8 +14,12 @@
 #define BACKWARD				1
 #define STOP					2
 
+#define DIST_THRESHOLD			10
+
 #define QUEUE_SIZE				1
 #define QUEUE_ITEM_SIZE			1
+#define QUEUE_WRITE_TIME		10
+#define QUEUE_READ_TIME			10
 
 /**
  * @def Activate buzzer and LED for collision avoidance

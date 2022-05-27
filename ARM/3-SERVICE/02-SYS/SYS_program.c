@@ -41,6 +41,7 @@ void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
+	FPEC_voidInit();
 	CAN_VoidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterUserResponse);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_RX0_IRQHandler());

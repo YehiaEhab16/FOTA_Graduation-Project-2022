@@ -10,6 +10,10 @@
 #define ISR_H_
 
 
+#define TASK_BOOT_FLAG					0x080028C0
+#define CAN_UPADTE_ID					0x01010101
+#define CAN_DIAG_ID						0x10101010
+
 void Task_voidCANRecieveISR(void);
 
 
