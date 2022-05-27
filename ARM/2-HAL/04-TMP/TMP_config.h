@@ -11,7 +11,9 @@
    User Configurations     */
 #ifndef TMP_CONFIG_H_
 #define TMP_CONFIG_H_
-
-
+ /*you can choose from - 3.3v
+					   - 5v
+					   */
+#define Voltage  3.3
 
 #endif
