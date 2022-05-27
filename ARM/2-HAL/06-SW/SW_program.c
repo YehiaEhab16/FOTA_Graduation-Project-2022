@@ -7,10 +7,10 @@
 /*******************************************************************************/
 
 /* Functions Implementation */
-#include "STD_TYPES.h"
+#include "../../6-Library/STD_TYPES.h"
 #include "BIT_MATH.h"
 
-#include "GPIO_interface.h"
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 
 #include "SW_config.h"
 #include "SW_interface.h"

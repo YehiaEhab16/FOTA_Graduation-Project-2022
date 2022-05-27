@@ -6,18 +6,18 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "STD_TYPES.h"
+#include "../../6-Library/STD_TYPES.h"
 
-#include "CAN_interface.h"
+#include "../../1-MCAL/06-CAN/CAN_interface.h"
 
-#include "SW_interface.h"
-#include "LED_interface.h"
-#include "BZR_interface.h"
-#include "DCM_interface.h"
-#include "TMP_interface.h"
-#include "USN_interface.h"
+#include "../../2-HAL/01-LED/LED_interface.h"
+#include "../../2-HAL/02-DCM/DCM_interface.h"
+#include "../../2-HAL/03-BZR/BZR_interface.h"
+#include "../../2-HAL/04-TMP/TMP_interface.h"
+#include "../../2-HAL/05-USN/USN_interface.h"
+#include "../../2-HAL/06-SW/SW_interface.h"
 
-#include "../OS/org/Source/include/queue.h"
+#include "../../4-freeRTOS/OS/org/Source/include/queue.h"
 
 #include "Tasks.h"
 

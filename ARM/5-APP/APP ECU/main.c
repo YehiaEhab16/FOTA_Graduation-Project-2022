@@ -6,11 +6,11 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "STD_TYPES.h"
+#include "../../6-Library/STD_TYPES.h"
 #include "SYS_interface"
 
-#include "../OS/org/Source/include/FreeRTOS.h"
-#include "../OS/org/Source/include/task.h"
+#include "../../4-freeRTOS/OS/org/Source/include/FreeRTOS.h"
+#include "../../4-freeRTOS/OS/org/Source/include/task.h"
 
 #include "ISR.h"
 #include "Tasks.h"

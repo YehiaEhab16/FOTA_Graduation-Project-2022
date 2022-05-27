@@ -9,9 +9,9 @@
 
 
 /* Functions Implementation */
-#include "STD_TYPES.h"
+#include "../../6-Library/STD_TYPES.h"
 
-#include "GPIO_interface.h"
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 
 #include "DCM_config.h"
 #include "DCM_interface.h"

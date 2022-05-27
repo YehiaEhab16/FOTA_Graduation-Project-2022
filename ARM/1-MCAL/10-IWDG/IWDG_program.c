@@ -7,8 +7,8 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "STD_TYPES.h"
-#include "BIT_MATH.h"
+#include "../../6-Library/STD_TYPES.h"
+#include "../../6-Library/BIT_MATH.h"
 
 #include "IWDG_interface.h"
 #include "IWDG_config.h"
