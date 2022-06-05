@@ -1,9 +1,13 @@
 # Gui Functions
 
 # Setting window title and size
+import os
 from base64 import b64encode
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
+
+cwd = os.getcwd()
+encryptedFilePath = r'%s' % cwd + '\Server\GUI\Script\\fileToBeEncrypted.hex'
 
 def encryptFile (filePath):
      firstWrite = True
@@ -16,13 +20,13 @@ def encryptFile (filePath):
        ct_bytes = cipher.encrypt(pad(data, AES.block_size))
        ct = b64encode(ct_bytes).decode('utf-8')
        if firstWrite == True:
-        afterEncryptionFile = open(r'C:\Users\DELL.DESKTOP-G1NTPCL\Desktop\FOTA_Graduation-Project-2022\Server\GUI\Script\fileToBeEncrypted.hex', "w")
+        afterEncryptionFile = open(encryptedFilePath, "w")
         afterEncryptionFile.write(ct + '\n')
         firstWrite = False
        elif firstWrite == False:
-        afterEncryptionFile = open(r'C:\Users\DELL.DESKTOP-G1NTPCL\Desktop\FOTA_Graduation-Project-2022\Server\GUI\Script\fileToBeEncrypted.hex', "a")
+        afterEncryptionFile = open(encryptedFilePath, "a")
         afterEncryptionFile.write(ct + '\n')
-     return r'C:\Users\DELL.DESKTOP-G1NTPCL\Desktop\FOTA_Graduation-Project-2022\Server\GUI\Script\fileToBeEncrypted.hex'
+     return encryptedFilePath
 
 
 def window(self):
@@ -34,7 +38,7 @@ def window(self):
 def browse(self, QFileDialog):
     # getting path of required file
     save_place = str(QFileDialog.getOpenFileName(
-        self, caption="Choose file to  upload", directory=".", filter="Object Files (*.hex))"))
+        self, caption="Choose file to  upload", directory=".", filter="Object Files (*.hex *.c))"))
     # displaying path in gui (splitting is done to only extract the path)
     self.lineEdit.setText(save_place.split('\'')[1])
 
