@@ -8,10 +8,10 @@
 /*******************************************************************************/
 
 /* Functions Implementation */
-#include "../../6-Library/STD_TYPES.h"
+#include "STD_TYPES.h"
 
-#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
-#include "../../1-MCAL/13-ADC/ADC_interface.h"
+#include "GPIO_interface.h"
+#include "ADC_interface.h"
 
 #include "TMP_config.h"
 #include "TMP_interface.h"

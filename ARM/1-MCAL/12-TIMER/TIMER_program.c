@@ -8,8 +8,8 @@
 /*******************************************************************************/
 
 
-#include "../../6-Library/STD_TYPES.h"
-#include "../../6-Library/BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
 
 #include "TIMER_interface.h"
 #include "TIMER_config.h"

@@ -8,10 +8,10 @@
 /*******************************************************************************/
 
 /* Functions Implementation */
-#include "../../6-Library/STD_TYPES.h"
+#include "STD_TYPES.h"
 
-#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
-#include "../../1-MCAL/12-TIMER/TIMER_interface.h"
+#include "GPIO_interface.h"
+#include "TIMER_interface.h"
 
 #include "USN_config.h"
 #include "USN_interface.h"

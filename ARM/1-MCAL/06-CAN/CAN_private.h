@@ -188,7 +188,7 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 #define  CAN_FMR_FINIT                       ((u8)0x01)               /*!< Filter Init Mode */
 
 
-#define IS_FUNCTIONAL_STATE(STATE) (((STATE) == DISABLE) || ((STATE) == ENABLE))
+#define IS_FUNCTIONAL_STATE(STATE) (((STATE) == CAN_DISABLE) || ((STATE) == CAN_ENABLE))
 
 
 #endif

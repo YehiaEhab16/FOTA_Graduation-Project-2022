@@ -6,11 +6,11 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "../../6-Library/STD_TYPES.h"
+#include "STD_TYPES.h"
 
-#include "../../1-MCAL/06-CAN/CAN_interface.h"
-#include "../../1-MCAL/08-FPEC/FPEC_interface.h"
-#include "../../1-MCAL/11-WWDG/WWDG_interface.h"
+#include "CAN_interface.h"
+#include "FPEC_interface.h"
+#include "WWDG_interface.h"
 
 #include "ISR.h"
 
@@ -19,10 +19,11 @@ CAN_msg CAN_RXmsg;
 
 void Task_voidCANRecieveISR(void)
 {
+	u16 Local_u16Data=1;
 	CAN_voidReceive(&CAN_RXmsg, 0);
 	if(CAN_RXmsg.id==CAN_UPADTE_ID)
 	{
-		FPEC_voidFlashWrite(TASK_BOOT_FLAG,1,1);
+		FPEC_voidFlashWrite(TASK_BOOT_FLAG,&Local_u16Data,1);
 		WWDG_voidReset(1);
 	}
 	else if(CAN_RXmsg.id==CAN_DIAG_ID)

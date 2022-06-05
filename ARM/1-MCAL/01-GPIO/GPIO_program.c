@@ -7,8 +7,8 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "../../6-Library/STD_TYPES.h"
-#include "../../6-Library/BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
 
 #include "GPIO_interface.h"
 #include "GPIO_private.h"

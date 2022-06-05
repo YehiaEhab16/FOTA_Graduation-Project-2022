@@ -7,13 +7,13 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "../../6-Library/STD_TYPES.h"
+#include "STD_TYPES.h"
 
-#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
-#include "../../1-MCAL/02-RCC/RCC_interface.h"
-#include "../../1-MCAL/03-NVIC/NVIC_interface.h"
-#include "../../1-MCAL/06-CAN/CAN_interface.h"
-#include "../../1-MCAL/08-FPEC/FPEC_interface.h"
+#include "GPIO_interface.h"
+#include "RCC_interface.h"
+#include "NVIC_interface.h"
+#include "CAN_interface.h"
+#include "FPEC_interface.h"
 
 #include "SYS_interface.h"
 #include "SYS_private.h"
@@ -29,7 +29,7 @@ void SYS_voidMainInit(void)
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
-	CAN_VoidInit(&CAN_InitStruct);
+	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
 	
 }
@@ -40,9 +40,9 @@ void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
 	FPEC_voidInit();
-	CAN_VoidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterUserResponse);
-	NVIC_u8EnableInterrupt(USB_LP_CAN_RX0_IRQHandler());
+	CAN_voidInit(&CAN_InitStruct);
+	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
+	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 	if(Copy_pvCallBackFunc!=NULL)
-		CAN_voidCallBackFunc(&Copy_pvCallBackFunc);
+		CAN_voidCallBackFunc(Copy_pvCallBackFunc);
 }

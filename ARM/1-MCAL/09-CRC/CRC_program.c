@@ -7,8 +7,8 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "../../6-Library/STD_TYPES.h"
-#include "../../6-Library/BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
 
 #include "CRC_interface.h"
 #include "CRC_private.h"

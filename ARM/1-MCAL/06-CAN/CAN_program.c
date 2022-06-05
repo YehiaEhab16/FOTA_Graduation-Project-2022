@@ -7,8 +7,8 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "../../6-Library/BIT_MATH.h"
-#include "../../6-Library/STD_TYPES.h"
+#include "BIT_MATH.h"
+#include "STD_TYPES.h"
 
 #include "CAN_private.h"
 #include "CAN_register.h"
@@ -36,7 +36,7 @@ void CAN_VoidInit(CAN_Init_t* hcan)
 	if ((CAN->MSR & CAN_MSR_INAK) == CAN_MSR_INAK)
 	{
 		/* Set the time triggered communication mode */
-		if (hcan->CAN_TTCM == ENABLE)
+		if (hcan->CAN_TTCM == CAN_ENABLE)
 		{
 			CAN->MCR |= CAN_MCR_TTCM;
 		}
@@ -46,7 +46,7 @@ void CAN_VoidInit(CAN_Init_t* hcan)
 		}
 
 		/* Set the automatic bus-off management */
-		if (hcan->CAN_ABOM == ENABLE)
+		if (hcan->CAN_ABOM == CAN_ENABLE)
 		{
 			CAN->MCR |= CAN_MCR_ABOM;
 		}
@@ -56,7 +56,7 @@ void CAN_VoidInit(CAN_Init_t* hcan)
 		}
 
 		/* Set the automatic wake-up mode */
-		if (hcan->CAN_AWUM == ENABLE)
+		if (hcan->CAN_AWUM == CAN_ENABLE)
 		{
 			CAN->MCR |= CAN_MCR_AWUM;
 		}
@@ -66,7 +66,7 @@ void CAN_VoidInit(CAN_Init_t* hcan)
 		}
 
 		/* Set the no automatic retransmission */
-		if (hcan->CAN_NART == ENABLE)
+		if (hcan->CAN_NART == CAN_ENABLE)
 		{
 			CAN->MCR |= CAN_MCR_NART;
 		}
@@ -76,7 +76,7 @@ void CAN_VoidInit(CAN_Init_t* hcan)
 		}
 
 		/* Set the receive FIFO locked mode */
-		if (hcan->CAN_RFLM == ENABLE)
+		if (hcan->CAN_RFLM == CAN_ENABLE)
 		{
 			CAN->MCR |= CAN_MCR_RFLM;
 		}
@@ -86,7 +86,7 @@ void CAN_VoidInit(CAN_Init_t* hcan)
 		}
 
 		/* Set the transmit FIFO priority */
-		if (hcan->CAN_TXFP == ENABLE)
+		if (hcan->CAN_TXFP == CAN_ENABLE)
 		{
 			CAN->MCR |= CAN_MCR_TXFP;
 		}

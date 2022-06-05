@@ -77,7 +77,7 @@ typedef enum {
 } TimeSegmentTwo;
 
 /*TTCM , ABOM , AWUM , NART , RFLM , TXFP OPTIONS*/
-typedef enum {DISABLE = 0, ENABLE = 1} FunctionalState;
+typedef enum {CAN_DISABLE = 0, CAN_ENABLE = 1} FunctionalState;
 
 /***************************************************************************/
 							/*CAN_Error_Code */
@@ -151,22 +151,22 @@ typedef struct
   u8  CAN_BS2;         /* Specifies the number of time quanta in Bit Segment 2.*/
 
   u32 CAN_TTCM;       /* Enable or disable the time triggered communication mode.
-                         This parameter can be set to ENABLE or DISABLE. */
+                         This parameter can be set to CAN_ENABLE or CAN_DISABLE. */
 
   u32 CAN_ABOM;       /* Enable or disable the automatic bus-off management.
-                         This parameter can be set to ENABLE or DISABLE. */
+                         This parameter can be set to CAN_ENABLE or CAN_DISABLE. */
 
   u32 CAN_AWUM;       /* Enable or disable the automatic wake-up mode.
-                         This parameter can be set to ENABLE or DISABLE. */
+                         This parameter can be set to CAN_ENABLE or CAN_DISABLE. */
 
   u32 CAN_NART;       /* Enable or disable the non-automatic retransmission mode.
-                         This parameter can be set to ENABLE or DISABLE. */
+                         This parameter can be set to CAN_ENABLE or CAN_DISABLE. */
 
   u32 CAN_RFLM;       /* Enable or disable the Receive FIFO Locked mode.
-                         This parameter can be set to ENABLE or DISABLE. */
+                         This parameter can be set to CAN_ENABLE or CAN_DISABLE. */
 
   u32 CAN_TXFP;       /* Enable or disable the transmit FIFO priority.
-                          This parameter can be set to ENABLE or DISABLE. */
+                          This parameter can be set to CAN_ENABLE or CAN_DISABLE. */
 }CAN_Init_t;
 
 
@@ -187,7 +187,7 @@ typedef struct
 
   u8 CAN_FilterFIFONumber; //contain the FIFO number to add bank to it
 
-  FunctionalState CAN_FilterActivation; // specify the state of the filter "ENABLE OR DISABLE"
+  FunctionalState CAN_FilterActivation; // specify the state of the filter "CAN_ENABLE OR CAN_DISABLE"
 
 } CAN_FilterInit_t;
 
