@@ -140,20 +140,4 @@ u8 STK_u8GetRemainigTime(void)
 
 }
 
-//STK ISR
-void SysTick_Handler (void)
-{
-	u8 Local_u8Val = 0 ;
-	
-	if (STK_u32_MODE == STK_SINGLE_MODE)
-	{
-		/*Disable the Timer*/
-		CLR_BIT(STK->CTRL, EN_ABLE) ;
-		STK->LOAD = 0;
-		STK->VAL =  0;
-	}
-	
-	STK_voidCallBackFunc();
 
-	Local_u8Val=GET_BIT(STK->CTRL,COUNT_FLAG);
-}

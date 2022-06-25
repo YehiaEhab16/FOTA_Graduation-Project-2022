@@ -20,7 +20,7 @@ u8 CAN_msgReceived = 0;
 void (*CAN_CallBack)(void) = NULL;
 
 
-void CAN_VoidInit(CAN_Init_t* hcan)
+void CAN_voidInit(CAN_Init_t* hcan)
 {
 	/* Exit from sleep mode */
 	CAN->MCR &= ~CAN_MCR_SLEEP;

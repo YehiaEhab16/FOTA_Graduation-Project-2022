@@ -24,6 +24,9 @@
 /**
  * @def Activate buzzer and LED for collision avoidance
  */
+
+void Task_voidCreateQueue (void);
+
 void Task_voidAlert(void);
 
 /**

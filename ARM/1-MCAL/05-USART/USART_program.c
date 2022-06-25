@@ -79,7 +79,7 @@ u8 USART_u8ReceiveChar(u8 Copy_u8UsartPort)
 }
 
 //Recieve data as string
-u8 *USART_ReceiveStr(u8 Copy_u8UsartPort)
+u8* USART_ReceiveStr(u8 Copy_u8UsartPort)
 {
 	u8 Local_u8Iterator = 0 , Local_u8ReceivedData, Local_u8Data[30];
 	while( ( Local_u8ReceivedData = USART_u8ReceiveChar(Copy_u8UsartPort) ) != USART_STOP_CHAR)
@@ -90,8 +90,7 @@ u8 *USART_ReceiveStr(u8 Copy_u8UsartPort)
 
 	Local_u8Data[Local_u8Iterator] = USART_NULL_CHAR;
 
-	return Local_u8Data;
-
+	return *Local_u8Data;
 }
 
 //Asynchronous Transmition 

@@ -9,18 +9,20 @@
 #include "STD_TYPES.h"
 
 #include "CAN_interface.h"
+#include "GPIO_interface.h"
 
 #include "LED_interface.h"
 #include "DCM_interface.h"
 #include "BZR_interface.h"
 #include "TMP_interface.h"
-#include "USN_interface.h"
+//#include "USN_interface.h"
 #include "SW_interface.h"
 
-#include "../OS/org/Source/include/FreeRTOS.h"
-#include "../OS/org/Source/include/queue.h"
+
 
 #include "Tasks.h"
+#include "../OS/org/Source/include/FreeRTOS.h"
+#include "../OS/org/Source/include/queue.h"
 
 //LEDs
 LED_t Global_LED_tRed = {LED_PORTA,LED_PIN1,LED_ACTIVE_HIGH};
@@ -34,23 +36,33 @@ DCM_t Global_DCM_tRightMotor = {DCM_PORTA,DCM_PIN4,DCM_PIN5};
 DCM_t Global_DCM_tLeftMotor = {DCM_PORTA,DCM_PIN6,DCM_PIN7};
 
 //Queues
-xQueueHandle Global_xQueueHandleDistance=0;
-xQueueHandle Global_xQueueHandleDirection=0;
-xQueueHandle Global_xQueueHandleTemperature=0;
-xQueueHandle Global_xQueueMainRequest=0;
+xQueueHandle Global_xQueueHandleDistance;
+xQueueHandle Global_xQueueHandleDirection;
+xQueueHandle Global_xQueueHandleTemperature;
+xQueueHandle Global_xQueueMainRequest;
 
 //Create Queues
-Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-Global_xQueueHandleDirection =   xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-Global_xQueueHandleTemperature = xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-Global_xQueueMainRequest =		 xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
 
+
+
+
+void Task_voidCreateQueue (void)
+{
+
+	Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleDirection =   xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleTemperature = xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueMainRequest =		 xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+}
 //Activating LED and Buzzer
 void Task_voidAlert(void)
 {
 	u8 Local_u8Dist;
+
 	while(1)
-	{	xQueueRecieve(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
+	{
+
+		xQueueReceive(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
 		if(Local_u8Dist<DIST_THRESHOLD)
 		{
 			BZR_voidOn(BZR_PORTA,BZR_PIN0);
@@ -67,7 +79,7 @@ void Task_voidReadDirection(void)
 	{
 		if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
 			Local_u8Dir=FORWARD;
-		else if(SW_u8ReadSwitch(Global_SW_tBackward)==PRESSED)
+		else if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
 			Local_u8Dir=BACKWARD;
 		else
 			Local_u8Dir=STOP;
@@ -93,7 +105,7 @@ void Task_voidReadDistance(void)
 	u8 Local_u8DistVal;
 	while(1)
 	{
-		USN_u8ReadDistance(&Local_u8DistVal);
+		//USN_u8ReadDistance(&Local_u8DistVal);
 		xQueueSendToFront(Global_xQueueHandleDistance,&Local_u8DistVal,QUEUE_WRITE_TIME);
 	}
 }

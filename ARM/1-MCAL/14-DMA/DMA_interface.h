@@ -47,7 +47,7 @@ typedef struct
 	u8 DMA_u8ChannelPriority;
 	u8 DMA_u8DataDirection;
 	u8 DMA_u8PeripheralDataSize; //8 or 16 or 32
-}
+}DMA_t;
 
 u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig);
 
