@@ -6,11 +6,11 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "STD_TYPES.h"
+#include "../../6-Library/STD_TYPES.h"
 
-#include "CAN_interface.h"
-#include "FPEC_interface.h"
-#include "WWDG_interface.h"
+#include "../../1-MCAL/06-CAN/CAN_interface.h"
+#include "../../1-MCAL/08-FPEC/FPEC_interface.h"
+#include "../../1-MCAL/11-WWDG/WWDG_interface.h"
 
 #include "ISR.h"
 

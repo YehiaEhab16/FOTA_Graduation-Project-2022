@@ -7,11 +7,11 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "STD_TYPES.h"
-#include "BIT_MATH.h"
+#include "../../6-Library/STD_TYPES.h"
+#include "../../6-Library/BIT_MATH.h"
 
-#include "RCC_interface.h"
-#include "FPEC_interface.h"
+#include "../../1-MCAL/02-RCC/RCC_interface.h"
+#include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 
 #include "PARSING_interface.h"
 #include "PARSING_private.h"

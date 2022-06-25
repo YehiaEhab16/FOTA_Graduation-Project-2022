@@ -7,13 +7,13 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "STD_TYPES.h"
+#include "../../6-Library/STD_TYPES.h"
 
-#include "GPIO_interface.h"
-#include "RCC_interface.h"
-#include "NVIC_interface.h"
-#include "CAN_interface.h"
-#include "FPEC_interface.h"
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
+#include "../../1-MCAL/02-RCC/RCC_interface.h"
+#include "../../1-MCAL/03-NVIC/NVIC_interface.h"
+#include "../../1-MCAL/06-CAN/CAN_interface.h"
+#include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 
 #include "SYS_interface.h"
 #include "SYS_private.h"

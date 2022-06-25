@@ -7,15 +7,15 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "STD_TYPES.h"
-#include "BIT_MATH.h"
+#include "../../6-Library/STD_TYPES.h"
+#include "../../6-Library/BIT_MATH.h"
+
+#include "../../1-MCAL/07-STK/STK_interface.h"
 
 #include "ADC_interface.h"
 #include "ADC_config.h"
 #include "ADC_private.h"
 #include "ADC_register.h"
-
-#include "STK_interface.h"
 
 //Initializing ADC
 void ADC_voidInit(void)
