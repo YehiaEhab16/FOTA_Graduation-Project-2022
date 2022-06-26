@@ -58,8 +58,8 @@
 #define RCC_I2C1_STATE	                 RCC_DISABLE
 #define RCC_I2C2_STATE	                 RCC_DISABLE
 
-#define RCC_CAN_STATE	                 RCC_DISABLE
-#define RCC_USB_STATE	                 RCC_DISABLE
+#define RCC_CAN_STATE	                 RCC_ENABLE
+#define RCC_USB_STATE	                 RCC_ENABLE
 
 //Watchdog
 #define RCC_WWDG_STATE	                 RCC_DISABLE

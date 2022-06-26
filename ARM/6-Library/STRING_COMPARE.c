@@ -15,7 +15,10 @@ u8 STR_COMPARE(u8 *ptr1,u8 *ptr2){
 
 	}
 
-	if(ptr1[i]!=ptr2[i]){x=0;}
+	if(ptr1[i]!=ptr2[i])
+		x=0;
+	else
+		x=1;
 
 	return x;
 }

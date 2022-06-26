@@ -54,7 +54,7 @@ u8 USART_u8ReceiveChar(u8 Copy_u8UsartPort );
  * @param buffer its Data String
  * @return ErrorFlag
  */
-u8* USART_ReceiveStr(u8 Copy_u8UsartPort);
+void USART_ReceiveStr(u8 Copy_u8UsartPort, u8* Copy_pu8Data);
 
 /**
  * @def its call back function that take the address of the ISR from main
