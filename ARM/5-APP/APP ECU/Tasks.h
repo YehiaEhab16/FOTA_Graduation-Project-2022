@@ -27,37 +27,37 @@
 
 void Task_voidCreateQueue (void);
 
-void Task_voidAlert(void);
+void Task_voidAlert(void * parms);
 
 /**
  * @def read direction from 2 switches to indicate forward or backward motion
  */ 
-void Task_voidReadDirection(void);
+void Task_voidReadDirection(void * parms);
 
 /**
  * @def read temperature from sensor
  */ 
-void Task_voidReadTemperature(void);
+void Task_voidReadTemperature(void * parms);
 
 /**
  * @def read distance from Ultrasonic sensor
  */
-void Task_voidReadDistance(void);
+void Task_voidReadDistance(void * parms);
 
 /**
  * @def check for malfunctions in system
  */
-void Task_voidSystemCheck(void);
+void Task_voidSystemCheck(void * parms);
 
 /**
  * @def move vehicle forward or backward
  */ 
-void Task_voidMoveVehicle(void);
+void Task_voidMoveVehicle(void * parms);
 
 /**
  * @def send diagnostics data to Main ECU
  */ 
-void Task_voidSendDiagnostics(void);
+void Task_voidSendDiagnostics(void * parms);
 
 
 #endif
