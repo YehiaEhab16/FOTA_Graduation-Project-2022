@@ -39,6 +39,10 @@ typedef struct
 	u8 DCM_u8Port;
 	u8 DCM_u8PinA;
 	u8 DCM_u8PinB;
+	u8 DCM_u8PinENCA;
+	u8 DCM_u8PinENCB;
+
+
 }DCM_t;
 
 //Controlling motor direction (2 pins)
@@ -73,4 +77,14 @@ void DCM_voidRotate(DCM_t* Copy_pDCM_tStructMotor);
  */
 void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor);
 
+
+/**
+ * @def   Motor Feedback
+ * @param Copy_pDCM_tStructMotor: struct contains Motor Info
+ */
+void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor);
+
+void DCM_voidIRQHandler(DCM_t* Copy_pDCM_tStructMotor);
+
+u8 DCM_U8CallBackFunc(void(*pv_CallBack)(void));
 #endif

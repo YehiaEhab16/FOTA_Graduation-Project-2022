@@ -17,6 +17,8 @@
 #include "DCM_interface.h"
 #include "DCM_private.h"
 
+u8 Count_pulses=0;
+
 //Controlling motor direction (2 pins)
 void DCM_voidRotateCCW(DCM_t* Copy_pDCM_tStructMotor)
 {
@@ -42,4 +44,46 @@ void DCM_voidRotate(DCM_t* Copy_pDCM_tStructMotor)
 void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor)
 {
 	GPIO_u8SetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port, Copy_pDCM_tStructMotor->DCM_u8PinA, GPIO_PIN_LOW);
+}
+
+//Motor feedback
+void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor){
+  u8 ENCB_PIN_VALUE=0;
+
+  GPIO_u8GetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port , Copy_pDCM_tStructMotor->DCM_u8PinENCB , &ENCB_PIN_VALUE);
+  if(ENCB_PIN_VALUE > 0){
+    Count_pulses++;
+  }
+  else{
+    Count_pulses--;
+  }
+}
+void DCM_voidIRQHandler(DCM_t* Copy_pDCM_tStructMotor){
+	u8 ENCA_PIN_VALUE=0;
+
+	GPIO_u8GetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port , Copy_pDCM_tStructMotor->DCM_u8PinENCA , &ENCA_PIN_VALUE);
+
+	if(ENCA_PIN_VALUE !=0){
+		MOTOR_CallBack();
+	}
+	else
+	{
+		//no thing
+	}
+		
+	
+}
+
+u8 DCM_U8CallBackFunc(void(*pv_CallBack)(void))
+{	u8 Local_u8ErrorState  = OK;
+
+	if (pv_CallBack != NULL)
+	{
+		MOTOR_CallBack = pv_CallBack;
+	}
+		//Wrong Input
+	else
+		Local_u8ErrorState  = NOK;
+
+	return Local_u8ErrorState ;
 }
