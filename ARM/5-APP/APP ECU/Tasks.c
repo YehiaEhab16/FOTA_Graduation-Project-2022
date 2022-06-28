@@ -15,8 +15,9 @@
 #include "../../2-HAL/02-DCM/DCM_interface.h"
 #include "../../2-HAL/03-BZR/BZR_interface.h"
 #include "../../2-HAL/04-TMP/TMP_interface.h"
-//#include "../../2-HAL/05-USN/USN_interface.h"
+#include "../../2-HAL/05-USN/USN_interface.h"
 #include "../../2-HAL/06-SW/SW_interface.h"
+#include "../../2-HAL/07-FAN/FAN_interface.h"
 
 #include "../../4-FreeRTOS/OS/org/Source/include/FreeRTOS.h"
 #include "../../4-FreeRTOS/OS/org/Source/include/queue.h"
@@ -32,8 +33,11 @@ SW_t Global_SW_tForward =  {SW_PORTB,SW_PIN2,SW_PULL_UP};
 SW_t Global_SW_tBackward = {SW_PORTB,SW_PIN3,SW_PULL_UP};
 
 //Motors
-DCM_t Global_DCM_tRightMotor = {DCM_PORTB,DCM_PIN4,DCM_PIN5};
-DCM_t Global_DCM_tLeftMotor = {DCM_PORTB,DCM_PIN6,DCM_PIN7};
+DCM_t Global_DCM_tRightMotor = {DCM_PORTB,DCM_PIN4,DCM_PIN5,DCM_PIN6,DCM_PIN7};
+DCM_t Global_DCM_tLeftMotor = {DCM_PORTB,DCM_PIN8,DCM_PIN9,DCM_PIN10,DCM_PIN11};
+
+//FAN
+FAN_t Global_FAN_tCoolingSystem = {FAN_PORTB,FAN_PIN12,FAN_ACTIVE_HIGH};
 
 //Queues
 xQueueHandle Global_xQueueHandleDistance;
@@ -99,8 +103,22 @@ void Task_voidReadDistance(void * parms)
 	u8 Local_u8DistVal=255;
 	while(1)
 	{
-		//USN_u8ReadDistance(&Local_u8DistVal);
+		USN_u8ReadDistance(&Local_u8DistVal);
 		xQueueSendToFront(Global_xQueueHandleDistance,&Local_u8DistVal,QUEUE_WRITE_TIME);
+	}
+}
+
+//Rotate Fan
+void Task_voidFanRotate(void * parms)
+{
+	u8 Local_u8Temp;
+	while(1)
+	{
+		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8Temp,QUEUE_READ_TIME);
+		if(Local_u8Temp > TEMP_THRESHOLD)
+			FAN_voidFanOn(&Global_FAN_tCoolingSystem);
+		else
+			FAN_voidFanOff(&Global_FAN_tCoolingSystem);		
 	}
 }
 

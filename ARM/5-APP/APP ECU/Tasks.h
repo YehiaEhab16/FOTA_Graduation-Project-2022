@@ -15,6 +15,7 @@
 #define STOP					2
 
 #define DIST_THRESHOLD			10
+#define TEMP_THRESHOLD			30
 
 #define QUEUE_SIZE				1
 #define QUEUE_ITEM_SIZE			1
@@ -53,6 +54,11 @@ void Task_voidSystemCheck(void * parms);
  * @def move vehicle forward or backward
  */ 
 void Task_voidMoveVehicle(void * parms);
+
+/**
+ * @def rotate fan in case of temperature rise
+ */ 
+void Task_voidFanRotate(void * parms);
 
 /**
  * @def send diagnostics data to Main ECU
