@@ -25,15 +25,15 @@
 
 
 //LEDs
-LED_t Global_LED_tRed = {LED_PORTA,LED_PIN1,LED_ACTIVE_HIGH};
+LED_t Global_LED_tRed = {LED_PORTB,LED_PIN1,LED_ACTIVE_HIGH};
 
 //Switches
-SW_t Global_SW_tForward =  {SW_PORTA,SW_PIN2,SW_PULL_UP};
-SW_t Global_SW_tBackward = {SW_PORTA,SW_PIN3,SW_PULL_UP};
+SW_t Global_SW_tForward =  {SW_PORTB,SW_PIN2,SW_PULL_UP};
+SW_t Global_SW_tBackward = {SW_PORTB,SW_PIN3,SW_PULL_UP};
 
 //Motors
-DCM_t Global_DCM_tRightMotor = {DCM_PORTA,DCM_PIN4,DCM_PIN5};
-DCM_t Global_DCM_tLeftMotor = {DCM_PORTA,DCM_PIN6,DCM_PIN7};
+DCM_t Global_DCM_tRightMotor = {DCM_PORTB,DCM_PIN4,DCM_PIN5};
+DCM_t Global_DCM_tLeftMotor = {DCM_PORTB,DCM_PIN6,DCM_PIN7};
 
 //Queues
 xQueueHandle Global_xQueueHandleDistance;
