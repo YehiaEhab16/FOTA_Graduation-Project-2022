@@ -41,10 +41,6 @@ xQueueHandle Global_xQueueHandleDirection;
 xQueueHandle Global_xQueueHandleTemperature;
 xQueueHandle Global_xQueueMainRequest;
 
-//Create Queues
-
-
-
 
 void Task_voidCreateQueue (void)
 {
@@ -58,7 +54,6 @@ void Task_voidCreateQueue (void)
 void Task_voidAlert(void * parms)
 {
 	u8 Local_u8Dist=255;
-	GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_1,GPIO_PIN_HIGH);
 	while(1)
 	{
 		LED_voidLedOn(&Global_LED_tRed);

@@ -47,7 +47,7 @@ void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor)
 }
 
 //Motor feedback
-void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor){
+void DCM_voidDetectDirection(DCM_t* Copy_pDCM_tStructMotor){
   u8 ENCB_PIN_VALUE=0;
 
   GPIO_u8GetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port , Copy_pDCM_tStructMotor->DCM_u8PinENCB , &ENCB_PIN_VALUE);
@@ -58,32 +58,12 @@ void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor){
     Count_pulses--;
   }
 }
-void DCM_voidIRQHandler(DCM_t* Copy_pDCM_tStructMotor){
+
+void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor){
 	u8 ENCA_PIN_VALUE=0;
 
 	GPIO_u8GetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port , Copy_pDCM_tStructMotor->DCM_u8PinENCA , &ENCA_PIN_VALUE);
 
-	if(ENCA_PIN_VALUE !=0){
-		MOTOR_CallBack();
-	}
-	else
-	{
-		//no thing
-	}
-		
-	
-}
-
-u8 DCM_U8CallBackFunc(void(*pv_CallBack)(void))
-{	u8 Local_u8ErrorState  = OK;
-
-	if (pv_CallBack != NULL)
-	{
-		MOTOR_CallBack = pv_CallBack;
-	}
-		//Wrong Input
-	else
-		Local_u8ErrorState  = NOK;
-
-	return Local_u8ErrorState ;
+	if(ENCA_PIN_VALUE !=0)
+		DCM_voidReadEncoder(Copy_pDCM_tStructMotor);
 }

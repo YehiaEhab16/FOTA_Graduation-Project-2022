@@ -22,8 +22,6 @@ int main(void)
 	SYS_voidAppInit(&Task_voidCANRecieveISR);
 	Task_voidCreateQueue();
 
-	GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_0,GPIO_PIN_HIGH);
-
 	//Task Creation
 	xTaskCreate((TaskFunction_t)Task_voidAlert, 	      "Task1", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
 	xTaskCreate((TaskFunction_t)Task_voidReadDirection,   "Task2", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
@@ -34,7 +32,7 @@ int main(void)
 	xTaskCreate((TaskFunction_t)Task_voidSendDiagnostics, "Task8", configMINIMAL_STACK_SIZE, NULL, 0, NULL);
 
 	//Start Scheduler
-	//vTaskStartScheduler();
+	vTaskStartScheduler();
 
 	while(1);
 }

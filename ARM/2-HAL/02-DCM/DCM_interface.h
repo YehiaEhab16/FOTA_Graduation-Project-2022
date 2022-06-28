@@ -84,7 +84,7 @@ void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor);
  */
 void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor);
 
-void DCM_voidIRQHandler(DCM_t* Copy_pDCM_tStructMotor);
+void DCM_voidDetectDirection(DCM_t* Copy_pDCM_tStructMotor);
 
-u8 DCM_U8CallBackFunc(void(*pv_CallBack)(void));
+
 #endif
