@@ -34,6 +34,9 @@
 #define DCM_PIN14					GPIO_PIN_14
 #define DCM_PIN15					GPIO_PIN_15
 
+#define DCM_DIR_RIGHT				0
+#define DCM_DIR_LEFT				1
+
 typedef struct
 {
 	u8 DCM_u8Port;
@@ -84,7 +87,7 @@ void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor);
  */
 void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor);
 
-void DCM_voidDetectDirection(DCM_t* Copy_pDCM_tStructMotor);
+u8 DCM_u8DetectDirection(DCM_t* Copy_pDCM_tStructMotor);
 
 
 #endif

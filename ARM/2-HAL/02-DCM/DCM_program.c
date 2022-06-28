@@ -17,7 +17,6 @@
 #include "DCM_interface.h"
 #include "DCM_private.h"
 
-u8 Count_pulses=0;
 
 //Controlling motor direction (2 pins)
 void DCM_voidRotateCCW(DCM_t* Copy_pDCM_tStructMotor)
@@ -47,16 +46,15 @@ void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor)
 }
 
 //Motor feedback
-void DCM_voidDetectDirection(DCM_t* Copy_pDCM_tStructMotor){
+u8 DCM_u8DetectDirection(DCM_t* Copy_pDCM_tStructMotor){
   u8 ENCB_PIN_VALUE=0;
 
   GPIO_u8GetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port , Copy_pDCM_tStructMotor->DCM_u8PinENCB , &ENCB_PIN_VALUE);
-  if(ENCB_PIN_VALUE > 0){
-    Count_pulses++;
-  }
-  else{
-    Count_pulses--;
-  }
+  if(ENCB_PIN_VALUE > 0)
+    return DCM_DIR_RIGHT;
+	
+  else
+    return DCM_DIR_LEFT;
 }
 
 void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor){
