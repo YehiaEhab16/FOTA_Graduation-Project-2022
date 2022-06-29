@@ -30,7 +30,6 @@ extern u8 Global_CAN_DIAG_FLAG;
 u8 Global_ERORR_DIAG_FLAG = 0;
 
 //Can
-extern CAN_Init_t CAN_InitStruct;
 CAN_msg CAN_TXmsg;
 
 //LEDs
@@ -49,10 +48,12 @@ FAN_t Global_FAN_tCoolingSystem = {FAN_PORTB,FAN_PIN12,FAN_ACTIVE_HIGH};
 
 //Queues
 xQueueHandle Global_xQueueHandleDistance;
+xQueueHandle Global_xQueueHandleRightMotorFB;
+xQueueHandle Global_xQueueHandleLeftMotorFB;
+
 xQueueHandle Global_xQueueHandleDirection;
 xQueueHandle Global_xQueueHandleTemperature;
 xQueueHandle Global_xQueueMainRequest;
-xQueueHandle Global_xQueueSendDiag;
 
 
 void Task_voidCreateQueue (void)
@@ -62,7 +63,9 @@ void Task_voidCreateQueue (void)
 	Global_xQueueHandleDirection    = 	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
 	Global_xQueueHandleTemperature  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
 	Global_xQueueMainRequest        =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueSendDiag   	    =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleRightMotorFB =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleLeftMotorFB  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+
 
 
 }
@@ -159,12 +162,30 @@ void Task_voidMoveVehicle(void * parms)
 	}
 }
 
+
+
+void Task_voidMotorFB(void * parms)
+{
+	u8 Local_u8RightMotorFB=0;
+	u8 Local_u8LeftMotorFB=0;
+	while(1)
+	{
+		Local_u8RightMotorFB = DCM_voidReadEncoder(&Global_DCM_tRightMotor);
+		Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
+		xQueueSendToFront(Global_xQueueHandleDirection,&Local_u8RightMotorFB,QUEUE_READ_TIME);
+		xQueueSendToFront(Global_xQueueHandleDirection,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
+
+	}
+}
+
 //Diagnostics Check
 void Task_voidSystemCheck(void * parms)
 {
 	u8 Local_u8Dist;
 	u8 Local_u8TempVal;
 	u8 Local_u8Dir;
+	u8 Local_u8RightMotorFB;
+	u8 Local_u8LeftMotorFB;
     for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
 
 	while(1)
@@ -172,7 +193,10 @@ void Task_voidSystemCheck(void * parms)
 		xQueuePeek(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
 		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8TempVal,QUEUE_READ_TIME);
 		xQueuePeek(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_READ_TIME);
-			
+
+		xQueuePeek(Global_xQueueHandleDirection,&Local_u8RightMotorFB,QUEUE_READ_TIME);
+		xQueuePeek(Global_xQueueHandleDirection,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
+
 		if (Global_CAN_DIAG_FLAG == 1){
 		    CAN_TXmsg.id = 0x31;
 			
@@ -191,7 +215,12 @@ void Task_voidSystemCheck(void * parms)
 		}
 		else {
 		    CAN_TXmsg.id = 0x38;
-			if (  (!(Local_u8TempVal>=20) && (Local_u8TempVal <=70) )   ){
+			if (  (!((Local_u8TempVal>=20) && (Local_u8TempVal <=70) ))
+			   || ( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
+					                            ||(Local_u8LeftMotorFB != FORWARD ) ) ))
+			   || ( (Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
+                                                ||(Local_u8LeftMotorFB != BACKWARD) ) ))
+			    ){
 			    CAN_TXmsg.data[0] = 'E';
 				 }
 		}
