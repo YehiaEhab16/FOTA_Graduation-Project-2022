@@ -51,17 +51,19 @@ u8 DCM_u8DetectDirection(DCM_t* Copy_pDCM_tStructMotor){
 
   GPIO_u8GetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port , Copy_pDCM_tStructMotor->DCM_u8PinENCB , &ENCB_PIN_VALUE);
   if(ENCB_PIN_VALUE > 0)
-    return DCM_DIR_RIGHT;
+    return DCM_DIR_CCW;
 	
   else
-    return DCM_DIR_LEFT;
+    return DCM_DIR_CW;
 }
 
-void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor){
+u8 DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor){
 	u8 ENCA_PIN_VALUE=0;
+	u8 Local_FB =0;
 
 	GPIO_u8GetPinValue(Copy_pDCM_tStructMotor->DCM_u8Port , Copy_pDCM_tStructMotor->DCM_u8PinENCA , &ENCA_PIN_VALUE);
 
 	if(ENCA_PIN_VALUE !=0)
-		DCM_voidReadEncoder(Copy_pDCM_tStructMotor);
+		Local_FB = DCM_u8DetectDirection(Copy_pDCM_tStructMotor);
+	return Local_FB;
 }

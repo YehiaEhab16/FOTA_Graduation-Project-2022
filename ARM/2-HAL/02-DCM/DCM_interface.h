@@ -34,8 +34,8 @@
 #define DCM_PIN14					GPIO_PIN_14
 #define DCM_PIN15					GPIO_PIN_15
 
-#define DCM_DIR_RIGHT				0
-#define DCM_DIR_LEFT				1
+#define DCM_DIR_CW				1
+#define DCM_DIR_CCW				0
 
 typedef struct
 {
@@ -85,7 +85,7 @@ void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor);
  * @def   Motor Feedback
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-void DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor);
+u8 DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor);
 
 u8 DCM_u8DetectDirection(DCM_t* Copy_pDCM_tStructMotor);
 
