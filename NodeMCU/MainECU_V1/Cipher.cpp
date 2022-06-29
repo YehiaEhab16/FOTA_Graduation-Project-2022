@@ -82,7 +82,7 @@ String Cipher::encryptBuffer(char * plainText, char * key) {
   // returns encrypted String of plainText (length: 16 characters)
   String cipherTextString = "";
   unsigned char cipherTextOutput[16];
-  
+   
   encrypt(plainText, key, cipherTextOutput);
   
   for (int i = 0; i < 16; i++) {

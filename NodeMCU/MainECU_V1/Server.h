@@ -4,8 +4,9 @@
 #include <Arduino.h>
 
 //Define the WiFi credentials
-#define WIFI_SSID                       ""
-#define WIFI_PASSWORD                   ""
+
+#define WIFI_SSID                       "MOG Controllers"
+#define WIFI_PASSWORD                   "mog22020"
 
 //Define the API Key
 #define API_KEY                         "AIzaSyBRrnJB5r0m9v9YsBj-em7ZefzYT4LVkp4"
