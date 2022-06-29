@@ -21,8 +21,8 @@
 
 
 extern CAN_Init_t CAN_InitStruct;
-extern CAN_FilterInit_t CAN_FilterAppDiagnostics;
-
+extern CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE1;
+extern CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE2;
 //Initializing All Peripherals
 void SYS_voidMainInit(void)
 {
@@ -30,8 +30,9 @@ void SYS_voidMainInit(void)
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
 	CAN_voidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
-	
+	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE1);
+	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
+
 }
 
 void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
@@ -41,7 +42,8 @@ void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
 	NVIC_voidInit();
 	FPEC_voidInit();
 	CAN_voidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
+	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE1);
+	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 	if(Copy_pvCallBackFunc!=NULL)
 		CAN_voidCallBackFunc(Copy_pvCallBackFunc);
