@@ -2,7 +2,7 @@
 #define DEBUG_H_
 
 
-#define DEBUG_FLAG            0
+#define DEBUG_FLAG            1
 
 #if DEBUG_FLAG == 1
 #define debug(x)              Serial.print(x)
