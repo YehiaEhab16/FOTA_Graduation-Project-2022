@@ -18,12 +18,10 @@
 u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig)
 {
 	u8 Local_u8ErrorState=OK;
-	u32 DMA_ISR, DMA_IFCR, DMA_CCR, DMA_CNDTR, DMA_CPAR, DMA_CMAR;
+	u32 DMA_CCR, DMA_CNDTR, DMA_CPAR, DMA_CMAR;
 
 	if((Copy_DMA_tTransferConfig->DMA_u8PeripheralID >= DMA_PER_ADC1) &&(Copy_DMA_tTransferConfig->DMA_u8PeripheralID <= DMA_PER_TIMER4))
 	{
-		DMA_ISR   = DMA1_ISR;
-		DMA_IFCR  = DMA1_IFCR;
 		DMA_CCR   = DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET;
 		DMA_CNDTR = DMA1_CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET;
 		DMA_CPAR  = DMA1_CPAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET;
@@ -31,8 +29,6 @@ u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig)
 	}
 	else if((Copy_DMA_tTransferConfig->DMA_u8PeripheralID >= DMA_PER_ADC3) &&(Copy_DMA_tTransferConfig->DMA_u8PeripheralID <= DMA_PER_TIMER8))
 	{
-		DMA_ISR   = DMA2_ISR;
-		DMA_IFCR  = DMA2_IFCR;
 		DMA_CCR   = DMA2_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET;
 		DMA_CNDTR = DMA2_CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET;
 		DMA_CPAR  = DMA2_CPAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET;
