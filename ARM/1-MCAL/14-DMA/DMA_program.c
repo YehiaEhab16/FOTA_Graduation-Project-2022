@@ -18,19 +18,36 @@
 u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig)
 {
 	u8 Local_u8ErrorState=OK;
-	DMA_r* DMA_Sel;
+	u32 DMA_ISR, DMA_IFCR, DMA_CCR, DMA_CNDTR, DMA_CPAR, DMA_CMAR;
+	u32* Local_u32Reg;
+
 	if((Copy_DMA_tTransferConfig->DMA_u8PeripheralID >= DMA_PER_ADC1) &&(Copy_DMA_tTransferConfig->DMA_u8PeripheralID <= DMA_PER_TIMER4))
-		DMA_Sel=DMA1;
+	{
+		DMA_ISR   = DMA1_ISR;
+		DMA_IFCR  = DMA1_IFCR;
+		DMA_CCR   = DMA1_CCR1;
+		DMA_CNDTR = DMA1_CNDTR1;
+		DMA_CPAR  = DMA1_CPAR1;
+		DMA_CMAR  = DMA1_CMAR1;
+	}
 	else if((Copy_DMA_tTransferConfig->DMA_u8PeripheralID >= DMA_PER_ADC3) &&(Copy_DMA_tTransferConfig->DMA_u8PeripheralID <= DMA_PER_TIMER8))
-		DMA_Sel=DMA2;
+	{
+		DMA_ISR   = DMA2_ISR;
+		DMA_IFCR  = DMA2_IFCR;
+		DMA_CCR   = DMA2_CCR1;
+		DMA_CNDTR = DMA2_CNDTR1;
+		DMA_CPAR  = DMA2_CPAR1;
+		DMA_CMAR  = DMA2_CMAR1;
+	}
 	else 
 		Local_u8ErrorState=NOK;
-	//Set Peripheral Address 
-	DMA_Sel->(CPAR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET) = Copy_DMA_tTransferConfig->DMA_u8PeripheralID;
+	//Set Peripheral Address
+	*(DMA_CPAR + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
+	*Local_u32Reg = Copy_DMA_tTransferConfig->DMA_u8PeripheralID;
 	//Set Memory Address 
-	DMA_Sel->(CMAR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET) = DMA_MEMORY_ADDRESS;
+	*(DMA_CMAR + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET) = DMA_MEMORY_ADDRESS;
 	//Number of data to be transferred 
-	DMA_Sel->(CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET) = Copy_DMA_tTransferConfig->DMA_u8DataTransferNum;
+	(DMA_CNDTR + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET) = Copy_DMA_tTransferConfig->DMA_u8DataTransferNum;
 	//Set channel priority
 	switch(Copy_DMA_tTransferConfig->DMA_u8ChannelPriority)
 	{
