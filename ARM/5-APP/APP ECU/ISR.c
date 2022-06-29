@@ -16,11 +16,12 @@
 
 //Recieve Struct
 CAN_msg CAN_RXmsg;
-
+u8 Global_CAN_DIAG_FLAG = 0;
 void Task_voidCANRecieveISR(void)
 {
 	u16 Local_u16Data=1;
 	CAN_voidReceive(&CAN_RXmsg, 0);
+	Global_CAN_DIAG_FLAG = 0;
 	if(CAN_RXmsg.id==CAN_UPADTE_ID)
 	{
 		FPEC_voidFlashWrite(TASK_BOOT_FLAG,&Local_u16Data,1);
@@ -28,6 +29,6 @@ void Task_voidCANRecieveISR(void)
 	}
 	else if(CAN_RXmsg.id==CAN_DIAG_ID)
 	{
-		
+		Global_CAN_DIAG_FLAG = 1;
 	}
 }

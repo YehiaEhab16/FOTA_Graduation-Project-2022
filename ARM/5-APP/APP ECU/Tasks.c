@@ -7,6 +7,7 @@
 /*******************************************************************************/
 
 #include "../../6-Library/STD_TYPES.h"
+#include "../../6-Library/BIT_MATH.h"
 
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
@@ -24,6 +25,13 @@
 
 #include "Tasks.h"
 
+//Can Flag 
+extern u8 Global_CAN_DIAG_FLAG;
+u8 Global_ERORR_DIAG_FLAG = 0;
+
+//Can
+extern CAN_Init_t CAN_InitStruct;
+CAN_msg CAN_TXmsg;
 
 //LEDs
 LED_t Global_LED_tRed = {LED_PORTB,LED_PIN1,LED_ACTIVE_HIGH};
@@ -44,15 +52,19 @@ xQueueHandle Global_xQueueHandleDistance;
 xQueueHandle Global_xQueueHandleDirection;
 xQueueHandle Global_xQueueHandleTemperature;
 xQueueHandle Global_xQueueMainRequest;
+xQueueHandle Global_xQueueSendDiag;
 
 
 void Task_voidCreateQueue (void)
 {
 
-	Global_xQueueHandleDistance =    xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleDirection =   xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleTemperature = xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueMainRequest =		 xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleDistance     = 	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleDirection    = 	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueHandleTemperature  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueMainRequest        =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+	Global_xQueueSendDiag   	    =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+
+
 }
 //Activating LED and Buzzer
 void Task_voidAlert(void * parms)
@@ -150,8 +162,39 @@ void Task_voidMoveVehicle(void * parms)
 //Diagnostics Check
 void Task_voidSystemCheck(void * parms)
 {
+	u8 Local_u8Dist;
+	u8 Local_u8TempVal;
+	u8 Local_u8Dir;
+    for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
+
 	while(1)
 	{
+		xQueuePeek(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
+		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8TempVal,QUEUE_READ_TIME);
+		xQueuePeek(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_READ_TIME);
+			
+		if (Global_CAN_DIAG_FLAG == 1){
+		    CAN_TXmsg.id = 0x31;
+			
+			if ( !( (Local_u8Dist >=10) && (Local_u8Dist <= 14)) )
+				SET_BIT(Global_ERORR_DIAG_FLAG,0);
+
+
+			if ( !( (Local_u8TempVal >=25)&&( Local_u8TempVal <=30) ) )
+				SET_BIT(Global_ERORR_DIAG_FLAG,1);
+
+
+			if ( !(Local_u8Dir == FORWARD) )
+				SET_BIT(Global_ERORR_DIAG_FLAG,2);
+			
+		    CAN_TXmsg.data[0] = Global_ERORR_DIAG_FLAG;
+		}
+		else {
+		    CAN_TXmsg.id = 0x38;
+			if (  (!(Local_u8TempVal>=20) && (Local_u8TempVal <=70) )   ){
+			    CAN_TXmsg.data[0] = 'E';
+				 }
+		}
 
 	}
 }
@@ -159,9 +202,14 @@ void Task_voidSystemCheck(void * parms)
 //Sending Diagnostics Data
 void Task_voidSendDiagnostics(void * parms)
 {
+		CAN_TXmsg.len = 1;
+	    CAN_TXmsg.format = CAN_ID_STD;
+	    CAN_TXmsg.type = CAN_RTR_DATA;
+
 	while(1)
 	{
-		
+		if ((CAN_TXmsg.data[0]=='E')|| (Global_ERORR_DIAG_FLAG!=0))
+		CAN_u8Transmit(&CAN_TXmsg);
 	}
 }
 
