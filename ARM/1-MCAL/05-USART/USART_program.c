@@ -52,6 +52,16 @@ void USART_voidInit( u8 Copy_u8UsartPort )
 	USART -> SR =0;
 }
 
+
+void USART_voidTransmitChar(u8 Copy_u8UsartPort, u8 Copy_u8Data)
+{
+	USART_t *USART = usart_ports[Copy_u8UsartPort];
+
+	USART -> DR = Copy_u8Data;
+	while(GET_BIT (USART -> SR , USART_TC) == 0);
+
+}
+
 //Synchronous Transmition 
 void USART_voidTransmitSync(u8 Copy_u8UsartPort, u8 Copy_u8DataArr[])
 {
@@ -70,7 +80,7 @@ u8 USART_u8ReceiveChar(u8 Copy_u8UsartPort)
 {
 	u8 Local_u8Data;
 	USART_t *USART = USART_Get(Copy_u8UsartPort);
-	
+
 	while((GET_BIT((USART -> SR), USART_RXNE) == 0));
 
 	Local_u8Data = USART -> DR;
@@ -112,7 +122,7 @@ u8 USART_u8CallBackFunc (u8 Copy_u8TypeUSART , void(*Notification_Pv)(void))
 
 	if (Notification_Pv != NULL)
 		USART_voidCallBackFunc[Copy_u8TypeUSART] = Notification_Pv ;
-	
+
 	//Wrong Input
 	else
 		Local_u8ErrorState  = NOK;

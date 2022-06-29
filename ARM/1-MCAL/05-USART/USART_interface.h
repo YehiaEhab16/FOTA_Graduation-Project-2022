@@ -35,6 +35,13 @@
 void USART_voidInit(u8 Copy_u8UsartPort);
 
 /**
+ * @def its Function that transmit one character
+ * @param Copy_u8UsartPort	is Number of USART
+ * @param Copy_u8Data	the character to be sent
+ */
+void USART_voidTransmitChar(u8 Copy_u8UsartPort, u8 Copy_u8Data);
+
+/**
  * @def its Function that transmit the string by sync tech
  * @param Copy_u8UsartPort	is Number of USART
  * @param Copy_u8DataArr	is the array that contain the base address

@@ -242,7 +242,6 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct);
 /**
  * @def function to set callback function
  */
-void CAN_voidCallBackFunc(void(*pv_CallBack)(void));
-
+void CAN_voidCallBackFunc(u8 Copy_u8FifoNumber, void(*pv_CallBack)(void));
 
 #endif
