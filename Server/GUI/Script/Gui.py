@@ -5,9 +5,12 @@ import os
 from base64 import b64encode
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
+from datetime import date
 
 cwd = os.getcwd()
 encryptedFilePath = r'%s' % cwd + '\Server\GUI\Script\\fileToBeEncrypted.hex'
+
+currentDate = date.today().strftime("%d/%m/%Y")
 
 def encryptFile (filePath):
      firstWrite = True
@@ -70,19 +73,20 @@ def upload(self, db, storage, QMessageBox):
         fileNameWithoutExtension = filePath.split('\\')[-1][:-4]
 
     try:
-        versionCheck = db.child("aW0PKEndkpi4Wp4qksi3HA==").child(
+        versionCheck = db.child("factorySoftware").child("latestVersion").child(
             fileNameWithoutExtension).get()  # checking if the file is already on the server
         if versionCheck.val() is None:
             # if file doesn't exist -> add path in database and update the storage
             storage.child(fileName).put(encryptFile(filePath))
-            db.child("aW0PKEndkpi4Wp4qksi3HA==").update(
+            db.child("factorySoftware").child("latestVersion").update(
                 {fileNameWithoutExtension: 1})
         else:
             # if file is existing -> update version in database and update storage
             storage.child(fileName).put(encryptFile(filePath))
             versionNumber = int(versionCheck.val()) + 1
-            db.child("aW0PKEndkpi4Wp4qksi3HA==").update(
-                {fileNameWithoutExtension: versionNumber})
+            db.child("factorySoftware").child("versions").child(str(versionCheck.val())).set({fileNameWithoutExtension: versionNumber, "File_Size": str(os.path.getsize(encryptedFilePath)) + " bytes", "Updated_At": str(currentDate)})
+            db.child("factorySoftware").child("latestVersion").update(
+                {fileNameWithoutExtension: versionNumber,"File_Size": str(os.path.getsize(encryptedFilePath)) + " bytes", "Updated_At": str(currentDate) })
         QMessageBox.information(self, 'Done Uploading',
                                 'The file was successfully uploaded to the server')
         self.lineEdit.setText('')

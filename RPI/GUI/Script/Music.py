@@ -57,8 +57,6 @@ class MainAPP_Music(QWidget, FormClass):
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         # Adding files inside music list
         for f in MusicFiles:
-            print("Checking for Music Files")
-            print(f)
             filesWithoutExtension = os.path.splitext(f)[0]
             self.MusicList.addItem(filesWithoutExtension)
         self.Sound.setValue(self.player.volume())
