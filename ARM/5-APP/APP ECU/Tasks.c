@@ -122,6 +122,20 @@ void Task_voidReadDistance(void * parms)
 		xQueueSendToFront(Global_xQueueHandleDistance,&Local_u8DistVal,QUEUE_WRITE_TIME);
 	}
 }
+//get feedback from encoder
+void Task_voidMotorFB(void * parms)
+{
+	u8 Local_u8RightMotorFB=0;
+	u8 Local_u8LeftMotorFB=0;
+	while(1)
+	{
+		Local_u8RightMotorFB = DCM_voidReadEncoder(&Global_DCM_tRightMotor);
+		Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
+		xQueueSendToFront(Global_xQueueHandleRightMotorFB,&Local_u8RightMotorFB,QUEUE_READ_TIME);
+		xQueueSendToFront(Global_xQueueHandleLeftMotorFB,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
+
+	}
+}
 
 //Rotate Fan
 void Task_voidFanRotate(void * parms)
@@ -164,19 +178,7 @@ void Task_voidMoveVehicle(void * parms)
 
 
 
-void Task_voidMotorFB(void * parms)
-{
-	u8 Local_u8RightMotorFB=0;
-	u8 Local_u8LeftMotorFB=0;
-	while(1)
-	{
-		Local_u8RightMotorFB = DCM_voidReadEncoder(&Global_DCM_tRightMotor);
-		Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
-		xQueueSendToFront(Global_xQueueHandleDirection,&Local_u8RightMotorFB,QUEUE_READ_TIME);
-		xQueueSendToFront(Global_xQueueHandleDirection,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
 
-	}
-}
 
 //Diagnostics Check
 void Task_voidSystemCheck(void * parms)
@@ -194,8 +196,8 @@ void Task_voidSystemCheck(void * parms)
 		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8TempVal,QUEUE_READ_TIME);
 		xQueuePeek(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_READ_TIME);
 
-		xQueuePeek(Global_xQueueHandleDirection,&Local_u8RightMotorFB,QUEUE_READ_TIME);
-		xQueuePeek(Global_xQueueHandleDirection,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
+		xQueuePeek(Global_xQueueHandleRightMotorFB,&Local_u8RightMotorFB,QUEUE_READ_TIME);
+		xQueuePeek(Global_xQueueHandleLeftMotorFB,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
 
 		if (Global_CAN_DIAG_FLAG == 1){
 		    CAN_TXmsg.id = 0x31;
