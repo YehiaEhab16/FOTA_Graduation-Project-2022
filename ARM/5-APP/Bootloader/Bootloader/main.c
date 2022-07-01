@@ -7,20 +7,20 @@
 /*******************************************************************************/
 /*******************************************************************************/
 /********************************LIBRARY LAYER**********************************/
-#include "STD_TYPES.h"
-#include "BIT_MATH.h"
+#include "../../6-Library/STD_TYPES.h"
+#include "../../6-Library/BIT_MATH.h"
 /*******************************************************************************/
 /*******************************************************************************/
 /********************************MCAL LAYER*************************************/
-#include "GPIO_interface.h"
-#include "RCC_interface.h"
-#include "CAN_interface.h"
-#include "FPEC_interface.h"
-#include "WWDG_interface.h"
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
+#include "../../1-MCAL/02-RCC/RCC_interface.h"
+#include "../../1-MCAL/06-CAN/CAN_interface.h"
+#include "../../1-MCAL/08-FPEC/FPEC_interface.h"
+#include "../../1-MCAL/11-WWDG/WWDG_interface.h"
 /*******************************************************************************/
 /*******************************************************************************/
 /********************************SERV LAYER*************************************/
-#include "PARSING_interface.h"
+#include "../../3-SERVICE/01-PARSING/PARSING_interface.h"
 /*******************************************************************************/
 /*******************************************************************************/
 /*******************************************************************************/
@@ -126,12 +126,12 @@ void main (void)
 		{
 
 			CAN_voidReceive(&CAN_RXmsg, 0);
+			BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN];
 
-			while (Counter_CAN == 4 )
+			while ((Counter_CAN < 4)&&(BOOT_u8RecData[BOOT_u32RecCounter]!='\n') )
 			{
-				BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN]; 
-
 				BOOT_u32RecCounter++;
+				BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN]; 
 				Counter_CAN++;
 
 			}
@@ -144,6 +144,7 @@ void main (void)
 				if (BOOT_u32EraseFlag==1)
 				{
 
+					//edit
 					for (BOOT_u32EraseCounter=12 ;BOOT_u32EraseCounter<60 ;BOOT_u32EraseCounter++)
 					{
 						FPEC_voidFlashPageErase(BOOT_u32EraseCounter);
@@ -204,6 +205,7 @@ void main (void)
 			else
 			{
 				BOOT_u32RecCounter++;
+
 			}
 		}
 	}
