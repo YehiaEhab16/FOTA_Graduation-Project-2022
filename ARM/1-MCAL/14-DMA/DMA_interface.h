@@ -30,13 +30,16 @@
 #define DMA_PER_TIMER8			15
 
 //DMA Priorities
-#define DMA_PRIORITY_LOW		0
-#define DMA_PRIORITY_MED		1
-#define DMA_PRIORITY_HIGH		2
+#define DMA_PRIORITY_LOW			0
+#define DMA_PRIORITY_MED			1
+#define DMA_PRIORITY_HIGH			2
+#define DMA_PRIORITY_VERY_HIGH		3
+
 
 //DMA Transfer Direction
-#define DMA_DIR_MEM2PER			0
+#define DMA_DIR_MEM2MEM			0
 #define DMA_DIR_PER2MEM			1
+#define DMA_DIR_MEM2PER			2
 
 
 typedef struct
@@ -47,9 +50,19 @@ typedef struct
 	u8 DMA_u8ChannelPriority;
 	u8 DMA_u8DataDirection;
 	u8 DMA_u8PeripheralDataSize; //8 or 16 or 32
+	u8 DMA_u8MemDataSize; //8 or 16 or 32
+	u8 DMA_Configure ; // make sure channel of dma comfigure
 }DMA_t;
 
+
 u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig);
+
+u8 DMA_u8Enable (DMA_t* Copy_DMA_tTransferConfig);
+
+u8 DMA_u8Disable (DMA_t* Copy_DMA_tTransferConfig);
+
+
+
 
 
 #endif

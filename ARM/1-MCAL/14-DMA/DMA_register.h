@@ -19,16 +19,11 @@
 #define DMA1_CPAR1					*((volatile u32 *)0x40020010)
 #define DMA1_CMAR1					*((volatile u32 *)0x40020014)
 
-//DMA2 Registers
-#define DMA2_ISR					*((volatile u32 *)0x40020400)
-#define DMA2_IFCR					*((volatile u32 *)0x40020404)
-#define DMA2_CCR1					*((volatile u32 *)0x40020408)
-#define DMA2_CNDTR1					*((volatile u32 *)0x4002040C)
-#define DMA2_CPAR1					*((volatile u32 *)0x40020410)
-#define DMA2_CMAR1					*((volatile u32 *)0x40020414)
-
-
-//DMA CCR Control Pins
+/**
+ *
+ * This pin about the DMA1_CCR1
+ *
+ */
 #define	MEM2MEM						14
 #define	PL1							13
 #define PL0							12
