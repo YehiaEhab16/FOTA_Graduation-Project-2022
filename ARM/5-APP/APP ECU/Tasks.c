@@ -213,20 +213,30 @@ void Task_voidSystemCheck(void * parms)
 			if ( !(Local_u8Dir == FORWARD) )
 				SET_BIT(Global_ERORR_DIAG_FLAG,2);
 			
+			if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))
+			 &&( (Local_u8TempVal >=25)&&( Local_u8TempVal <=30))
+			 &&(Local_u8Dir == FORWARD)    ){
+				Global_ERORR_DIAG_FLAG =0 ;
+				SET_BIT(Global_ERORR_DIAG_FLAG,3);
+			}
+
 		    CAN_TXmsg.data[0] = Global_ERORR_DIAG_FLAG;
+		    Global_ERORR_DIAG_FLAG =0 ;
 		}
 		else {
-		    CAN_TXmsg.id = 0x38;
-			if (  (!((Local_u8TempVal>=20) && (Local_u8TempVal <=70) ))
-			   || ( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
-					                            ||(Local_u8LeftMotorFB != FORWARD ) ) ))
-			   || ( (Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
-                                                ||(Local_u8LeftMotorFB != BACKWARD) ) ))
-			    ){
-			    CAN_TXmsg.data[0] = 'E';
-				 }
-		}
 
+		    CAN_TXmsg.id = 0x38;
+			if (  !((Local_u8TempVal>=20) && (Local_u8TempVal <=70) )  )
+			    CAN_TXmsg.data[0] = 'T';
+
+
+			else if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
+													||(Local_u8LeftMotorFB != FORWARD ) ) ))
+				   ||((Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
+                                                    ||(Local_u8LeftMotorFB != BACKWARD) ) )))
+			    CAN_TXmsg.data[0] = 'M';
+
+		}
 	}
 }
 
@@ -239,7 +249,9 @@ void Task_voidSendDiagnostics(void * parms)
 
 	while(1)
 	{
-		if ((CAN_TXmsg.data[0]=='E')|| (Global_ERORR_DIAG_FLAG!=0))
+		if ((CAN_TXmsg.data[0]=='T')
+		  ||(CAN_TXmsg.data[0]=='M')
+		  ||(Global_ERORR_DIAG_FLAG!=0))
 		CAN_u8Transmit(&CAN_TXmsg);
 	}
 }
