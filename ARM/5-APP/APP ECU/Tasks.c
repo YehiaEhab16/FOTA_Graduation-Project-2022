@@ -21,6 +21,7 @@
 #include "../../2-HAL/07-FAN/FAN_interface.h"
 
 #include "../../4-FreeRTOS/OS/org/Source/include/FreeRTOS.h"
+#include "../../4-FreeRTOS/OS/org/Source/include/task.h"
 #include "../../4-FreeRTOS/OS/org/Source/include/queue.h"
 
 #include "Tasks.h"
@@ -46,6 +47,11 @@ DCM_t Global_DCM_tLeftMotor = {DCM_PORTB,DCM_PIN8,DCM_PIN9,DCM_PIN10,DCM_PIN11};
 //FAN
 FAN_t Global_FAN_tCoolingSystem = {FAN_PORTB,FAN_PIN12,FAN_ACTIVE_HIGH};
 
+//Task Handles
+TaskHandle_t Global_TaskHandle_tAlert;
+TaskHandle_t Global_TaskHandle_tDist;
+TaskHandle_t Global_TaskHandle_tSend;
+
 //Queues
 xQueueHandle Global_xQueueHandleDistance;
 xQueueHandle Global_xQueueHandleRightMotorFB;
@@ -65,10 +71,8 @@ void Task_voidCreateQueue (void)
 	Global_xQueueMainRequest        =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
 	Global_xQueueHandleRightMotorFB =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
 	Global_xQueueHandleLeftMotorFB  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-
-
-
 }
+
 //Activating LED and Buzzer
 void Task_voidAlert(void * parms)
 {
@@ -91,11 +95,23 @@ void Task_voidReadDirection(void * parms)
 	while(1)
 	{
 		if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
+		{
 			Local_u8Dir=FORWARD;
+			vTaskSuspend(Global_TaskHandle_tAlert);
+			vTaskSuspend(Global_TaskHandle_tDist);
+		}
 		else if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
+		{
 			Local_u8Dir=BACKWARD;
+			vTaskResume(Global_TaskHandle_tAlert);
+			vTaskResume(Global_TaskHandle_tDist);
+		}
 		else
+		{
 			Local_u8Dir=STOP;
+			vTaskSuspend(Global_TaskHandle_tAlert);
+			vTaskSuspend(Global_TaskHandle_tDist);
+		}
 		
 		xQueueSendToFront(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_WRITE_TIME);
 	}
@@ -133,7 +149,6 @@ void Task_voidMotorFB(void * parms)
 		Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
 		xQueueSendToFront(Global_xQueueHandleRightMotorFB,&Local_u8RightMotorFB,QUEUE_READ_TIME);
 		xQueueSendToFront(Global_xQueueHandleLeftMotorFB,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
-
 	}
 }
 
@@ -175,10 +190,6 @@ void Task_voidMoveVehicle(void * parms)
 		}
 	}
 }
-
-
-
-
 
 //Diagnostics Check
 void Task_voidSystemCheck(void * parms)
@@ -235,7 +246,6 @@ void Task_voidSystemCheck(void * parms)
 				   ||((Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
                                                     ||(Local_u8LeftMotorFB != BACKWARD) ) )))
 			    CAN_TXmsg.data[0] = 'M';
-
 		}
 	}
 }
@@ -253,6 +263,6 @@ void Task_voidSendDiagnostics(void * parms)
 		  ||(CAN_TXmsg.data[0]=='M')
 		  ||(Global_ERORR_DIAG_FLAG!=0))
 		CAN_u8Transmit(&CAN_TXmsg);
+		vTaskSuspend(Global_TaskHandle_tSend);
 	}
 }
-
