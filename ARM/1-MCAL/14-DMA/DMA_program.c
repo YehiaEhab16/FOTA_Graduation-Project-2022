@@ -21,9 +21,10 @@ u8 DMA_u8Configuration(DMA_t* Copy_DMA_tTransferConfig)
 	u32* DMA_CCR;
 	u32*DMA_CNDTR;
 
+	u32 mm;
 
-	DMA_CCR   = (u32*)(DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*(u32)DMA_CHANNEL_OFFSET);
-	DMA_CNDTR = (u32*)(DMA1_CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
+	DMA_CCR   = (u32*)((u32)DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
+	DMA_CNDTR = (u32*)((u32)DMA1_CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
 
 	//Disable DMA1
 	CLR_BIT(*DMA_CCR,EN);
@@ -36,7 +37,7 @@ u8 DMA_u8Configuration(DMA_t* Copy_DMA_tTransferConfig)
 
 	//Set channel priority
 	switch(Copy_DMA_tTransferConfig->DMA_u8ChannelPriority)
-	{
+ 	{
 	case DMA_PRIORITY_LOW:CLR_BIT(*DMA_CCR,PL0);
 	CLR_BIT(*DMA_CCR,PL1);
 	break;
@@ -168,9 +169,9 @@ u8 DMA_u8Enable (DMA_t* Copy_DMA_tTransferConfig , u32* Copy_u32PeripheralAddres
 	u32*DMA_CMAR;
 
 	u32* DMA_CCR;
-	DMA_CPAR  = (u32*)(DMA1_CPAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
-	DMA_CMAR  = (u32*)(DMA1_CMAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
-	DMA_CCR   = (u32*)(DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
+	DMA_CPAR  = (u32*)((u32)DMA1_CPAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
+	DMA_CMAR  = (u32*)((u32)DMA1_CMAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
+	DMA_CCR   = (u32*)((u32)DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
 
 	if (Copy_DMA_tTransferConfig->DMA_Configure == 1)
 	{

@@ -16,6 +16,8 @@
 #define DMA_CHANNEL3		3
 #define DMA_CHANNEL4		4
 #define DMA_CHANNEL5		5
+
+
 //DMA Priorities
 #define DMA_PRIORITY_LOW			0
 #define DMA_PRIORITY_MED			1
