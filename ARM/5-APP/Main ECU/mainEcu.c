@@ -1,8 +1,8 @@
 /*******************************************************************************/
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
-/***********************   Main ECU Application          ***********************/
-/***********************   DATA : 17-3-2022  			 ***********************/
+/***********************   Layer : APP (Receive)         ***********************/
+/***********************   DATE : 26-4-2022  			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
@@ -31,7 +31,7 @@ u8 Global_u8State;
 u8 Global_u8NewUpdate;
 u8 Global_u8ESPRxMsg;
 u8 UpdateRequestFlag;
-
+u8 Global_UpdateFinishedFlag;
 
 void main(void)
 {
@@ -42,18 +42,18 @@ void main(void)
 	/* Initial values */
 	Global_u8State = IDLE;
 	Global_u8NewUpdate = 0;
+	Global_UpdateFinishedFlag = 0;
 
 	while(1)
 	{
 		switch(Global_u8State)
 		{
-			case IDLE: break;
+			case IDLE:	break;
 
 			case USER_RESPONSE:
 				if (CAN_RxMsg.data[0] == ACCEPT_UPDATE)
 				{
-					USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
-					Global_u8State = RECEIVE_UPDATE;
+					Global_u8State = START_UPDATE;
 				}
 				else if (CAN_RxMsg.data[0] == DECLINE_UPDATE)
 				{
@@ -62,14 +62,26 @@ void main(void)
 				Global_u8NewUpdate--;
 				break;
 
-			case RECEIVE_UPDATE:
+			case START_UPDATE:
 				NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
 				NVIC_u8DisableInterrupt(USART1_IRQ);
 				USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
+				CAN_u8Transmit(&APP_TxDataMsg);			/* Msg to indicate start of transmission to app */
+
+				Global_u8State = RECEIVE_RECORD;
+				break;
+
+			case RECEIVE_RECORD:
+				if (Global_UpdateFinishedFlag == 1)
+				{
+					Global_UpdateFinishedFlag = 0;
+					NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+					NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
+					NVIC_u8EnableInterrupt(USART1_IRQ);
+					Global_u8State = IDLE;
+					break;
+				}
 				GetUpdate();
-				NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
-				NVIC_u8EnableInterrupt(CAN_RX1_IRQ);
-				NVIC_u8EnableInterrupt(USART1_IRQ);
 				Global_u8State = IDLE;
 				break;
 
@@ -78,22 +90,12 @@ void main(void)
 				{
 					USART_voidTransmitChar(USART1 ,UPDATE_CHECK);
 					UpdateRequestFlag = 1;
-					Global_u8State = IDLE;
 				}
 				else if (CAN_RxMsg.data[0] == DIAGNOSTICS_REQUEST)
 				{
 					CAN_u8Transmit(&APP_TxGetDiagMsg);
-					if (1)   		/* No Issues Detected */
-					{
-						USER_TxDiagResultMsg.data[0] = NO_ISSUES;
-						CAN_u8Transmit(&USER_TxDiagResultMsg);
-						Global_u8State = IDLE;
-					}
-					else
-					{
-						Global_u8State = DIAGNOSTICS;
-					}
 				}
+				Global_u8State = IDLE;
 				break;
 
 			case ESP_MSG:
@@ -101,37 +103,23 @@ void main(void)
 				{
 					CAN_u8Transmit(&USER_TxUpdateMsg);
 					Global_u8NewUpdate++;
-					Global_u8State = IDLE;
 				}
 				else if((Global_u8ESPRxMsg == UpdateAvailable) && (UpdateRequestFlag))
 				{
 					USER_TxUpdateCheckMsg.data[0] = UpdateAvailable;
 					CAN_u8Transmit(&USER_TxUpdateCheckMsg);
-					USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
-					Global_u8State = RECEIVE_UPDATE;
 				}
 				else if((Global_u8ESPRxMsg == NoUpdateAvailable) && (UpdateRequestFlag))
 				{
 					USER_TxUpdateCheckMsg.data[0] = NoUpdateAvailable;
 					CAN_u8Transmit(&USER_TxUpdateCheckMsg);
-					Global_u8State = IDLE;
 				}
+				Global_u8State = IDLE;
 				break;
 
 			case DIAGNOSTICS:
-				if (1)		/* Firmware Issues Detected */
-				{
-					USER_TxDiagResultMsg.data[0] = FIRMWARE_ISSUE;
-					CAN_u8Transmit(&USER_TxDiagResultMsg);
-					NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
-					Global_u8State = RECEIVE_UPDATE;
-				}
-				else if (0)		/* Hardware Issues Detected */
-				{
-					USER_TxDiagResultMsg.data[0] = HARDWARE_ISSUE;
-					CAN_u8Transmit(&USER_TxDiagResultMsg);
-					Global_u8State = IDLE;
-				}
+				USER_TxDiagResultMsg.data[0] = CAN_RxMsg.data[0];
+				Global_u8State = IDLE;
 				break;
 		}
 	}

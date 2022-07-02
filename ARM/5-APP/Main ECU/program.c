@@ -37,6 +37,7 @@ extern u8 Global_u8State;
 extern u8 Global_u8NewUpdate;
 extern u8 Global_u8ESPRxMsg;
 extern u8 UpdateRequestFlag;
+extern u8 Global_UpdateFinishedFlag;
 
 static u8 Rx_Buffer[BUFFER_SIZE];		/* Buffer to hold the received data */
 
@@ -45,10 +46,10 @@ void MainInit()
 {
 	USART_u8CallBackFunc(USART1, &UART_callback);
 	CAN_voidCallBackFunc(CAN_FIFO_0, &CAN_FIFO0_callback);
-	CAN_voidCallBackFunc(CAN_FIFO_1, &CAN_DiagCallback);
+	CAN_voidCallBackFunc(CAN_FIFO_1, &CAN_AppAckCallback);
 }
- 
- 
+
+
 void UART_callback(void)
 {
 	Global_u8ESPRxMsg = USART_u8ReceiveChar(USART1);
@@ -63,20 +64,41 @@ void CAN_FIFO0_callback(void)
 	CAN_voidReceive(&CAN_RxMsg,CAN_FIFO_0);
 	switch(CAN_RxMsg.id)
 	{
-		case USER_RESPONSE_ID:
-			Global_u8State = USER_RESPONSE;
-			break;
+	case USER_RESPONSE_ID:
+		Global_u8State = USER_RESPONSE;
+		break;
 
-		case Request_ID:
-			Global_u8State = USER_REQUEST;
-			break;
+	case Request_ID:
+		Global_u8State = USER_REQUEST;
+		break;
+
+	case APP_DIAG_M1:
+	case APP_DIAG_M2:
+		Global_u8State = DIAGNOSTICS;
+		break;
 	}
 }
 
-void CAN_DiagCallback (void)
+
+void CAN_AppAckCallback (void)
 {
-	CAN_voidReceive(&APP_RxDiagnosticsMsg,CAN_FIFO_1);
-	Global_u8State = DIAGNOSTICS;
+	CAN_voidReceive(&APP_RxAckMsg,CAN_FIFO_1);
+	if (APP_RxAckMsg.id == APP_ACKNOWLEDGE)
+	{
+		if ((APP_RxAckMsg.data[0] == 'O') && (APP_RxAckMsg.data[0] == 'K'))
+		{
+			USART_voidTransmitChar(USART1,RECORD_ACK);
+			Global_u8State = RECEIVE_RECORD;
+		}
+		else
+		{
+			USART_voidTransmitChar(USART1,'n');
+			NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+			NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
+			NVIC_u8EnableInterrupt(USART1_IRQ);
+		}
+	}
+
 }
 
 
@@ -89,55 +111,39 @@ void GetUpdate(void)
 	u8 frame_counter;
 	u8 data_counter;
 
-	USART_voidTransmitChar(USART1,DOWNLOAD_FILE);
+	APP_TxDataMsg.len = 8;
+	Buffer_Data_Counter = 0;
+	index = 0;
 
+	/* Receive Record */
 	do
 	{
-		APP_TxDataMsg.len = 8;
-		Buffer_Data_Counter = 0;
-		index = 0;
+		Rx_Buffer[index++] = USART_u8ReceiveChar(USART1);
+	}while(Rx_Buffer[index-1] != '\n');
 
-		/* Receive Record */
-		do{
-			Rx_Buffer[index++] = USART_u8ReceiveChar(USART1);
-		}while(Rx_Buffer[index-1] != '\n');
+	NumOfCanFrames = (index)/8;
+	ExtraBytes = (index)%8;
 
-		NumOfCanFrames = (index)/8;
-		ExtraBytes = (index)%8;
 
-		/* Send Record */
-		for(frame_counter=0; frame_counter<=NumOfCanFrames; frame_counter++)
+	/* Send Record */
+	for(frame_counter=0; frame_counter<=NumOfCanFrames; frame_counter++)
+	{
+		if(frame_counter == NumOfCanFrames)
 		{
-			if(frame_counter == NumOfCanFrames)
-			{
-				if (ExtraBytes!=0)	APP_TxDataMsg.len = ExtraBytes;
-				else break;
-			}
-
-			for(data_counter=0; data_counter<APP_TxDataMsg.len; data_counter++)
-			{
-				APP_TxDataMsg.data[data_counter]= Rx_Buffer[Buffer_Data_Counter];
-			}
-			CAN_u8Transmit(&APP_TxDataMsg);
+			if (ExtraBytes!=0)	APP_TxDataMsg.len = ExtraBytes;
+			else break;
 		}
 
-		CAN_voidReceive(&APP_RxAckMsg, 0);
-
-		if ((APP_RxAckMsg.data[0] == 'O') && (APP_RxAckMsg.data[0] == 'K'))
+		for(data_counter=0; data_counter<APP_TxDataMsg.len; data_counter++)
 		{
-			APP_RxAckMsg.data[0] = 0;
-			APP_RxAckMsg.data[0] = 0;
-			USART_voidTransmitChar(USART1,RECORD_ACK);
+			APP_TxDataMsg.data[data_counter]= Rx_Buffer[Buffer_Data_Counter];
 		}
-		else
-		{
-			USART_voidTransmitChar(USART1,'n');
-			break;
-		}
+		CAN_u8Transmit(&APP_TxDataMsg);
+	}
 
-		if ((Rx_Buffer[index-2] == 'F') && (Rx_Buffer[index-3] == 'F'))
-			break;
-
-	}while(1);
+	if ((Rx_Buffer[index-2] == 'F') && (Rx_Buffer[index-3] == 'F'))
+	{
+		Global_UpdateFinishedFlag = 1;
+	}
 
 }
