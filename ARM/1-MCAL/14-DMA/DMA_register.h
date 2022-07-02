@@ -12,12 +12,12 @@
 
 
 //DMA1 Registers
-#define DMA1_ISR					*((volatile u32 *)0x40020000)
-#define DMA1_IFCR					*((volatile u32 *)0x40020004)
-#define DMA1_CCR1					*((volatile u32 *)0x40020008)
-#define DMA1_CNDTR1					*((volatile u32 *)0x4002000C)
-#define DMA1_CPAR1					*((volatile u32 *)0x40020010)
-#define DMA1_CMAR1					*((volatile u32 *)0x40020014)
+#define DMA1_ISR					((volatile u32 *)0x40020000)
+#define DMA1_IFCR					((volatile u32 *)0x40020004)
+#define DMA1_CCR1					((volatile u32 *)0x40020008)
+#define DMA1_CNDTR1					((volatile u32 *)0x4002000C)
+#define DMA1_CPAR1					((volatile u32 *)0x40020010)
+#define DMA1_CMAR1					((volatile u32 *)0x40020014)
 
 /**
  *

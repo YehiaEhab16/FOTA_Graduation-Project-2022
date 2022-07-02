@@ -15,29 +15,21 @@
 #include "DMA_private.h"
 #include "DMA_register.h"
 
-u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig)
+u8 DMA_u8Configuration(DMA_t* Copy_DMA_tTransferConfig)
 {
 	u8 Local_u8ErrorState=OK;
 	u32* DMA_CCR;
 	u32*DMA_CNDTR;
-	u32*DMA_CPAR;
-	u32*DMA_CMAR;
+
+
+	DMA_CCR   = (u32*)(DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*(u32)DMA_CHANNEL_OFFSET);
+	DMA_CNDTR = (u32*)(DMA1_CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
 
 	//Disable DMA1
-	CLR_BIT(DMA1_CCR1,EN);
-	while (GET_BIT(DMA1_CCR1,EN) == 1) ;
+	CLR_BIT(*DMA_CCR,EN);
+	while (GET_BIT(*DMA_CCR,EN) == 1) ;
 
 
-	DMA_CCR   = (u32*)(DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
-	DMA_CNDTR = (u32*)(DMA1_CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
-	DMA_CPAR  = (u32*)(DMA1_CPAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
-	DMA_CMAR  = (u32*)(DMA1_CMAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
-
-
-	//Set Peripheral Address
-	*DMA_CPAR = Copy_DMA_tTransferConfig->DMA_u8PeripheralID;
-	//Set Memory Address 
-	*DMA_CMAR = DMA_MEMORY_ADDRESS;
 	//Number of data to be transferred 
 	*DMA_CNDTR = Copy_DMA_tTransferConfig->DMA_u8DataTransferNum;
 
@@ -65,6 +57,7 @@ u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig)
 	if(Copy_DMA_tTransferConfig->DMA_u8DataDirection == DMA_DIR_MEM2MEM)
 	{
 		SET_BIT(*DMA_CCR,MEM2MEM);
+		SET_BIT(*DMA_CCR,DIR);
 
 	}
 	else if(Copy_DMA_tTransferConfig->DMA_u8DataDirection == DMA_DIR_PER2MEM)
@@ -168,16 +161,22 @@ u8 DMA_u8ReadRegisterContent(DMA_t* Copy_DMA_tTransferConfig)
 	return Local_u8ErrorState;
 }
 
-u8 DMA_u8Enable (DMA_t* Copy_DMA_tTransferConfig)
+u8 DMA_u8Enable (DMA_t* Copy_DMA_tTransferConfig , u32* Copy_u32PeripheralAddress, u32* Copy_u32MemoryAddress )
 {
 	u8 Local_u8ErrorState = OK ;
+	u32*DMA_CPAR;
+	u32*DMA_CMAR;
 
 	u32* DMA_CCR;
-
+	DMA_CPAR  = (u32*)(DMA1_CPAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
+	DMA_CMAR  = (u32*)(DMA1_CMAR1  + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
 	DMA_CCR   = (u32*)(DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
 
 	if (Copy_DMA_tTransferConfig->DMA_Configure == 1)
 	{
+		*DMA_CPAR = (u32)Copy_u32PeripheralAddress ;
+		*DMA_CMAR = (u32)Copy_u32MemoryAddress ;
+
 		//Enable Channel
 		SET_BIT(*DMA_CCR,EN);
 	}
@@ -194,6 +193,7 @@ u8 DMA_u8Enable (DMA_t* Copy_DMA_tTransferConfig)
 u8 DMA_u8Disable (DMA_t* Copy_DMA_tTransferConfig)
 {
 	u8 Local_u8ErrorState = OK ;
+
 
 	u32* DMA_CCR;
 
