@@ -68,7 +68,7 @@ void Task_voidSendDiagnostics(void * parms);
 /**
  * @def Get feedback from encoder
  */
-void Task_voidMotorFB(void * parms);
+void Task_voidMotorFeedback(void * parms);
 
 #endif
 

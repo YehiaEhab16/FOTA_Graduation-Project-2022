@@ -79,7 +79,8 @@ void Task_voidAlert(void * parms)
 	u8 Local_u8Dist=255;
 	while(1)
 	{
-		LED_voidLedOn(&Global_LED_tRed);
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_0, GPIO_PIN_HIGH);
+		//LED_voidLedOn(&Global_LED_tRed);
 		xQueueReceive(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
 		if(Local_u8Dist<DIST_THRESHOLD)
 		{
@@ -94,6 +95,7 @@ void Task_voidReadDirection(void * parms)
 	u8 Local_u8Dir;
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_1, GPIO_PIN_HIGH);
 		if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
 		{
 			Local_u8Dir=FORWARD;
@@ -123,28 +125,31 @@ void Task_voidReadTemperature(void * parms)
 	u8 Local_u8TempVal;
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_2, GPIO_PIN_HIGH);
 		TMP_u8ReadValue(&Local_u8TempVal);
 		xQueueSendToFront(Global_xQueueHandleTemperature,&Local_u8TempVal,QUEUE_WRITE_TIME);
 	}
 }
 
-//Reading Dstance from Ultrasonic
+//Reading Distance from Ultrasonic
 void Task_voidReadDistance(void * parms)
 {
 	u8 Local_u8DistVal=255;
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_3, GPIO_PIN_HIGH);
 		USN_u8ReadDistance(&Local_u8DistVal);
 		xQueueSendToFront(Global_xQueueHandleDistance,&Local_u8DistVal,QUEUE_WRITE_TIME);
 	}
 }
 //get feedback from encoder
-void Task_voidMotorFB(void * parms)
+void Task_voidMotorFeedback(void * parms)
 {
 	u8 Local_u8RightMotorFB=0;
 	u8 Local_u8LeftMotorFB=0;
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_4, GPIO_PIN_HIGH);
 		Local_u8RightMotorFB = DCM_voidReadEncoder(&Global_DCM_tRightMotor);
 		Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
 		xQueueSendToFront(Global_xQueueHandleRightMotorFB,&Local_u8RightMotorFB,QUEUE_READ_TIME);
@@ -158,6 +163,7 @@ void Task_voidFanRotate(void * parms)
 	u8 Local_u8Temp;
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_5, GPIO_PIN_HIGH);
 		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8Temp,QUEUE_READ_TIME);
 		if(Local_u8Temp > TEMP_THRESHOLD)
 			FAN_voidFanOn(&Global_FAN_tCoolingSystem);
@@ -172,6 +178,7 @@ void Task_voidMoveVehicle(void * parms)
 	u8 Local_u8Dir;
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_6, GPIO_PIN_HIGH);
 		xQueuePeek(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_READ_TIME);
 		if(Local_u8Dir==FORWARD)
 		{
@@ -203,6 +210,7 @@ void Task_voidSystemCheck(void * parms)
 
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
 		xQueuePeek(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
 		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8TempVal,QUEUE_READ_TIME);
 		xQueuePeek(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_READ_TIME);
@@ -259,6 +267,7 @@ void Task_voidSendDiagnostics(void * parms)
 
 	while(1)
 	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_8, GPIO_PIN_HIGH);
 		if ((CAN_TXmsg.data[0]=='T')
 		  ||(CAN_TXmsg.data[0]=='M')
 		  ||(Global_ERORR_DIAG_FLAG!=0))
@@ -266,3 +275,4 @@ void Task_voidSendDiagnostics(void * parms)
 		vTaskSuspend(Global_TaskHandle_tSend);
 	}
 }
+
