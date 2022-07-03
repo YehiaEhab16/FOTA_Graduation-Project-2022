@@ -20,15 +20,15 @@
 #include "SYS_private.h"
 #include "SYS_config.h"
 
-
 extern CAN_Init_t CAN_InitStruct;
 extern CAN_FilterInit_t CAN_FilterUserResponse;
 extern CAN_FilterInit_t CAN_FilterAppAck;
 extern CAN_FilterInit_t CAN_FilterUserRequest;
 extern CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE1;
 extern CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE2;
+extern CAN_FilterInit_t CAN_FilterUpdate;
 
-//Initializing All Peripherals
+// Initializing All Peripherals
 void SYS_voidMainInit(void)
 {
 	RCC_voidInit();
@@ -52,7 +52,26 @@ void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE1);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
+	CAN_VoidFilterSet(&CAN_FilterUpdate);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
-	if(Copy_pvCallBackFunc!=NULL)
+	if (Copy_pvCallBackFunc != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc);
+}
+
+void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void), void (*Copy_pvCallBackFunc_USART)(void))
+{
+	RCC_voidInit();
+	GPIO_voidDirectionInit();
+	NVIC_voidInit();
+	CAN_voidInit(&CAN_InitStruct);
+	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE1);
+	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
+	CAN_VoidFilterSet(&CAN_FilterUpdate);
+	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+	NVIC_u8EnableInterrupt(USART1_IRQ);
+	if (Copy_pvCallBackFunc_CAN != NULL)
+		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc_CAN);
+
+	if (Copy_pvCallBackFunc_USART != NULL)
+		USART_u8CallBackFunc(USART1, Copy_pvCallBackFunc_USART);
 }
