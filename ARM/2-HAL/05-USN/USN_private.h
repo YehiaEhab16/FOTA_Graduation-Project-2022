@@ -13,5 +13,7 @@
 #define USN_PRIVATE_H_
 
 
+#define TIM1_DMAR			(volatile u32 *)(0x40012C00+0x4c)
+
 
 #endif

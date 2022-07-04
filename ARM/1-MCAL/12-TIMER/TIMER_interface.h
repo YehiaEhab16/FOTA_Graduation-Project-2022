@@ -12,6 +12,9 @@
 #define TIMER_INTERFACE_H_
 
 
+#define TIMER_RISING 	0
+#define TIMER_FALLING	1
+
 
 #define 	TIM1		    0
 #define 	TIM2		    1
@@ -74,6 +77,16 @@ typedef struct
 }GPT_Config;
 
 /*Function Prototypes*/
+
+
+
+void TIMER_voidCapture (u8 Copy_u8Timer , u8 Copy_u8Edge , u32 Copy_u8AutoReload , u8 Copy_u8Channel );
+
+void TIMER_u8StopChannel (u8 Copy_u8Timer , u8 Copy_u8Channel );
+
+u32 TIMER_u8GetCaptureValue (u8 Copy_u8Timer , u8 Copy_u8Channel);
+
+void TIMER_voidSelectEdge (u8 Copy_u8Timer,u8 Copy_u8Edge , u8 Copy_u8Channel );
 
 /**
  * @def   Configures timer properties (doesn't start timer)

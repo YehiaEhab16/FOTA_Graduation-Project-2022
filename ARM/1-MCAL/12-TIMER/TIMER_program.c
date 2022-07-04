@@ -64,11 +64,11 @@ void TIMER_voidTimerConfig(u8 Copy_u8Timer, GPT_Config *GPT_ConfigPtr)
 	{
 	case EDGE_ALIGNED_MODE: timer->CR[0] &= ~(0x0060);	break;
 	case CENTER_ALIGNED_MODE_1:	SET_BIT(timer->CR[0],5);
-								CLR_BIT(timer->CR[0],6);
-								break;
+	CLR_BIT(timer->CR[0],6);
+	break;
 	case CENTER_ALIGNED_MODE_2:	CLR_BIT(timer->CR[0],5);
-								SET_BIT(timer->CR[0],6);
-								break;
+	SET_BIT(timer->CR[0],6);
+	break;
 	case CENTER_ALIGNED_MODE_3: timer->CR[0] |= (0x0060); break;
 	}
 
@@ -81,14 +81,14 @@ void TIMER_voidTimerConfig(u8 Copy_u8Timer, GPT_Config *GPT_ConfigPtr)
 	switch(GPT_ConfigPtr->Clock_Div)
 	{
 	case DIV_1:	CLR_BIT(timer->CR[0],8);
-				CLR_BIT(timer->CR[0],9);
-				break;
+	CLR_BIT(timer->CR[0],9);
+	break;
 	case DIV_2:	SET_BIT(timer->CR[0],8);
-				CLR_BIT(timer->CR[0],9);
-				break;
+	CLR_BIT(timer->CR[0],9);
+	break;
 	case DIV_4:	CLR_BIT(timer->CR[0],8);
-				SET_BIT(timer->CR[0],9);
-				break;
+	SET_BIT(timer->CR[0],9);
+	break;
 	}
 
 	switch(GPT_ConfigPtr->UDI_State)
@@ -97,132 +97,107 @@ void TIMER_voidTimerConfig(u8 Copy_u8Timer, GPT_Config *GPT_ConfigPtr)
 	case TIM_ENABLE: SET_BIT(timer->DIER,0); break;
 	}
 
-#if ICU_CHANNEL1_MAPPED_TIMER ==  TIM_CHANNEL_OUTPUT
-	CLR_BIT(timer->CCMR[0],0);
-	CLR_BIT(timer->CCMR[0],1);
+}
 
-#elif ICU_CHANNEL1_MAPPED_TIMER	 == TIM_CHANNEL_IC_TL2
-	SET_BIT(timer->CCMR[0],0);
-	CLR_BIT(timer->CCMR[0],1);
+void TIMER_voidCapture (u8 Copy_u8Timer , u8 Copy_u8Edge , u32 Copy_u8AutoReload , u8 Copy_u8Channel )
+{
+	TIMER_t*  Caputure_Timer  = Get_timer(Copy_u8Timer);
 
-#elif ICU_CHANNEL1_MAPPED_TIMER == TIM_CHANNEL_IC_TL1
-	CLR_BIT(timer->CCMR[0],0);
-	SET_BIT(timer->CCMR[0],1);
+	if (GET_BIT(Caputure_Timer->CCER,(1<<(Copy_u8Channel-1)*4) )== 0 )
+	{
+		switch(Copy_u8Channel)
+		{
+		case TIM_CHANNEL1: Caputure_Timer->CCMR[0] |= 0x1;  break;
+		case TIM_CHANNEL2: Caputure_Timer->CCMR[0] |= 0x100;break;
+		case TIM_CHANNEL3: Caputure_Timer->CCMR[1] |= 0x01;  break;
+		case TIM_CHANNEL4: Caputure_Timer->CCMR[1] |= 0x100;break;
+		}
 
-#elif ICU_CHANNEL1_MAPPED_TIMER == TIM_CHANNEL_IC_TRC
-	SET_BIT(timer->CCMR[0],0);
-	SET_BIT(timer->CCMR[0],1);
+		SET_BIT(Caputure_Timer->CCER , (Copy_u8Channel-1)*4);
 
-
-#else 
-	#error  "ICU_CHANNEL1_MAPPED_TIMER is invalid"
-
-#endif
-
-	
+		Caputure_Timer->PSC = (8-1);
+		TIMER_StartTimer(Copy_u8Timer);
 
 
-#if ICU_CHANNEL2_MAPPED_TIMER ==  TIM_CHANNEL_OUTPUT
-	CLR_BIT(timer->CCMR[0],0);
-	CLR_BIT(timer->CCMR[0],1);
+		if (Copy_u8Edge == TIMER_RISING)
+		{
+			CLR_BIT(Caputure_Timer->CCER , (((Copy_u8Channel-1)*4)+1));
+		}
+		else if (Copy_u8Edge == TIMER_FALLING)
+		{
 
-#elif ICU_CHANNEL2_MAPPED_TIMER	 == TIM_CHANNEL_IC_TL2
-	SET_BIT(timer->CCMR[0],0);
-	CLR_BIT(timer->CCMR[0],1);
+			SET_BIT(Caputure_Timer->CCER ,( ((Copy_u8Channel-1)*4)+1));
 
-#elif ICU_CHANNEL2_MAPPED_TIMER == TIM_CHANNEL_IC_TL1
-	CLR_BIT(timer->CCMR[0],0);
-	SET_BIT(timer->CCMR[0],1);
+		}
 
-#elif ICU_CHANNEL2_MAPPED_TIMER == TIM_CHANNEL_IC_TRC
-	SET_BIT(timer->CCMR[0],0);
-	SET_BIT(timer->CCMR[0],1);
+		Caputure_Timer ->ARR =(Copy_u8AutoReload*2-1);
 
+	}
 
-#else 
-	#error  "ICU_CHANNEL1_MAPPED_TIMER is invalid"
+}
 
-#endif
+u32 TIMER_u8GetCaptureValue (u8 Copy_u8Timer , u8 Copy_u8Channel)
+{
+	TIMER_t*  Caputure_Timer  = Get_timer(Copy_u8Timer);
+	u32 Local_u8CaptureValue = 0 ;
+	u8 Local_u8PSC_Value = 0 ;
+	switch (Copy_u8Channel)
+	{
+	case TIM_CHANNEL1: Local_u8CaptureValue =Caputure_Timer->CCR[0]; break;
+	case TIM_CHANNEL2: Local_u8CaptureValue =Caputure_Timer->CCR[1];break;
+	case TIM_CHANNEL3: Local_u8CaptureValue =Caputure_Timer->CCR[2];  break;
+	case TIM_CHANNEL4: Local_u8CaptureValue =Caputure_Timer->CCR[3];  break;
 
-#if ICU_CHANNEL1_MAPPED_TIMER_TRIGGER == TIM_RISING_EDGE
-	CLR_BIT(timer->CCER,1);
-	CLR_BIT(timer->CCER,3);
-#elif ICU_CHANNEL1_MAPPED_TIMER_TRIGGER == TIM_FALLING_EDGE
-	SET_BIT(timer->CCER,1);
-	CLR_BIT(timer->CCER,3);
-#else
-#error "ICU_CHANNEL1_MAPPED_TIMER_TRIGGER is invalid"
-
-#endif
-
-
-#if ICU_CHANNEL2_MAPPED_TIMER_TRIGGER == TIM_RISING_EDGE
-	CLR_BIT(timer->CCER,5);
-	CLR_BIT(timer->CCER,3);
-#elif ICU_CHANNEL2_MAPPED_TIMER_TRIGGER == TIM_FALLING_EDGE
-	SET_BIT(timer->CCER,5);
-	CLR_BIT(timer->CCER,3);
-#else
-#error "ICU_CHANNEL1_MAPPED_TIMER_TRIGGER is invalid"
-
-#endif
-
-//select the triggger select the counter
-CLR_BIT(timer->SMCR,4);
-SET_BIT(timer->SMCR,5);
-SET_BIT(timer->SMCR,6);
-//reset mode
-CLR_BIT(timer->SMCR,0);
-CLR_BIT(timer->SMCR,1);
-SET_BIT(timer->SMCR,2);
-
-
-
-#if ICU_WITH_DMA ==TIM_ENABLE
-// base
-CLR_BIT(timer->DCR,1);
-SET_BIT(timer->DCR,0);
-SET_BIT(timer->DCR,2);
-SET_BIT(timer->DCR,3);
-
-// Length =2 transfer
-CLR_BIT(timer->DCR,1);
-SET_BIT(timer->DCR,0);
-
-// enable timer with DMA
-SET_BIT(timer->DIER,9);
-
-
-SET_BIT(timer->CCER,0);
-SET_BIT(timer->CCER,4);
-
-
-TIMER_StartTimer(Copy_u8Timer);
-
-//nothing
-
-#else
-#error "ICU_WITH_DMA is invalid"
-
-
-
-#endif
-
-
+	}
+	Local_u8PSC_Value = Caputure_Timer->PSC ;
+	Local_u8CaptureValue = (Local_u8CaptureValue*Local_u8PSC_Value)/(8-1);
+	return Local_u8CaptureValue;
 
 }
 
 
+void TIMER_voidSelectEdge (u8 Copy_u8Timer,u8 Copy_u8Edge , u8 Copy_u8Channel )
+{
+	TIMER_t* Timer = Get_timer(Copy_u8Timer);
+
+
+	if (Copy_u8Edge == TIMER_RISING)
+	{
+		CLR_BIT(Timer->CCER , (((Copy_u8Channel-1)*4)+1));
+	}
+	else if (Copy_u8Edge == TIMER_FALLING)
+	{
+
+		SET_BIT(Timer->CCER ,( ((Copy_u8Channel-1)*4)+1));
+
+	}
+
+}
+void TIMER_u8StopChannel (u8 Copy_u8Timer , u8 Copy_u8Channel )
+{
+
+	TIMER_t*  Caputure_Timer   = Get_timer(Copy_u8Timer);
+	CLR_BIT(Caputure_Timer->CCER , (Copy_u8Channel-1)*4);
+
+	switch (Copy_u8Channel)
+	{
+	case TIM_CHANNEL1: Caputure_Timer->CCR[0]=0; break;
+	case TIM_CHANNEL2: Caputure_Timer->CCR[1]=0;break;
+	case TIM_CHANNEL3: Caputure_Timer->CCR[2]=0;  break;
+	}
+
+}
+
 void TIMER_StartTimer(u8 Copy_u8Timer)
 {
 	TIMER_t* timer = Get_timer(Copy_u8Timer);
-	SET_BIT(timer->CR[1],0);		/* set counter enable bit to start the timer */
+	SET_BIT(timer->CR[0],0);		/* set counter enable bit to start the timer */
 }
 
 void TIMER_StopTimer(u8 Copy_u8Timer)
 {
 	TIMER_t* timer = Get_timer(Copy_u8Timer);
-	CLR_BIT(timer->CR[1],0); /* clear counter enable bit to stop the timer */
+	CLR_BIT(timer->CR[0],0); /* clear counter enable bit to stop the timer */
 }
 
 static TIM_CH_t* GET_TIM_CH(u8 Port_Pin)
@@ -256,17 +231,17 @@ void TIMER_Delay(u8 Copy_u8Timer, u32 Copy_u32Delay, u32 Copy_u16Unit)
 	TIMER_t* timer = Get_timer(Copy_u8Timer);
 	u16 Local_u16Prescaler = 8-1;
 
-//	timer->CNT = 0;			/* Clear the counter */
+	//	timer->CNT = 0;			/* Clear the counter */
 	timer->PSC = Local_u16Prescaler;
 	timer->ARR = Copy_u32Delay -1;
 
 	for (u32 i=0; i<Copy_u16Unit; i++)
 	{
 		timer->CNT = 0;			/* Clear the counter */
-	/* Enable counter and One-pulse mode */
-	timer->CR[0] |= 0x9;
-	/* Wait until CEN bit is cleared */
-	while(timer->CR[0] & 1);
+		/* Enable counter and One-pulse mode */
+		timer->CR[0] |= 0x9;
+		/* Wait until CEN bit is cleared */
+		while(timer->CR[0] & 1);
 	}
 
 	/*Clear ARR register*/
@@ -293,10 +268,10 @@ void TIMER_OutputCompare(u8 Copy_u8PORT_PIN, u16 Copy_u16Period, u16 Copy_u16Com
 		timer->PSC = (8*Copy_u16Unit-1);
 		switch(Local_u8Channel)
 		{	/* Set output to toggle on match */
-			case TIM_CHANNEL1: timer->CCMR[0] |= 0x30;	break;
-			case TIM_CHANNEL2: timer->CCMR[0] |= 0x3000;break;
-			case TIM_CHANNEL3: timer->CCMR[1] |= 0x30;	break;
-			case TIM_CHANNEL4: timer->CCMR[1] |= 0x3000;break;
+		case TIM_CHANNEL1: timer->CCMR[0] |= 0x30;	break;
+		case TIM_CHANNEL2: timer->CCMR[0] |= 0x3000;break;
+		case TIM_CHANNEL3: timer->CCMR[1] |= 0x30;	break;
+		case TIM_CHANNEL4: timer->CCMR[1] |= 0x3000;break;
 		}
 
 		/* Enable channel compare mode */
@@ -320,10 +295,10 @@ void TIMER_PWM(u8 Copy_u8PORT_PIN, u16 Copy_u16Period, u16 Copy_u16DutyCycle, u1
 		tim->PSC = (8*Copy_u16Unit-1);
 		switch(Local_u8Channel)
 		{
-			case TIM_CHANNEL1: tim->CCMR[0] |= 0x60;  break;
-			case TIM_CHANNEL2: tim->CCMR[0] |= 0x6000;break;
-			case TIM_CHANNEL3: tim->CCMR[1] |= 0x60;  break;
-			case TIM_CHANNEL4: tim->CCMR[1] |= 0x6000;break;
+		case TIM_CHANNEL1: tim->CCMR[0] |= 0x60;  break;
+		case TIM_CHANNEL2: tim->CCMR[0] |= 0x6000;break;
+		case TIM_CHANNEL3: tim->CCMR[1] |= 0x60;  break;
+		case TIM_CHANNEL4: tim->CCMR[1] |= 0x6000;break;
 		}
 		tim->CCER |= (1 << ((Local_u8Channel-1)*4));
 		if (GET_TIM_CH(Copy_u8PORT_PIN)->timer == TIM1) tim->BDTR |= 0x8000;
@@ -344,7 +319,7 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void) {
 	TIMER_t *tim3 = Get_timer(TIM3);
 	TIM3_CallBack();
-    tim3->SR = 0U;
+	tim3->SR = 0U;
 }
 
 void TIM4_IRQHandler(void) {

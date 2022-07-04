@@ -18,7 +18,7 @@
  * @param Distance Value in cm read from sensor
  * @ret   Error Status
  */
-u8 USN_u8ReadDistance(u8 *Copy_pu8DistValue);
+u8 USN_u8ReadDistance(u32 *Copy_pu8DistValue);
 
 
 #endif
