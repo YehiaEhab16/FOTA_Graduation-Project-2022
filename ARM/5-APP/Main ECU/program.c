@@ -8,23 +8,24 @@
 
 #include "../6-Library/STD_TYPES.h"
 
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../1-MCAL/03-NVIC/NVIC_interface.h"
 #include "../1-MCAL/06-CAN/CAN_interface.h"
 #include "../1-MCAL/05-USART/USART_interface.h"
 #include "interface.h"
 
-
-extern CAN_Init_t  CAN_InitStruct;
-extern CAN_FilterInit_t  CAN_FilterUserResponse;
-extern CAN_FilterInit_t  CAN_FilterAppDiagnostics;
-extern CAN_FilterInit_t	 CAN_FilterAppAck;
-extern CAN_FilterInit_t  CAN_FilterUserRequest;
+u16 Buffer_Data_Counter;
+u16 index;
+u8 NumOfCanFrames;
+u8 ExtraBytes;
+u8 frame_counter;
+u8 data_counter;
 
 CAN_msg CAN_RxMsg;
 
 CAN_msg APP_TxDataMsg = {0x55, {0}, 8, CAN_ID_STD, DATA_FRAME};				/* Message to transmit the file */
 CAN_msg APP_RxDiagnosticsMsg;												/* Msg to receive diagnostics */
-CAN_msg APP_TxGetDiagMsg = {0x23, {0}, 1, CAN_ID_STD, DATA_FRAME};			/* Msg to ask app for diagnostics */
+CAN_msg APP_TxGetDiagMsg = {0x31, {0}, 1, CAN_ID_STD, DATA_FRAME};			/* Msg to ask app for diagnostics */
 
 CAN_msg USER_TxUpdateMsg = {0x55, {0}, 8, CAN_ID_STD, DATA_FRAME};			/* Msg to notify user of new update */
 CAN_msg APP_RxAckMsg;
@@ -61,6 +62,9 @@ void UART_callback(void)
 
 void CAN_FIFO0_callback(void)
 {
+	/******************************************/
+	GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_0, GPIO_PIN_HIGH);
+	/******************************************/
 	CAN_voidReceive(&CAN_RxMsg,CAN_FIFO_0);
 	switch(CAN_RxMsg.id)
 	{
@@ -104,12 +108,6 @@ void CAN_AppAckCallback (void)
 
 void GetUpdate(void)
 {
-	u16 Buffer_Data_Counter=0;
-	u16 index=0;
-	u8 NumOfCanFrames;
-	u8 ExtraBytes;
-	u8 frame_counter;
-	u8 data_counter;
 
 	APP_TxDataMsg.len = 8;
 	Buffer_Data_Counter = 0;
@@ -136,7 +134,7 @@ void GetUpdate(void)
 
 		for(data_counter=0; data_counter<APP_TxDataMsg.len; data_counter++)
 		{
-			APP_TxDataMsg.data[data_counter]= Rx_Buffer[Buffer_Data_Counter];
+			APP_TxDataMsg.data[data_counter]= Rx_Buffer[Buffer_Data_Counter++];
 		}
 		CAN_u8Transmit(&APP_TxDataMsg);
 	}
