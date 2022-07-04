@@ -45,7 +45,7 @@
 #define RCC_TIM14_STATE	             	 RCC_DISABLE
 
 //Communication Protocols
-#define RCC_USART1_STATE	             RCC_DISABLE
+#define RCC_USART1_STATE	            RCC_ENABLE 
 #define RCC_USART2_STATE	             RCC_DISABLE
 #define RCC_USART3_STATE	             RCC_DISABLE
 #define RCC_UART4_STATE	             	 RCC_DISABLE
