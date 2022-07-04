@@ -20,9 +20,10 @@ int main(void)
 {
 	//Initialization
 	SYS_voidAppInit(&Task_voidCANRecieveISR);
-	Task_voidCreateQueue();
+	//Task_voidCreateQueue();
 
-	extern TaskHandle_t Global_TaskHandle_tAlert, Global_TaskHandle_tDist, Global_TaskHandle_tSend;
+	extern TaskHandle_t Global_TaskHandle_tAlert, Global_TaskHandle_tDist;
+	//, Global_TaskHandle_tSend;
 
 	//Task Creation
 	xTaskCreate((TaskFunction_t)Task_voidAlert, 	      "Task1", configMINIMAL_STACK_SIZE, NULL, 1, &Global_TaskHandle_tAlert);
@@ -33,12 +34,12 @@ int main(void)
 	xTaskCreate((TaskFunction_t)Task_voidMotorFeedback,   "Task6", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
 	xTaskCreate((TaskFunction_t)Task_voidFanRotate, 	  "Task7", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
 	xTaskCreate((TaskFunction_t)Task_voidSystemCheck,     "Task8", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
-	xTaskCreate((TaskFunction_t)Task_voidSendDiagnostics, "Task9", configMINIMAL_STACK_SIZE, NULL, 1, &Global_TaskHandle_tSend);
-	
+	//xTaskCreate((TaskFunction_t)Task_voidSendDiagnostics, "Task9", configMINIMAL_STACK_SIZE, NULL, 1, &Global_TaskHandle_tSend);
+
 	//Task Suspending
 	vTaskSuspend(Global_TaskHandle_tAlert);
 	vTaskSuspend(Global_TaskHandle_tDist);
-	vTaskSuspend(Global_TaskHandle_tSend);
+//	vTaskSuspend(Global_TaskHandle_tSend);
 
 	//Start Scheduler
 	vTaskStartScheduler();

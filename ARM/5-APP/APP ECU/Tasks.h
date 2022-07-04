@@ -63,7 +63,7 @@ void Task_voidFanRotate(void * parms);
 /**
  * @def send diagnostics data to Main ECU
  */ 
-void Task_voidSendDiagnostics(void * parms);
+void Task_voidSendDiagnostics();
 
 /**
  * @def Get feedback from encoder

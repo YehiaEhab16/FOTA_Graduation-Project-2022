@@ -29,6 +29,14 @@
 //Can Flag 
 extern u8 Global_CAN_DIAG_FLAG;
 u8 Global_ERORR_DIAG_FLAG = 0;
+u8 Global_APPS_Variables[6]= {0};
+/*dist 0
+ * temp1
+ * RightMotorFB 2
+ * LeftMotorFB 3
+ * Direction   4
+ * MainRequest 5
+ */
 
 //Can
 CAN_msg CAN_TXmsg;
@@ -53,25 +61,25 @@ TaskHandle_t Global_TaskHandle_tDist;
 TaskHandle_t Global_TaskHandle_tSend;
 
 //Queues
-xQueueHandle Global_xQueueHandleDistance;
-xQueueHandle Global_xQueueHandleRightMotorFB;
-xQueueHandle Global_xQueueHandleLeftMotorFB;
+//xQueueHandle Global_xQueueHandleDistance;
+//xQueueHandle Global_xQueueHandleRightMotorFB;
+//xQueueHandle Global_xQueueHandleLeftMotorFB;
+//
+//xQueueHandle Global_xQueueHandleDirection;
+//xQueueHandle Global_xQueueHandleTemperature;
+//xQueueHandle Global_xQueueMainRequest;
 
-xQueueHandle Global_xQueueHandleDirection;
-xQueueHandle Global_xQueueHandleTemperature;
-xQueueHandle Global_xQueueMainRequest;
 
-
-void Task_voidCreateQueue (void)
-{
-
-	Global_xQueueHandleDistance     = 	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleDirection    = 	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleTemperature  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueMainRequest        =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleRightMotorFB =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-	Global_xQueueHandleLeftMotorFB  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
-}
+//void Task_voidCreateQueue (void)
+//{
+//
+//	Global_xQueueHandleDistance     = 	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+//	Global_xQueueHandleDirection    = 	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+//	Global_xQueueHandleTemperature  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+//	Global_xQueueMainRequest        =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+//	Global_xQueueHandleRightMotorFB =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+//	Global_xQueueHandleLeftMotorFB  =	xQueueCreate(QUEUE_SIZE, QUEUE_ITEM_SIZE);
+//}
 
 //Activating LED and Buzzer
 void Task_voidAlert(void * parms)
@@ -81,7 +89,7 @@ void Task_voidAlert(void * parms)
 	{
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_0, GPIO_PIN_HIGH);
 		//LED_voidLedOn(&Global_LED_tRed);
-		xQueueReceive(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
+		Local_u8Dist = Global_APPS_Variables[0];
 		if(Local_u8Dist<DIST_THRESHOLD)
 		{
 			BZR_voidOn(BZR_PORTA,BZR_PIN0);
@@ -114,8 +122,7 @@ void Task_voidReadDirection(void * parms)
 			vTaskSuspend(Global_TaskHandle_tAlert);
 			vTaskSuspend(Global_TaskHandle_tDist);
 		}
-		
-		xQueueSendToFront(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_WRITE_TIME);
+		Global_APPS_Variables[4]=Local_u8Dir;
 	}
 }
 
@@ -127,7 +134,7 @@ void Task_voidReadTemperature(void * parms)
 	{
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_2, GPIO_PIN_HIGH);
 		TMP_u8ReadValue(&Local_u8TempVal);
-		xQueueSendToFront(Global_xQueueHandleTemperature,&Local_u8TempVal,QUEUE_WRITE_TIME);
+		Global_APPS_Variables[1]=Local_u8TempVal;
 	}
 }
 
@@ -139,7 +146,8 @@ void Task_voidReadDistance(void * parms)
 	{
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_3, GPIO_PIN_HIGH);
 		USN_u8ReadDistance(&Local_u8DistVal);
-		xQueueSendToFront(Global_xQueueHandleDistance,&Local_u8DistVal,QUEUE_WRITE_TIME);
+		Global_APPS_Variables[0]=Local_u8DistVal;
+
 	}
 }
 //get feedback from encoder
@@ -152,8 +160,10 @@ void Task_voidMotorFeedback(void * parms)
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_4, GPIO_PIN_HIGH);
 		Local_u8RightMotorFB = DCM_voidReadEncoder(&Global_DCM_tRightMotor);
 		Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
-		xQueueSendToFront(Global_xQueueHandleRightMotorFB,&Local_u8RightMotorFB,QUEUE_READ_TIME);
-		xQueueSendToFront(Global_xQueueHandleLeftMotorFB,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
+		Global_APPS_Variables[2]=Local_u8RightMotorFB;
+		Global_APPS_Variables[3]=Local_u8LeftMotorFB;
+
+
 	}
 }
 
@@ -164,11 +174,12 @@ void Task_voidFanRotate(void * parms)
 	while(1)
 	{
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_5, GPIO_PIN_HIGH);
-		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8Temp,QUEUE_READ_TIME);
+
+		Local_u8Temp=Global_APPS_Variables[1];
 		if(Local_u8Temp > TEMP_THRESHOLD)
 			FAN_voidFanOn(&Global_FAN_tCoolingSystem);
 		else
-			FAN_voidFanOff(&Global_FAN_tCoolingSystem);		
+			FAN_voidFanOff(&Global_FAN_tCoolingSystem);
 	}
 }
 
@@ -178,8 +189,9 @@ void Task_voidMoveVehicle(void * parms)
 	u8 Local_u8Dir;
 	while(1)
 	{
+
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_6, GPIO_PIN_HIGH);
-		xQueuePeek(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_READ_TIME);
+		Local_u8Dir = Global_APPS_Variables[4];
 		if(Local_u8Dir==FORWARD)
 		{
 			DCM_voidRotateCCW(&Global_DCM_tRightMotor);
@@ -207,20 +219,20 @@ void Task_voidSystemCheck(void * parms)
 	u8 Local_u8RightMotorFB;
 	u8 Local_u8LeftMotorFB;
     for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
-
 	while(1)
 	{
-		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
-		xQueuePeek(Global_xQueueHandleDistance,&Local_u8Dist,QUEUE_READ_TIME);
-		xQueuePeek(Global_xQueueHandleTemperature,&Local_u8TempVal,QUEUE_READ_TIME);
-		xQueuePeek(Global_xQueueHandleDirection,&Local_u8Dir,QUEUE_READ_TIME);
 
-		xQueuePeek(Global_xQueueHandleRightMotorFB,&Local_u8RightMotorFB,QUEUE_READ_TIME);
-		xQueuePeek(Global_xQueueHandleLeftMotorFB,&Local_u8LeftMotorFB,QUEUE_READ_TIME);
+
+		Local_u8Dist=Global_APPS_Variables[0];
+		Local_u8TempVal=Global_APPS_Variables[1];
+
+		Local_u8LeftMotorFB=Global_APPS_Variables[2];
+		Local_u8RightMotorFB=Global_APPS_Variables[3];
+		Local_u8Dir = Global_APPS_Variables[4];
 
 		if (Global_CAN_DIAG_FLAG == 1){
 		    CAN_TXmsg.id = 0x31;
-			
+
 			if ( !( (Local_u8Dist >=10) && (Local_u8Dist <= 14)) )
 				SET_BIT(Global_ERORR_DIAG_FLAG,0);
 
@@ -231,7 +243,7 @@ void Task_voidSystemCheck(void * parms)
 
 			if ( !(Local_u8Dir == FORWARD) )
 				SET_BIT(Global_ERORR_DIAG_FLAG,2);
-			
+
 			if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))
 			 &&( (Local_u8TempVal >=25)&&( Local_u8TempVal <=30))
 			 &&(Local_u8Dir == FORWARD)    ){
@@ -241,38 +253,55 @@ void Task_voidSystemCheck(void * parms)
 
 		    CAN_TXmsg.data[0] = Global_ERORR_DIAG_FLAG;
 		    Global_ERORR_DIAG_FLAG =0 ;
+			GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_6, GPIO_PIN_HIGH);
+
+		    Task_voidSendDiagnostics();
+
 		}
 		else {
 
 		    CAN_TXmsg.id = 0x38;
-			if (  !((Local_u8TempVal>=20) && (Local_u8TempVal <=70) )  )
+			if (  !((Local_u8TempVal>=20) && (Local_u8TempVal <=70) )  ){
 			    CAN_TXmsg.data[0] = 'T';
+			   // vTaskResume(Global_TaskHandle_tSend);
+
+			}
 
 
 			else if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
 													||(Local_u8LeftMotorFB != FORWARD ) ) ))
 				   ||((Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
-                                                    ||(Local_u8LeftMotorFB != BACKWARD) ) )))
-			    CAN_TXmsg.data[0] = 'M';
+                                                    ||(Local_u8LeftMotorFB != BACKWARD) ) ))){
+			    CAN_TXmsg.data[0]  = 'M';
+			 //   vTaskResume(Global_TaskHandle_tSend);
+			}
+			GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_6, GPIO_PIN_HIGH);
+
+();
+			GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
+
+
 		}
-	}
+
+}
 }
 
 //Sending Diagnostics Data
-void Task_voidSendDiagnostics(void * parms)
+void Task_voidSendDiagnostics()
 {
-		CAN_TXmsg.len = 1;
-	    CAN_TXmsg.format = CAN_ID_STD;
-	    CAN_TXmsg.type = CAN_RTR_DATA;
 
-	while(1)
-	{
-		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_8, GPIO_PIN_HIGH);
+	CAN_TXmsg.len = 1;
+    CAN_TXmsg.format = CAN_ID_STD;
+    CAN_TXmsg.type = CAN_RTR_DATA;
+//	while(1)
+//	{
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_6, GPIO_PIN_HIGH);
 		if ((CAN_TXmsg.data[0]=='T')
 		  ||(CAN_TXmsg.data[0]=='M')
-		  ||(Global_ERORR_DIAG_FLAG!=0))
+		  ||(CAN_TXmsg.data[0]<9))
 		CAN_u8Transmit(&CAN_TXmsg);
-		vTaskSuspend(Global_TaskHandle_tSend);
-	}
+
+	//	vTaskSuspend(Global_TaskHandle_tSend);
+	//}
 }
 

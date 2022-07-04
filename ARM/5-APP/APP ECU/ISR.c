@@ -7,12 +7,14 @@
 /*******************************************************************************/
 
 #include "../../6-Library/STD_TYPES.h"
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 #include "../../1-MCAL/11-WWDG/WWDG_interface.h"
 
 #include "ISR.h"
+#include "Tasks.h"
 
 //Recieve Struct
 CAN_msg CAN_RXmsg;
@@ -30,5 +32,8 @@ void Task_voidCANRecieveISR(void)
 	else if(CAN_RXmsg.id==CAN_DIAG_ID)
 	{
 		Global_CAN_DIAG_FLAG = 1;
+	//	Task_voidSendDiagnostics();
+		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
+
 	}
 }
