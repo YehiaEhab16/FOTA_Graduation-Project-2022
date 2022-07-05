@@ -63,12 +63,15 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void), void (*Copy_pvCallB
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
+	USART_voidInit(USART1);
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE1);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
 	CAN_VoidFilterSet(&CAN_FilterUpdate);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 	NVIC_u8EnableInterrupt(USART1_IRQ);
+	USART_u8ReceiveAsy(USART1,Copy_pvCallBackFunc_USART );
+
 	if (Copy_pvCallBackFunc_CAN != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc_CAN);
 
