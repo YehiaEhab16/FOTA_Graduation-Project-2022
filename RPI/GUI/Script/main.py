@@ -170,7 +170,7 @@ class MainAPP(QWidget, FormClass):
         # Comm_Write(str.encode('2'));
         # if counter == 100000 :
         #data =0
-        # Comm_Write(str.encode('2'));
+        # Comm_Write( );
         # time.sleep(0.03)
         # data = int(Comm_Read(1))
         #  print(data)
