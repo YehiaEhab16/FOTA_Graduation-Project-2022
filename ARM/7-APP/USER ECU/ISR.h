@@ -23,9 +23,26 @@
 #define USER_REJECTED 12
 #define USER_APPROVED 30
 
+typedef enum {
+
+	USER_APPROVE = 0 ,
+	USER_REJECT,
+	USER_UPDATE_REQUEST,
+	USER_DIAG,
+	MAIN_Notification,
+
+
+
+}TO_MAIN_ECU ;
+
+
+
+
+
 /**
  * @def STM to RPI
  */
+
 void ISR_voidCanRecieve(void);
 
 /**

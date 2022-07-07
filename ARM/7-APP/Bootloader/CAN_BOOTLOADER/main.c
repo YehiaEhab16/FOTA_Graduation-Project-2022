@@ -37,8 +37,11 @@ Initialize the CAN Protocol
  **/
 extern CAN_Init_t CAN_InitStruct;
 extern CAN_FilterInit_t CAN_FilterUserResponse;
+extern CAN_FilterInit_t CAN_FilterUpdate;
 CAN_msg CAN_RXmsg;
 CAN_msg CAN_TXmsg;
+CAN_msg CAN_TXmsg1;
+
 /*********************************************************************************/
 /*********************************************************************************/
 /*****************************Application ***************************************/
@@ -63,21 +66,24 @@ void main (void)
 	GPIO_voidDirectionInit();
 
 	CAN_voidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterUserResponse);
+	CAN_VoidFilterSet(&CAN_FilterUpdate);
 
 	FPEC_voidInit();
 
-	CAN_TXmsg.len = 1;
+	CAN_TXmsg.len = 2;
 	CAN_TXmsg.id = 0x30;
 	CAN_TXmsg.format = CAN_ID_STD;
 	CAN_TXmsg.type = CAN_RTR_DATA;
 	CAN_TXmsg.data[0] = 'O';
-	CAN_TXmsg.data[1] = 'k';
+	CAN_TXmsg.data[1] = 'K';
 
+	CAN_TXmsg1.len = 1;
+	CAN_TXmsg1.id = 0x30;
+	CAN_TXmsg1.format = CAN_ID_STD;
+	CAN_TXmsg1.type = CAN_RTR_DATA;
+	CAN_TXmsg1.data[0] = 'F';
 
-
-
-
+	GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_0, GPIO_PIN_HIGH);
 	/*Initialize USART*/
 
 	/**************************Init the FPEC Driver ******************/
@@ -86,7 +92,8 @@ void main (void)
 	u16 Corruption =2 ;
 
 	//Simulation of Update 
-	//FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Update, 1);
+	FPEC_voidFlashPageErase(10);
+	FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Update, 1);
 
 	// Array of Data
 	u8 BOOT_u8RecData[100];
@@ -113,6 +120,9 @@ void main (void)
 	//counter for CAN
 	u8 Counter_CAN = 0 ;
 
+	//Corrupted Flag
+	u8 Corrupted_Excute = 0 ;
+
 
 
 	/*******************************************************************************************/
@@ -127,12 +137,16 @@ void main (void)
 
 			CAN_voidReceive(&CAN_RXmsg, 0);
 			BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN];
+			Counter_CAN++;
 
-			while ((Counter_CAN < 4)&&(BOOT_u8RecData[BOOT_u32RecCounter]!='\n') )
+
+			while ((Counter_CAN < 8)&&(BOOT_u8RecData[BOOT_u32RecCounter]!='\n') )
 			{
 				BOOT_u32RecCounter++;
-				BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN]; 
+
+				BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN];
 				Counter_CAN++;
+
 
 			}
 			Counter_CAN = 0 ;
@@ -151,12 +165,14 @@ void main (void)
 					}
 					BOOT_u32EraseFlag = 0 ;
 				}
+				/***********************************Check SUM ****************************************/
 
 				Check_s32Sum =0 ;
 				Check_s32Counter = 1 ;
 
 				while(Check_s32Counter<BOOT_u32RecCounter-2)
 				{
+
 					BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
 
 					BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
@@ -175,52 +191,63 @@ void main (void)
 
 				BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
 
-				Check_sum_Validation = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
+				Check_sum_Validation = (u32)((BOOT_u8Digit0<<4)|(BOOT_u8Digit1));
 
 
 				if (Check_s32Sum !=Check_sum_Validation)
 				{
-					//Data Corruption
-					GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_4, GPIO_PIN_HIGH);
-					FPEC_voidFlashPageErase(10);
-					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Corruption, 1);
-					WWDG_voidReset(100);
+					if(Corrupted_Excute >2)
+					{
+						CAN_u8Transmit(&CAN_TXmsg);
+						BOOT_u32RecCounter =0 ;
+						Corrupted_Excute++;
+					}
+					else
+					{
+						//Data Corruption
+						GPIO_u8SetPinValue(GPIO_PORTA,GPIO_PIN_4, GPIO_PIN_HIGH);
+						FPEC_voidFlashPageErase(10);
+						FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Corruption, 1);
+						WWDG_voidReset(100);
+					}
 
 				}
-				/**************************************************************************************/
-				/*********************************Write Operation *************************************/
-				PARSING_voidWriteData(BOOT_u8RecData);
-				CAN_u8Transmit(&CAN_TXmsg);
-				BOOT_u32RecCounter =0 ;
-
-				if (BOOT_u8RecData[8]=='1')
+				else
 				{
-					FPEC_voidFlashPageErase(10);
-					FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
-					WWDG_voidReset(10);
+					PARSING_voidWriteData(BOOT_u8RecData);
+					CAN_u8Transmit(&CAN_TXmsg);
+
+					Corrupted_Excute =0 ;
+					BOOT_u32RecCounter =0 ;
+
+					if (BOOT_u8RecData[8]=='5')
+					{
+						FPEC_voidFlashPageErase(10);
+						FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
+						WWDG_voidReset(10);
+					}
+
 				}
-
-
 			}
 			else
 			{
 				BOOT_u32RecCounter++;
 
 			}
+
 		}
 	}
-
-
-	/*******************************************************************************************/
 	/*******************************************************************************************/
 	/********************************APPLICATION1************************************************/
+	/*******************************************************************************************/
+
 	else if (READ_REQUEST_FLAG==1 )
 	{
 		APP1();
 	}
 	/*****************************************************************************************/
-	/*****************************************************************************************/
 	/********************************APPLICATION2*********************************************/
+	/*****************************************************************************************/
 	else
 	{
 
@@ -231,9 +258,8 @@ void main (void)
 
 }
 /*****************************************************************************************/
-/*****************************************************************************************/
 /********************************Application Layer ***************************************/
-
+/*****************************************************************************************/
 void APP1(void)
 {
 

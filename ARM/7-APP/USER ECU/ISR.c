@@ -10,49 +10,45 @@
 
 #include "../../1-MCAL/05-USART/USART_interface.h"
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
+#include "../../1-MCAL/07-STK/STK_interface.h"
+
 
 #include "ISR.h"
 
-CAN_msg CAN_TXmsg;
+/**
+ *	USER_APPROVE  ,
+	USER_REJECT,
+		,
+	MAIN_Notification
+ *
+ *
+ */
+
+u8 DATA_SHARED[5] = {'A','B','D','E','M'};
+
+CAN_msg CAN_TXmsg = {0x32,{0},1,CAN_ID_STD, DATA_FRAME};;
 CAN_msg CAN_RXmsg;
 u8 Global_CAN_DIAG_FLAG = 0;
 void ISR_voidCanRecieve(void)
 {
+	u8 Global_u8Counter = 0 ;
+
 	CAN_voidReceive(&CAN_RXmsg, 0);
 	Global_CAN_DIAG_FLAG = 0;
 	if (CAN_RXmsg.id == CAN_UPDATE_ID)
 	{
-		USART_voidTransmitChar(USART1, USER_UPDATE_ID);
+		while (Global_u8Counter <10)
+		{
+	 	USART_voidTransmitChar(USART1,'O');
+ 		//USART_voidTransmitChar(USART1, DATA_SHARED[USER_UPDATE_REQUEST]);
+		Global_u8Counter++;
+		STK_voidDelay(100);
+		}
 	}
 	else if (CAN_RXmsg.id == CAN_DIAG_ID_1 || CAN_RXmsg.id == CAN_DIAG_ID_2)
 	{
-		USART_voidTransmitChar(USART1, CAN_RXmsg.data[0]);
+		USART_voidTransmitChar(USART1, '0'+CAN_RXmsg.data[0]);
 	}
 }
 
-void ISR_voidUsartRecieve(void)
-{
-	u8 Local_u8Data = USART_u8ReceiveChar(USART1);
-
-	CAN_TXmsg.len = 1;
-	CAN_TXmsg.format = CAN_ID_STD;
-	CAN_TXmsg.type = CAN_RTR_DATA;
-
-	if (Local_u8Data == USER_APPROVE_ID)
-	{
-		CAN_TXmsg.id = CAN_UPDATE_ID;
-		CAN_TXmsg.data[0] = USER_APPROVED;
-	}
-	else if (Local_u8Data == USER_REQUEST_ID)
-	{
-		CAN_TXmsg.id = CAN_UPDATE_ID;
-		CAN_TXmsg.data[0] = USER_REQUEST;
-	}
-	else if (Local_u8Data == USER_DIAG_ID)
-	{
-		CAN_TXmsg.id = CAN_DIAG_ID_1;
-		CAN_TXmsg.data[0] = USER_REQUEST;
-	}
-
-	CAN_u8Transmit(&CAN_TXmsg);
-}
