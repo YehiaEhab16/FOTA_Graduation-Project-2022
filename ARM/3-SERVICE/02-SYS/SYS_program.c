@@ -16,6 +16,8 @@
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 
+#include "../../5-RTOS/RTOS_interface.h"
+
 #include "SYS_interface.h"
 #include "SYS_private.h"
 #include "SYS_config.h"

@@ -7,70 +7,44 @@
 /*******************************************************************************/
 
 #include "../../6-Library/STD_TYPES.h"
-#include "../../3-SERVICE/02-SYS/SYS_interface.h"
-#include "../../1-MCAL/07-STK/STK_interface.h"
-#include "../../1-MCAL/05-USART/USART_interface.h"
-#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
+
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 
+#include "../../3-SERVICE/02-SYS/SYS_interface.h"
+#include "../../3-SERVICE/03-COM/COM_interface.h"
 
 
 #include "ISR.h"
 
 extern CAN_msg CAN_TXmsg ;
-extern u8 DATA_SHARED[5] ;
-
 
 int main(void)
 {
 
 	SYS_voidUserInit(&ISR_voidCanRecieve);
-	u8 Local_u8Data =0  ;
-	u8 Local_u8Flag = 0;
-
 
 	while (1)
 	{
-		Local_u8Data = USART_u8ReceiveChar(USART1);
-		if (Local_u8Data == DATA_SHARED[USER_APPROVE])
+		if (COM_u8RecieveUpdateResponse()==COM_UPDATE_APPROVED)
 		{
-
-			CAN_TXmsg.id = CAN_UPDATE_ID;
-			CAN_TXmsg.data[0] = USER_APPROVED;
+			CAN_TXmsg.id =CAN_UPDATE_ID;
+			CAN_TXmsg.data[0]= ISR_UPDATE_APPROVED;
 			CAN_u8Transmit(&CAN_TXmsg);
-			Local_u8Flag =1;
-
-
 		}
-		else if (Local_u8Data == DATA_SHARED[USER_REJECT])
+		else if (COM_u8RecieveUpdateResponse()==COM_UPDATE_REJECTED)
 		{
-			CAN_TXmsg.id = CAN_UPDATE_ID;
-			CAN_TXmsg.data[0] = USER_REQUEST;
+			CAN_TXmsg.id =CAN_UPDATE_ID;
+			CAN_TXmsg.data[0]= ISR_UPDATE_REJECTED;
 			CAN_u8Transmit(&CAN_TXmsg);
-			Local_u8Flag =1;
-
-
 		}
-		else if (Local_u8Data == DATA_SHARED[USER_DIAG])
+
+		COM_u8RecieveDaignosticsRequest();
+		if (COM_u8RecieveDaignosticsRequest()==COM_DAIG_REQUESTED)
 		{
-			CAN_TXmsg.id = CAN_DIAG_ID_1;
-			CAN_TXmsg.data[0] = USER_REQUEST;
+			CAN_TXmsg.id =CAN_DIAG_ID_1;
+			CAN_TXmsg.data[0]= ISR_DAIG_REQUESTED;
 			CAN_u8Transmit(&CAN_TXmsg);
-			Local_u8Flag =1;
-
 
 		}
-		else
-		{
-			if (Local_u8Flag ==0)
-			{
-				USART_voidTransmitChar(USART1,  DATA_SHARED[USER_UPDATE_REQUEST]);
-				STK_voidDelay(100);
-
-			}
-		}
-
-
 	}
-
 }

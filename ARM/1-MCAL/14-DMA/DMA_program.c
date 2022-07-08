@@ -21,8 +21,6 @@ u8 DMA_u8Configuration(DMA_t* Copy_DMA_tTransferConfig)
 	u32* DMA_CCR;
 	u32*DMA_CNDTR;
 
-	u32 mm;
-
 	DMA_CCR   = (u32*)((u32)DMA1_CCR1   + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
 	DMA_CNDTR = (u32*)((u32)DMA1_CNDTR1 + (Copy_DMA_tTransferConfig->DMA_u8ChannelID-1)*DMA_CHANNEL_OFFSET);
 

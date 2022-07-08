@@ -10,34 +10,14 @@
 #define ISR_H_
 
 // Can IDs
-#define CAN_UPDATE_ID 0x32
-#define CAN_DIAG_ID_1 0x38
-#define CAN_DIAG_ID_2 0x31
+#define CAN_UPDATE_ID 				0x32
+#define CAN_DIAG_ID_1 				0x38
+#define CAN_DIAG_ID_2 				0x31
 
-// User Macros
-#define USER_APPROVE_ID 0
-#define USER_REQUEST_ID 1
-#define USER_DIAG_ID 2
-#define USER_UPDATE_ID 10
-#define USER_REQUEST 11
-#define USER_REJECTED 12
-#define USER_APPROVED 30
+#define ISR_UPDATE_APPROVED			30
+#define ISR_UPDATE_REJECTED			35
 
-typedef enum {
-
-	USER_APPROVE = 0 ,
-	USER_REJECT,
-	USER_UPDATE_REQUEST,
-	USER_DIAG,
-	MAIN_Notification,
-
-
-
-}TO_MAIN_ECU ;
-
-
-
-
+#define ISR_DAIG_REQUESTED			40
 
 /**
  * @def STM to RPI
