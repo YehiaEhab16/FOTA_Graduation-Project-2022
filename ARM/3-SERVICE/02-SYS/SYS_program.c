@@ -43,6 +43,7 @@ void SYS_voidMainInit(void)
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
 }
 
+
 void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
 {
 	RCC_voidInit();
@@ -56,9 +57,11 @@ void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 	if (Copy_pvCallBackFunc != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc);
+
+	RTOS_voidInit();
 }
 
-void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void), void (*Copy_pvCallBackFunc_USART)(void))
+void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void))
 {
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
@@ -69,12 +72,11 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void), void (*Copy_pvCallB
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
 	CAN_VoidFilterSet(&CAN_FilterUpdate);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
-	NVIC_u8EnableInterrupt(USART1_IRQ);
-	USART_u8ReceiveAsy(USART1,Copy_pvCallBackFunc_USART );
+	//NVIC_u8EnableInterrupt(USART1_IRQ);
+	//USART_u8ReceiveAsy(USART1,Copy_pvCallBackFunc_USART );
 
 	if (Copy_pvCallBackFunc_CAN != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc_CAN);
 
-	if (Copy_pvCallBackFunc_USART != NULL)
-		USART_u8CallBackFunc(USART1, Copy_pvCallBackFunc_USART);
+
 }

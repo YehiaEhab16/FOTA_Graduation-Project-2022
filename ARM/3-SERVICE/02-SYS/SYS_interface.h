@@ -16,8 +16,20 @@
 void SYS_voidMainInit(void);
 
 /**
- * @def initializing all peripherals for Application ECU
+ * @def Initializing all the peripherals in APP ECU
+ * @param Copy_pvCallBackFunc : Call Back Function : Can Interrupt on the Bus
+ *
  */
 void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void));
-void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void), void (*Copy_pvCallBackFunc_USART)(void));
+/**
+ * @def : Initializing all the peripherals in USER ECU
+ * @param Copy_pvCallBackFunc_CAN Call Back Function : Can Interrupt on the Bus
+ * @param Copy_pvCallBackFunc_USARTCall Back Function :USART between the STM32 and RPI
+ */
+
+void SYS_voidUserInit( void (*Copy_pvCallBackFunc_USART)(void));
+
+
+
+
 #endif
