@@ -64,7 +64,9 @@ int main(void)
 		{
 			if (Local_u8Flag ==0)
 			{
-				USART_voidTransmitChar(USART1, 'O');
+				USART_voidTransmitChar(USART1,  DATA_SHARED[USER_UPDATE_REQUEST]);
+				STK_voidDelay(100);
+
 			}
 		}
 

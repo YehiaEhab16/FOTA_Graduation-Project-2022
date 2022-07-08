@@ -32,19 +32,14 @@ CAN_msg CAN_RXmsg;
 u8 Global_CAN_DIAG_FLAG = 0;
 void ISR_voidCanRecieve(void)
 {
-	u8 Global_u8Counter = 0 ;
 
 	CAN_voidReceive(&CAN_RXmsg, 0);
 	Global_CAN_DIAG_FLAG = 0;
 	if (CAN_RXmsg.id == CAN_UPDATE_ID)
 	{
-		while (Global_u8Counter <10)
-		{
-	 	USART_voidTransmitChar(USART1,'O');
- 		//USART_voidTransmitChar(USART1, DATA_SHARED[USER_UPDATE_REQUEST]);
-		Global_u8Counter++;
-		STK_voidDelay(100);
-		}
+
+ 		USART_voidTransmitChar(USART1, DATA_SHARED[USER_UPDATE_REQUEST]);
+
 	}
 	else if (CAN_RXmsg.id == CAN_DIAG_ID_1 || CAN_RXmsg.id == CAN_DIAG_ID_2)
 	{
