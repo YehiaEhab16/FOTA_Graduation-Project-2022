@@ -28,7 +28,12 @@ extern CAN_FilterInit_t CAN_FilterAppAck;
 extern CAN_FilterInit_t CAN_FilterUserRequest;
 extern CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE1;
 extern CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE2;
-extern CAN_FilterInit_t CAN_FilterUpdate;
+extern CAN_FilterInit_t CAN_FilterUpdateNotifcation;
+extern CAN_FilterInit_t CAN_FilterUserDiagnostics;
+extern CAN_FilterInit_t CAN_FilterApp1Update;
+extern CAN_FilterInit_t CAN_FilterApp2Update;
+extern CAN_FilterInit_t CAN_FilterApp1Diagnostics;
+extern CAN_FilterInit_t CAN_FilterApp2Diagnostics;
 
 // Initializing All Peripherals
 void SYS_voidMainInit(void)
@@ -46,16 +51,31 @@ void SYS_voidMainInit(void)
 }
 
 
-void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void))
+void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 {
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
 	FPEC_voidInit();
 	CAN_voidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE1);
-	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
-	CAN_VoidFilterSet(&CAN_FilterUpdate);
+	CAN_VoidFilterSet(&CAN_FilterApp1Diagnostics);
+	CAN_VoidFilterSet(&CAN_FilterApp1Update);
+	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+	if (Copy_pvCallBackFunc != NULL)
+		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc);
+
+	RTOS_voidInit();
+}
+
+void SYS_voidApp2Init(void (*Copy_pvCallBackFunc)(void))
+{
+	RCC_voidInit();
+	GPIO_voidDirectionInit();
+	NVIC_voidInit();
+	FPEC_voidInit();
+	CAN_voidInit(&CAN_InitStruct);
+	CAN_VoidFilterSet(&CAN_FilterApp2Diagnostics);
+	CAN_VoidFilterSet(&CAN_FilterApp2Update);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 	if (Copy_pvCallBackFunc != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc);
@@ -70,9 +90,8 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void))
 	NVIC_voidInit();
 	USART_voidInit(USART1);
 	CAN_voidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE1);
-	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics_MODE2);
-	CAN_VoidFilterSet(&CAN_FilterUpdate);
+	CAN_VoidFilterSet(&CAN_FilterUserDiagnostics);
+	CAN_VoidFilterSet(&CAN_FilterUpdateNotifcation);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 	//NVIC_u8EnableInterrupt(USART1_IRQ);
 	//USART_u8ReceiveAsy(USART1,Copy_pvCallBackFunc_USART );

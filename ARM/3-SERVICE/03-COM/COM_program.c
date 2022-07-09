@@ -53,6 +53,6 @@ u8 COM_u8RecieveUpdateResponse(void)
 u8 COM_u8RecieveDaignosticsRequest(void)
 {
 	u8 Local_u8Data=1;
-	GPIO_u8GetPinValue(COM_PORT, COM_RES_FLAG, &Local_u8Data);
+	GPIO_u8GetPinValue(COM_PORT, COM_DIAG_IN, &Local_u8Data);
 	return Local_u8Data;
 }

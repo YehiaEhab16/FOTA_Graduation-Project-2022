@@ -10,12 +10,21 @@
 #define ISR_H_
 
 // Can IDs
+<<<<<<< Updated upstream
 #define CAN_UPDATE_ID 				0x73
 #define CAN_DIAG	 				0x33
 
 // Can IDs Send
 #define CAN_UPDATE_ID_TX			0X46
 #define CAN_DIAG_TX	 				0x36
+=======
+#define CAN_UPDATE_ID 				0x32
+#define CAN_DIAG_ID	 				0x33
+
+// Can IDs Send
+#define CAN_UPDATE_ID_TX			0X46
+#define CAN_DIAG_ID_TX	 			0x38
+>>>>>>> Stashed changes
 
 #define ISR_UPDATE_APPROVED			30
 #define ISR_UPDATE_REJECTED			35
