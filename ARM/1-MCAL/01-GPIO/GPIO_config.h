@@ -72,9 +72,9 @@ Options for Pins:
 Option Select : 1- (1) 				: HIGH Level
 				2- (0)  			: LOW  Level
 */
-#define PORTA_PIN0_INITIAL					0
-#define PORTA_PIN1_INITIAL                  0
-#define PORTA_PIN2_INITIAL                  0
+#define PORTA_PIN0_INITIAL					1
+#define PORTA_PIN1_INITIAL                  1
+#define PORTA_PIN2_INITIAL                  1
 #define PORTA_PIN3_INITIAL                  1
 #define PORTA_PIN4_INITIAL                  1
 #define PORTA_PIN5_INITIAL                  1

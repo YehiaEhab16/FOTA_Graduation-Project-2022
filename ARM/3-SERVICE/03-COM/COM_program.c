@@ -22,6 +22,8 @@ u8 Global_u8Flag=0;
 void COM_voidSendUpdateRequest(void)
 {
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
+	STK_voidDelay(250);
+	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
 	Global_u8Flag=1;
 }
 
@@ -36,12 +38,13 @@ void COM_voidSendDaignosticsData(u8 Copy_u8Data)
 
 u8 COM_u8RecieveUpdateResponse(void)
 {
-	u8 Local_u8Flag, Local_u8Response=1;
+	u8 Local_u8Flag=1, Local_u8Response=1;
 	if(Global_u8Flag)
 	{
-		GPIO_u8GetPinValue(COM_PORT, COM_RES_FLAG, &Local_u8Flag);
-		while(Local_u8Flag);
-		GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
+		while(Local_u8Flag)
+		{
+			GPIO_u8GetPinValue(COM_PORT, COM_RES_FLAG, &Local_u8Flag);
+		}
 		GPIO_u8GetPinValue(COM_PORT, COM_UPDATE_IN, &Local_u8Response);
 		if(Local_u8Response==1)
 			Local_u8Response++;

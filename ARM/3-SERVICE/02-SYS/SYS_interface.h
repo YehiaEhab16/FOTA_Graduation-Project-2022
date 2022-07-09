@@ -20,7 +20,14 @@ void SYS_voidMainInit(void);
  * @param Copy_pvCallBackFunc : Call Back Function : Can Interrupt on the Bus
  *
  */
-void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void));
+void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void));
+
+/**
+ * @def Initializing all the peripherals in APP ECU
+ * @param Copy_pvCallBackFunc : Call Back Function : Can Interrupt on the Bus
+ *
+ */
+void SYS_voidApp2Init(void (*Copy_pvCallBackFunc)(void));
 /**
  * @def : Initializing all the peripherals in USER ECU
  * @param Copy_pvCallBackFunc_CAN Call Back Function : Can Interrupt on the Bus
@@ -28,8 +35,6 @@ void SYS_voidAppInit(void (*Copy_pvCallBackFunc)(void));
  */
 
 void SYS_voidUserInit( void (*Copy_pvCallBackFunc_USART)(void));
-
-
 
 
 #endif
