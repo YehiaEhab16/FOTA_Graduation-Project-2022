@@ -16,6 +16,6 @@
 
 void Task_voidCANRecieveISR(void);
 
-
+void DCM_voidEXTI_ISR (void);
 #endif
 

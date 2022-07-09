@@ -14,14 +14,14 @@
 
 
 
-#include "ISR.h"
-#include "Tasks_interface.h"
-#include "Tasks_private.h"
+#include "../APP_ECU1/ISR.h"
+#include "../APP_ECU1/Tasks_interface.h"
+#include "../APP_ECU1/Tasks_private.h"
 
 int main(void)
 {
 	//Initialization
-	SYS_voidAppInit(&Task_voidCANRecieveISR);
+ 	SYS_voidAppInit(&Task_voidCANRecieveISR);
 
 /**
  * Task_voidReadDirection -- > Priority =0 , First Delay = 0 , State = Ready

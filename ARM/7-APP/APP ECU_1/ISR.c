@@ -6,15 +6,18 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
+#include "../APP_ECU1/ISR.h"
+
 #include "../../6-Library/STD_TYPES.h"
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
+#include "../../2-HAL/02-DCM/DCM_interface.h"
+
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 #include "../../1-MCAL/11-WWDG/WWDG_interface.h"
 
-#include "ISR.h"
-#include "Tasks_interface.h"
+#include "../../5-APP/APP_ECU1/Tasks_interface.h"
 
 
 //Recieve Struct
@@ -37,4 +40,13 @@ void Task_voidCANRecieveISR(void)
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
 
 	}
+}
+
+
+void DCM_voidEXTI_ISR (void)
+{
+	//u8 ENCA_PIN_VALUE=0;
+		DCM_u8DetectDirection();
+
+
 }

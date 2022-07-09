@@ -5,7 +5,6 @@
 /***********************   DATE : 10/5/2022 			***********************/
 /*******************************************************************************/
 /*******************************************************************************/
-
 #ifndef TASKS_H_
 #define TASKS_H_
 
@@ -13,6 +12,7 @@
 #define TASK_REF_PRIORITY				0
 #define TASK_REF_FIRST_DELAY			0
 #define TASK_REF_PERIODICITY			5
+
 /**
  * @def Activate buzzer and LED for collision avoidance
  * 		State : Ready --> Direction of Vehicle : BackWard

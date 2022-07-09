@@ -24,8 +24,8 @@
 
 
 
-#include "Tasks_interface.h"
-#include "Tasks_private.h"
+#include "../APP_ECU1/Tasks_interface.h"
+#include "../APP_ECU1/Tasks_private.h"
 
 //Can Flag 
 extern u8 Global_CAN_DIAG_FLAG;
@@ -54,21 +54,19 @@ CAN_msg CAN_TXmsg;
 LED_t Global_LED_tRed = {LED_PORTB,LED_PIN1,LED_ACTIVE_HIGH};
 
 //Switches
-SW_t Global_SW_tForward =  {SW_PORTB,SW_PIN0,SW_PULL_UP};
-SW_t Global_SW_tBackward = {SW_PORTB,SW_PIN1,SW_PULL_UP};
+SW_t Global_SW_tForward =  {SW_PORTA,SW_PIN0,SW_PULL_UP};
+SW_t Global_SW_tBackward = {SW_PORTA,SW_PIN1,SW_PULL_UP};
 
 //Motors
-DCM_t Global_DCM_tRightMotor = {DCM_PORTB,DCM_PIN4,DCM_PIN5,DCM_PIN6,DCM_PIN7};
-DCM_t Global_DCM_tLeftMotor = {DCM_PORTB,DCM_PIN8,DCM_PIN9,DCM_PIN10,DCM_PIN11};
+DCM_t Global_DCM_tRightMotor = {DCM_PORTA,DCM_PIN5,DCM_PIN4,DCM_PIN3,DCM_PIN2};
+//DCM_t Global_DCM_tLeftMotor = {DCM_PORTA,DCM_PIN8,DCM_PIN9,DCM_PIN10,DCM_PIN11};
 
-//FAN
-FAN_t Global_FAN_tCoolingSystem = {FAN_PORTB,FAN_PIN12,FAN_ACTIVE_HIGH};
+
 
 
 //Activating LED and Buzzer
 void Task_voidAlert(void)
 {
-	GPIO_u8TogglePinValue(GPIO_PORTA, GPIO_PIN_0);
 	u8 Local_u8Dist=255;
 	Local_u8Dist = Global_APPS_Variables[Distance];
 	if(Local_u8Dist<DIST_THRESHOLD)
@@ -82,7 +80,6 @@ void Task_voidAlert(void)
 void Task_voidReadDistance(void)
 {
 	u32 Local_u8DistVal=255;
-	GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_3, GPIO_PIN_HIGH);
 	USN_u8ReadDistance(&Local_u8DistVal);
 	Global_APPS_Variables[Distance]=Local_u8DistVal;
 
@@ -93,7 +90,7 @@ void Task_voidReadDirection(void)
 {
 	u8 Local_u8Dir;
 
-	if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
+	if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
 	{
 		//suspend Altert and suspend Distance
 		Local_u8Dir=FORWARD;
@@ -102,7 +99,7 @@ void Task_voidReadDirection(void)
 
 
 	}
-	else if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
+	else if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
 	{
 		Local_u8Dir=BACKWARD;
 		//ResumeAltert and dist
@@ -124,13 +121,14 @@ void Task_voidReadDirection(void)
 void Task_voidMotorFeedback(void )
 {
 	u8 Local_u8RightMotorFB=0;
-	u8 Local_u8LeftMotorFB=0;
+//	u8 Local_u8LeftMotorFB=0;
 
-	GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_4, GPIO_PIN_HIGH);
-	Local_u8RightMotorFB = DCM_voidReadEncoder(&Global_DCM_tRightMotor);
-	Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
+
+
+//	Local_u8RightMotorFB = DCM_u8DetectDirection();
+	//Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
 	Global_APPS_Variables[RightMotorFB]=Local_u8RightMotorFB;
-	Global_APPS_Variables[LeftMotorFB]=Local_u8LeftMotorFB;
+	//Global_APPS_Variables[LeftMotorFB]=Local_u8LeftMotorFB;
 
 
 }
@@ -146,17 +144,17 @@ void Task_voidMoveVehicle(void)
 	if(Local_u8Dir==FORWARD)
 	{
 		DCM_voidRotateCCW(&Global_DCM_tRightMotor);
-		DCM_voidRotateCCW(&Global_DCM_tLeftMotor);
+//		DCM_voidRotateCCW(&Global_DCM_tLeftMotor);
 	}
 	else if(Local_u8Dir==BACKWARD)
 	{
 		DCM_voidRotateCW(&Global_DCM_tRightMotor);
-		DCM_voidRotateCW(&Global_DCM_tLeftMotor);
+//		DCM_voidRotateCW(&Global_DCM_tLeftMotor);
 	}
 	else if(Local_u8Dir==STOP)
 	{
 		DCM_voidStop2(&Global_DCM_tRightMotor);
-		DCM_voidStop2(&Global_DCM_tLeftMotor);
+//		DCM_voidStop2(&Global_DCM_tLeftMotor);
 	}
 
 }
@@ -178,7 +176,6 @@ void Task_voidSystemCheck(void)
 	Local_u8RightMotorFB=Global_APPS_Variables[LeftMotorFB];
 	Local_u8Dir = Global_APPS_Variables[Direction];
 
-	CAN_TXmsg.id = 0x31;
 	if (Global_CAN_DIAG_FLAG == 1)
 	{
 		if ( !(Local_u8Dir == FORWARD) )
@@ -190,11 +187,9 @@ void Task_voidSystemCheck(void)
 		{
 			SET_BIT(Global_ERORR_DIAG_FLAG,3);
 		}
-		Global_CAN_DIAG_FLAG =0 ;
 	}
 	else
 	{
-		CAN_TXmsg.id = 0x38;
 
 		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
 				||(Local_u8LeftMotorFB != FORWARD ) ) ))
@@ -211,6 +206,7 @@ void Task_voidSystemCheck(void)
 	}
 
 	CAN_TXmsg.data[0] = Global_ERORR_DIAG_FLAG;
+	Global_ERORR_DIAG_FLAG=0;
 	Task_voidSendDiagnostics();
 
 }
@@ -221,9 +217,10 @@ void Task_voidSendDiagnostics(void)
 
 	CAN_TXmsg.len = 1;
 	CAN_TXmsg.format = CAN_ID_STD;
+	CAN_TXmsg.id = 0x31;
 	CAN_TXmsg.type = CAN_RTR_DATA;
 
-	if (Global_ERORR_DIAG_FLAG !=0)
+	if (Global_ERORR_DIAG_FLAG !=0 )
 	{
 		Global_ERORR_DIAG_FLAG =0 ;
 		CAN_u8Transmit(&CAN_TXmsg);
