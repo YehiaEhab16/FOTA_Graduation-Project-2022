@@ -1,7 +1,6 @@
 # importing defined Modules
 import time
 
-from Comm import *
 import Calender
 import Music
 import Radio
@@ -167,7 +166,10 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setAlignment(Qt.AlignCenter)
         counter = counter + 1
         # Condition to change settings to have a software update notification
-        # Comm_Write(str.encode('2'));
+        if Settings.settingsIconFlag == 1:
+            self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
+        else:
+            self.settings.setIcon(QtGui.QIcon(settingsIcon))
         # if counter == 100000 :
         #data =0
         # Comm_Write( );

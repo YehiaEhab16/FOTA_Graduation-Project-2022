@@ -3,6 +3,7 @@ import ntpath
 from PyQt5.QtWidgets import QTabWidget, QTableWidgetItem, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUiType
+import time
 import requests
 import os
 import RPi.GPIO as GPIO
@@ -14,8 +15,10 @@ outputResponseFlag = 12
 inputUpdate = 16
 inputDiagTemp = 18
 inputDiagDirections = 22
-inputDiagUltra = 24
-inputDiagFlag = 26
+inputDiagUltra = 32
+inputDiagFlag = 36
+
+settingsIconFlag = 0
 
 cwd = os.getcwd()
 parent = os.path.dirname(cwd)
@@ -57,7 +60,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.CheckUp.clicked.connect(self.Handle_Diagnostics)
         self.Contact.clicked.connect(self.Handle_Send)
 
-    def GPIO_Init():
+    def GPIO_Init(self):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
 
@@ -105,6 +108,9 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global requestDiagMode
         requestDiagMode = 1
         GPIO.output(outputDiag, GPIO.LOW)
+        time.sleep(0.1)
+        GPIO.output(outputDiag, GPIO.HIGH)
+        
 
     def HandleCheck(self):
 
@@ -115,6 +121,8 @@ class MainAPP_Setting(QTabWidget, FormClass):
         inputDiagFlagVar = GPIO.setup(inputDiagFlag, GPIO.IN)
 
         if(inputUpdateVar == 0 or inputUpdateVar == False):
+            global settingsIconFlag
+            settingsIconFlag = 1
             qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
                         'Please select whether you want to download the new update',
                         QMessageBox.Ok | QMessageBox.Cancel)
@@ -124,6 +132,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 self.Radiator.setText("No Errors Found")
                 self.Engine.setText("No Errors Found")
                 self.Sensor.setText("No Errors Found")
+                settingsIconFlag = 0
 
             else:
                 GPIO.output(outputUpdate,GPIO.HIGH)
