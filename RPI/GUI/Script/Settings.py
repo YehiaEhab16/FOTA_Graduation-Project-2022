@@ -1,10 +1,21 @@
 # importing required packages
 import ntpath
 from PyQt5.QtWidgets import QTabWidget, QTableWidgetItem, QMessageBox
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUiType
-import Comm
 import requests
 import os
+import RPi.GPIO as GPIO
+
+outputUpdate = 8
+outputDiag = 10
+outputResponseFlag = 12
+
+inputUpdate = 16
+inputDiagTemp = 18
+inputDiagDirections = 22
+inputDiagUltra = 24
+inputDiagFlag = 26
 
 cwd = os.getcwd()
 parent = os.path.dirname(cwd)
@@ -14,6 +25,13 @@ Link = parent+'/UI/Settings.ui'
 FormClass, _ = loadUiType(ntpath.join(
     ntpath.dirname(__file__), Link))
 
+class MyThread(QThread):
+    change_value = pyqtSignal(int)  # value to periodically update gui labels
+    def run(self):
+        cnt = 0
+        while True:
+            cnt += 1
+            self.change_value.emit(cnt)
 
 # Define main window
 class MainAPP_Setting(QTabWidget, FormClass):
@@ -23,7 +41,11 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.setupUi(self)
         self.window()
         self.Handle_Buttons()
+        self.GPIO_Init()
         self.accessAPI()
+        self.thread = MyThread()
+        self.thread.change_value.connect(self.HandleCheck)
+        self.thread.start()
 
     # GUI buttons
     def Handle_Buttons(self):
@@ -34,6 +56,21 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.UpdateCheck.clicked.connect(self.Handle_Update)
         self.CheckUp.clicked.connect(self.Handle_Diagnostics)
         self.Contact.clicked.connect(self.Handle_Send)
+
+    def GPIO_Init():
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
+
+        GPIO.setup(outputUpdate, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(outputDiag, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(outputResponseFlag, GPIO.OUT, initial=GPIO.HIGH)
+
+        GPIO.setup(inputUpdate, GPIO.IN)
+        GPIO.setup(inputDiagTemp, GPIO.IN)
+        GPIO.setup(inputDiagDirections, GPIO.IN)
+        GPIO.setup(inputDiagUltra, GPIO.IN)
+        GPIO.setup(inputDiagFlag, GPIO.IN)
+
 
     def window(self):
         self.setWindowTitle("Settings")
@@ -65,7 +102,69 @@ class MainAPP_Setting(QTabWidget, FormClass):
         pass
 
     def Handle_Diagnostics(self):
-        pass
+        global requestDiagMode
+        requestDiagMode = 1
+        GPIO.output(outputDiag, GPIO.LOW)
+
+    def HandleCheck(self):
+
+        inputUpdateVar = GPIO.setup(inputUpdate, GPIO.IN)
+        inputDiagTempVar = GPIO.setup(inputDiagTemp, GPIO.IN)
+        inputDiagDirectionsVar = GPIO.setup(inputDiagDirections, GPIO.IN)
+        inputDiagUltraVar = GPIO.setup(inputDiagUltra, GPIO.IN)
+        inputDiagFlagVar = GPIO.setup(inputDiagFlag, GPIO.IN)
+
+        if(inputUpdateVar == 0 or inputUpdateVar == False):
+            qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
+                        'Please select whether you want to download the new update',
+                        QMessageBox.Ok | QMessageBox.Cancel)
+            if qMsgBoxUpdate == QMessageBox.Ok:
+                QMessageBox.information(self, "New update will be downloaded")
+                GPIO.output(outputUpdate,GPIO.LOW)
+                self.Radiator.setText("No Errors Found")
+                self.Engine.setText("No Errors Found")
+                self.Sensor.setText("No Errors Found")
+
+            else:
+                GPIO.output(outputUpdate,GPIO.HIGH)
+            GPIO.output(outputResponseFlag, GPIO.LOW)
+            
+        elif(inputDiagFlagVar == 0 or inputDiagFlagVar == False):
+            if requestDiagMode == 1:
+                #fadl f flag = 1 ene a3ml el msgbox
+                if(inputDiagTempVar == 0 or inputDiagTempVar == False):
+                    self.Radiator.setText("Error occured")
+                if(inputDiagDirectionsVar == 0 or inputDiagDirectionsVar == False):
+                    self.Engine.setText("Error occured")
+                if(inputDiagUltraVar == 0 or inputDiagUltraVar == False):
+                    self.Sensor.setText("Error occured")
+
+                requestDiagMode = 2
+                inputDiagFlagVar = 1 or True
+                inputDiagTempVar = 1 or True
+                inputDiagDirectionsVar = 1 or True
+                inputDiagUltraVar = 1 or True
+            elif requestDiagMode == 2:
+                if inputDiagFlagVar == 0 or inputDiagFlagVar == False:
+                    qMsgBoxSystemCheck = QMessageBox.information(self, 'System Check',
+                                'System check is required',
+                                QMessageBox.Ok)
+                    if qMsgBoxSystemCheck == QMessageBox.Ok:
+                        if(inputDiagTempVar == 0 or inputDiagTempVar == False):
+                            self.Radiator.setText("Error occured")
+                        if(inputDiagDirectionsVar == 0 or inputDiagDirectionsVar == False):
+                            self.Engine.setText("Error occured")
+                        if(inputDiagUltraVar == 0 or inputDiagUltraVar == False):
+                            self.Sensor.setText("Error occured")
+                            inputDiagFlagVar = 1 or True
+                            inputDiagTempVar = 1 or True
+                            inputDiagDirectionsVar = 1 or True
+                            inputDiagUltraVar = 1 or True
+                        
+                        else:
+                            qMsgBoxSystemCheck = QMessageBox.information(self,"System Check",
+                                "There are no errors in the system",
+                                QMessageBox.Ok)
 
     def Handle_Exit(self):
         self.close()
