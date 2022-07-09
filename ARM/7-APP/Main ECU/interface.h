@@ -9,33 +9,33 @@
 #define INTERFACE_H
 
 
-/************** ESP ***************/
+/********************* ESP *********************/
 //Send
-#define DOWNLOAD_FILE			'1'
-#define UPDATE_CHECK			'U'
-#define RECORD_ACK				'a'
+#define DOWNLOAD_FILE			        '1'
+#define UPDATE_CHECK			        'U'
+#define RECORD_ACK				        'a'
 
 //Receive
-#define UPDATE_NOTIFICATION		'P'
-#define UpdateAvailable			'A'
-#define NoUpdateAvailable		'N'
+#define UPDATE_NOTIFICATION		        'P'
+#define UpdateAvailable			        'A'
+#define NoUpdateAvailable		        'N'
 
-/************** USER ***************/
+/********************* USER *********************/
 //Send
-#define UpdateCheck_ID			(u8)0x73
-#define MOTOR_ISSUES				'M'
-#define TEMP_SENSOR_ISSUE			'T'
-#define CollisionSysIssue			'C'
+#define UpdateCheck_ID			     (u8)0x73
+#define MOTOR_ISSUES			     	'M'
+#define TEMP_SENSOR_ISSUE		     	'T'
+#define CollisionSysIssue		     	'C'
 
 
 //Receive
-#define Request_ID				(u8)0x64
-#define UPDATE_REQUEST			'R'
-#define DIAGNOSTICS_REQUEST		'S'
-#define ACCEPT_UPDATE			(u8)0x00
-#define DECLINE_UPDATE			(u8)0x01
+#define Request_ID				     (u8)0x64
+#define UPDATE_REQUEST			     'R'
+#define DIAGNOSTICS_REQUEST		     'S'
+#define ACCEPT_UPDATE			     (u8)30
+#define DECLINE_UPDATE			     (u8)35
 
-/************** App ***************/
+/********************* App *********************/
 //Send
 
 //Receive
@@ -44,19 +44,15 @@
 #define APP_RxMotorIssue			(u8)0b00000100
 
 
-#define TEMP_SENSOR				0
-#define MOTORS					1
-#define COLLISION_SYSTEM		2
-
-/************ Filter IDs *************/
-#define  APP_ACKNOWLEDGE		(u8)0x35
-#define  USER_REQUEST_ID		(u8)0x36
-#define  USER_RESPONSE_ID		(u8)0x46
-#define  APP_DIAG_M1			(u8)0x38
-#define  APP_DIAG_M2			(u8)0x31
+/****************** Filter IDs *****************/
+#define  APP_ACKNOWLEDGE		       (u8)0x30
+#define  USER_REQUEST_ID		       (u8)0x36
+#define  USER_RESPONSE_ID		       (u8)0x32
+#define  APP_DIAG_M1			       (u8)0x38
+#define  APP_DIAG_M2			       (u8)0x31
 
 
-#define BUFFER_SIZE 			200
+#define BUFFER_SIZE 					100
 
 
 typedef enum
@@ -65,7 +61,6 @@ typedef enum
   USER_RESPONSE ,
   USER_REQUEST ,
   DIAGNOSTICS   ,
-  ESP_MSG    ,
   START_UPDATE,
   RECEIVE_RECORD
 }STATE_t;

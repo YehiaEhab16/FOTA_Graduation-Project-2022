@@ -29,8 +29,9 @@ void CAN_voidInit(CAN_Init_t* hcan)
 	/* wait for initialization mode*/
 	while(((CAN->MSR & CAN_MCR_SLEEP) == CAN_MCR_SLEEP)
 			|| ((CAN->MSR & CAN_MSR_INAK) != CAN_MSR_INAK));
-	/* Enable interrupt for receiving in fifo 0*/
+	/* Enable interrupt for receiving in fifo 0 and 1*/
 	CAN->IER |= CAN_IER_FMPIE0 ;
+	CAN->IER |= CAN_IER_FMPIE1 ;
 
 	/* Check acknowledge */
 	if ((CAN->MSR & CAN_MSR_INAK) == CAN_MSR_INAK)

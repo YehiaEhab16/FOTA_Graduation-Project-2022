@@ -10,7 +10,6 @@
 #include "../6-Library/BIT_MATH.h"
 #include "../3-SERVICE/02-SYS/SYS_interface.h"
 
-#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../1-MCAL/03-NVIC/NVIC_interface.h"
 #include "../1-MCAL/06-CAN/CAN_interface.h"
 #include "../1-MCAL/05-USART/USART_interface.h"
@@ -68,9 +67,9 @@ void main(void)
 		case START_UPDATE:
 			NVIC_u8EnableInterrupt(CAN_RX1_IRQ);
 			NVIC_u8DisableInterrupt(USART1_IRQ);
-			NVIC_u8DisableInterrupt(USB_LP_CAN_IRQ);
+			NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 			USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
-			//CAN_u8Transmit(&APP_TxDataMsg);			/* Msg to indicate start of transmission to app */
+			CAN_u8Transmit(&APP_TxDataMsg);			/* to indicate start of transmission to app */
 			Global_u8State = RECEIVE_RECORD;
 			break;
 
@@ -79,21 +78,20 @@ void main(void)
 			if (Global_UpdateFinishedFlag == 1)
 			{
 				Global_UpdateFinishedFlag = 0;
-				NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+				NVIC_u8DisableInterrupt(USB_LP_CAN_IRQ);
 				NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
 				NVIC_u8EnableInterrupt(USART1_IRQ);
 				Global_u8State = IDLE;
 				break;
 			}
 			GetUpdate();
-			Global_u8State = IDLE;
 			break;
 
 		case USER_REQUEST:
 			if (CAN_RxMsg.data[0] == UPDATE_REQUEST)
 			{
-				USART_voidTransmitChar(USART1 ,UPDATE_CHECK);
-				UpdateRequestFlag = 1;
+				Global_u8State = START_UPDATE;
+				break;
 			}
 			else if (CAN_RxMsg.data[0] == DIAGNOSTICS_REQUEST)
 			{
@@ -102,26 +100,12 @@ void main(void)
 			Global_u8State = IDLE;
 			break;
 
-		case ESP_MSG:
-			if (Global_u8ESPRxMsg == UPDATE_NOTIFICATION)
-			{
-				CAN_u8Transmit(&USER_TxUpdateMsg);
-				Global_u8NewUpdate++;
-			}
-			else if((Global_u8ESPRxMsg == UpdateAvailable) && (UpdateRequestFlag))
-			{
-				USER_TxUpdateCheckMsg.data[0] = UpdateAvailable;
-				CAN_u8Transmit(&USER_TxUpdateCheckMsg);
-			}
-			else if((Global_u8ESPRxMsg == NoUpdateAvailable) && (UpdateRequestFlag))
-			{
-				USER_TxUpdateCheckMsg.data[0] = NoUpdateAvailable;
-				CAN_u8Transmit(&USER_TxUpdateCheckMsg);
-			}
-			Global_u8State = IDLE;
-			break;
 
 		case DIAGNOSTICS:
+			if (USER_TxDiagResultMsg.id == APP_DIAG_M1)
+			{
+				USART_voidTransmitChar(USART1 ,CAN_RxMsg.data[0]);
+			}
 			USER_TxDiagResultMsg.data[0] = CAN_RxMsg.data[0];
 			CAN_u8Transmit(&USER_TxDiagResultMsg);
 			Global_u8State = IDLE;
