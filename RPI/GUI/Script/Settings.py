@@ -19,6 +19,7 @@ inputDiagUltra = 32
 inputDiagFlag = 36
 
 settingsIconFlag = 0
+requestDiagMode = 2
 
 cwd = os.getcwd()
 parent = os.path.dirname(cwd)
@@ -34,6 +35,7 @@ class MyThread(QThread):
         cnt = 0
         while True:
             cnt += 1
+            time.sleep(0.2)
             self.change_value.emit(cnt)
 
 # Define main window
@@ -113,31 +115,32 @@ class MainAPP_Setting(QTabWidget, FormClass):
         
 
     def HandleCheck(self):
-
-        inputUpdateVar = GPIO.setup(inputUpdate, GPIO.IN)
-        inputDiagTempVar = GPIO.setup(inputDiagTemp, GPIO.IN)
-        inputDiagDirectionsVar = GPIO.setup(inputDiagDirections, GPIO.IN)
-        inputDiagUltraVar = GPIO.setup(inputDiagUltra, GPIO.IN)
-        inputDiagFlagVar = GPIO.setup(inputDiagFlag, GPIO.IN)
-
+        inputUpdateVar = GPIO.input(inputUpdate)
+        inputDiagTempVar = GPIO.input(inputDiagTemp)
+        inputDiagDirectionsVar = GPIO.input(inputDiagDirections)
+        inputDiagUltraVar = GPIO.input(inputDiagUltra)
+        inputDiagFlagVar = GPIO.input(inputDiagFlag)
+        
         if(inputUpdateVar == 0 or inputUpdateVar == False):
             global settingsIconFlag
+            global requestDiagMode
             settingsIconFlag = 1
+        if self.isActiveWindow() and settingsIconFlag:
+            settingsIconFlag = 0
             qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
                         'Please select whether you want to download the new update',
                         QMessageBox.Ok | QMessageBox.Cancel)
             if qMsgBoxUpdate == QMessageBox.Ok:
-                QMessageBox.information(self, "New update will be downloaded")
                 GPIO.output(outputUpdate,GPIO.LOW)
-                self.Radiator.setText("No Errors Found")
-                self.Engine.setText("No Errors Found")
+                self.Radiator.setText("alo")
+                self.Engine.setText("No Errors Found hoba")
                 self.Sensor.setText("No Errors Found")
-                settingsIconFlag = 0
+                
 
             else:
                 GPIO.output(outputUpdate,GPIO.HIGH)
             GPIO.output(outputResponseFlag, GPIO.LOW)
-            
+                   
         elif(inputDiagFlagVar == 0 or inputDiagFlagVar == False):
             if requestDiagMode == 1:
                 #fadl f flag = 1 ene a3ml el msgbox
