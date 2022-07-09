@@ -12,11 +12,9 @@
 
 #include "../../4-RTOS/RTOS_interface.h"
 
-
-
-#include "../APP_ECU1/ISR.h"
-#include "../APP_ECU1/Tasks_interface.h"
-#include "../APP_ECU1/Tasks_private.h"
+#include "ISR.h"
+#include "Tasks_interface.h"
+#include "Tasks_private.h"
 
 int main(void)
 {

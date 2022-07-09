@@ -21,16 +21,11 @@
 #include "../../2-HAL/07-FAN/FAN_interface.h"
 #include "../../4-RTOS/RTOS_interface.h"
 
-
-
-
-#include "../APP_ECU1/Tasks_interface.h"
-#include "../APP_ECU1/Tasks_private.h"
+#include "Tasks_interface.h"
+#include "Tasks_private.h"
 
 //Can Flag 
 extern u8 Global_CAN_DIAG_FLAG;
-
-
 
 u8 Global_ERORR_DIAG_FLAG = 0;
 
@@ -133,8 +128,6 @@ void Task_voidMotorFeedback(void )
 
 }
 
-
-
 //Forward and backward motion
 void Task_voidMoveVehicle(void)
 {
@@ -159,7 +152,6 @@ void Task_voidMoveVehicle(void)
 
 }
 
-
 //Diagnostics Check
 void Task_voidSystemCheck(void)
 {
@@ -178,31 +170,23 @@ void Task_voidSystemCheck(void)
 
 	if (Global_CAN_DIAG_FLAG == 1)
 	{
+		CAN_TXmsg.id = CAN_DIAG_ID_TX1;
 		if ( !(Local_u8Dir == FORWARD) )
-		{
 			SET_BIT(Global_ERORR_DIAG_FLAG,2);
-		}
 
 		if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == FORWARD))
-		{
 			SET_BIT(Global_ERORR_DIAG_FLAG,3);
-		}
 	}
 	else
 	{
-
+		CAN_TXmsg.id = CAN_DIAG_ID_TX2;
 		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
 				||(Local_u8LeftMotorFB != FORWARD ) ) ))
 				||((Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
 						||(Local_u8LeftMotorFB != BACKWARD) ) )))
-		{
 			Global_ERORR_DIAG_FLAG  = 'M';
-		}
 		else
-		{
-
-			Global_ERORR_DIAG_FLAG =0 ;
-		}
+			Global_ERORR_DIAG_FLAG =0;
 	}
 
 	CAN_TXmsg.data[0] = Global_ERORR_DIAG_FLAG;
@@ -217,7 +201,6 @@ void Task_voidSendDiagnostics(void)
 
 	CAN_TXmsg.len = 1;
 	CAN_TXmsg.format = CAN_ID_STD;
-	CAN_TXmsg.id = 0x31;
 	CAN_TXmsg.type = CAN_RTR_DATA;
 
 	if (Global_ERORR_DIAG_FLAG !=0 )

@@ -23,7 +23,7 @@
 int main(void)
 {
 	//Initialization
-	SYS_voidAppInit(&Task_voidCANRecieveISR);
+	SYS_voidApp2Init(&Task_voidCANRecieveISR);
 
 
 /**

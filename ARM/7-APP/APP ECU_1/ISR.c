@@ -38,7 +38,6 @@ void Task_voidCANRecieveISR(void)
 		Global_CAN_DIAG_FLAG = 1;
 	//	Task_voidSendDiagnostics();
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
-
 	}
 }
 
@@ -47,6 +46,4 @@ void DCM_voidEXTI_ISR (void)
 {
 	//u8 ENCA_PIN_VALUE=0;
 		DCM_u8DetectDirection();
-
-
 }

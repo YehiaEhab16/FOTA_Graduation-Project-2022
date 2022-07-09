@@ -11,11 +11,17 @@
 
 
 #define TASK_BOOT_FLAG					0x080028C0
-#define CAN_UPADTE_ID					0x30
-#define CAN_DIAG_ID						0x31
+
+#define CAN_UPADTE_ID					0x34
+#define CAN_DIAG_ID						0x47
+
+#define CAN_DIAG_ID_TX1					0x38
+#define CAN_DIAG_ID_TX2					0x31
 
 void Task_voidCANRecieveISR(void);
 
 void DCM_voidEXTI_ISR (void);
+
+
 #endif
 

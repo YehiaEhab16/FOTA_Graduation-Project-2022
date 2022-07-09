@@ -27,13 +27,13 @@ int main(void)
 	{
 		if (COM_u8RecieveUpdateResponse()==COM_UPDATE_APPROVED)
 		{
-			CAN_TXmsg.id =CAN_UPDATE_ID;
+			CAN_TXmsg.id =CAN_UPDATE_ID_TX;
 			CAN_TXmsg.data[0]= ISR_UPDATE_APPROVED;
 			CAN_u8Transmit(&CAN_TXmsg);
 		}
 		else if (COM_u8RecieveUpdateResponse()==COM_UPDATE_REJECTED)
 		{
-			CAN_TXmsg.id =CAN_UPDATE_ID;
+			CAN_TXmsg.id =CAN_UPDATE_ID_TX;
 			CAN_TXmsg.data[0]= ISR_UPDATE_REJECTED;
 			CAN_u8Transmit(&CAN_TXmsg);
 		}
@@ -41,7 +41,7 @@ int main(void)
 		COM_u8RecieveDaignosticsRequest();
 		if (COM_u8RecieveDaignosticsRequest()==COM_DAIG_REQUESTED)
 		{
-			CAN_TXmsg.id =CAN_DIAG_ID_1;
+			CAN_TXmsg.id =CAN_DIAG_ID_TX;
 			CAN_TXmsg.data[0]= ISR_DAIG_REQUESTED;
 			CAN_u8Transmit(&CAN_TXmsg);
 

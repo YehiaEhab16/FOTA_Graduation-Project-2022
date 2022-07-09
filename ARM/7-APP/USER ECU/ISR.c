@@ -26,7 +26,7 @@ void ISR_voidCanRecieve(void)
 	{
 		COM_voidSendUpdateRequest();
 	}
-	else if (CAN_RXmsg.id == CAN_DIAG_ID_1 || CAN_RXmsg.id == CAN_DIAG_ID_2)
+	else if (CAN_RXmsg.id == CAN_DIAG_ID)
 	{
 		COM_voidSendDaignosticsData(CAN_RXmsg.data[0]);
 	}

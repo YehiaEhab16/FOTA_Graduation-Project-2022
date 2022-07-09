@@ -21,9 +21,6 @@ typedef enum
 	  RightMotorFB ,
 	  LeftMotorFB  ,
 	  Direction
-
-
-
 }Tasks_Data;
 
 #define READ_DISTANCE_ID		2
