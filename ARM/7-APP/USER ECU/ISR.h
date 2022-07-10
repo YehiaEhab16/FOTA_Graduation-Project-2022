@@ -11,8 +11,8 @@
 
 // Can IDs
 // Can IDs
-#define CAN_UPDATE_ID 				0x73
-#define CAN_DIAG_ID	 				0x33
+#define CAN_UPDATE_ID 				0x33
+#define CAN_DIAG_ID	 				0x73
 
 // Can IDs Send
 #define CAN_UPDATE_ID_TX			0X46

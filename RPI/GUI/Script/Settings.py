@@ -39,7 +39,7 @@ class MyThread(QThread):
         cnt = 0
         while True:
             cnt += 1
-            time.sleep(0.2)
+            time.sleep(0.1)
             self.change_value.emit(cnt)
 
 # Define main window
@@ -78,11 +78,11 @@ class MainAPP_Setting(QTabWidget, FormClass):
         GPIO.setup(outputDiag, GPIO.OUT, initial=GPIO.HIGH)
         GPIO.setup(outputResponseFlag, GPIO.OUT, initial=GPIO.HIGH)
 
-        GPIO.setup(inputUpdate, GPIO.IN)
-        GPIO.setup(inputDiagTemp, GPIO.IN)
-        GPIO.setup(inputDiagDirections, GPIO.IN)
-        GPIO.setup(inputDiagUltra, GPIO.IN)
-        GPIO.setup(inputDiagFlag, GPIO.IN)
+        GPIO.setup(inputUpdate, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.setup(inputDiagTemp, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.setup(inputDiagDirections, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.setup(inputDiagUltra, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.setup(inputDiagFlag, GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
 
     def window(self):
@@ -123,7 +123,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global requestDiagMode
         requestDiagMode = 1
         GPIO.output(outputDiag, GPIO.LOW)
-        time.sleep(0.1)
+        time.sleep(0.005)
         GPIO.output(outputDiag, GPIO.HIGH)
         
 
@@ -153,6 +153,9 @@ class MainAPP_Setting(QTabWidget, FormClass):
             else:
                 GPIO.output(outputUpdate,GPIO.HIGH)
             GPIO.output(outputResponseFlag, GPIO.LOW)
+            time.sleep(0.003)
+            GPIO.output(outputUpdate, GPIO.HIGH)
+            GPIO.output(outputResponseFlag, GPIO.HIGH) 
                    
         elif(inputDiagFlagVar == 0 or inputDiagFlagVar == False):
             if requestDiagMode == 1:

@@ -19,10 +19,10 @@
 #include "../../2-HAL/06-SW/SW_interface.h"
 #include "../../2-HAL/07-FAN/FAN_interface.h"
 
-#include "../../4-RTOS/RTOS_interface.h"
+#include "../../5-RTOS/RTOS_interface.h"
 
-#include "Tasks2.h"
-#include "Tasks2.h"
+#include "ISR.h"
+#include "Tasks.h"
 
 //Can Flag 
 extern u8 Global_u8CanDiagFlag;
@@ -107,7 +107,7 @@ void Task_voidSendDiagnostics(void)
 	CAN_TXmsg.type = CAN_RTR_DATA;
 	if (Global_u8ErrorDiagFlag !=0)
 	{
-		Global_u8ErrorDiagFlag =0
+		Global_u8ErrorDiagFlag =0;
 		CAN_u8Transmit(&CAN_TXmsg);
 	}
 }

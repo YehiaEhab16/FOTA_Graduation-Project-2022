@@ -25,6 +25,7 @@ void ISR_voidCanRecieve(void)
 	if (CAN_RXmsg.id == CAN_UPDATE_ID)
 	{
 		COM_voidSendUpdateRequest();
+		GPIO_u8TogglePinValue(GPIO_PORTA, GPIO_PIN_8);
 	}
 	else if (CAN_RXmsg.id == CAN_DIAG_ID)
 	{
