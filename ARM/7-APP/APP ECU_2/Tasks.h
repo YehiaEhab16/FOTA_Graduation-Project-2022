@@ -9,17 +9,34 @@
 #define TASKS_H_
 
 
+#define DIST_THRESHOLD					10
+#define TEMP_THRESHOLD					30
+		
+#define READ_DISTANCE_ID				2
+#define ALERT_ID						3
+		
+#define FORWARD							0
+#define BACKWARD						1
+#define STOP							2
+
 #define TASK_REF_PRIORITY				0
 #define TASK_REF_FIRST_DELAY			0
 #define TASK_REF_PERIODICITY			5
+
+typedef enum
+{
+	  Distance = 0 ,
+	  Temperature  ,
+	  RightMotorFB ,
+	  LeftMotorFB  ,
+	  Direction
+}Tasks_Data;
 
 /**
  * @def read temperature from sensor
  * State : Ready
  */
 void Task_voidReadTemperature(void );
-
-
 
 /**
  * @def check for malfunctions in system
