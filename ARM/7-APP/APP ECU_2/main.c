@@ -10,15 +10,11 @@
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../../3-SERVICE/02-SYS/SYS_interface.h"
 
-#include "../../4-RTOS/RTOS_interface.h"
-
-
-
-
+#include "../../5-RTOS/RTOS_interface.h"
 
 #include "ISR.h"
-#include "Tasks2_interface.h"
-#include "Tasks2_private.h"
+#include "Tasks.h"
+#include "Tasks.h"
 
 int main(void)
 {
