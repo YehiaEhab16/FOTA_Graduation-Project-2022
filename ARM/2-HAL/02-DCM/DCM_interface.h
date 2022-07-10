@@ -53,41 +53,41 @@ typedef struct
  * @def   Rotate Motor CCW
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-void DCM_voidRotateCCW(DCM_t* Copy_pDCM_tStructMotor);
+void DCM_voidRotateCCW(void);
 
 /**
  * @def   Rotate Motor CW
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-void DCM_voidRotateCW(DCM_t* Copy_pDCM_tStructMotor);
+void DCM_voidRotateCW(void);
 
 /**
  * @def   Stop Motor
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-void DCM_voidStop2(DCM_t* Copy_pDCM_tStructMotor);
+void DCM_voidStop2(void);
 
 //Controlling motor from 1 pin (1 direction)
 /**
  * @def   Rotate Motor
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-void DCM_voidRotate(DCM_t* Copy_pDCM_tStructMotor);
+void DCM_voidRotate(void);
 
 /**
  * @def   Stop Motor
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor);
+void DCM_voidStop(void);
 
 
 /**
  * @def   Motor Feedback
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-u8 DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor);
+//u8 DCM_voidReadEncoder(void);
 
-u8 DCM_u8DetectDirection(DCM_t* Copy_pDCM_tStructMotor);
+u8 DCM_u8DetectDirection(void);
 
 
 #endif

@@ -12,12 +12,14 @@
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../../1-MCAL/02-RCC/RCC_interface.h"
 #include "../../1-MCAL/03-NVIC/NVIC_interface.h"
+#include "../../1-MCAL/04-EXTI/EXTI_interface.h"
+
 #include "../../1-MCAL/05-USART/USART_interface.h"
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 
 #include "../../5-RTOS/RTOS_interface.h"
-
+#include "../../7-APP/APP ECU_1/ISR.h"
 #include "SYS_interface.h"
 #include "SYS_private.h"
 #include "SYS_config.h"
@@ -57,10 +59,17 @@ void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
 	FPEC_voidInit();
+	EXTI_voidInit();
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterApp1Diagnostics);
 	CAN_VoidFilterSet(&CAN_FilterApp1Update);
+	NVIC_u8EnableInterrupt(EXTI3_IRQ);
+	EXTI_voidSetSignalLatch(EXTI_LINE3 , FALLING_EDGE);
+	EXTI_voidEnableEXTI(EXTI_LINE3);
+	EXTI_voidSoftwareTrigger(EXTI_LINE3);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+	EXTI_voidSetCallBack(DCM_voidEXTI_ISR);
+
 	if (Copy_pvCallBackFunc != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc);
 

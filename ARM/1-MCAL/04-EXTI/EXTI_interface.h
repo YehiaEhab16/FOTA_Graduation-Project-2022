@@ -19,6 +19,7 @@
 #define		 EXTI_LINE0			0
 #define		 EXTI_LINE1			1
 #define		 EXTI_LINE2			2
+#define		 EXTI_LINE3			3
 
 /**
  * @def function to initialize EXTI

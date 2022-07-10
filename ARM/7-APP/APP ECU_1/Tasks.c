@@ -127,8 +127,8 @@ void Task_voidMotorFeedback(void )
 
 
 
-//	Local_u8RightMotorFB = DCM_u8DetectDirection();
-	//Local_u8LeftMotorFB  = DCM_voidReadEncoder(&Global_DCM_tLeftMotor);
+	Local_u8RightMotorFB = DCM_u8DetectDirection();
+	//Local_u8LeftMotorFB  = DCM_voidReadEncoder( );
 	Global_APPS_Variables[RightMotorFB]=Local_u8RightMotorFB;
 	//Global_APPS_Variables[LeftMotorFB]=Local_u8LeftMotorFB;
 
@@ -145,18 +145,18 @@ void Task_voidMoveVehicle(void)
 	Local_u8Dir = Global_APPS_Variables[Direction];
 	if(Local_u8Dir==FORWARD)
 	{
-		DCM_voidRotateCCW(&Global_DCM_tRightMotor);
-//		DCM_voidRotateCCW(&Global_DCM_tLeftMotor);
+		DCM_voidRotateCCW( );
+//		DCM_voidRotateCCW( );
 	}
 	else if(Local_u8Dir==BACKWARD)
 	{
-		DCM_voidRotateCW(&Global_DCM_tRightMotor);
-//		DCM_voidRotateCW(&Global_DCM_tLeftMotor);
+		DCM_voidRotateCW( );
+//		DCM_voidRotateCW( );
 	}
 	else if(Local_u8Dir==STOP)
 	{
-		DCM_voidStop2(&Global_DCM_tRightMotor);
-//		DCM_voidStop2(&Global_DCM_tLeftMotor);
+		DCM_voidStop2( );
+//		DCM_voidStop2( );
 	}
 
 }
