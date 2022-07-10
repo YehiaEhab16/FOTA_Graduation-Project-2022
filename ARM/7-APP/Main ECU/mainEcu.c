@@ -69,9 +69,8 @@ void main(void)
 			NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
 			NVIC_u8DisableInterrupt(USART1_IRQ);
 			NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
-			USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
 			CAN_u8Transmit(&APP_TxDataMsg);			/* to indicate start of transmission to app */
-			Global_u8State = RECEIVE_RECORD;
+			Global_u8State = IDLE;
 			break;
 
 		case RECEIVE_RECORD:

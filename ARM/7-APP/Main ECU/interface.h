@@ -39,6 +39,7 @@
 //Send
 
 //Receive
+#define StartTransmission			'A'
 #define APP_RxCollisionSysIssue		(u8)0b00000001
 #define APP_RxTempSensorIssue		(u8)0b00000010
 #define APP_RxMotorIssue			(u8)0b00000100

@@ -107,6 +107,10 @@ void CAN_AppAckCallback (void)
 		{
 			USART_voidTransmitChar(USART1,RECORD_ACK);
 		}
+		else if (CAN_RxMsg.data[0] == StartTransmission)
+		{
+			USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
+		}
 		Global_u8State = RECEIVE_RECORD;
 	}
 
@@ -117,7 +121,7 @@ void GetUpdate(void)
 {
 	Global_u8State = IDLE;
 	reps ++;
-
+//	GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_1, GPIO_PIN_HIGH);
 	/* Receive another record if last record is sent correctly */
 	if (CAN_RxMsg.data[0] != 'F')
 	{
@@ -166,6 +170,7 @@ void GetUpdate(void)
 		}
 
 		STK_voidDelay(1);
+//		USART_voidTransmitSync(USART1, APP_TxDataMsg.data, APP_TxDataMsg.len);
 		CAN_u8Transmit(&APP_TxDataMsg);
 
 	}
