@@ -139,7 +139,7 @@ class MainAPP(QWidget, FormClass):
         self.Radio.show()
 
     def Handle_Guide(self):
-        self.Guide.Window_Loop.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        self.Guide.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Guide.show()
 
     def Handle_Phone(self):
