@@ -6,6 +6,7 @@ from PyQt5.uic import loadUiType
 import pathlib
 import datetime
 import os
+import Settings
 
 # Get current directory's path
 current_directory = str(pathlib.Path(__file__).parent.absolute())
@@ -41,13 +42,16 @@ class MainAPP_Phone(QTabWidget, FormClass):
         self.Handle_Buttons()
         with open(current_directory + '/../Data/Contacts.txt', 'r') as f:
             global Contents
-            for line in f:
-                f_contents = line.split(' - ')
-                Contents.append(f_contents)
-                names.append(f_contents[0])
-                nums.append(f_contents[1][:-1])
-                NumberOfContents = NumberOfContents + 1
-        self.loadData()
+            if Settings.redirectToggle == True:
+                for line in f:
+                    f_contents = line.split(' - ')
+                    Contents.append(f_contents)
+                    names.append(f_contents[0])
+                    nums.append(f_contents[1][:-1])
+                    NumberOfContents = NumberOfContents + 1
+                    self.loadData()
+            else: 
+                self.loadData()
 
     # GUI buttons
     def Handle_Buttons(self):
@@ -83,7 +87,7 @@ class MainAPP_Phone(QTabWidget, FormClass):
         row = 0
         for i in range(0, len(names)):
             self.Contacts_table.setItem(
-                row, 0, QtWidgets.QTableWidgetItem(names[i]))
+                 row, 0, QtWidgets.QTableWidgetItem(names[i]))
             self.Contacts_table.setItem(
                 row, 1, QtWidgets.QTableWidgetItem(nums[i]))
             row = row + 1

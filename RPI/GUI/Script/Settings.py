@@ -6,6 +6,8 @@ from PyQt5.uic import loadUiType
 import time
 import requests
 import os
+import Phone
+from PyQt5 import QtCore
 import RPi.GPIO as GPIO
 
 outputUpdate = 8
@@ -20,6 +22,8 @@ inputDiagFlag = 37
 
 settingsIconFlag = 0
 requestDiagMode = 2
+
+redirectToggle = True
 
 cwd = os.getcwd()
 parent = os.path.dirname(cwd)
@@ -43,15 +47,18 @@ class MainAPP_Setting(QTabWidget, FormClass):
     def __init__(self, parent=None):
         super(MainAPP_Setting, self).__init__(parent)
         QTabWidget.__init__(self)
+        global redirectToggle
         self.setupUi(self)
         self.window()
+        redirectToggle = self.isActiveWindow()
+        self.PhoneRedirect = Phone.MainAPP_Phone()
         self.Handle_Buttons()
         self.GPIO_Init()
         self.accessAPI()
         self.thread = MyThread()
         self.thread.change_value.connect(self.HandleCheck)
         self.thread.start()
-
+        
     # GUI buttons
     def Handle_Buttons(self):
         self.back.clicked.connect(self.Handle_Exit)
@@ -61,6 +68,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.UpdateCheck.clicked.connect(self.Handle_Update)
         self.CheckUp.clicked.connect(self.Handle_Diagnostics)
         self.Contact.clicked.connect(self.Handle_Send)
+        self.Contact.clicked.connect(self.Handle_Phone)
 
     def GPIO_Init(self):
         GPIO.setwarnings(False)
@@ -105,6 +113,11 @@ class MainAPP_Setting(QTabWidget, FormClass):
 
     def Handle_Send(self):
         pass
+
+
+    def Handle_Phone(self):
+        self.PhoneRedirect.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        self.PhoneRedirect.show()
 
     def Handle_Diagnostics(self):
         global requestDiagMode
