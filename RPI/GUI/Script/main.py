@@ -16,7 +16,7 @@ import os
 # importing required packages
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import QTimer, Qt
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 from PyQt5.uic import loadUiType
 import sys
 import datetime
@@ -84,11 +84,13 @@ class SplashScreen(QWidget, FormClass2):
             # CLose load window and open main window
             self.close()
             # Comm_Init()
+            self.Window_Loop.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
             self.Window_Loop.show()
 
 
 def Handle_Weather():
     global VarGlobal
+    VarGlobal.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
     VarGlobal.show()
 
 
@@ -133,25 +135,32 @@ class MainAPP(QWidget, FormClass):
 
     # Calling other UIs when on clicking their buttons
     def Handle_Radio(self):
+        self.Radio.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Radio.show()
 
     def Handle_Guide(self):
+        self.Guide.Window_Loop.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Guide.show()
 
     def Handle_Phone(self):
+        self.Phone.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Phone.show()
 
     def Handle_Setting(self):
         self.settings.setIcon(QtGui.QIcon(settingsIcon))
+        self.Setting.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Setting.show()
 
     def Handle_Video(self):
+        self.Video.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Video.show()
 
     def Handle_Calendar(self):
+        self.Calender.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Calender.show()
 
     def Handle_Music(self):
+        self.Music.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.Music.show()
 
     # Timer Function to update time label
@@ -170,25 +179,13 @@ class MainAPP(QWidget, FormClass):
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         else:
             self.settings.setIcon(QtGui.QIcon(settingsIcon))
-        # if counter == 100000 :
-        #data =0
-        # Comm_Write( );
-        # time.sleep(0.03)
-        # data = int(Comm_Read(1))
-        #  print(data)
-        #  if data == 1:
-        #      print(1)
-        #      Comm_Write(str.encode('2'));
-        #      self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
-        #  counter=0
-        # else:  # Condition must be added (If user views the software update)
-        # self.settings.setIcon(QtGui.QIcon(settingsIcon))
 
 
 # Executing main window
 def main():
     app = QApplication(sys.argv)
     splash = SplashScreen()
+    splash.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
     splash.show()
     app.exec()
 

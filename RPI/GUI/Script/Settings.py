@@ -8,15 +8,15 @@ import requests
 import os
 import RPi.GPIO as GPIO
 
-outputUpdate = 8
-outputDiag = 10
-outputResponseFlag = 12
+outputUpdate = 32
+outputDiag = 36
+outputResponseFlag = 38
 
-inputUpdate = 16
-inputDiagTemp = 18
-inputDiagDirections = 22
-inputDiagUltra = 32
-inputDiagFlag = 36
+inputUpdate = 40
+inputDiagTemp = 29
+inputDiagDirections = 31
+inputDiagUltra = 33
+inputDiagFlag = 37
 
 settingsIconFlag = 0
 requestDiagMode = 2
