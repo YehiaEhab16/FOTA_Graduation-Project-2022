@@ -58,15 +58,17 @@ void MainInit()
 
 void UART_callback(void)
 {
-	GPIO_u8SetPinValue(GPIO_PORTC, GPIO_PIN_13, GPIO_PIN_HIGH);
+
+	Global_u8ESPRxMsg = USART_u8ReceiveChar(USART1);
+
 	if (!NotificationReceived)
 	{
-		Global_u8ESPRxMsg = USART_u8ReceiveChar(USART1);
-	}
-	if (Global_u8ESPRxMsg == UPDATE_NOTIFICATION)
-	{
-		CAN_u8Transmit(&USER_TxUpdateMsg);
-		NotificationReceived = 1;
+		if (Global_u8ESPRxMsg == UPDATE_NOTIFICATION)
+		{
+			CAN_u8Transmit(&USER_TxUpdateMsg);
+			GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_1, GPIO_PIN_HIGH);
+			NotificationReceived = 1;
+		}
 	}
 	Global_u8State = IDLE;
 }
@@ -81,7 +83,6 @@ void CAN_FIFO1_callback(void)
 	{
 	case USER_RESPONSE_ID:
 		Global_u8State = USER_RESPONSE;
-		NotificationReceived = 0;
 		break;
 
 	case Request_ID:
@@ -109,6 +110,7 @@ void CAN_AppAckCallback (void)
 		}
 		else if (CAN_RxMsg.data[0] == StartTransmission)
 		{
+			GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_1, GPIO_PIN_LOW);
 			USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
 		}
 		Global_u8State = RECEIVE_RECORD;
@@ -121,7 +123,7 @@ void GetUpdate(void)
 {
 	Global_u8State = IDLE;
 	reps ++;
-//	GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_1, GPIO_PIN_HIGH);
+	//	GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_1, GPIO_PIN_HIGH);
 	/* Receive another record if last record is sent correctly */
 	if (CAN_RxMsg.data[0] != 'F')
 	{
@@ -170,7 +172,7 @@ void GetUpdate(void)
 		}
 
 		STK_voidDelay(1);
-//		USART_voidTransmitSync(USART1, APP_TxDataMsg.data, APP_TxDataMsg.len);
+		//		USART_voidTransmitSync(USART1, APP_TxDataMsg.data, APP_TxDataMsg.len);
 		CAN_u8Transmit(&APP_TxDataMsg);
 
 	}
