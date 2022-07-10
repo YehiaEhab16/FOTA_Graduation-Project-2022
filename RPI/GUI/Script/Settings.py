@@ -14,9 +14,9 @@ outputResponseFlag = 12
 
 inputUpdate = 16
 inputDiagTemp = 18
-inputDiagUltra = 32
-inputDiagFlag = 36
-inputDiagDirections = 37
+inputDiagDirections = 32
+inputDiagUltra = 36
+inputDiagFlag = 37
 
 settingsIconFlag = 0
 requestDiagMode = 2
