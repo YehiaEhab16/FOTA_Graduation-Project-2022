@@ -85,16 +85,16 @@ void Task_voidReadDirection(void)
 {
 	u8 Local_u8Dir;
 
-	if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
+	if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
 	{
 		//suspend Altert and suspend Distance
 		Local_u8Dir=FORWARD;
-		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
-		RTOS_voidSuspendTask((u8)ALERT_ID);
+//		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
+//		RTOS_voidSuspendTask((u8)ALERT_ID);
 
 
 	}
-	else if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
+	else if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
 	{
 		Local_u8Dir=BACKWARD;
 		//ResumeAltert and dist
