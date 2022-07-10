@@ -24,8 +24,8 @@
 
 
 
-#include "../APP_ECU1/Tasks_interface.h"
-#include "../APP_ECU1/Tasks_private.h"
+#include "Tasks_interface.h"
+#include "Tasks_private.h"
 
 //Can Flag 
 extern u8 Global_CAN_DIAG_FLAG;
@@ -54,7 +54,7 @@ CAN_msg CAN_TXmsg;
 LED_t Global_LED_tRed = {LED_PORTB,LED_PIN1,LED_ACTIVE_HIGH};
 
 //Switches
-SW_t Global_SW_tForward =  {SW_PORTA,SW_PIN0,SW_PULL_UP};
+SW_t Global_SW_tForward =  {SW_PORTA,SW_PIN8,SW_PULL_UP};
 SW_t Global_SW_tBackward = {SW_PORTA,SW_PIN1,SW_PULL_UP};
 
 //Motors
@@ -96,6 +96,8 @@ void Task_voidReadDirection(void)
 		Local_u8Dir=FORWARD;
 //		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
 //		RTOS_voidSuspendTask((u8)ALERT_ID);
+		RTOS_voidResumeTask((u8)READ_DISTANCE_ID);
+		RTOS_voidResumeTask((u8)ALERT_ID);
 
 
 	}

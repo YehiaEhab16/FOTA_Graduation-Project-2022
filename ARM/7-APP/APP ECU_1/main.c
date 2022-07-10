@@ -19,7 +19,7 @@
 int main(void)
 {
 	//Initialization
- 	SYS_voidAppInit(&Task_voidCANRecieveISR);
+	SYS_voidApp1Init(&Task_voidCANRecieveISR);
 
 /**
  * Task_voidReadDirection -- > Priority =0 , First Delay = 0 , State = Ready

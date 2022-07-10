@@ -45,5 +45,5 @@ void Task_voidCANRecieveISR(void)
 void DCM_voidEXTI_ISR (void)
 {
 	//u8 ENCA_PIN_VALUE=0;
-		DCM_u8DetectDirection();
+//		DCM_u8DetectDirection();
 }
