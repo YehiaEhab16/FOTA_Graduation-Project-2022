@@ -6,7 +6,7 @@
 /*******************************************************************************/
 /*******************************************************************************/
 
-#include "../APP_ECU1/ISR.h"
+
 
 #include "../../6-Library/STD_TYPES.h"
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
@@ -16,8 +16,8 @@
 
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 #include "../../1-MCAL/11-WWDG/WWDG_interface.h"
-
-#include "../../5-APP/APP_ECU1/Tasks_interface.h"
+#include "ISR.h"
+#include "Tasks_interface.h"
 
 
 //Recieve Struct
