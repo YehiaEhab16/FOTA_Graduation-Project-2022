@@ -8,6 +8,7 @@
 
 #include "../6-Library/STD_TYPES.h"
 
+#include "../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../1-MCAL/03-NVIC/NVIC_interface.h"
 #include "../1-MCAL/06-CAN/CAN_interface.h"
 #include "../1-MCAL/05-USART/USART_interface.h"
@@ -25,7 +26,7 @@ u8 reps; 			// Number of times a corrupted frame is repeated (max 3)
 
 CAN_msg CAN_RxMsg;
 
-CAN_msg APP_TxDataMsg = {0x32, {0}, 8, CAN_ID_STD, DATA_FRAME};				/* Message to transmit the file */
+CAN_msg APP_TxDataMsg = {0x34, {0}, 8, CAN_ID_STD, DATA_FRAME};				/* Message to transmit the file */
 CAN_msg APP_RxDiagnosticsMsg;												/* Msg to receive diagnostics */
 CAN_msg APP_TxGetDiagMsg = {0x31, {0}, 1, CAN_ID_STD, DATA_FRAME};			/* Msg to ask app for diagnostics */
 
@@ -50,16 +51,17 @@ void MainInit()
 {
 	USART_u8ReceiveAsy(USART1, &UART_callback);
 	USART_u8CallBackFunc(USART1, &UART_callback);
-	CAN_voidCallBackFunc(CAN_FIFO_0, &CAN_FIFO0_callback);
-	CAN_voidCallBackFunc(CAN_FIFO_1, &CAN_AppAckCallback);
+	CAN_voidCallBackFunc(CAN_FIFO_0, &CAN_AppAckCallback);
+	CAN_voidCallBackFunc(CAN_FIFO_1, &CAN_FIFO1_callback);
 }
 
 
 void UART_callback(void)
 {
+	GPIO_u8SetPinValue(GPIO_PORTC, GPIO_PIN_13, GPIO_PIN_HIGH);
 	if (!NotificationReceived)
 	{
-	Global_u8ESPRxMsg = USART_u8ReceiveChar(USART1);
+		Global_u8ESPRxMsg = USART_u8ReceiveChar(USART1);
 	}
 	if (Global_u8ESPRxMsg == UPDATE_NOTIFICATION)
 	{
@@ -70,11 +72,11 @@ void UART_callback(void)
 }
 
 
-/* Receive User messages in FIFO_0 */
+/* Receive User messages in FIFO_1 */
 
-void CAN_FIFO0_callback(void)
+void CAN_FIFO1_callback(void)
 {
-	CAN_voidReceive(&CAN_RxMsg,CAN_FIFO_0);
+	CAN_voidReceive(&CAN_RxMsg,CAN_FIFO_1);
 	switch(CAN_RxMsg.id)
 	{
 	case USER_RESPONSE_ID:
@@ -94,18 +96,18 @@ void CAN_FIFO0_callback(void)
 
 }
 
-/* app acknowledgement in FIFO_1 */
+/* app acknowledgement in FIFO_0 */
 
 void CAN_AppAckCallback (void)
 {
-	CAN_voidReceive(&APP_RxAckMsg,CAN_FIFO_1);
-	if (APP_RxAckMsg.id == APP_ACKNOWLEDGE)
+	CAN_voidReceive(&CAN_RxMsg,CAN_FIFO_0);
+	if (CAN_RxMsg.id == APP_ACKNOWLEDGE)
 	{
-		if ((APP_RxAckMsg.data[0] == 'O') && (APP_RxAckMsg.data[1] == 'K'))
+		if ((CAN_RxMsg.data[0] == 'O') && (CAN_RxMsg.data[1] == 'K'))
 		{
 			USART_voidTransmitChar(USART1,RECORD_ACK);
-			Global_u8State = RECEIVE_RECORD;
 		}
+		Global_u8State = RECEIVE_RECORD;
 	}
 
 }
@@ -117,7 +119,7 @@ void GetUpdate(void)
 	reps ++;
 
 	/* Receive another record if last record is sent correctly */
-	if (APP_RxAckMsg.data[0] != 'F')
+	if (CAN_RxMsg.data[0] != 'F')
 	{
 		APP_TxDataMsg.len = 8;
 		Buffer_Data_Counter = 0;
@@ -132,10 +134,10 @@ void GetUpdate(void)
 	}
 
 	/* Abort update if a record is corrupted in transmission for > 3 times */
-	if  ((APP_RxAckMsg.data[0] == 'F') && (reps >= 4))
+	if  ((CAN_RxMsg.data[0] == 'F') && (reps >= 4))
 	{
 		USART_voidTransmitChar(USART1,'n');
-		NVIC_u8DisableInterrupt(USB_LP_CAN_IRQ);
+		NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 		NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
 		NVIC_u8EnableInterrupt(USART1_IRQ);
 		return;
@@ -163,8 +165,7 @@ void GetUpdate(void)
 			APP_TxDataMsg.data[data_counter]= Rx_Buffer[Buffer_Data_Counter++];
 		}
 
-		//		USART_voidTransmitSync(USART2, APP_TxDataMsg.data, APP_TxDataMsg.len);
-		STK_voidDelay(100);
+		STK_voidDelay(1);
 		CAN_u8Transmit(&APP_TxDataMsg);
 
 	}

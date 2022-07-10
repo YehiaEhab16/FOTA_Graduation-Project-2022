@@ -33,6 +33,7 @@ u8 Global_u8ESPRxMsg;
 u8 UpdateRequestFlag;
 u8 Global_UpdateFinishedFlag;
 
+
 void main(void)
 {
 	/* function init */
@@ -40,7 +41,7 @@ void main(void)
 	MainInit();
 
 	/* Initial values */
-	Global_u8State = IDLE;
+	Global_u8State = START_UPDATE;
 
 	Global_u8NewUpdate = 0;
 	Global_UpdateFinishedFlag = 0;
@@ -65,7 +66,7 @@ void main(void)
 			break;
 
 		case START_UPDATE:
-			NVIC_u8EnableInterrupt(CAN_RX1_IRQ);
+			NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
 			NVIC_u8DisableInterrupt(USART1_IRQ);
 			NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 			USART_voidTransmitChar(USART1 ,DOWNLOAD_FILE);
@@ -78,7 +79,7 @@ void main(void)
 			if (Global_UpdateFinishedFlag == 1)
 			{
 				Global_UpdateFinishedFlag = 0;
-				NVIC_u8DisableInterrupt(USB_LP_CAN_IRQ);
+				NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 				NVIC_u8DisableInterrupt(CAN_RX1_IRQ);
 				NVIC_u8EnableInterrupt(USART1_IRQ);
 				Global_u8State = IDLE;
@@ -102,7 +103,7 @@ void main(void)
 
 
 		case DIAGNOSTICS:
-			if (USER_TxDiagResultMsg.id == APP_DIAG_M1)
+			if ((USER_TxDiagResultMsg.id == APP_DIAG_M1) && (USER_TxDiagResultMsg.data[0] != 0))
 			{
 				USART_voidTransmitChar(USART1 ,CAN_RxMsg.data[0]);
 			}

@@ -45,9 +45,9 @@
 
 
 /****************** Filter IDs *****************/
-#define  APP_ACKNOWLEDGE		       (u8)0x30
+#define  APP_ACKNOWLEDGE		       0x30
 #define  USER_REQUEST_ID		       (u8)0x36
-#define  USER_RESPONSE_ID		       (u8)0x32
+#define  USER_RESPONSE_ID		       (u8)0x46
 #define  APP_DIAG_M1			       (u8)0x38
 #define  APP_DIAG_M2			       (u8)0x31
 
@@ -66,7 +66,7 @@ typedef enum
 }STATE_t;
 
 
-void CAN_FIFO0_callback(void);
+void CAN_FIFO1_callback(void);
 void UART_callback(void);
 void CAN_AppAckCallback(void);
 void GetUpdate(void);

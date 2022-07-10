@@ -15,15 +15,15 @@ CAN_Init_t CAN_InitStruct = {12, CAN_MODE_NORMAL, CAN_SJW_1TQ, CAN_BS1_2TQ, CAN_
 
 /******************************** Main ECU Filters *************************************/
 
-CAN_FilterInit_t CAN_FilterUserResponse = {(u32)(0x46<<21), (u32)(0x46<<21), CAN_FILTERMODE_IDLIST, 1, CAN_FILTERSCALE_32BIT, CAN_FIFO_0, CAN_ENABLE};
+CAN_FilterInit_t CAN_FilterUserResponse = {(u32)(0x46<<21), (u32)(0x46<<21), CAN_FILTERMODE_IDLIST, 1, CAN_FILTERSCALE_32BIT, CAN_FIFO_1, CAN_ENABLE};
 
-CAN_FilterInit_t CAN_FilterAppAck = {(u32)(0x30<<21), (u32)(0x30<<21), CAN_FILTERMODE_IDLIST, 3, CAN_FILTERSCALE_32BIT, CAN_FIFO_1, CAN_ENABLE};
+CAN_FilterInit_t CAN_FilterAppAck = {0x06000000, 0x06000000, CAN_FILTERMODE_IDLIST, 3, CAN_FILTERSCALE_32BIT, CAN_FIFO_0, CAN_ENABLE};
 
-CAN_FilterInit_t CAN_FilterUserRequest = {(u32)(0x36<<21), (u32)(0x36<<21), CAN_FILTERMODE_IDLIST, 4, CAN_FILTERSCALE_32BIT, CAN_FIFO_0, CAN_ENABLE};
+CAN_FilterInit_t CAN_FilterUserRequest = {(u32)(0x36<<21), (u32)(0x36<<21), CAN_FILTERMODE_IDLIST, 4, CAN_FILTERSCALE_32BIT, CAN_FIFO_1, CAN_ENABLE};
 
-CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE1 = {(u32)(0x38<<21), (u32)(0x38<<21), CAN_FILTERMODE_IDLIST, 2, CAN_FILTERSCALE_32BIT, CAN_FIFO_0, CAN_ENABLE};
+CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE1 = {(u32)(0x38<<21), (u32)(0x38<<21), CAN_FILTERMODE_IDLIST, 2, CAN_FILTERSCALE_32BIT, CAN_FIFO_1, CAN_ENABLE};
 
-CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE2 = {(u32)(0x31<<21), (u32)(0x31<<21), CAN_FILTERMODE_IDLIST, 5, CAN_FILTERSCALE_32BIT, CAN_FIFO_0, CAN_ENABLE};
+CAN_FilterInit_t CAN_FilterAppDiagnostics_MODE2 = {(u32)(0x31<<21), (u32)(0x31<<21), CAN_FILTERMODE_IDLIST, 5, CAN_FILTERSCALE_32BIT, CAN_FIFO_1, CAN_ENABLE};
 
 /************************************* User ECU Filters *************************************/
 
