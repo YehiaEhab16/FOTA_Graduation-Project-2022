@@ -46,6 +46,8 @@ CAN_msg CAN_TXmsg;
 //FAN
 FAN_t Global_FAN_tCoolingSystem = {FAN_PORTB,FAN_PIN12,FAN_ACTIVE_HIGH};
 
+
+u8 Local_u8LastVersion = NonError ;
 //Reading Temperature from LM35
 void Task_voidReadTemperature(void )
 {
@@ -76,21 +78,18 @@ void Task_voidSystemCheck(void)
 		CAN_TXmsg.data[i] = 0;
 
 	//Local_u8TempVal=Global_pu8AppsVariables[1];
+	CAN_TXmsg.id = CAN_DIAG_ID_TX1;
 
 	if (Global_u8CanDiagFlag == 1)
 	{
-		CAN_TXmsg.id = CAN_DIAG_ID_TX1;
 		if ( !( (Local_u8TempVal >=25)&&( Local_u8TempVal <=30) ) )
 			CAN_TXmsg.data[0] = TempErrorMode1;
 		else
 			CAN_TXmsg.data[0] = NonError;
-
-
 		GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_8, GPIO_PIN_HIGH);
 	}
 	else
 	{
-		CAN_TXmsg.id = CAN_DIAG_ID_TX2;
 		if (  !((Local_u8TempVal>=20) && (Local_u8TempVal <=70) ) )
 			CAN_TXmsg.data[0] = TempErrorMode2;			//Error Occured
 
@@ -99,9 +98,12 @@ void Task_voidSystemCheck(void)
 
 	}
 
-	if (CAN_TXmsg.data[0] != NonError)
-		Task_voidSendDiagnostics();
-
+	if (CAN_TXmsg.data[0] != Local_u8LastVersion)
+	{
+		Local_u8LastVersion =CAN_TXmsg.data ;
+		if (Local_u8LastVersion != NonError)
+			Task_voidSendDiagnostics();
+	}
 }
 
 //Sending Diagnostics Data

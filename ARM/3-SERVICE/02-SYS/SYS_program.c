@@ -111,3 +111,12 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void))
 
 
 }
+
+void SYS_voidBootInit (void)
+{
+	RCC_voidInit();
+	GPIO_voidDirectionInit();
+	CAN_voidInit(&CAN_InitStruct);
+	CAN_VoidFilterSet(&CAN_FilterUpdate);
+	FPEC_voidInit();
+}
