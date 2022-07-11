@@ -6,18 +6,22 @@ from PyQt5.uic import loadUiType
 import time
 import requests
 import os
+from bluetooth import *
 import Phone
 from PyQt5 import QtCore
 from subprocess import check_output
 import RPi.GPIO as GPIO
+
+threadDelay = 0.1
+commDelay = 0.005
 
 outputUpdate = 8
 outputDiag = 10
 outputResponseFlag = 12
 
 inputUpdate = 16
-inputDiagTemp = 32
-inputDiagDirections = 18
+inputDiagTemp = 18
+inputDiagDirections = 32
 inputDiagUltra = 36
 inputDiagFlag = 37
 
@@ -26,6 +30,7 @@ requestDiagMode = 2
 
 redirectToggle = True
 wifiToggle = False
+bluetoothToggle = False
 
 cwd = os.getcwd()
 parent = os.path.dirname(cwd)
@@ -33,6 +38,7 @@ parent = os.path.dirname(cwd)
 wifiNameArray = []
 wifiEncryptionArray = []
 wifiFrequencyArray = []
+bluetoothArray = []
 
 try:
 	scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
@@ -74,7 +80,11 @@ for line in scanoutput.split():
 while ("" in wifiFrequencyArray):
 	wifiFrequencyArray.remove("")
 
-
+# Getting bluetooth available devices list
+nearbyDevices = discover_devices(lookup_names = True)
+for name, addr in nearbyDevices:
+     bluetoothArray.append(addr)
+     
 Link = parent+'/UI/Settings.ui'
 # Load UI
 FormClass, _ = loadUiType(ntpath.join(
@@ -86,7 +96,7 @@ class MyThread(QThread):
         cnt = 0
         while True:
             cnt += 1
-            time.sleep(0.1)
+            time.sleep(threadDelay)
             self.change_value.emit(cnt)
 
 # Define main window
@@ -117,6 +127,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.Contact.clicked.connect(self.Handle_Send)
         self.Contact.clicked.connect(self.Handle_Phone)
         self.checkBox.clicked.connect(self.Handle_Wifi)
+        self.checkBox_2.clicked.connect(self.Handle_Bluetooth)
 
     def GPIO_Init(self):
         GPIO.setwarnings(False)
@@ -171,14 +182,24 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.WiFi.setRowCount(wifiNameArrayLength)
         wifiToggle = not wifiToggle
         if (wifiToggle == True):
-            for row in range(wifiNameArrayLength or len(wifiEncryptionArray)):
+            for row in range(wifiNameArrayLength):
                 self.WiFi.setItem(row,0,QTableWidgetItem(str(wifiNameArray[row])))
                 self.WiFi.setItem(row,1,QTableWidgetItem(str(wifiFrequencyArray[row]) + ' GHz'))
                 self.WiFi.setItem(row,2,QTableWidgetItem(str(wifiEncryptionArray[row])))
         else:
-            for row in range(wifiNameArrayLength):
-                self.WiFi.setRowCount(0)
+            self.WiFi.setRowCount(0)
                 
+    def Handle_Bluetooth(self):
+        global bluetoothArray
+        global bluetoothToggle
+        bluetoothArrayLength = len(bluetoothArray)
+        self.Bluetooth.setRowCount(bluetoothArrayLength)
+        bluetoothToggle = not bluetoothToggle
+        if (bluetoothToggle == True):
+            for row in range(bluetoothArrayLength):
+                self.Bluetooth.setItem(row,0,QTableWidgetItem(str(bluetoothArray[row])))
+        else:
+            self.Bluetooth.setRowCount(0)
 
     def Handle_Phone(self):
         self.PhoneRedirect.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
@@ -188,7 +209,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global requestDiagMode
         requestDiagMode = 1
         GPIO.output(outputDiag, GPIO.LOW)
-        time.sleep(0.003)
+        time.sleep(commDelay)
         GPIO.output(outputDiag, GPIO.HIGH)
         
 
@@ -219,7 +240,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
             else:
                 GPIO.output(outputUpdate,GPIO.HIGH)
             GPIO.output(outputResponseFlag, GPIO.LOW)
-            time.sleep(0.003)
+            time.sleep(commDelay)
             GPIO.output(outputUpdate, GPIO.HIGH)
             GPIO.output(outputResponseFlag, GPIO.HIGH) 
                    
@@ -256,11 +277,11 @@ class MainAPP_Setting(QTabWidget, FormClass):
                                 QMessageBox.Ok)
                     if qMsgBoxSystemCheck == QMessageBox.Ok:
                         if(inputDiagTempVar == 0 or inputDiagTempVar == False):
-                            self.Radiator.setText("Error occured")
+                            self.Radiator.setText("Error mn mode 2")
                         if(inputDiagDirectionsVar == 0 or inputDiagDirectionsVar == False):
-                            self.Engine.setText("Error occured")
+                            self.Engine.setText("Error mn mode 2")
                         if(inputDiagUltraVar == 0 or inputDiagUltraVar == False):
-                            self.Sensor.setText("Error occured")
+                            self.Sensor.setText("Error mn mode 2")
                             inputDiagFlagVar = 1 or True
                             inputDiagTempVar = 1 or True
                             inputDiagDirectionsVar = 1 or True
