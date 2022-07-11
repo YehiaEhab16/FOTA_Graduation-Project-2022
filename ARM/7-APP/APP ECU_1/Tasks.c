@@ -30,14 +30,7 @@
 //Can Flag 
 extern u8 Global_CAN_DIAG_FLAG;
 
-
-
 u8 Global_ERORR_DIAG_FLAG = 0;
-
-
-u8 Global_APPS_Variables[6]= {0};
-
-
 
 /*dist 0
  * temp1
@@ -46,6 +39,7 @@ u8 Global_APPS_Variables[6]= {0};
  * Direction   4
  * MainRequest 5
  */
+u8 Global_APPS_Variables[6]= {0};
 
 //Can
 CAN_msg CAN_TXmsg;
@@ -59,10 +53,6 @@ SW_t Global_SW_tBackward = {SW_PORTA,SW_PIN1,SW_PULL_UP};
 
 //Motors
 DCM_t Global_DCM_tRightMotor = {DCM_PORTA,DCM_PIN5,DCM_PIN4,DCM_PIN3,DCM_PIN2};
-//DCM_t Global_DCM_tLeftMotor = {DCM_PORTA,DCM_PIN8,DCM_PIN9,DCM_PIN10,DCM_PIN11};
-
-
-
 
 //Activating LED and Buzzer
 void Task_voidAlert(void)
@@ -74,15 +64,14 @@ void Task_voidAlert(void)
 		LED_voidLedOn(&Global_LED_tRed);
 		BZR_voidOn(BZR_PORTA,BZR_PIN0);
 	}
-
 }
+
 //Reading Distance from Ultrasonic
 void Task_voidReadDistance(void)
 {
-	u32 Local_u8DistVal=255;
-	USN_u8ReadDistance(&Local_u8DistVal);
-	Global_APPS_Variables[Distance]=Local_u8DistVal;
-
+	u32 Local_u32DistVal=255;
+	USN_u8ReadDistance(&Local_u32DistVal);
+	Global_APPS_Variables[Distance]=Local_u32DistVal;
 }
 
 //Reading Direction from 2 switches
@@ -92,26 +81,22 @@ void Task_voidReadDirection(void)
 
 	if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
 	{
-		//suspend Altert and suspend Distance
+		//suspend Alert and suspend Distance
 		Local_u8Dir=FORWARD;
-//		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
-//		RTOS_voidSuspendTask((u8)ALERT_ID);
-		RTOS_voidResumeTask((u8)READ_DISTANCE_ID);
-		RTOS_voidResumeTask((u8)ALERT_ID);
-
-
+		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
+		RTOS_voidSuspendTask((u8)ALERT_ID);
 	}
 	else if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
 	{
 		Local_u8Dir=BACKWARD;
-		//ResumeAltert and dist
+		//Resume Alert and Distance
 		RTOS_voidResumeTask((u8)READ_DISTANCE_ID);
 		RTOS_voidResumeTask((u8)ALERT_ID);
 	}
 	else
 	{
 		Local_u8Dir=STOP;
-		//suspend Altert and suspend Distance
+		//suspend Alert and suspend Distance
 		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
 		RTOS_voidSuspendTask((u8)ALERT_ID);
 	}
@@ -123,19 +108,10 @@ void Task_voidReadDirection(void)
 void Task_voidMotorFeedback(void )
 {
 	u8 Local_u8RightMotorFB=0;
-//	u8 Local_u8LeftMotorFB=0;
-
-
 
 	Local_u8RightMotorFB = DCM_u8DetectDirection();
-	//Local_u8LeftMotorFB  = DCM_voidReadEncoder( );
 	Global_APPS_Variables[RightMotorFB]=Local_u8RightMotorFB;
-	//Global_APPS_Variables[LeftMotorFB]=Local_u8LeftMotorFB;
-
-
 }
-
-
 
 //Forward and backward motion
 void Task_voidMoveVehicle(void)
@@ -144,21 +120,13 @@ void Task_voidMoveVehicle(void)
 
 	Local_u8Dir = Global_APPS_Variables[Direction];
 	if(Local_u8Dir==FORWARD)
-	{
 		DCM_voidRotateCCW( );
-//		DCM_voidRotateCCW( );
-	}
-	else if(Local_u8Dir==BACKWARD)
-	{
-		DCM_voidRotateCW( );
-//		DCM_voidRotateCW( );
-	}
-	else if(Local_u8Dir==STOP)
-	{
-		DCM_voidStop2( );
-//		DCM_voidStop2( );
-	}
 
+	else if(Local_u8Dir==BACKWARD)
+		DCM_voidRotateCW( );
+
+	else if(Local_u8Dir==STOP)
+		DCM_voidStop2( );
 }
 
 
@@ -170,7 +138,6 @@ void Task_voidSystemCheck(void)
 	u8 Local_u8RightMotorFB;
 	u8 Local_u8LeftMotorFB;
 
-
 	for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
 
 	Local_u8Dist=Global_APPS_Variables[Distance];
@@ -181,42 +148,30 @@ void Task_voidSystemCheck(void)
 	if (Global_CAN_DIAG_FLAG == 1)
 	{
 		if ( !(Local_u8Dir == FORWARD) )
-		{
 			SET_BIT(Global_ERORR_DIAG_FLAG,2);
-		}
 
 		if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == FORWARD))
-		{
 			SET_BIT(Global_ERORR_DIAG_FLAG,3);
-		}
 	}
 	else
 	{
-
 		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
 				||(Local_u8LeftMotorFB != FORWARD ) ) ))
 				||((Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
 						||(Local_u8LeftMotorFB != BACKWARD) ) )))
-		{
 			Global_ERORR_DIAG_FLAG  = 'M';
-		}
 		else
-		{
-
 			Global_ERORR_DIAG_FLAG =0 ;
-		}
 	}
 
 	CAN_TXmsg.data[0] = Global_ERORR_DIAG_FLAG;
 	Global_ERORR_DIAG_FLAG=0;
 	Task_voidSendDiagnostics();
-
 }
 
 //Sending Diagnostics Data
 void Task_voidSendDiagnostics(void)
 {
-
 	CAN_TXmsg.len = 1;
 	CAN_TXmsg.format = CAN_ID_STD;
 	CAN_TXmsg.id = 0x31;
@@ -227,6 +182,4 @@ void Task_voidSendDiagnostics(void)
 		Global_ERORR_DIAG_FLAG =0 ;
 		CAN_u8Transmit(&CAN_TXmsg);
 	}
-
 }
-

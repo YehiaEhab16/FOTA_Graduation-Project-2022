@@ -23,7 +23,7 @@
 //Recieve Struct
 CAN_msg CAN_RXmsg;
 u8 Global_CAN_DIAG_FLAG = 0;
-void Task_voidCANRecieveISR(void)
+void ISR_voidCANRecieve(void)
 {
 	u16 Local_u16Data=1;
 	CAN_voidReceive(&CAN_RXmsg, 0);
@@ -41,8 +41,7 @@ void Task_voidCANRecieveISR(void)
 	}
 }
 
-
-void DCM_voidEXTI_ISR (void)
+void ISR_voidDCM(void)
 {
 	u8 ENCA_PIN_VALUE=0;
 

@@ -19,7 +19,7 @@
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 
 #include "../../5-RTOS/RTOS_interface.h"
-#include "../../7-APP/APP ECU_1/ISR.h"
+
 #include "SYS_interface.h"
 #include "SYS_private.h"
 #include "SYS_config.h"
@@ -53,7 +53,7 @@ void SYS_voidMainInit(void)
 }
 
 
-void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
+void SYS_voidApp1Init(void (*Copy_pvCallBackFuncCan)(void), void (*Copy_pvCallBackFuncDCM)(void))
 {
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
@@ -63,15 +63,16 @@ void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterApp1Diagnostics);
 	CAN_VoidFilterSet(&CAN_FilterApp1Update);
-	NVIC_u8EnableInterrupt(EXTI3_IRQ);
-	EXTI_voidSetSignalLatch(EXTI_LINE3 , FALLING_EDGE);
+	EXTI_voidSetSignalLatch(EXTI_LINE3, FALLING_EDGE);
 	EXTI_voidEnableEXTI(EXTI_LINE3);
-	EXTI_voidSoftwareTrigger(EXTI_LINE3);
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
-	EXTI_voidSetCallBack(DCM_voidEXTI_ISR);
+	NVIC_u8EnableInterrupt(EXTI3_IRQ);
 
-	if (Copy_pvCallBackFunc != NULL)
-		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc);
+	if (Copy_pvCallBackFuncCan != NULL)
+		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFuncCan);
+
+	if (Copy_pvCallBackFuncDCM != NULL)
+		EXTI_voidSetCallBack(Copy_pvCallBackFuncDCM);
 
 	RTOS_voidInit();
 }

@@ -18,9 +18,9 @@
 #define CAN_DIAG_ID_TX1					0x38
 #define CAN_DIAG_ID_TX2					0x31
 
-void Task_voidCANRecieveISR(void);
+void ISR_voidCANRecieve(void);
 
-void DCM_voidEXTI_ISR (void);
+void ISR_voidDCM(void);
 
 
 #endif
