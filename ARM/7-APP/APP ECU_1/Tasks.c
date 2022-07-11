@@ -30,7 +30,11 @@
 //Can Flag 
 extern u8 Global_CAN_DIAG_FLAG;
 
+//check error
 u8 Global_ERORR_DIAG_FLAG = 0;
+
+//Motor Feedback
+u8 Global_DCM_FB = 0;
 
 /*dist 0
  * temp1
@@ -107,10 +111,9 @@ void Task_voidReadDirection(void)
 //get feedback from encoder
 void Task_voidMotorFeedback(void )
 {
-	u8 Local_u8RightMotorFB=0;
+	u8 Local_u8RightMotorFB = 0;
+	Local_u8RightMotorFB = Global_DCM_FB ;
 
-	Local_u8RightMotorFB = DCM_u8DetectDirection();
-	Global_APPS_Variables[RightMotorFB]=Local_u8RightMotorFB;
 }
 
 //Forward and backward motion

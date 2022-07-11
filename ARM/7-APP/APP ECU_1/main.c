@@ -29,7 +29,6 @@ int main(void)
  * Task_voidMotorFeedback -- > Priority =4 , First Delay = 0 , State = Ready
  * Task_voidSystemCheck   -- > Priority =5 , First Delay = 0 , State = Ready
  */
-	//RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidReadDirection);
 
 	//RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+1,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidMoveVehicle);
 

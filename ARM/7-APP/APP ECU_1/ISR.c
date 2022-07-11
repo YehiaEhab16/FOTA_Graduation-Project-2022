@@ -23,6 +23,8 @@
 //Recieve Struct
 CAN_msg CAN_RXmsg;
 u8 Global_CAN_DIAG_FLAG = 0;
+extern u8 Global_DCM_FB ;
+
 void ISR_voidCANRecieve(void)
 {
 	u16 Local_u16Data=1;
@@ -43,8 +45,6 @@ void ISR_voidCANRecieve(void)
 
 void ISR_voidDCM(void)
 {
-	u8 ENCA_PIN_VALUE=0;
 
-	GPIO_u8GetPinValue(DCM_PORTA , DCM_PIN3 , &ENCA_PIN_VALUE);
-	DCM_u8DetectDirection( );
+	Global_DCM_FB = DCM_u8DetectDirection( );
 }
