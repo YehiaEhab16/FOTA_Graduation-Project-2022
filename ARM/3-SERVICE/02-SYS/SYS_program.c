@@ -56,6 +56,7 @@ void SYS_voidMainInit(void)
 
 void SYS_voidApp1Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(void), void (*Copy_pvCallBackFuncDCM)(void))
 {
+	SCB_VTOR = 0x8003000 ;
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();

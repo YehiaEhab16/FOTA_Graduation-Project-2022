@@ -143,15 +143,15 @@ void Task_voidSystemCheck(void)
 	if (Global_u8DiagFlag == 1)
 	{
 		Global_u8DiagFlag=0;
-		if ( (Local_u8Dir == STOP) )	//Add Polling to move forward
+		if ((( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))&&(Local_u8Dir == STOP))
+			CAN_TXmsg.data[0] = DistDirErrorMode1;
+		else if ( (Local_u8Dir == STOP) )	//Add Polling to move forward
 			CAN_TXmsg.data[0] = DirErrorMode1;
-		if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))
-			if(CAN_TXmsg.data[0]==DirErrorMode1)
-				CAN_TXmsg.data[0] = DistDirErrorMode1;
-			else
+		else if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))
 				CAN_TXmsg.data[0] = DistErrorMode1;
 		else
 			CAN_TXmsg.data[0] = NonError;
+
 	}
 	else
 	{
