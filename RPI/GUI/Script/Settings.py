@@ -39,6 +39,12 @@ wifiNameArray = []
 wifiEncryptionArray = []
 wifiFrequencyArray = []
 bluetoothArray = []
+
+
+# Getting bluetooth available devices list
+nearbyDevices = discover_devices(lookup_names = True)
+for name, addr in nearbyDevices:
+     bluetoothArray.append(addr)
      
 Link = parent+'/UI/Settings.ui'
 # Load UI
@@ -133,45 +139,46 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global wifiNameArray
         global wifiEncryptionArray
         global wifiFrequencyArray
-        try:
-            scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
-        except:
+        if wifiToggle == False:
             try:
-                time.sleep(1)
                 scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
             except:
-                time.sleep(3)
-                scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
-        # Getting and filtering the names of WiFi-s
-        for line in scanoutput.split():
-            line = line.decode('utf-8')
-            if line.startswith("ESSID"):
-                filterLine =line.split(':')[1].replace('"','')
-                wifiNameArray.append(filterLine) 
-        while ("" in wifiNameArray):
-            wifiNameArray.remove("")
-            
-        # Getting and filtering the encryption types of WiFi-s	
-        for line in scanoutput.split():
-            line = line.decode('utf-8')
-            if line.startswith("key"):
-                filterLine =line.split(':')[1].replace('"','')
-                if filterLine == 'on':
-                    filterLine = 'Encrypted (WPS)'
-                else:
-                    filterLine = 'None'
-                wifiEncryptionArray.append(filterLine)
-        while ("" in wifiEncryptionArray):
-            wifiEncryptionArray.remove("")
-            
-        #Getting and filtering the frequencies of WiFi-s
-        for line in scanoutput.split():
-            line = line.decode('utf-8')
-            if line.startswith("Frequency"):
-                filterLine =line.split(':')[1].replace('"','')
-                wifiFrequencyArray.append(filterLine)    
-        while ("" in wifiFrequencyArray):
-            wifiFrequencyArray.remove("")        
+                try:
+                    time.sleep(1)
+                    scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
+                except:
+                    time.sleep(3)
+                    scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
+            # Getting and filtering the names of WiFi-s
+            for line in scanoutput.split():
+                line = line.decode('utf-8')
+                if line.startswith("ESSID"):
+                  filterLine =line.split(':')[1].replace('"','')
+                  wifiNameArray.append(filterLine) 
+            while ("" in wifiNameArray):
+                wifiNameArray.remove("")
+                
+            # Getting and filtering the encryption types of WiFi-s	
+            for line in scanoutput.split():
+                line = line.decode('utf-8')
+                if line.startswith("key"):
+                    filterLine =line.split(':')[1].replace('"','')
+                    if filterLine == 'on':
+                        filterLine = 'Encrypted (WPS)'
+                    else:
+                        filterLine = 'None'
+                    wifiEncryptionArray.append(filterLine)
+            while ("" in wifiEncryptionArray):
+                wifiEncryptionArray.remove("")
+                
+            #Getting and filtering the frequencies of WiFi-s
+            for line in scanoutput.split():
+                line = line.decode('utf-8')
+                if line.startswith("Frequency"):
+                  filterLine =line.split(':')[1].replace('"','')
+                  wifiFrequencyArray.append(filterLine)    
+            while ("" in wifiFrequencyArray):
+                wifiFrequencyArray.remove("")
         wifiNameArrayLength = len(wifiNameArray)
         self.WiFi.setRowCount(wifiNameArrayLength)
         wifiToggle = not wifiToggle
@@ -181,15 +188,12 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 self.WiFi.setItem(row,1,QTableWidgetItem(str(wifiFrequencyArray[row]) + ' GHz'))
                 self.WiFi.setItem(row,2,QTableWidgetItem(str(wifiEncryptionArray[row])))
         else:
+            wifiNameArray = []
             self.WiFi.setRowCount(0)
                 
     def Handle_Bluetooth(self):
         global bluetoothArray
         global bluetoothToggle
-        # Getting bluetooth available devices list
-        nearbyDevices = discover_devices(lookup_names = True)
-        for name, addr in nearbyDevices:
-            bluetoothArray.append(addr)
         bluetoothArrayLength = len(bluetoothArray)
         self.Bluetooth.setRowCount(bluetoothArrayLength)
         bluetoothToggle = not bluetoothToggle
