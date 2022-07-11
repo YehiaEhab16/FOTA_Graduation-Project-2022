@@ -1186,7 +1186,7 @@ ColorButton::disabled {
 }</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="tab">
    <attribute name="title">
@@ -1465,21 +1465,6 @@ QCheckBox::indicator:checked {
     <attribute name="verticalHeaderCascadingSectionResizes">
      <bool>false</bool>
     </attribute>
-    <column>
-     <property name="text">
-      <string>Name</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Type</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Connectivity</string>
-     </property>
-    </column>
    </widget>
    <widget class="QPushButton" name="back_2">
     <property name="geometry">
