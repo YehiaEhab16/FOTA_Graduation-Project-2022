@@ -1270,7 +1270,7 @@ ColorButton::disabled {
 }</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="tab">
    <property name="font">
@@ -1778,7 +1778,7 @@ ColorButton::disabled {
       <x>0</x>
       <y>30</y>
       <width>801</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="font">
@@ -1845,7 +1845,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>380</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -1875,7 +1875,7 @@ ColorButton::disabled {
       <x>0</x>
       <y>30</y>
       <width>801</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="font">
@@ -1937,7 +1937,7 @@ ColorButton::disabled {
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>380</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>

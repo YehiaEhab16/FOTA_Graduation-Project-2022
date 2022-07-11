@@ -1190,7 +1190,7 @@ ColorButton::disabled {
   </property>
   <widget class="QWidget" name="tab">
    <attribute name="title">
-    <string>Wi-FI</string>
+    <string>Wi-Fi</string>
    </attribute>
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
@@ -1263,7 +1263,7 @@ QCheckBox::indicator:checked {
       <x>0</x>
       <y>70</y>
       <width>801</width>
-      <height>311</height>
+      <height>291</height>
      </rect>
     </property>
     <property name="font">
@@ -1310,16 +1310,6 @@ QCheckBox::indicator:checked {
     <attribute name="verticalHeaderCascadingSectionResizes">
      <bool>false</bool>
     </attribute>
-    <row>
-     <property name="text">
-      <string>Row1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>Row2</string>
-     </property>
-    </row>
     <column>
      <property name="text">
       <string>Name</string>
@@ -1335,42 +1325,12 @@ QCheckBox::indicator:checked {
       <string>Security</string>
      </property>
     </column>
-    <item row="0" column="0">
-     <property name="text">
-      <string>FOTA_WiFi</string>
-     </property>
-    </item>
-    <item row="0" column="1">
-     <property name="text">
-      <string>Strong</string>
-     </property>
-    </item>
-    <item row="0" column="2">
-     <property name="text">
-      <string>Connected</string>
-     </property>
-    </item>
-    <item row="1" column="0">
-     <property name="text">
-      <string>Wifi_2</string>
-     </property>
-    </item>
-    <item row="1" column="1">
-     <property name="text">
-      <string>Moderate</string>
-     </property>
-    </item>
-    <item row="1" column="2">
-     <property name="text">
-      <string>Encrypted (WPS)</string>
-     </property>
-    </item>
    </widget>
    <widget class="QPushButton" name="back">
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>380</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -1458,7 +1418,7 @@ QCheckBox::indicator:checked {
       <x>0</x>
       <y>70</y>
       <width>801</width>
-      <height>311</height>
+      <height>291</height>
      </rect>
     </property>
     <property name="font">
@@ -1505,16 +1465,6 @@ QCheckBox::indicator:checked {
     <attribute name="verticalHeaderCascadingSectionResizes">
      <bool>false</bool>
     </attribute>
-    <row>
-     <property name="text">
-      <string>Row1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>Row2</string>
-     </property>
-    </row>
     <column>
      <property name="text">
       <string>Name</string>
@@ -1530,42 +1480,12 @@ QCheckBox::indicator:checked {
       <string>Connectivity</string>
      </property>
     </column>
-    <item row="0" column="0">
-     <property name="text">
-      <string>Media_G7</string>
-     </property>
-    </item>
-    <item row="0" column="1">
-     <property name="text">
-      <string>Headset</string>
-     </property>
-    </item>
-    <item row="0" column="2">
-     <property name="text">
-      <string>Paired</string>
-     </property>
-    </item>
-    <item row="1" column="0">
-     <property name="text">
-      <string>Desktop_123</string>
-     </property>
-    </item>
-    <item row="1" column="1">
-     <property name="text">
-      <string>Device</string>
-     </property>
-    </item>
-    <item row="1" column="2">
-     <property name="text">
-      <string>Available</string>
-     </property>
-    </item>
    </widget>
    <widget class="QPushButton" name="back_2">
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>380</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -1729,7 +1649,7 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>380</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -2283,7 +2203,7 @@ QCheckBox::indicator:checked {
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>380</y>
+      <y>370</y>
       <width>81</width>
       <height>41</height>
      </rect>

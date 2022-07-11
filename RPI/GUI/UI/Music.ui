@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>490</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1481,7 +1481,7 @@ ColorButton::disabled {
    <property name="geometry">
     <rect>
      <x>710</x>
-     <y>440</y>
+     <y>430</y>
      <width>81</width>
      <height>41</height>
     </rect>
