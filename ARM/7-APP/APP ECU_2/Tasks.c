@@ -78,7 +78,6 @@ void Task_voidSystemCheck(void)
 		CAN_TXmsg.data[i] = 0;
 
 	//Local_u8TempVal=Global_pu8AppsVariables[1];
-	CAN_TXmsg.id = CAN_DIAG_ID_TX1;
 
 	if (Global_u8CanDiagFlag == 1)
 	{
@@ -95,7 +94,6 @@ void Task_voidSystemCheck(void)
 
 		else
 			CAN_TXmsg.data[0] = NonError;
-
 	}
 
 	if (CAN_TXmsg.data[0] != Local_u8LastError)
@@ -111,6 +109,7 @@ void Task_voidSendDiagnostics(void)
 {
 	CAN_TXmsg.len = 1;
 	CAN_TXmsg.format = CAN_ID_STD;
+	CAN_TXmsg.id = CAN_DIAG_ID_TX;
 	CAN_TXmsg.type = CAN_RTR_DATA;
 	CAN_u8Transmit(&CAN_TXmsg);
 }
