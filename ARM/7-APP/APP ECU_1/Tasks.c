@@ -9,8 +9,8 @@
 #include "../../6-Library/STD_TYPES.h"
 #include "../../6-Library/BIT_MATH.h"
 
-#include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
+#include "../../1-MCAL/06-CAN/CAN_interface.h"
 
 #include "../../2-HAL/01-LED/LED_interface.h"
 #include "../../2-HAL/02-DCM/DCM_interface.h"
@@ -21,20 +21,13 @@
 #include "../../2-HAL/07-FAN/FAN_interface.h"
 #include "../../5-RTOS/RTOS_interface.h"
 
-
-
-
-#include "Tasks_interface.h"
-#include "Tasks_private.h"
+#include "Tasks.h"
 
 //Can Flag 
-extern u8 Global_CAN_DIAG_FLAG;
-
-//check error
-u8 Global_ERORR_DIAG_FLAG = 0;
+extern u8 Global_u8DiagFlag;
 
 //Motor Feedback
-u8 Global_DCM_FB = 0;
+u8 Global_u8MotorFeedback = 0;
 
 /*dist 0
  * temp1
@@ -43,7 +36,7 @@ u8 Global_DCM_FB = 0;
  * Direction   4
  * MainRequest 5
  */
-u8 Global_APPS_Variables[6]= {0};
+u8 Global_pu8AppVariables[6]= {0};
 
 //Can
 CAN_msg CAN_TXmsg;
@@ -52,7 +45,7 @@ CAN_msg CAN_TXmsg;
 LED_t Global_LED_tRed = {LED_PORTB,LED_PIN1,LED_ACTIVE_HIGH};
 
 //Switches
-SW_t Global_SW_tForward =  {SW_PORTA,SW_PIN8,SW_PULL_UP};
+SW_t Global_SW_tForward =  {SW_PORTA,SW_PIN0,SW_PULL_UP};
 SW_t Global_SW_tBackward = {SW_PORTA,SW_PIN1,SW_PULL_UP};
 
 //Motors
@@ -62,7 +55,7 @@ DCM_t Global_DCM_tRightMotor = {DCM_PORTA,DCM_PIN5,DCM_PIN4,DCM_PIN3,DCM_PIN2};
 void Task_voidAlert(void)
 {
 	u8 Local_u8Dist=255;
-	Local_u8Dist = Global_APPS_Variables[Distance];
+	Local_u8Dist = Global_pu8AppVariables[Distance];
 	if(Local_u8Dist<DIST_THRESHOLD)
 	{
 		LED_voidLedOn(&Global_LED_tRed);
@@ -75,7 +68,7 @@ void Task_voidReadDistance(void)
 {
 	u32 Local_u32DistVal=255;
 	USN_u8ReadDistance(&Local_u32DistVal);
-	Global_APPS_Variables[Distance]=Local_u32DistVal;
+	Global_pu8AppVariables[Distance]=Local_u32DistVal;
 }
 
 //Reading Direction from 2 switches
@@ -104,15 +97,15 @@ void Task_voidReadDirection(void)
 		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
 		RTOS_voidSuspendTask((u8)ALERT_ID);
 	}
-	Global_APPS_Variables[Direction]=Local_u8Dir;
-
+	Global_pu8AppVariables[Direction]=Local_u8Dir;
 }
 
 //get feedback from encoder
 void Task_voidMotorFeedback(void )
 {
-	u8 Local_u8RightMotorFB = 0;
-	Local_u8RightMotorFB = Global_DCM_FB ;
+	u8 Local_u8MotorFB = 0;
+
+	Local_u8MotorFB = Global_u8MotorFeedback ;
 
 }
 
@@ -121,7 +114,7 @@ void Task_voidMoveVehicle(void)
 {
 	u8 Local_u8Dir;
 
-	Local_u8Dir = Global_APPS_Variables[Direction];
+	Local_u8Dir = Global_pu8AppVariables[Direction];
 	if(Local_u8Dir==FORWARD)
 		DCM_voidRotateCCW( );
 
@@ -138,38 +131,42 @@ void Task_voidSystemCheck(void)
 {
 	u8 Local_u8Dist;
 	u8 Local_u8Dir;
-	u8 Local_u8RightMotorFB;
-	u8 Local_u8LeftMotorFB;
+	u8 Local_u8MotorFB;
+	u8 Local_u8LastError;
 
 	for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
 
-	Local_u8Dist=Global_APPS_Variables[Distance];
-	Local_u8LeftMotorFB=Global_APPS_Variables[RightMotorFB];
-	Local_u8RightMotorFB=Global_APPS_Variables[LeftMotorFB];
-	Local_u8Dir = Global_APPS_Variables[Direction];
+	Local_u8Dist=Global_pu8AppVariables[Distance];
+	Local_u8MotorFB=Global_pu8AppVariables[LeftMotorFB];
+	Local_u8Dir = Global_pu8AppVariables[Direction];
 
-	if (Global_CAN_DIAG_FLAG == 1)
+	if (Global_u8DiagFlag == 1)
 	{
-		if ( !(Local_u8Dir == FORWARD) )
-			SET_BIT(Global_ERORR_DIAG_FLAG,2);
-
-		if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == FORWARD))
-			SET_BIT(Global_ERORR_DIAG_FLAG,3);
+		if ( (Local_u8Dir == STOP) )	//Add Polling to move forward
+			CAN_TXmsg.data[0] = DirErrorMode1;
+		if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))
+			if(CAN_TXmsg.data[0]==DirErrorMode1)
+				CAN_TXmsg.data[0] = DistDirErrorMode1;
+			else
+				CAN_TXmsg.data[0] = DistErrorMode1;
+		else
+			CAN_TXmsg.data[0] = NonError;
 	}
 	else
 	{
-		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8RightMotorFB != FORWARD)
-				||(Local_u8LeftMotorFB != FORWARD ) ) ))
-				||((Local_u8Dir == BACKWARD) && ( ((Local_u8RightMotorFB != BACKWARD)
-						||(Local_u8LeftMotorFB != BACKWARD) ) )))
-			Global_ERORR_DIAG_FLAG  = 'M';
+		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB != FORWARD)) ))
+				||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB != BACKWARD)) )))
+			CAN_TXmsg.data[0] = DirErrorMode2;
 		else
-			Global_ERORR_DIAG_FLAG =0 ;
+			CAN_TXmsg.data[0] = NonError;
 	}
 
-	CAN_TXmsg.data[0] = Global_ERORR_DIAG_FLAG;
-	Global_ERORR_DIAG_FLAG=0;
-	Task_voidSendDiagnostics();
+	if (CAN_TXmsg.data[0] != Local_u8LastError)
+	{
+		Local_u8LastError =CAN_TXmsg.data[0];
+		if (Local_u8LastError != NonError)
+			Task_voidSendDiagnostics();
+	}
 }
 
 //Sending Diagnostics Data
@@ -179,10 +176,4 @@ void Task_voidSendDiagnostics(void)
 	CAN_TXmsg.format = CAN_ID_STD;
 	CAN_TXmsg.id = 0x31;
 	CAN_TXmsg.type = CAN_RTR_DATA;
-
-	if (Global_ERORR_DIAG_FLAG !=0 )
-	{
-		Global_ERORR_DIAG_FLAG =0 ;
-		CAN_u8Transmit(&CAN_TXmsg);
-	}
 }

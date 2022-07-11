@@ -47,7 +47,7 @@ CAN_msg CAN_TXmsg;
 FAN_t Global_FAN_tCoolingSystem = {FAN_PORTB,FAN_PIN12,FAN_ACTIVE_HIGH};
 
 
-u8 Local_u8LastVersion = NonError ;
+u8 Local_u8LastError = NonError ;
 //Reading Temperature from LM35
 void Task_voidReadTemperature(void )
 {
@@ -98,10 +98,10 @@ void Task_voidSystemCheck(void)
 
 	}
 
-	if (CAN_TXmsg.data[0] != Local_u8LastVersion)
+	if (CAN_TXmsg.data[0] != Local_u8LastError)
 	{
-		Local_u8LastVersion =CAN_TXmsg.data ;
-		if (Local_u8LastVersion != NonError)
+		Local_u8LastError =CAN_TXmsg.data[0];
+		if (Local_u8LastError != NonError)
 			Task_voidSendDiagnostics();
 	}
 }
@@ -113,5 +113,4 @@ void Task_voidSendDiagnostics(void)
 	CAN_TXmsg.format = CAN_ID_STD;
 	CAN_TXmsg.type = CAN_RTR_DATA;
 	CAN_u8Transmit(&CAN_TXmsg);
-
 }

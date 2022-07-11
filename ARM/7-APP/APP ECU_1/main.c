@@ -13,8 +13,7 @@
 #include "../../5-RTOS/RTOS_interface.h"
 
 #include "ISR.h"
-#include "Tasks_interface.h"
-#include "Tasks_private.h"
+#include "Tasks.h"
 
 int main(void)
 {
@@ -30,15 +29,16 @@ int main(void)
  * Task_voidSystemCheck   -- > Priority =5 , First Delay = 0 , State = Ready
  */
 
-	//RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+1,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidMoveVehicle);
+
+	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+1,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidMoveVehicle);
 
 	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+2,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidReadDistance);
 
-	//RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+3,TASK_REF_FIRST_DELAY,RTOS_SUSPENDED,&Task_voidAlert);
+	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+3,TASK_REF_FIRST_DELAY,RTOS_SUSPENDED,&Task_voidAlert);
 
-	//RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+3,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidMotorFeedback);
+	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+3,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidMotorFeedback);
 
-	//RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+5,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidSystemCheck);
+	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+5,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidSystemCheck);
 
 while(1);
 
