@@ -8,6 +8,7 @@ import requests
 import os
 import Phone
 from PyQt5 import QtCore
+from subprocess import check_output
 import RPi.GPIO as GPIO
 
 outputUpdate = 8
@@ -15,8 +16,8 @@ outputDiag = 10
 outputResponseFlag = 12
 
 inputUpdate = 16
-inputDiagTemp = 18
-inputDiagDirections = 32
+inputDiagTemp = 32
+inputDiagDirections = 18
 inputDiagUltra = 36
 inputDiagFlag = 37
 
@@ -24,9 +25,55 @@ settingsIconFlag = 0
 requestDiagMode = 2
 
 redirectToggle = True
+wifiToggle = False
 
 cwd = os.getcwd()
 parent = os.path.dirname(cwd)
+
+wifiNameArray = []
+wifiEncryptionArray = []
+wifiFrequencyArray = []
+
+try:
+	scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
+except:
+	try:
+		time.sleep(1)
+		scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
+	except:
+		time.sleep(3)
+		scanoutput = check_output(["sudo","iwlist", "wlan0", "scan"])
+# Getting and filtering the names of WiFi-s
+for line in scanoutput.split():
+	line = line.decode('utf-8')
+	if line.startswith("ESSID"):
+	  filterLine =line.split(':')[1].replace('"','')
+	  wifiNameArray.append(filterLine) 
+while ("" in wifiNameArray):
+	wifiNameArray.remove("")
+	
+# Getting and filtering the encryption types of WiFi-s	
+for line in scanoutput.split():
+	line = line.decode('utf-8')
+	if line.startswith("key"):
+		filterLine =line.split(':')[1].replace('"','')
+		if filterLine == 'on':
+			filterLine = 'Encrypted (WPS)'
+		else:
+			filterLine = 'None'
+		wifiEncryptionArray.append(filterLine)
+while ("" in wifiEncryptionArray):
+	wifiEncryptionArray.remove("")
+	
+#Getting and filtering the frequencies of WiFi-s
+for line in scanoutput.split():
+	line = line.decode('utf-8')
+	if line.startswith("Frequency"):
+	  filterLine =line.split(':')[1].replace('"','')
+	  wifiFrequencyArray.append(filterLine)    
+while ("" in wifiFrequencyArray):
+	wifiFrequencyArray.remove("")
+
 
 Link = parent+'/UI/Settings.ui'
 # Load UI
@@ -69,6 +116,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.CheckUp.clicked.connect(self.Handle_Diagnostics)
         self.Contact.clicked.connect(self.Handle_Send)
         self.Contact.clicked.connect(self.Handle_Phone)
+        self.checkBox.clicked.connect(self.Handle_Wifi)
 
     def GPIO_Init(self):
         GPIO.setwarnings(False)
@@ -113,7 +161,24 @@ class MainAPP_Setting(QTabWidget, FormClass):
 
     def Handle_Send(self):
         pass
-
+        
+    def Handle_Wifi(self):
+        global wifiToggle
+        global wifiNameArray
+        global wifiEncryptionArray
+        global wifiFrequencyArray
+        wifiNameArrayLength = len(wifiNameArray)
+        self.WiFi.setRowCount(wifiNameArrayLength)
+        wifiToggle = not wifiToggle
+        if (wifiToggle == True):
+            for row in range(wifiNameArrayLength or len(wifiEncryptionArray)):
+                self.WiFi.setItem(row,0,QTableWidgetItem(str(wifiNameArray[row])))
+                self.WiFi.setItem(row,1,QTableWidgetItem(str(wifiFrequencyArray[row]) + ' GHz'))
+                self.WiFi.setItem(row,2,QTableWidgetItem(str(wifiEncryptionArray[row])))
+        else:
+            for row in range(wifiNameArrayLength):
+                self.WiFi.setRowCount(0)
+                
 
     def Handle_Phone(self):
         self.PhoneRedirect.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
@@ -123,7 +188,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global requestDiagMode
         requestDiagMode = 1
         GPIO.output(outputDiag, GPIO.LOW)
-        time.sleep(0.005)
+        time.sleep(0.003)
         GPIO.output(outputDiag, GPIO.HIGH)
         
 
