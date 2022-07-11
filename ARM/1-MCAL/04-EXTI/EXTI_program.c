@@ -16,77 +16,90 @@
 #include  "EXTI_register.h"
 
 //ISR function prototype
-static void (* EXTI_CallBack) (void) = NULL;
+static void (* EXTI_CallBack[5]) (void) = {NULL};
 
 //Initializing EXTI 
-void EXTI_voidInit(void)
+void EXTI_voidInit(u8 Copy_u8InterruptLine, u8 Copy_u8SenseMode)
 {
-	#if		EXTI_LINE == EXTI_LINE0
-			SET_BIT(EXTI->IMR , EXTI_LINE0 );
-	#elif	EXTI_LINE == EXTI_LINE1
-			SET_BIT(EXTI->IMR , EXTI_LINE1 );
-	#elif	EXTI_LINE == EXTI_LINE2
-			SET_BIT(EXTI->IMR , EXTI_LINE2 );
-	#else
-		#error ("Wrong Externl Interrupt Line !")	//Input Validation
-	#endif
-	
-	
-	#if		EXTI_SENSE_MODE == FALLING_EDGE
-			SET_BIT(EXTI->FTSR , EXTI_LINE);
-	#elif	EXTI_SENSE_MODE == RISING_EDGE
-			SET_BIT(EXTI->RTSR , EXTI_LINE);
-	#elif	EXTI_SENSE_MODE == ON_CHANGE
-			SET_BIT(EXTI->RTSR , EXTI_LINE);
-			SET_BIT(EXTI->FTSR , EXTI_LINE);
-	#else
-		#error ("Wrong Externl Interrupt Sense Mode !")	//Input Validation
-	#endif
-	
-	
+	if(Copy_u8InterruptLine>=EXTI_LINE0 && Copy_u8InterruptLine<=EXTI_LINE4)
+	{
+		SET_BIT(EXTI->IMR,  Copy_u8InterruptLine);
+		switch(Copy_u8SenseMode)
+		{
+			case	EXTI_RISING_EDGE	:	SET_BIT(EXTI->RTSR , Copy_u8InterruptLine);	break;
+			case	EXTI_FALLING_EDGE	:	SET_BIT(EXTI->FTSR , Copy_u8InterruptLine);	break;
+			case	EXTI_ON_CHANGE		:	SET_BIT(EXTI->RTSR , Copy_u8InterruptLine);	
+											SET_BIT(EXTI->FTSR , Copy_u8InterruptLine);	break;
+		}
+	}
 }
-
 //Setting EXTI Sense Mode
-void EXTI_voidSetSignalLatch(u8 Copy_u8EXTILine , u8 Copy_u8EXTISenseMode)
+void EXTI_voidSetSenseMode(u8 Copy_u8InterruptLine , u8 Copy_u8EXTISenseMode)
 {	
 	switch(Copy_u8EXTISenseMode)
 	{
-		case	RISING_EDGE		:	SET_BIT(EXTI->RTSR , EXTI_LINE);	break;
-		case	FALLING_EDGE	:	SET_BIT(EXTI->FTSR , EXTI_LINE);	break;
-		case	ON_CHANGE		:	SET_BIT(EXTI->RTSR , EXTI_LINE);	
-									SET_BIT(EXTI->FTSR , EXTI_LINE);	break;
+		case	EXTI_RISING_EDGE	:	SET_BIT(EXTI->RTSR , Copy_u8InterruptLine);	break;
+		case	EXTI_FALLING_EDGE	:	SET_BIT(EXTI->FTSR , Copy_u8InterruptLine);	break;
+		case	EXTI_ON_CHANGE		:	SET_BIT(EXTI->RTSR , Copy_u8InterruptLine);	
+										SET_BIT(EXTI->FTSR , Copy_u8InterruptLine);	break;
 	}
-	SET_BIT(EXTI->IMR , Copy_u8EXTILine);
 }
 
 //Enabling EXTI 
-void EXTI_voidEnableEXTI(u8 Copy_u8EXTILine)
+void EXTI_voidEnableEXTI(u8 Copy_u8InterruptLine)
 {
-	SET_BIT(EXTI->IMR , Copy_u8EXTILine);
+	SET_BIT(EXTI->IMR , Copy_u8InterruptLine);
 }
 
 //Disabling EXTI 
-void EXTI_voidDisableEXTI(u8 Copy_u8EXTILine)
+void EXTI_voidDisableEXTI(u8 Copy_u8InterruptLine)
 {
-	CLR_BIT(EXTI->IMR , Copy_u8EXTILine);
+	CLR_BIT(EXTI->IMR , Copy_u8InterruptLine);
 }
 
 //Setting Software Trigger for EXTI
-void EXTI_voidSoftwareTrigger(u8 Copy_u8EXTILine)
+void EXTI_voidSoftwareTrigger(u8 Copy_u8InterruptLine)
 {
-	SET_BIT(EXTI->SWIER , Copy_u8EXTILine);
+	SET_BIT(EXTI->SWIER , Copy_u8InterruptLine);
 }
 
 //Setting Callback function
-void EXTI_voidSetCallBack(void (*Copy_pvCallBackFunc) (void)) 
+void EXTI_voidSetCallBack(u8 Copy_u8InterruptLine,void (*Copy_pvCallBackFunc) (void)) 
 {
-	EXTI_CallBack = Copy_pvCallBackFunc ; 
+	EXTI_CallBack[Copy_u8InterruptLine] = Copy_pvCallBackFunc; 
 }
 
 void EXTI0_IRQHandler(void)
 {
-	EXTI_CallBack();
+	EXTI_CallBack[EXTI_LINE0]();
 	/*	Clear pending Bit  */
-	SET_BIT(EXTI->PR, 0);
-	
+	SET_BIT(EXTI->PR, EXTI_LINE0);
+}
+
+void EXTI1_IRQHandler(void)
+{
+	EXTI_CallBack[EXTI_LINE1]();
+	/*	Clear pending Bit  */
+	SET_BIT(EXTI->PR, EXTI_LINE1);
+}
+
+void EXTI2_IRQHandler(void)
+{
+	EXTI_CallBack[EXTI_LINE2]();
+	/*	Clear pending Bit  */
+	SET_BIT(EXTI->PR, EXTI_LINE2);
+}
+
+void EXTI3_IRQHandler(void)
+{
+	EXTI_CallBack[EXTI_LINE3]();
+	/*	Clear pending Bit  */
+	SET_BIT(EXTI->PR, EXTI_LINE3);
+}
+
+void EXTI4_IRQHandler(void)
+{
+	EXTI_CallBack[EXTI_LINE4]();
+	/*	Clear pending Bit  */
+	SET_BIT(EXTI->PR, EXTI_LINE4);
 }
