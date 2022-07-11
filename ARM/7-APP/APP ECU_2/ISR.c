@@ -33,7 +33,7 @@ void Task_voidCANRecieveISR(void)
 	else if(CAN_RXmsg.id==CAN_DIAG_ID)
 	{
 		Global_u8CanDiagFlag = 1;
-	//	Task_voidSendDiagnostics();
+		Task_voidSendDiagnostics();
 		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
 	}
 }

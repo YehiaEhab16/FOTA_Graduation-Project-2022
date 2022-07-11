@@ -32,6 +32,15 @@ typedef enum
 	  Direction
 }Tasks_Data;
 
+
+typedef enum
+{
+	NonError =0 ,
+	TempErrorMode1,
+	TempErrorMode2
+
+}Task_Error_Code;
+
 /**
  * @def read temperature from sensor
  * State : Ready

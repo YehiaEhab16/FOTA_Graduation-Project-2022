@@ -9,11 +9,11 @@
 #include "../../6-Library/STD_TYPES.h"
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../../3-SERVICE/02-SYS/SYS_interface.h"
+#include "../../1-MCAL/06-CAN/CAN_interface.h"
 
 #include "../../5-RTOS/RTOS_interface.h"
 
 #include "ISR.h"
-#include "Tasks.h"
 #include "Tasks.h"
 
 int main(void)
@@ -32,7 +32,9 @@ int main(void)
 	RTOS_u8CreateTask (TASK_REF_PRIORITY+3,TASK_REF_PERIODICITY,TASK_REF_FIRST_DELAY,RTOS_SUSPENDED,&Task_voidFanRotate);
 
 
-while(1);
+while(1)
+{
+}
 
 
 }
