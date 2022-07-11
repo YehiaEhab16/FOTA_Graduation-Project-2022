@@ -85,7 +85,7 @@ void DCM_voidStop(DCM_t* Copy_pDCM_tStructMotor);
  * @def   Motor Feedback
  * @param Copy_pDCM_tStructMotor: struct contains Motor Info
  */
-u8 DCM_voidReadEncoder(DCM_t* Copy_pDCM_tStructMotor);
+//u8 DCM_voidReadEncoder(void);
 
 u8 DCM_u8DetectDirection(DCM_t* Copy_pDCM_tStructMotor);
 

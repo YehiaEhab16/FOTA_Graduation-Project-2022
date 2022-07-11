@@ -19,7 +19,7 @@
 
 #include "ISR.h"
 #include "Tasks.h"
-
+extern DCM_t Global_DCM_tRightMotor ;
 
 //Recieve Struct
 CAN_msg CAN_RXmsg;
@@ -41,5 +41,5 @@ void ISR_voidCANRecieve(void)
 
 void ISR_voidDCM(void)
 {
-	Global_u8MotorFeedback = DCM_u8DetectDirection();
+	Global_u8MotorFeedback = DCM_u8DetectDirection(&Global_DCM_tRightMotor);
 }

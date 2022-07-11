@@ -116,13 +116,13 @@ void Task_voidMoveVehicle(void)
 
 	Local_u8Dir = Global_pu8AppVariables[Direction];
 	if(Local_u8Dir==FORWARD)
-		DCM_voidRotateCCW( );
+		DCM_voidRotateCCW(&Global_DCM_tRightMotor );
 
 	else if(Local_u8Dir==BACKWARD)
-		DCM_voidRotateCW( );
+		DCM_voidRotateCW(&Global_DCM_tRightMotor );
 
 	else if(Local_u8Dir==STOP)
-		DCM_voidStop2( );
+		DCM_voidStop2(&Global_DCM_tRightMotor );
 }
 
 
