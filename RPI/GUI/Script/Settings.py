@@ -203,6 +203,7 @@ class MainAPP_Setting(QTabWidget, FormClass):
             global settingsIconFlag
             global requestDiagMode
             settingsIconFlag = 1
+            localErrorFlag=0
         if self.isActiveWindow() and settingsIconFlag:
             settingsIconFlag = 0
             qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
@@ -224,13 +225,24 @@ class MainAPP_Setting(QTabWidget, FormClass):
                    
         elif(inputDiagFlagVar == 0 or inputDiagFlagVar == False):
             if requestDiagMode == 1:
-                #fadl f flag = 1 ene a3ml el msgbox
                 if(inputDiagTempVar == 0 or inputDiagTempVar == False):
                     self.Radiator.setText("Error occured")
+                    localErrorFlag=1
                 if(inputDiagDirectionsVar == 0 or inputDiagDirectionsVar == False):
                     self.Engine.setText("Error occured")
+                    localErrorFlag=1
                 if(inputDiagUltraVar == 0 or inputDiagUltraVar == False):
                     self.Sensor.setText("Error occured")
+                    localErrorFlag=1
+                if(localErrorFlag):
+                    qMsgBoxSystemCheck = QMessageBox.information(self,"System Check",
+                                    "System Check Returned with 1 or more error",
+                                    QMessageBox.Ok)
+                else:
+                    qMsgBoxSystemCheck = QMessageBox.information(self,"System Check",
+                                    "Performed System Check, No Errors Found",
+                                    QMessageBox.Ok)
+                localErrorFlag=0
 
                 requestDiagMode = 2
                 inputDiagFlagVar = 1 or True
@@ -253,11 +265,6 @@ class MainAPP_Setting(QTabWidget, FormClass):
                             inputDiagTempVar = 1 or True
                             inputDiagDirectionsVar = 1 or True
                             inputDiagUltraVar = 1 or True
-                        
-                        else:
-                            qMsgBoxSystemCheck = QMessageBox.information(self,"System Check",
-                                "There are no errors in the system",
-                                QMessageBox.Ok)
 
     def Handle_Exit(self):
         self.close()
