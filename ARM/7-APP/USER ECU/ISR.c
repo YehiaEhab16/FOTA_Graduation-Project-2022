@@ -10,7 +10,8 @@
 
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
-#include "../../3-SERVICE/03-COM/COM_interface.h"
+
+#include "../../2-HAL/08-COM/COM_interface.h"
 
 #include "ISR.h"
 
@@ -28,8 +29,6 @@ void ISR_voidCanRecieve(void)
 		GPIO_u8TogglePinValue(GPIO_PORTA, GPIO_PIN_8);
 	}
 	else if (CAN_RXmsg.id == CAN_DIAG_ID)
-	{
 		COM_voidSendDaignosticsData(CAN_RXmsg.data[0]);
-	}
 }
 

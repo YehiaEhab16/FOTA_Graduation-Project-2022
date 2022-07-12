@@ -17,14 +17,13 @@
 #include "COM_private.h"
 #include "COM_config.h"
 
-u8 Global_u8Flag=0;
+u8 Global_u8DiagnosticsResponse=1, Global_u8UpdateResponse=1;
 
 void COM_voidSendUpdateRequest(void)
 {
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
 	STK_voidDelay(COM_DELAY_TIME);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
-	Global_u8Flag=1;
 }
 
 void COM_voidSendDaignosticsData(u8 Copy_u8Data)
@@ -37,26 +36,14 @@ void COM_voidSendDaignosticsData(u8 Copy_u8Data)
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_OUT, GPIO_PIN_HIGH);
 }
 
-u8 COM_u8RecieveUpdateResponse(void)
+void COM_voidRecieveUpdateResponse(void)
 {
-	u8 Local_u8Flag=1, Local_u8Response=1;
-	if(Global_u8Flag)
-	{
-		while(Local_u8Flag)
-		{
-			GPIO_u8GetPinValue(COM_PORT, COM_RES_FLAG, &Local_u8Flag);
-		}
-		GPIO_u8GetPinValue(COM_PORT, COM_UPDATE_IN, &Local_u8Response);
-		if(Local_u8Response==1)
-			Local_u8Response++;
-		Global_u8Flag=0;
-	}
-	return Local_u8Response;
+	GPIO_u8GetPinValue(COM_PORT, COM_UPDATE_IN, &Global_u8UpdateResponse);
+	if(Global_u8UpdateResponse==1)
+		Global_u8UpdateResponse++;
 }
 
-u8 COM_u8RecieveDaignosticsRequest(void)
+void COM_voidRecieveDaignosticsRequest(void)
 {
-	u8 Local_u8Data=1;
-	GPIO_u8GetPinValue(COM_PORT, COM_DIAG_IN, &Local_u8Data);
-	return Local_u8Data;
+	Global_u8DiagnosticsResponse=COM_DAIG_REQUESTED;
 }

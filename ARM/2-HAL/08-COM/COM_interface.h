@@ -12,6 +12,7 @@
 
 
 #define COM_UPDATE_APPROVED			0
+#define COM_IDLE					1
 #define COM_UPDATE_REJECTED			2
 
 #define COM_DAIG_REQUESTED			0
@@ -22,9 +23,9 @@ void COM_voidSendUpdateRequest(void);
 
 void COM_voidSendDaignosticsData(u8 Copy_u8Data);
 
-u8 COM_u8RecieveUpdateResponse(void);
+void COM_voidRecieveUpdateResponse(void);
 
-u8 COM_u8RecieveDaignosticsRequest(void);
+void COM_voidRecieveDaignosticsRequest(void);
 
 
 #endif

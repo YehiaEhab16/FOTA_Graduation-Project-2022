@@ -13,10 +13,11 @@
 #include "../../1-MCAL/02-RCC/RCC_interface.h"
 #include "../../1-MCAL/03-NVIC/NVIC_interface.h"
 #include "../../1-MCAL/04-EXTI/EXTI_interface.h"
-
 #include "../../1-MCAL/05-USART/USART_interface.h"
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
+
+#include "../../2-HAL/08-COM/COM_interface.h"
 
 #include "../../5-RTOS/RTOS_interface.h"
 
@@ -56,7 +57,6 @@ void SYS_voidMainInit(void)
 
 void SYS_voidApp1Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(void), void (*Copy_pvCallBackFuncDCM)(void))
 {
-	SCB_VTOR = 0x8003000 ;
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
@@ -64,10 +64,9 @@ void SYS_voidApp1Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(vo
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
 	CAN_VoidFilterSet(&CAN_FilterApp1Update);
-	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
-	NVIC_u8EnableInterrupt(EXTI3_IRQ);
-	EXTI_voidInit(EXTI_LINE3,EXTI_RISING_EDGE);
-	EXTI_voidSetCallBack(EXTI_LINE3, Copy_pvCallBackFuncDCM);
+	SYS_voidApp1EnableInterruptNVIC(SYS_DCM);
+	EXTI_voidInit(SYS_DCM,EXTI_RISING_EDGE);
+	EXTI_voidSetCallBack(SYS_DCM, Copy_pvCallBackFuncDCM);
 
 	if (Copy_pvCallBackFuncCan != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFuncCan);
@@ -103,8 +102,44 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void))
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterUserDiagnostics);
 	CAN_VoidFilterSet(&CAN_FilterUpdateNotifcation);
-	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+	SYS_voidUserEnableInterruptNVIC(SYS_COM_DIAG, SYS_COM_UPDATE);
+	EXTI_voidInit(SYS_COM_DIAG,EXTI_FALLING_EDGE);
+	EXTI_voidInit(SYS_COM_UPDATE,EXTI_FALLING_EDGE);
+	EXTI_voidSetCallBack(SYS_COM_DIAG, &COM_voidRecieveDaignosticsRequest);
+	EXTI_voidSetCallBack(SYS_COM_UPDATE, &COM_voidRecieveUpdateResponse);
 
 	if (Copy_pvCallBackFunc_CAN != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc_CAN);
+}
+
+void SYS_voidApp1EnableInterruptNVIC(u8 Copy_u8Interrupt)
+{
+	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+	switch (Copy_u8Interrupt)
+	{
+		case EXTI_LINE0:NVIC_u8EnableInterrupt(EXTI0_IRQ);break;
+		case EXTI_LINE1:NVIC_u8EnableInterrupt(EXTI1_IRQ);break;
+		case EXTI_LINE2:NVIC_u8EnableInterrupt(EXTI2_IRQ);break;
+		case EXTI_LINE3:NVIC_u8EnableInterrupt(EXTI3_IRQ);break;
+	}
+}
+
+void SYS_voidUserEnableInterruptNVIC(u8 Copy_u8Interrupt1, u8 Copy_u8Interrupt2)
+{
+	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
+	switch (Copy_u8Interrupt1)
+	{
+		case EXTI_LINE0:NVIC_u8EnableInterrupt(EXTI0_IRQ);break;
+		case EXTI_LINE1:NVIC_u8EnableInterrupt(EXTI1_IRQ);break;
+		case EXTI_LINE2:NVIC_u8EnableInterrupt(EXTI2_IRQ);break;
+		case EXTI_LINE3:NVIC_u8EnableInterrupt(EXTI3_IRQ);break;
+	}
+
+	switch (Copy_u8Interrupt2)
+	{
+		case EXTI_LINE0:NVIC_u8EnableInterrupt(EXTI0_IRQ);break;
+		case EXTI_LINE1:NVIC_u8EnableInterrupt(EXTI1_IRQ);break;
+		case EXTI_LINE2:NVIC_u8EnableInterrupt(EXTI2_IRQ);break;
+		case EXTI_LINE3:NVIC_u8EnableInterrupt(EXTI3_IRQ);break;
+	}
 }
