@@ -22,7 +22,7 @@ u8 Global_u8Flag=0;
 void COM_voidSendUpdateRequest(void)
 {
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
-	STK_voidDelay(CMO_DELAY_TIME);
+	STK_voidDelay(COM_DELAY_TIME);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
 	Global_u8Flag=1;
 }
@@ -33,7 +33,7 @@ void COM_voidSendDaignosticsData(u8 Copy_u8Data)
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, GET_BIT(Copy_u8Data,1));
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA2, GET_BIT(Copy_u8Data,2));
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_OUT, GPIO_PIN_LOW);
-	STK_voidDelay(CMO_DELAY_TIME);
+	STK_voidDelay(COM_DELAY_TIME);
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_OUT, GPIO_PIN_HIGH);
 }
 

@@ -25,6 +25,6 @@
 
 #define COM_RES_FLAG	GPIO_PIN_2	//Input
 
-#define CMO_DELAY_TIME	250
+#define COM_DELAY_TIME	250
 
 #endif
