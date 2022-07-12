@@ -37,7 +37,7 @@ Initialize the CAN Protocol
  **/
 extern CAN_Init_t CAN_InitStruct;
 extern CAN_FilterInit_t CAN_FilterUserResponse;
-extern CAN_FilterInit_t CAN_FilterUpdate;
+extern CAN_FilterInit_t CAN_FilterApp1Update;
 CAN_msg CAN_RXmsg;
 CAN_msg CAN_TXmsg;
 CAN_msg CAN_TXmsg1;
@@ -66,7 +66,7 @@ void main (void)
 	GPIO_voidDirectionInit();
 
 	CAN_voidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterUpdate);
+	CAN_VoidFilterSet(&CAN_FilterApp1Update);
 
 	FPEC_voidInit();
 
@@ -131,11 +131,18 @@ void main (void)
 
 	if (READ_REQUEST_FLAG==0 )
 	{
+		CAN_TXmsg1.data[0]='A';
+		CAN_u8Transmit(&CAN_TXmsg1);
 
 		while (BOOT_u8FinRecFlag == 0)
 		{
 
 			CAN_voidReceive(&CAN_RXmsg, 0);
+
+			while (CAN_RXmsg.data[0]==0)
+			{
+				continue ;
+			}
 			BOOT_u8RecData[BOOT_u32RecCounter] = CAN_RXmsg.data[Counter_CAN];
 			Counter_CAN++;
 
@@ -196,9 +203,10 @@ void main (void)
 
 				if (Check_s32Sum !=Check_sum_Validation)
 				{
-					if(Corrupted_Excute >2)
+					if(Corrupted_Excute <2)
 					{
-						CAN_u8Transmit(&CAN_TXmsg);
+						CAN_TXmsg1.data[0] = 'F';
+						CAN_u8Transmit(&CAN_TXmsg1);
 						BOOT_u32RecCounter =0 ;
 						Corrupted_Excute++;
 					}
@@ -222,6 +230,7 @@ void main (void)
 
 					if (BOOT_u8RecData[8]=='5')
 					{
+						APP1();
 						FPEC_voidFlashPageErase(10);
 						FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &No_update, 1);
 						WWDG_voidReset(10);

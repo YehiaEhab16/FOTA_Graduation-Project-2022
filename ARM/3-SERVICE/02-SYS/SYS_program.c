@@ -103,8 +103,8 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void))
 	CAN_VoidFilterSet(&CAN_FilterUserDiagnostics);
 	CAN_VoidFilterSet(&CAN_FilterUpdateNotifcation);
 	SYS_voidUserEnableInterruptNVIC(SYS_COM_DIAG, SYS_COM_UPDATE);
-	EXTI_voidInit(SYS_COM_DIAG,EXTI_FALLING_EDGE);
-	EXTI_voidInit(SYS_COM_UPDATE,EXTI_FALLING_EDGE);
+	EXTI_voidInit(SYS_COM_DIAG,EXTI_RISING_EDGE);
+	EXTI_voidInit(SYS_COM_UPDATE,EXTI_RISING_EDGE);
 	EXTI_voidSetCallBack(SYS_COM_DIAG, &COM_voidRecieveDaignosticsRequest);
 	EXTI_voidSetCallBack(SYS_COM_UPDATE, &COM_voidRecieveUpdateResponse);
 

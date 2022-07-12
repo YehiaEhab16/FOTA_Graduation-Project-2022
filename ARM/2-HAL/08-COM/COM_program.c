@@ -11,7 +11,6 @@
 #include "../../6-Library/BIT_MATH.h"
 
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
-#include "../../1-MCAL/07-STK/STK_interface.h"
 
 #include "COM_interface.h"
 #include "COM_private.h"
@@ -22,7 +21,6 @@ u8 Global_u8DiagnosticsResponse=1, Global_u8UpdateResponse=1;
 void COM_voidSendUpdateRequest(void)
 {
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
-	STK_voidDelay(COM_DELAY_TIME);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
 }
 
@@ -32,7 +30,6 @@ void COM_voidSendDaignosticsData(u8 Copy_u8Data)
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, GET_BIT(Copy_u8Data,1));
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA2, GET_BIT(Copy_u8Data,2));
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_OUT, GPIO_PIN_LOW);
-	STK_voidDelay(COM_DELAY_TIME);
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_OUT, GPIO_PIN_HIGH);
 }
 
