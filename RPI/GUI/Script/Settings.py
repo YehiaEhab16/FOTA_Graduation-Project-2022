@@ -13,7 +13,6 @@ from subprocess import check_output
 import RPi.GPIO as GPIO
 
 threadDelay = 0.1
-commDelay = 0.005
 
 outputUpdate = 8
 outputDiag = 10
@@ -210,10 +209,8 @@ class MainAPP_Setting(QTabWidget, FormClass):
     def Handle_Diagnostics(self):
         global requestDiagMode
         requestDiagMode = 1
-        GPIO.output(outputDiag, GPIO.LOW)
-        time.sleep(commDelay)
         GPIO.output(outputDiag, GPIO.HIGH)
-        
+        GPIO.output(outputDiag, GPIO.LOW) 
 
     def HandleCheck(self):
         inputUpdateVar = GPIO.input(inputUpdate)
@@ -237,10 +234,9 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 self.Radiator.setText("alo")
                 self.Engine.setText("No Errors Found hoba")
                 self.Sensor.setText("No Errors Found")
+            GPIO.output(outputResponseFlag, GPIO.HIGH)
             GPIO.output(outputResponseFlag, GPIO.LOW)
-            time.sleep(commDelay)
             GPIO.output(outputUpdate, GPIO.HIGH)
-            GPIO.output(outputResponseFlag, GPIO.HIGH) 
                    
         elif(inputDiagFlagVar == 0):
             if requestDiagMode == 1:

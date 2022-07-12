@@ -42,6 +42,7 @@ class MainAPP_Phone(QTabWidget, FormClass):
         self.Handle_Buttons()
         with open(current_directory + '/../Data/Contacts.txt', 'r') as f:
             global Contents
+            global ValueLcd
             if Settings.redirectToggle == True:
                 for line in f:
                     f_contents = line.split(' - ')
@@ -50,7 +51,9 @@ class MainAPP_Phone(QTabWidget, FormClass):
                     nums.append(f_contents[1][:-1])
                     NumberOfContents = NumberOfContents + 1
                     self.loadData()
-            else: 
+            else:
+                ValueLcd = "911"
+                self.number.setText(ValueLcd)
                 self.loadData()
 
     # GUI buttons
