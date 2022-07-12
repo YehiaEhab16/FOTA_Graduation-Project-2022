@@ -24,7 +24,7 @@ extern DCM_t Global_DCM_tRightMotor ;
 //Recieve Struct
 CAN_msg CAN_RXmsg;
 u8 Global_u8DiagFlag=0;
-extern u8 Global_u8MotorFeedback;
+u8 Global_u8MotorFeedback=2;
 
 void ISR_voidCANRecieve(void)
 {

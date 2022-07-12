@@ -27,7 +27,7 @@
 extern u8 Global_u8DiagFlag;
 
 //Motor Feedback
-u8 Global_u8MotorFeedback = 0;
+extern u8 Global_u8MotorFeedback;
 
 /*dist 0
  * temp1
@@ -100,14 +100,7 @@ void Task_voidReadDirection(void)
 	Global_pu8AppVariables[Direction]=Local_u8Dir;
 }
 
-//get feedback from encoder
-void Task_voidMotorFeedback(void )
-{
-	u8 Local_u8MotorFB = 0;
 
-	Local_u8MotorFB = Global_u8MotorFeedback ;
-
-}
 
 //Forward and backward motion
 void Task_voidMoveVehicle(void)
@@ -137,15 +130,15 @@ void Task_voidSystemCheck(void)
 	for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
 
 	Local_u8Dist=Global_pu8AppVariables[Distance];
-	Local_u8MotorFB=Global_pu8AppVariables[LeftMotorFB];
 	Local_u8Dir = Global_pu8AppVariables[Direction];
+	Local_u8MotorFB=Global_u8MotorFeedback;
 
 	if (Global_u8DiagFlag == 1)
 	{
 		Global_u8DiagFlag=0;
-		if ((( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))&&(Local_u8Dir == STOP))
+		if ((( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))&&(Local_u8MotorFB != DCM_DIR_CW))
 			CAN_TXmsg.data[0] = DistDirErrorMode1;
-		else if ( (Local_u8Dir == STOP) )	//Add Polling to move forward
+		else if ( (Local_u8MotorFB != DCM_DIR_CW)&&(Local_u8Dir == BACKWARD) )	//Add Polling to move forward
 			CAN_TXmsg.data[0] = DirErrorMode1;
 		else if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))
 				CAN_TXmsg.data[0] = DistErrorMode1;
@@ -155,8 +148,8 @@ void Task_voidSystemCheck(void)
 	}
 	else
 	{
-		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB != FORWARD)) ))
-				||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB != BACKWARD)) )))
+		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB != DCM_DIR_CCW)) ))
+				||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB != DCM_DIR_CW)) )))
 			CAN_TXmsg.data[0] = DirErrorMode2;
 		else
 			CAN_TXmsg.data[0] = NonError;
