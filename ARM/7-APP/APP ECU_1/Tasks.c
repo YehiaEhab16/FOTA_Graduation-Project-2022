@@ -130,9 +130,9 @@ void Task_voidMoveVehicle(void)
 void Task_voidSystemCheck(void)
 {
 	u8 Local_u8Dist;
-	u8 Local_u8Dir;
+	u8 Local_u8Dir = STOP ;
 	u8 Local_u8MotorFB;
-	u8 Local_u8LastError;
+	u8 Local_u8LastError =0 ;
 
 	for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
 
@@ -177,4 +177,5 @@ void Task_voidSendDiagnostics(void)
 	CAN_TXmsg.format = CAN_ID_STD;
 	CAN_TXmsg.id = 0x31;
 	CAN_TXmsg.type = CAN_RTR_DATA;
+	CAN_u8Transmit(&CAN_TXmsg);
 }
