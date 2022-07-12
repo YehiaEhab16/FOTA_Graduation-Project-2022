@@ -1270,7 +1270,7 @@ ColorButton::disabled {
 }</string>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="tab">
    <property name="font">
@@ -1817,7 +1817,7 @@ ColorButton::disabled {
      <bool>false</bool>
     </attribute>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>250</number>
+     <number>263</number>
     </attribute>
     <attribute name="verticalHeaderVisible">
      <bool>false</bool>
@@ -1914,7 +1914,7 @@ ColorButton::disabled {
      <bool>false</bool>
     </attribute>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>250</number>
+     <number>394</number>
     </attribute>
     <attribute name="verticalHeaderVisible">
      <bool>false</bool>
