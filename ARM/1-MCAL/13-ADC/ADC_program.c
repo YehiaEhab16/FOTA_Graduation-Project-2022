@@ -11,6 +11,7 @@
 #include "../../6-Library/BIT_MATH.h"
 
 #include "../../1-MCAL/07-STK/STK_interface.h"
+#include "../../1-MCAL/12-TIMER/TIMER_interface.h"
 
 #include "ADC_interface.h"
 #include "ADC_config.h"
@@ -111,8 +112,8 @@ void ADC_VidStartConv(u16 *Copy_u32DATA,u8 Copy_u8Channel)
 	ADC1->SQR3  = Copy_u8Channel ;
 
 	SET_BIT(ADC1 -> CR2 , ADC_CR2_ADON);
-
-	STK_voidDelay(100);
+	TIMER_Delay(TIM1, 100, uSEC);
+//	STK_voidDelay(100);
 
 	SET_BIT(ADC1 -> CR2 , ADC_CR2_ADON);
 
