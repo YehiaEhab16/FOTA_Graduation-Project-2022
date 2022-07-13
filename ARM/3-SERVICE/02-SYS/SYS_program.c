@@ -16,6 +16,7 @@
 #include "../../1-MCAL/05-USART/USART_interface.h"
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
+#include "../../1-MCAL/13-ADC/ADC_interface.h"
 
 #include "../../2-HAL/08-COM/COM_interface.h"
 
@@ -86,6 +87,7 @@ void SYS_voidApp2Init(void (*Copy_pvCallBackFunc)(void))
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
 	CAN_VoidFilterSet(&CAN_FilterApp2Update);
+	ADC_voidInit();
 	NVIC_u8EnableInterrupt(USB_LP_CAN_IRQ);
 	if (Copy_pvCallBackFunc != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFunc);
@@ -105,7 +107,7 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void))
 	SYS_voidUserEnableInterruptNVIC(SYS_COM_DIAG, SYS_COM_UPDATE);
 	EXTI_voidInit(SYS_COM_DIAG,EXTI_RISING_EDGE);
 	EXTI_voidInit(SYS_COM_UPDATE,EXTI_RISING_EDGE);
-	EXTI_voidSetCallBack(SYS_COM_DIAG,  &COM_voidRecieveDaignosticsRequest);
+	EXTI_voidSetCallBack(SYS_COM_DIAG, &COM_voidRecieveDaignosticsRequest);
 	EXTI_voidSetCallBack(SYS_COM_UPDATE, &COM_voidRecieveUpdateResponse);
 
 	if (Copy_pvCallBackFunc_CAN != NULL)
