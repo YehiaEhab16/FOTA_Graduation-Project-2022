@@ -36,7 +36,7 @@ int main(void)
 			CAN_TXmsg.id =CAN_UPDATE_ID_TX;
 			CAN_TXmsg.data[0]= ISR_UPDATE_APPROVED;
 			CAN_u8Transmit(&CAN_TXmsg);
-			GPIO_u8TogglePinValue(GPIO_PORTB, GPIO_PIN_1);
+			GPIO_u8TogglePinValue(GPIO_PORTA, GPIO_PIN_9);
 			Global_u8UpdateResponse=COM_IDLE;
 		}
 		else if (Global_u8UpdateResponse==COM_UPDATE_REJECTED)
@@ -49,7 +49,7 @@ int main(void)
 		if (Global_u8DiagnosticsResponse==COM_DAIG_REQUESTED)
 		{
 			CAN_TXmsg.id =CAN_DIAG_ID_TX;
-			CAN_TXmsg.data[0]= ISR_DAIG_REQUESTED;
+			CAN_TXmsg.data[0]= ISR_DIAG_REQUESTED;
 			CAN_u8Transmit(&CAN_TXmsg);
 			GPIO_u8TogglePinValue(GPIO_PORTB, GPIO_PIN_0);
 			Global_u8DiagnosticsResponse=COM_DAIG_NOT_REQUESTED;

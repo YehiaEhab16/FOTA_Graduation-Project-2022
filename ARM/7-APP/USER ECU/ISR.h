@@ -21,7 +21,7 @@
 #define ISR_UPDATE_APPROVED			30
 #define ISR_UPDATE_REJECTED			35
 
-#define ISR_DAIG_REQUESTED			40
+#define ISR_DIAG_REQUESTED			40
 
 /**
  * @def STM to RPI
