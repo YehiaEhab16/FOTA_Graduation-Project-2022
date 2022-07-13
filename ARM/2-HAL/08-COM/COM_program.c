@@ -36,7 +36,7 @@ void COM_voidSendDaignosticsData(u8 Copy_u8Data)
 void COM_voidRecieveUpdateResponse(void)
 {
 	GPIO_u8GetPinValue(COM_PORT, COM_UPDATE_IN, &Global_u8UpdateResponse);
-	if(Global_u8UpdateResponse==1)
+	if(Global_u8UpdateResponse)
 		Global_u8UpdateResponse++;
 }
 

@@ -105,7 +105,7 @@ void SYS_voidUserInit(void (*Copy_pvCallBackFunc_CAN)(void))
 	SYS_voidUserEnableInterruptNVIC(SYS_COM_DIAG, SYS_COM_UPDATE);
 	EXTI_voidInit(SYS_COM_DIAG,EXTI_RISING_EDGE);
 	EXTI_voidInit(SYS_COM_UPDATE,EXTI_RISING_EDGE);
-	EXTI_voidSetCallBack(SYS_COM_DIAG, &COM_voidRecieveDaignosticsRequest);
+	EXTI_voidSetCallBack(SYS_COM_DIAG,  &COM_voidRecieveDaignosticsRequest);
 	EXTI_voidSetCallBack(SYS_COM_UPDATE, &COM_voidRecieveUpdateResponse);
 
 	if (Copy_pvCallBackFunc_CAN != NULL)
