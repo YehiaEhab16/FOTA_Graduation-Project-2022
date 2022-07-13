@@ -1,5 +1,6 @@
 # importing required packages
 import ntpath
+from turtle import update
 from PyQt5.QtWidgets import QTabWidget, QTableWidgetItem, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUiType
@@ -30,6 +31,9 @@ requestDiagMode = 2
 redirectToggle = True
 wifiToggle = False
 bluetoothToggle = False
+
+updateReceived = False
+diagReceived = False
 
 cwd = os.getcwd()
 parent = os.path.dirname(cwd)
@@ -87,15 +91,18 @@ class MainAPP_Setting(QTabWidget, FormClass):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
 
-        GPIO.setup(outputUpdate, GPIO.OUT, initial=GPIO.HIGH)
-        GPIO.setup(outputDiag, GPIO.OUT, initial=GPIO.HIGH)
-        GPIO.setup(outputResponseFlag, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(outputUpdate, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(outputDiag, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(outputResponseFlag, GPIO.OUT, initial=GPIO.LOW)
 
-        GPIO.setup(inputUpdate, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.setup(inputUpdate, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
         GPIO.setup(inputDiagTemp, GPIO.IN, pull_up_down = GPIO.PUD_UP)
         GPIO.setup(inputDiagDirections, GPIO.IN, pull_up_down = GPIO.PUD_UP)
         GPIO.setup(inputDiagUltra, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        GPIO.setup(inputDiagFlag, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.setup(inputDiagFlag, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+        
+        GPIO.add_event_detect(inputUpdate, GPIO.RISING, callback=self.Handle_Update_ISR, bouncetime = 300)
+        GPIO.add_event_detect(inputDiagFlag, GPIO.RISING, callback=self.Handle_Diag_ISR, bouncetime = 300)
 
 
     def window(self):
@@ -209,44 +216,51 @@ class MainAPP_Setting(QTabWidget, FormClass):
     def Handle_Diagnostics(self):
         global requestDiagMode
         requestDiagMode = 1
-        GPIO.output(outputDiag, GPIO.HIGH)
-        GPIO.output(outputDiag, GPIO.LOW) 
+        GPIO.output(outputDiag, GPIO.LOW)
+        GPIO.output(outputDiag, GPIO.HIGH) 
 
     def HandleCheck(self):
-        inputUpdateVar = GPIO.input(inputUpdate)
+        global updateReceived
+        global diagReceived
         inputDiagTempVar = GPIO.input(inputDiagTemp)
         inputDiagDirectionsVar = GPIO.input(inputDiagDirections)
         inputDiagUltraVar = GPIO.input(inputDiagUltra)
-        inputDiagFlagVar = GPIO.input(inputDiagFlag)
         
-        if(inputUpdateVar == 0):
+        if(updateReceived == True):
+            updateReceived = False
             global settingsIconFlag
             global requestDiagMode
             settingsIconFlag = 1
             localErrorFlag=0
-        if self.isActiveWindow() and settingsIconFlag:
-            settingsIconFlag = 0
-            qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
-                        'Please select whether you want to download the new update',
-                        QMessageBox.Ok | QMessageBox.Cancel)
-            if qMsgBoxUpdate == QMessageBox.Ok:
-                GPIO.output(outputUpdate,GPIO.LOW)
-                self.Radiator.setText("alo")
-                self.Engine.setText("No Errors Found hoba")
-                self.Sensor.setText("No Errors Found")
-            GPIO.output(outputResponseFlag, GPIO.HIGH)
-            GPIO.output(outputResponseFlag, GPIO.LOW)
-            GPIO.output(outputUpdate, GPIO.HIGH)
+            if self.isActiveWindow() and settingsIconFlag:
+                settingsIconFlag = 0
+                qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
+                            'Please select whether you want to download the new update',
+                            QMessageBox.Ok | QMessageBox.Cancel)
+                if qMsgBoxUpdate == QMessageBox.Ok:
+                    GPIO.output(outputUpdate,GPIO.LOW)
+                    self.Radiator.setText("alo")
+                    self.Engine.setText("No Errors Found hoba")
+                    self.Sensor.setText("No Errors Found")
+                    GPIO.output(outputUpdate, GPIO.HIGH)
+                    GPIO.output(outputResponseFlag, GPIO.LOW)
+                    GPIO.output(outputResponseFlag, GPIO.HIGH)
+                else:
+                    GPIO.output(outputUpdate, GPIO.LOW)
+                    GPIO.output(outputResponseFlag, GPIO.LOW)
+                    GPIO.output(outputResponseFlag, GPIO.HIGH)
+
                    
-        elif(inputDiagFlagVar == 0):
+        elif(diagReceived == True):
+            diagReceived = False
             if requestDiagMode == 1:
-                if(inputDiagTempVar == 0):
+                if(inputDiagTempVar == 1):
                     self.Radiator.setText("Error occured")
                     localErrorFlag=1
-                if(inputDiagDirectionsVar == 0):
+                if(inputDiagDirectionsVar == 1):
                     self.Engine.setText("Error occured")
                     localErrorFlag=1
-                if(inputDiagUltraVar == 0):
+                if(inputDiagUltraVar == 1):
                     self.Sensor.setText("Error occured")
                     localErrorFlag=1
                 if(localErrorFlag):
@@ -260,26 +274,35 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 localErrorFlag=0
 
                 requestDiagMode = 2
-                inputDiagFlagVar = 1
-                inputDiagTempVar = 1
-                inputDiagDirectionsVar = 1
-                inputDiagUltraVar = 1
+                inputDiagTempVar = 0
+                inputDiagDirectionsVar = 0
+                inputDiagUltraVar = 0
             elif requestDiagMode == 2:
-                if inputDiagFlagVar == 0:
-                    qMsgBoxSystemCheck = QMessageBox.information(self, 'System Check',
-                                'System check is required',
-                                QMessageBox.Ok)
-                    if qMsgBoxSystemCheck == QMessageBox.Ok:
-                        if(inputDiagTempVar == 0):
-                            self.Radiator.setText("Error mn mode 2")
-                        if(inputDiagDirectionsVar == 0):
-                            self.Engine.setText("Error mn mode 2")
-                        if(inputDiagUltraVar == 0):
-                            self.Sensor.setText("Error mn mode 2")
-                            inputDiagFlagVar = 1
-                            inputDiagTempVar = 1
-                            inputDiagDirectionsVar = 1
-                            inputDiagUltraVar = 1
+                qMsgBoxSystemCheck = QMessageBox.information(self, 'System Check',
+                            'System check is required',
+                            QMessageBox.Ok)
+                if qMsgBoxSystemCheck == QMessageBox.Ok:
+                    if(inputDiagTempVar == 1):
+                        self.Radiator.setText("Error mn mode 2")
+                    if(inputDiagDirectionsVar == 1):
+                        self.Engine.setText("Error mn mode 2")
+                    if(inputDiagUltraVar == 1):
+                        self.Sensor.setText("Error mn mode 2")
+                        inputDiagTempVar = 0
+                        inputDiagDirectionsVar = 0
+                        inputDiagUltraVar = 0
 
     def Handle_Exit(self):
         self.close()
+    @staticmethod
+    def Handle_Update_ISR(channel):
+        global updateReceived
+        print("alo")
+        print(channel)
+        updateReceived = True
+
+    @staticmethod
+    def Handle_Diag_ISR(channel):
+        global diagReceived
+        diagReceived = True
+        
