@@ -5,6 +5,7 @@
 
 *.pptx
 *.docx
+*.tmp
 *.pdf
 
 *.mp3
