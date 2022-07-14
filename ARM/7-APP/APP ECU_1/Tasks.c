@@ -125,7 +125,7 @@ void Task_voidSystemCheck(void)
 	u8 Local_u8Dist;
 	u8 Local_u8Dir = STOP ;
 	u8 Local_u8MotorFB;
-	u8 Local_u8LastError =0 ;
+	static u8 Local_u8LastError =0 ;
 
 	for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
 
@@ -144,6 +144,9 @@ void Task_voidSystemCheck(void)
 				CAN_TXmsg.data[0] = DistErrorMode1;
 		else
 			CAN_TXmsg.data[0] = NonError;
+				
+		Task_voidSendDiagnostics();
+
 
 	}
 	else
@@ -153,14 +156,15 @@ void Task_voidSystemCheck(void)
 			CAN_TXmsg.data[0] = DirErrorMode2;
 		else
 			CAN_TXmsg.data[0] = NonError;
+		if (CAN_TXmsg.data[0] != Local_u8LastError)
+		{
+			Local_u8LastError =CAN_TXmsg.data[0];
+			if (Local_u8LastError != NonError)
+				Task_voidSendDiagnostics();
+		}
 	}
 
-	if (CAN_TXmsg.data[0] != Local_u8LastError)
-	{
-		Local_u8LastError =CAN_TXmsg.data[0];
-		if (Local_u8LastError != NonError)
-			Task_voidSendDiagnostics();
-	}
+
 }
 
 //Sending Diagnostics Data

@@ -175,7 +175,7 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setAlignment(Qt.AlignCenter)
         counter = counter + 1
         # Condition to change settings to have a software update notification
-        if Settings.settingsIconFlag == 1:
+        if (Settings.settingsIconFlag == 1 or Settings.settingsIconFlagTwo == 1):
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         else:
             self.settings.setIcon(QtGui.QIcon(settingsIcon))
@@ -192,3 +192,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

@@ -1,3 +1,4 @@
+
 # importing required packages
 import ntpath
 from turtle import update
@@ -15,6 +16,10 @@ import RPi.GPIO as GPIO
 
 threadDelay = 0.1
 
+inputDiagTempVar = 0
+inputDiagDirectionsVar = 0
+inputDiagUltraVar = 0
+
 outputUpdate = 8
 outputDiag = 10
 outputResponseFlag = 12
@@ -25,6 +30,7 @@ inputDiagDirections = 32
 inputDiagUltra = 36
 inputDiagFlag = 37
 
+settingsIconFlagTwo = 0
 settingsIconFlag = 0
 requestDiagMode = 2
 
@@ -96,9 +102,9 @@ class MainAPP_Setting(QTabWidget, FormClass):
         GPIO.setup(outputResponseFlag, GPIO.OUT, initial=GPIO.LOW)
 
         GPIO.setup(inputUpdate, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
-        GPIO.setup(inputDiagTemp, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        GPIO.setup(inputDiagDirections, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        GPIO.setup(inputDiagUltra, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.setup(inputDiagTemp, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+        GPIO.setup(inputDiagDirections, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+        GPIO.setup(inputDiagUltra, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
         GPIO.setup(inputDiagFlag, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
         
         GPIO.add_event_detect(inputUpdate, GPIO.RISING, callback=self.Handle_Update_ISR, bouncetime = 300)
@@ -217,42 +223,49 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global requestDiagMode
         requestDiagMode = 1
         GPIO.output(outputDiag, GPIO.LOW)
+        #time.sleep(0.1)
         GPIO.output(outputDiag, GPIO.HIGH) 
 
     def HandleCheck(self):
         global updateReceived
         global diagReceived
-        inputDiagTempVar = GPIO.input(inputDiagTemp)
-        inputDiagDirectionsVar = GPIO.input(inputDiagDirections)
-        inputDiagUltraVar = GPIO.input(inputDiagUltra)
-        
+        global settingsIconFlag     
+        global settingsIconFlagTwo 
+        global inputDiagTempVar
+        global inputDiagDirectionsVar
+        global inputDiagUltraVar 
+        localErrorFlag=0
         if(updateReceived == True):
             updateReceived = False
-            global settingsIconFlag
             global requestDiagMode
             settingsIconFlag = 1
             localErrorFlag=0
-            if self.isActiveWindow() and settingsIconFlag:
-                settingsIconFlag = 0
-                qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
-                            'Please select whether you want to download the new update',
-                            QMessageBox.Ok | QMessageBox.Cancel)
-                if qMsgBoxUpdate == QMessageBox.Ok:
-                    GPIO.output(outputUpdate,GPIO.LOW)
-                    self.Radiator.setText("alo")
-                    self.Engine.setText("No Errors Found hoba")
-                    self.Sensor.setText("No Errors Found")
-                    GPIO.output(outputUpdate, GPIO.HIGH)
-                    GPIO.output(outputResponseFlag, GPIO.LOW)
-                    GPIO.output(outputResponseFlag, GPIO.HIGH)
-                else:
-                    GPIO.output(outputUpdate, GPIO.LOW)
-                    GPIO.output(outputResponseFlag, GPIO.LOW)
-                    GPIO.output(outputResponseFlag, GPIO.HIGH)
+        if self.isActiveWindow() and settingsIconFlag:
+            settingsIconFlag = 0
+            qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
+                        'Please select whether you want to download the new update',
+                        QMessageBox.Ok | QMessageBox.Cancel)
+            if qMsgBoxUpdate == QMessageBox.Ok:
+                GPIO.output(outputUpdate,GPIO.HIGH)
+                self.Radiator.setText("alo")
+                self.Engine.setText("No Errors Found hoba")
+                self.Sensor.setText("No Errors Found")
+                GPIO.output(outputResponseFlag, GPIO.LOW)
+                GPIO.output(outputResponseFlag, GPIO.HIGH)
+                
+            else:
+                GPIO.output(outputUpdate, GPIO.LOW)
+                GPIO.output(outputResponseFlag, GPIO.LOW)
+                GPIO.output(outputResponseFlag, GPIO.HIGH)
+            
+
 
                    
         elif(diagReceived == True):
             diagReceived = False
+            inputDiagTempVar = GPIO.input(inputDiagTemp)
+            inputDiagDirectionsVar = GPIO.input(inputDiagDirections)
+            inputDiagUltraVar = GPIO.input(inputDiagUltra)
             if requestDiagMode == 1:
                 if(inputDiagTempVar == 1):
                     self.Radiator.setText("Error occured")
@@ -278,31 +291,36 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 inputDiagDirectionsVar = 0
                 inputDiagUltraVar = 0
             elif requestDiagMode == 2:
-                qMsgBoxSystemCheck = QMessageBox.information(self, 'System Check',
-                            'System check is required',
-                            QMessageBox.Ok)
-                if qMsgBoxSystemCheck == QMessageBox.Ok:
-                    if(inputDiagTempVar == 1):
-                        self.Radiator.setText("Error mn mode 2")
-                    if(inputDiagDirectionsVar == 1):
-                        self.Engine.setText("Error mn mode 2")
-                    if(inputDiagUltraVar == 1):
-                        self.Sensor.setText("Error mn mode 2")
-                        inputDiagTempVar = 0
-                        inputDiagDirectionsVar = 0
-                        inputDiagUltraVar = 0
+                settingsIconFlagTwo = 1
+                print("alooooooo")
+        if(self.isActiveWindow() and settingsIconFlagTwo):
+            print("ana d5lt gowa el window")
+            settingsIconFlagTwo = 0
+            qMsgBoxSystemCheck = QMessageBox.information(self, 'System Check',
+                        'System check is required',
+                        QMessageBox.Ok)
+            if qMsgBoxSystemCheck == QMessageBox.Ok:
+                if(inputDiagTempVar == 1):
+                    self.Radiator.setText("Error mn mode 2")
+                if(inputDiagDirectionsVar == 1):
+                    self.Engine.setText("Error mn mode 2")
+                if(inputDiagUltraVar == 1):
+                    self.Sensor.setText("Error mn mode 2")
+                inputDiagTempVar = 0
+                inputDiagDirectionsVar = 0
+                inputDiagUltraVar = 0
 
     def Handle_Exit(self):
         self.close()
     @staticmethod
     def Handle_Update_ISR(channel):
         global updateReceived
-        print("alo")
-        print(channel)
         updateReceived = True
 
     @staticmethod
     def Handle_Diag_ISR(channel):
         global diagReceived
         diagReceived = True
-        
+            
+
+
