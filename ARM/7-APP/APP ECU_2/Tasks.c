@@ -73,6 +73,7 @@ void Task_voidSystemCheck(void)
 {
 
 	u8 Local_u8TempVal =30 ;
+	static u8 Local_u8LastError =0 ;
 
 	for (int i=0; i<8; i++) 
 		CAN_TXmsg.data[i] = 0;
@@ -85,7 +86,7 @@ void Task_voidSystemCheck(void)
 			CAN_TXmsg.data[0] = TempErrorMode1;
 		else
 			CAN_TXmsg.data[0] = NonError;
-		GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_8, GPIO_PIN_HIGH);
+		Task_voidSendDiagnostics();
 	}
 	else
 	{
@@ -94,14 +95,15 @@ void Task_voidSystemCheck(void)
 
 		else
 			CAN_TXmsg.data[0] = NonError;
+		if (CAN_TXmsg.data[0] != Local_u8LastError)
+		{
+			Local_u8LastError =CAN_TXmsg.data[0];
+			if (Local_u8LastError != NonError)
+				Task_voidSendDiagnostics();
+		}
 	}
 
-	if (CAN_TXmsg.data[0] != Local_u8LastError)
-	{
-		Local_u8LastError =CAN_TXmsg.data[0];
-		if (Local_u8LastError != NonError)
-			Task_voidSendDiagnostics();
-	}
+
 }
 
 //Sending Diagnostics Data
