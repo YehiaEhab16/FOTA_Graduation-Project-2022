@@ -173,10 +173,13 @@ void TIMER_voidSelectEdge (u8 Copy_u8Timer,u8 Copy_u8Edge , u8 Copy_u8Channel )
 	}
 
 }
-void TIMER_u8StopChannel (u8 Copy_u8Timer , u8 Copy_u8Channel )
+void TIMER_u8StopChannel (u8 Copy_u8Timer , u8 Copy_u8Channel)
 {
-
 	TIMER_t*  Caputure_Timer   = Get_timer(Copy_u8Timer);
+
+	Caputure_Timer->SMCR &= TIMER_MASK;
+	Caputure_Timer->SMCR |= TIMER_RESET;
+
 	CLR_BIT(Caputure_Timer->CCER , (Copy_u8Channel-1)*4);
 
 	switch (Copy_u8Channel)
@@ -185,7 +188,6 @@ void TIMER_u8StopChannel (u8 Copy_u8Timer , u8 Copy_u8Channel )
 	case TIM_CHANNEL2: Caputure_Timer->CCR[1]=0;break;
 	case TIM_CHANNEL3: Caputure_Timer->CCR[2]=0;  break;
 	}
-
 }
 
 void TIMER_StartTimer(u8 Copy_u8Timer)
@@ -326,4 +328,9 @@ void TIM4_IRQHandler(void) {
 	TIMER_t *tim4 = Get_timer(TIM4);
 	TIM4_CallBack();
 	tim4->SR = 0U;
+}
+void TIM1_UP_IRQHandler(void)
+{
+	u8 Local_u8Counter;
+	Local_u8Counter++;
 }

@@ -42,6 +42,9 @@ typedef struct
 #define TIM_RISING_EDGE				0
 #define TIM_FALLING_EDGE			1
 
+#define TIMER_MASK					0xFF88
+#define TIMER_RESET					0x0064
+
 static TIMER_t * Get_timer( u8 timer) ;
 static TIM_CH_t* GET_TIM_CH(u8 Port_Pin);
 

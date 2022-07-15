@@ -48,8 +48,6 @@ LED_t Global_LED_tRed = {LED_PORTB,LED_PIN1,LED_ACTIVE_HIGH};
 SW_t Global_SW_tForward =  {SW_PORTA,SW_PIN0,SW_PULL_UP};
 SW_t Global_SW_tBackward = {SW_PORTA,SW_PIN1,SW_PULL_UP};
 
-//Motors
-DCM_t Global_DCM_tRightMotor = {DCM_PORTA,DCM_PIN5,DCM_PIN4,DCM_PIN3,DCM_PIN2};
 
 //Activating LED and Buzzer
 void Task_voidAlert(void)
@@ -100,8 +98,6 @@ void Task_voidReadDirection(void)
 	Global_pu8AppVariables[Direction]=Local_u8Dir;
 }
 
-
-
 //Forward and backward motion
 void Task_voidMoveVehicle(void)
 {
@@ -109,13 +105,13 @@ void Task_voidMoveVehicle(void)
 
 	Local_u8Dir = Global_pu8AppVariables[Direction];
 	if(Local_u8Dir==FORWARD)
-		DCM_voidRotateCCW(&Global_DCM_tRightMotor );
+		DCM_voidRotateCCW();
 
 	else if(Local_u8Dir==BACKWARD)
-		DCM_voidRotateCW(&Global_DCM_tRightMotor );
+		DCM_voidRotateCW();
 
 	else if(Local_u8Dir==STOP)
-		DCM_voidStop2(&Global_DCM_tRightMotor );
+		DCM_voidStop2();
 }
 
 
@@ -125,7 +121,7 @@ void Task_voidSystemCheck(void)
 	u8 Local_u8Dist;
 	u8 Local_u8Dir = STOP ;
 	u8 Local_u8MotorFB;
-	u8 Local_u8LastError =0 ;
+	static u8 Local_u8LastError =0 ;
 
 	for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
 
@@ -144,6 +140,9 @@ void Task_voidSystemCheck(void)
 				CAN_TXmsg.data[0] = DistErrorMode1;
 		else
 			CAN_TXmsg.data[0] = NonError;
+				
+		Task_voidSendDiagnostics();
+
 
 	}
 	else
@@ -153,14 +152,15 @@ void Task_voidSystemCheck(void)
 			CAN_TXmsg.data[0] = DirErrorMode2;
 		else
 			CAN_TXmsg.data[0] = NonError;
+		if (CAN_TXmsg.data[0] != Local_u8LastError)
+		{
+			Local_u8LastError =CAN_TXmsg.data[0];
+			if (Local_u8LastError != NonError)
+				Task_voidSendDiagnostics();
+		}
 	}
 
-	if (CAN_TXmsg.data[0] != Local_u8LastError)
-	{
-		Local_u8LastError =CAN_TXmsg.data[0];
-		if (Local_u8LastError != NonError)
-			Task_voidSendDiagnostics();
-	}
+
 }
 
 //Sending Diagnostics Data

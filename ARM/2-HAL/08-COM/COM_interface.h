@@ -21,6 +21,10 @@
 
 void COM_voidSendUpdateRequest(void);
 
+void COM_voidSendUpdateProgress(void);
+
+void COM_voidSendUpdateComplete(void);
+
 void COM_voidSendDaignosticsData(u8 Copy_u8Data);
 
 void COM_voidRecieveUpdateResponse(void);

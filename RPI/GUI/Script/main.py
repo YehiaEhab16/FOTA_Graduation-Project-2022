@@ -149,6 +149,12 @@ class MainAPP(QWidget, FormClass):
     def Handle_Setting(self):
         self.settings.setIcon(QtGui.QIcon(settingsIcon))
         self.Setting.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        if Settings.settingsIconFlag == 1:
+            self.Setting.setCurrentIndex(2)
+        elif Settings.settingsIconFlagTwo == 1:
+            self.Setting.setCurrentIndex(3)
+        else:
+            self.Setting.setCurrentIndex(0)
         self.Setting.show()
 
     def Handle_Video(self):
@@ -175,7 +181,7 @@ class MainAPP(QWidget, FormClass):
         self.time_label.setAlignment(Qt.AlignCenter)
         counter = counter + 1
         # Condition to change settings to have a software update notification
-        if Settings.settingsIconFlag == 1:
+        if (Settings.settingsIconFlag == 1 or Settings.settingsIconFlagTwo == 1):
             self.settings.setIcon(QtGui.QIcon(settingsNotificationPath))
         else:
             self.settings.setIcon(QtGui.QIcon(settingsIcon))
@@ -192,3 +198,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
