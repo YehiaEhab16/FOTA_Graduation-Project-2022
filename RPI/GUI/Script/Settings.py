@@ -1,7 +1,6 @@
 
 # importing required packages
 import ntpath
-from turtle import update
 from PyQt5.QtWidgets import QTabWidget, QTableWidgetItem, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUiType
@@ -19,6 +18,7 @@ threadDelay = 0.1
 inputDiagTempVar = 0
 inputDiagDirectionsVar = 0
 inputDiagUltraVar = 0
+updateInProgress = 0
 
 outputUpdate = 8
 outputDiag = 10
@@ -32,6 +32,7 @@ inputDiagFlag = 37
 
 settingsIconFlagTwo = 0
 settingsIconFlag = 0
+updateCompletedFlag = 0
 requestDiagMode = 2
 
 redirectToggle = True
@@ -79,6 +80,8 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.thread = MyThread()
         self.thread.change_value.connect(self.HandleCheck)
         self.thread.start()
+        self.OP_2.hide()
+        self.progressBar.hide()
         
     # GUI buttons
     def Handle_Buttons(self):
@@ -234,6 +237,9 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global inputDiagTempVar
         global inputDiagDirectionsVar
         global inputDiagUltraVar 
+        global updateInProgress
+        print(updateInProgress)
+        self.progressBar.setValue(updateInProgress)
         localErrorFlag=0
         if(updateReceived == True):
             updateReceived = False
@@ -242,27 +248,39 @@ class MainAPP_Setting(QTabWidget, FormClass):
             localErrorFlag=0
         if self.isActiveWindow() and settingsIconFlag:
             settingsIconFlag = 0
+            self.setCurrentIndex(2)
             qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
                         'Please select whether you want to download the new update',
                         QMessageBox.Ok | QMessageBox.Cancel)
-            if qMsgBoxUpdate == QMessageBox.Ok:
+            if qMsgBoxUpdate == QMessageBox.Ok:  
+                self.OP_2.show()
+                self.progressBar.show()
                 GPIO.output(outputUpdate,GPIO.HIGH)
                 self.Radiator.setText("alo")
                 self.Engine.setText("No Errors Found hoba")
                 self.Sensor.setText("No Errors Found")
                 GPIO.output(outputResponseFlag, GPIO.LOW)
-                GPIO.output(outputResponseFlag, GPIO.HIGH)
-                
+                GPIO.output(outputResponseFlag, GPIO.HIGH)                
             else:
                 GPIO.output(outputUpdate, GPIO.LOW)
                 GPIO.output(outputResponseFlag, GPIO.LOW)
                 GPIO.output(outputResponseFlag, GPIO.HIGH)
+        if updateInProgress == 100:
+            updateInProgress = 0
+            qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
+                'Update Complete',
+                    QMessageBox.Ok)
+            self.OP_2.hide()
+            self.progressBar.setValue(0)
+            self.progressBar.hide()
+
             
 
 
                    
         elif(diagReceived == True):
             diagReceived = False
+            self.setCurrentIndex(3)
             inputDiagTempVar = GPIO.input(inputDiagTemp)
             inputDiagDirectionsVar = GPIO.input(inputDiagDirections)
             inputDiagUltraVar = GPIO.input(inputDiagUltra)
@@ -315,7 +333,15 @@ class MainAPP_Setting(QTabWidget, FormClass):
     @staticmethod
     def Handle_Update_ISR(channel):
         global updateReceived
-        updateReceived = True
+        global updateInProgress
+        inputUpdateState = GPIO.input(inputDiagTemp)
+        inputUpdateFinish = GPIO.input(inputDiagDirections)
+        if inputUpdateState == 0 and inputUpdateFinish == 0:
+            updateReceived = True
+        elif inputUpdateState == 1:
+            updateInProgress += 10
+        elif inputUpdateFinish == 1 and updateInProgress != 100: 
+            updateInProgress = 100
 
     @staticmethod
     def Handle_Diag_ISR(channel):

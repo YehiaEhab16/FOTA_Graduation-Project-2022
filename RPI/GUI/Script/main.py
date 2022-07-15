@@ -149,6 +149,12 @@ class MainAPP(QWidget, FormClass):
     def Handle_Setting(self):
         self.settings.setIcon(QtGui.QIcon(settingsIcon))
         self.Setting.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        if Settings.settingsIconFlag == 1:
+            self.Setting.setCurrentIndex(2)
+        elif Settings.settingsIconFlagTwo == 1:
+            self.Setting.setCurrentIndex(3)
+        else:
+            self.Setting.setCurrentIndex(0)
         self.Setting.show()
 
     def Handle_Video(self):
@@ -192,4 +198,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
