@@ -12,6 +12,7 @@
 
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
 #include "../../1-MCAL/12-TIMER/TIMER_interface.h"
+#include "../../1-MCAL/02-RCC/RCC_interface.h"
 
 #include "USN_config.h"
 #include "USN_interface.h"
@@ -32,15 +33,16 @@ u8 USN_u8ReadDistance(u32 *Copy_pu32DistValue)
 	TIMER_Delay(TIM2,50,uSEC);
     GPIO_u8SetPinValue(GPIO_PORTA,  GPIO_PIN_0 , GPIO_PIN_LOW);
 
-	while(Local_u8Pin == 0 )
+	while(Local_u8Pin == 0)
    		GPIO_u8GetPinValue(GPIO_PORTA, GPIO_PIN_9,&Local_u8Pin);
 
-	TIMER_voidSelectEdge (TIM1,TIMER_FALLING,TIM_CHANNEL2 );
-	while(Local_u8Pin != 0 )
+	TIMER_voidSelectEdge (TIM1,TIMER_FALLING,TIM_CHANNEL2);
+	while(Local_u8Pin != 0)
 		GPIO_u8GetPinValue(GPIO_PORTA, GPIO_PIN_9,&Local_u8Pin);
 	Local_u32EchoReading = TIMER_u8GetCaptureValue(TIM1,TIM_CHANNEL2);
-	TIMER_u8StopChannel (TIM1 , TIM_CHANNEL2 );
 
+	TIMER_StopTimer(TIM1);
+	TIMER_u8StopChannel(TIM1, TIM_CHANNEL2);
 	//Distance = (Time (s)* Speed of Sound in(cm/s)/2
 	*Copy_pu32DistValue = (Local_u32EchoReading* 340)/20000;
 	

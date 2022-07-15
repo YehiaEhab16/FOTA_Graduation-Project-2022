@@ -20,7 +20,7 @@ typedef struct
   volatile u32 CCMR[2];             /*capture/compare mode registers 1 & 2*/
   volatile u32 CCER;                /*capture/compare enable register*/
   volatile u32 CNT;                 /*Counter*/
-  volatile u32 PSC;                 /*Prescaler*/
+  volatile u32 PSC;                 /*Prescalar*/
   volatile u32 ARR;                 /*auto-reload register __ Address offset: 0x2C*/
   u32 RESERVED1;
   volatile u32 CCR[4];              /*capture/compare registers 1, 2, 3 & 4 __ Address offset: 0x34*/
