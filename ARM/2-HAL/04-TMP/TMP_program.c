@@ -19,12 +19,12 @@
 u16 data=0;
 
 //Reading Temperature Value
-u8 TMP_u8ReadValue(u32 *Copy_pu8TempValue)
+u8 TMP_u8ReadValue(u16 *Copy_pu8TempValue)
 {
 	u8 Local_u8ErrorState=OK;
 
 		ADC_VidStartConv(&data,GPIO_PIN_0);
-		*Copy_pu8TempValue = (data * Voltage*100)/4096;
+		*Copy_pu8TempValue = (data *100)/(2*1000);
 
 	return Local_u8ErrorState;
 }
