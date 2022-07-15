@@ -322,7 +322,25 @@ u8 RCC_u8ChangeModeBuses(u8 Copy_u8SysClock , u8 Copy_u8StateBus)
 
 	return Local_u8StateError ;
 }
+u8 RCC_u8EnableClock(u8 Copy_u8PeripheralID)
+{
+	u8 Local_u8ErrorState = OK ;
+	//AHB Bus
+	if(Copy_u8PeripheralID <=AHB_END  && Copy_u8PeripheralID >=AHB_START)
+		SET_BIT(RCC->AHBENR,(Copy_u8PeripheralID-RCC_AHB_OFFSET));
+	//APB1 Bus
+	else if(Copy_u8PeripheralID <=APB1_END  && Copy_u8PeripheralID >=APB1_START)
+		SET_BIT(RCC->APB1ENR,(Copy_u8PeripheralID-RCC_APB1_OFFSET));
+	//APB2 Bus
+	else if (Copy_u8PeripheralID <=APB2_END  && Copy_u8PeripheralID >=APB2_START)
+		SET_BIT(RCC->APB2ENR,(Copy_u8PeripheralID-RCC_APB2_OFFSET));
+	//Wrong Input
+	else
+		Local_u8ErrorState = NOK ;
 
+	return Local_u8ErrorState;
+
+}
 //Adjusting System clock and calibrating error
 void RCC_voidAjustmentClockSys ()
 {

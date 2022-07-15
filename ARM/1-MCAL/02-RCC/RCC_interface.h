@@ -97,6 +97,12 @@ void RCC_voidInit (void);
 u8 RCC_u8DisableClock(u8 Copy_u8PeripheralID);
 
 /**
+ * @def function to Enable certain peripheral
+ * @param Copy_u8PeripheralID required peripheral
+ * @return ErrorFlag
+ */
+u8 RCC_u8EnableClock(u8 Copy_u8PeripheralID);
+/**
  * @def function to change bus mode
  * @param Copy_u8Bus required Bus
  * @param Copy_u8StateBus required Bus State
