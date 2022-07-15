@@ -20,8 +20,6 @@
 
 void ISR_voidCANRecieve(void);
 
-void ISR_voidDCM(void);
-
 
 #endif
 

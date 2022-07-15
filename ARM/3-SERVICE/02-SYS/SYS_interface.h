@@ -10,6 +10,9 @@
 #ifndef SYS_INTERFACE_H_
 #define SYS_INTERFACE_H_
 
+
+#define SYS_NONE	10
+
 /**
  * @def initializing all peripherals for Main ECU
  */
@@ -20,7 +23,7 @@ void SYS_voidMainInit(void);
  * @param Copy_pvCallBackFunc : Call Back Function : Can Interrupt on the Bus
  *
  */
-void SYS_voidApp1Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(void), void (*Copy_pvCallBackFuncDCM)(void));
+void SYS_voidApp1Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(void));
 
 /**
  * @def Initializing all the peripherals in APP ECU

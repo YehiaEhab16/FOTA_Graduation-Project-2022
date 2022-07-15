@@ -20,6 +20,25 @@ u8 Global_u8DiagnosticsResponse=1, Global_u8UpdateResponse=1;
 
 void COM_voidSendUpdateRequest(void)
 {
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA0, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA0, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
+	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
+}
+
+void COM_voidSendUpdateProgress(void)
+{
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA0, 1);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
+	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
+}
+
+void COM_voidSendUpdateComplete(void)
+{
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA0, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, 1);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
 }

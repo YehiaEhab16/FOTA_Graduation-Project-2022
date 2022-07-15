@@ -19,12 +19,10 @@
 
 #include "ISR.h"
 #include "Tasks.h"
-extern DCM_t Global_DCM_tRightMotor ;
 
 //Recieve Struct
 CAN_msg CAN_RXmsg;
 u8 Global_u8DiagFlag=0;
-u8 Global_u8MotorFeedback=2;
 
 void ISR_voidCANRecieve(void)
 {
@@ -37,9 +35,4 @@ void ISR_voidCANRecieve(void)
 	}
 	else if(CAN_RXmsg.id==CAN_DIAG_ID)
 		Global_u8DiagFlag = 1;
-}
-
-void ISR_voidDCM(void)
-{
-	Global_u8MotorFeedback = DCM_u8DetectDirection(&Global_DCM_tRightMotor);
 }
