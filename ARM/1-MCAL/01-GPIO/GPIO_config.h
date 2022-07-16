@@ -29,9 +29,9 @@ Options for Pins:
 	-PORT_OUPUT_50MHZ_AF_OPEN_DRAIN
 */
 
-#define PORTA_PIN0_DIR  		           PORT_INPUT_PULL_UP_DOWN
-#define PORTA_PIN1_DIR                     PORT_INPUT_PULL_UP_DOWN
-#define PORTA_PIN2_DIR                     PORT_INPUT_PULL_UP_DOWN
+#define PORTA_PIN0_DIR  		           PORT_INPUT_FLOATING
+#define PORTA_PIN1_DIR                     PORT_INPUT_FLOATING
+#define PORTA_PIN2_DIR                     PORT_INPUT_FLOATING
 #define PORTA_PIN3_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN4_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN5_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL

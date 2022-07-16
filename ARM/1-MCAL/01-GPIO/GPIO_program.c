@@ -27,7 +27,7 @@ void GPIO_voidDirectionInit()
 	GPIOB->CRH  = PORTB_DIR;
 	
 	//PortC Direction
-	GPIOB->CRH  = PORTC_DIR;
+	GPIOC->CRH  = PORTC_DIR;
 	
 	//Ports Initial Value
 	GPIOA->ODR  = PORTA_VAlUE;
@@ -73,7 +73,7 @@ u8 GPIO_u8SetPortValue(u8 Copy_u8Port,u8 Copy_u8Value)
 {
 	u8 Local_u8ErrorState =OK;
 	//Output High
-	if(Copy_u8Value == GPIO_PIN_HIGH)
+	if(Copy_u8Value == GPIO_PORT_HIGH)
 		switch (Copy_u8Port)
 		{
 			case GPIO_PORTA : GPIOA->ODR = Copy_u8Port;break;
@@ -82,7 +82,7 @@ u8 GPIO_u8SetPortValue(u8 Copy_u8Port,u8 Copy_u8Value)
 			default : Local_u8ErrorState =NOK;		   break;	
 		}
 	//Output Low	
-	else if(Copy_u8Value == GPIO_PIN_LOW)
+	else if(Copy_u8Value == GPIO_PORT_LOW)
 		switch (Copy_u8Port)
 		{
 			case GPIO_PORTA : GPIOA->ODR = Copy_u8Port;break;
