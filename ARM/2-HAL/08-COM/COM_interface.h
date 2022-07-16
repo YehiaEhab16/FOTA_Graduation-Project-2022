@@ -11,6 +11,7 @@
 #define COM_INTERFACE_H_
 
 
+#define COM_UPDATE_REQUESTED		3
 #define COM_UPDATE_APPROVED			2
 #define COM_IDLE					1
 #define COM_UPDATE_REJECTED			0

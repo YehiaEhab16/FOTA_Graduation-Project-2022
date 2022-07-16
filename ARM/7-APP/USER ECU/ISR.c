@@ -25,7 +25,12 @@ void ISR_voidCanRecieve(void)
 	CAN_voidReceive(&CAN_RXmsg, 0);
 	if (CAN_RXmsg.id == CAN_UPDATE_ID)
 	{
-		COM_voidSendUpdateRequest();
+		if(CAN_RXmsg.data[0]==ISR_UPDATE_NOTF)
+			COM_voidSendUpdateRequest();
+		else if(CAN_RXmsg.data[0]==ISR_UPDATE_PROG)
+			COM_voidSendUpdateProgress();
+		else if(CAN_RXmsg.data[0]==ISR_UPDATE_COMP)
+			COM_voidSendUpdateComplete();
 		GPIO_u8TogglePinValue(GPIO_PORTA, GPIO_PIN_8);
 	}
 	else if (CAN_RXmsg.id == CAN_DIAG_ID)

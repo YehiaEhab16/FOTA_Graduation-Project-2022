@@ -22,7 +22,7 @@
 LED_t Global_LED_tIndication = {LED_PORTB, LED_PIN0, LED_ACTIVE_HIGH};
 
 extern CAN_msg CAN_TXmsg;
-extern u8 Global_u8DiagnosticsResponse, Global_u8UpdateResponse;
+extern u8 Global_u8DiagnosticsResponse, Global_u8UpdateResponse, Global_u8Flag;
 
 int main(void)
 {
