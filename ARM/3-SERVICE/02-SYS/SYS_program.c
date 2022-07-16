@@ -82,6 +82,7 @@ void SYS_voidApp1Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(vo
 
 void SYS_voidApp2Init(void (*Copy_pvCallBackFunc)(void))
 {
+	u16 Local_u16Val;
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();

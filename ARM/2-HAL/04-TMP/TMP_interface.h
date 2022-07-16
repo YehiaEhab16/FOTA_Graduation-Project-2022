@@ -19,7 +19,7 @@
  * @param Temperature Value read from sensor
  * @ret   Error Status
  */
-u8 TMP_u8ReadValue(u16 *Copy_pu8TempValue);
+u16 TMP_u16ReadValue(void);
 
 
 #endif

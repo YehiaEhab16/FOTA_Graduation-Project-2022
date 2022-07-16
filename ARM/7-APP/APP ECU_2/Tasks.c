@@ -51,9 +51,9 @@ u8 Local_u8LastError = NonError ;
 //Reading Temperature from LM35
 void Task_voidReadTemperature(void )
 {
-	u8 Local_u8TempVal=0;
-	//	TMP_u8ReadValue(&Local_u8TempVal);
-	Global_pu8AppsVariables[1]=Local_u8TempVal;
+	u16 Local_u16TempVal=0;
+	Local_u16TempVal = TMP_u16ReadValue();
+	Global_pu8AppsVariables[1]=Local_u16TempVal;
 }
 
 //Rotate Fan

@@ -16,15 +16,14 @@
 #include "TMP_config.h"
 #include "TMP_interface.h"
 #include "TMP_private.h"
-u16 data=0;
 
 //Reading Temperature Value
-u8 TMP_u8ReadValue(u16 *Copy_pu8TempValue)
+u16 TMP_u16ReadValue(void)
 {
-	u8 Local_u8ErrorState=OK;
+	u16 Local_u16Data=0;
 
-		ADC_VidStartConv(&data,GPIO_PIN_0);
-		*Copy_pu8TempValue = (data *100)/(2*1000);
+	ADC_voidStartConv(&Local_u16Data,GPIO_PIN_0);
+	Local_u16Data = (Local_u16Data *100)/(1500.0);
 
-	return Local_u8ErrorState;
+	return Local_u16Data;
 }
