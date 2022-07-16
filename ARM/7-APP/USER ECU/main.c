@@ -19,8 +19,12 @@
 
 #include "ISR.h"
 
-LED_t Global_LED_tIndication = {LED_PORTB, LED_PIN0, LED_ACTIVE_HIGH};
+//LEDs
+LED_t Global_LED_tUpdateInd = {LED_PORTB, LED_PIN0, LED_ACTIVE_HIGH};
+LED_t Global_LED_tDiagInd = {LED_PORTB, LED_PIN1, LED_ACTIVE_HIGH};
+LED_t Global_LED_tResInd = {LED_PORTC, LED_PIN13, LED_ACTIVE_HIGH};
 
+//Global Variables
 extern CAN_msg CAN_TXmsg;
 extern u8 Global_u8DiagnosticsResponse, Global_u8UpdateResponse, Global_u8Flag;
 
@@ -36,7 +40,7 @@ int main(void)
 			CAN_TXmsg.id =CAN_UPDATE_ID_TX;
 			CAN_TXmsg.data[0]= ISR_UPDATE_APPROVED;
 			CAN_u8Transmit(&CAN_TXmsg);
-			GPIO_u8TogglePinValue(GPIO_PORTA, GPIO_PIN_9);
+			LED_voidLedToggle(&Global_LED_tResInd);
 			Global_u8UpdateResponse=COM_IDLE;
 		}
 		else if (Global_u8UpdateResponse==COM_UPDATE_REJECTED)
@@ -46,13 +50,20 @@ int main(void)
 			CAN_u8Transmit(&CAN_TXmsg);
 			Global_u8UpdateResponse=COM_IDLE;
 		}
+		else if (Global_u8UpdateResponse==COM_UPDATE_REQUESTED)
+		{
+			CAN_TXmsg.id =CAN_UPDATE_ID_TX;
+			CAN_TXmsg.data[0]= ISR_UPDATE_REQUESTED;
+			CAN_u8Transmit(&CAN_TXmsg);
+			Global_u8UpdateResponse=COM_IDLE;
+		}
 		if (Global_u8DiagnosticsResponse==COM_DAIG_REQUESTED)
 		{
 			CAN_TXmsg.id =CAN_DIAG_ID_TX;
 			CAN_TXmsg.data[0]= ISR_DIAG_REQUESTED;
 			CAN_u8Transmit(&CAN_TXmsg);
-			GPIO_u8TogglePinValue(GPIO_PORTB, GPIO_PIN_0);
 			Global_u8DiagnosticsResponse=COM_DAIG_NOT_REQUESTED;
+			LED_voidLedToggle(&Global_LED_tDiagInd);
 		}
 	}
 }

@@ -60,7 +60,7 @@ void COM_voidRecieveUpdateResponse(void)
 	GPIO_u8GetPinValue(COM_PORT, COM_UPDATE_IN, &Global_u8UpdateResponse);
 	if(Global_u8UpdateResponse)
 	{
-		if(Global_u8Flag)
+		if(!Global_u8Flag)
 				Global_u8UpdateResponse++;
 		Global_u8UpdateResponse++;
 	}
