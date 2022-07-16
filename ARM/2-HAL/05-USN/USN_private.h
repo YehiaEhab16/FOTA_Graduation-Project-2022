@@ -15,5 +15,13 @@
 
 #define TIM1_DMAR			(volatile u32 *)(0x40012C00+0x4c)
 
+#if USN_ECHO_PIN==GPIO_PIN_9
+
+#define USN_TIM_CHANNEL			TIM_CHANNEL2
+#else
+
+#define USN_TIM_CHANNEL			TIM_CHANNEL1
+#endif
+
 
 #endif

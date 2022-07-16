@@ -64,26 +64,10 @@ void ADC_voidInit(void)
 	SET_BIT(ADC1 -> CR2 ,ADC_CR2_SWSTART);
 }
 
-/*CHOOSE THE CHANNEL
-//x,
-//CHANNEL_1,
-//CHANNEL_2,
-//CHANNEL_3,
-//CHANNEL_4,
-//CHANNEL_5,
-//CHANNEL_6,
-//CHANNEL_7,
-//CHANNEL_8,
-//CHANNEL_9,
-//CHANNEL_10,
-//CHANNEL_11,
-//CHANNEL_12,
-//CHANNEL_13,
-//CHANNEL_14,
-//CHANNEL_15,
-//CHANNEL_16,
-//CHANNEL_17*/
-
+/**
+Channel Options
+CHANNEL0 -> CHANNEL17
+*/
 void ADC_voidSamplingTime(ADC_Channels Copy_u8Channel, ADCSampleTime_t Copy_u8SamplingTime)
 {
 	   if(Copy_u8Channel <= 6)

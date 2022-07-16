@@ -13,5 +13,9 @@
 #define USN_CONFIG_H_
 
 
+#define USN_PORT				GPIO_PORTA
+#define USN_TRIG_PIN			GPIO_PIN_0
+#define USN_ECHO_PIN			GPIO_PIN_9 //GPIO_PIN_8 or GPIO_PIN_9 (PortA)
+
 
 #endif

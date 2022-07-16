@@ -16,6 +16,7 @@
 #include "../../1-MCAL/05-USART/USART_interface.h"
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
+#include "../../1-MCAL/13-ADC/ADC_interface.h"
 
 #include "../../2-HAL/02-DCM/DCM_interface.h"
 #include "../../2-HAL/08-COM/COM_interface.h"
@@ -85,6 +86,7 @@ void SYS_voidApp2Init(void (*Copy_pvCallBackFunc)(void))
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
 	FPEC_voidInit();
+	ADC_voidInit();
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
 	CAN_VoidFilterSet(&CAN_FilterApp2Update);
