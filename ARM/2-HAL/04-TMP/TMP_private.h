@@ -12,6 +12,7 @@
 #ifndef TMP_PRIVATE_H_
 #define TMP_PRIVATE_H_
 
-
+#define	TEMP_RESOLUTION				(f32)0.8
+#define TEMP_RELATION				(f32)0.777
 
 #endif

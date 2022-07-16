@@ -21,9 +21,10 @@
 u16 TMP_u16ReadValue(void)
 {
 	u16 Local_u16Data=0;
-
-	ADC_voidStartConv(&Local_u16Data,GPIO_PIN_0);
-	Local_u16Data = (Local_u16Data *100)/(1500.0);
-
+	f32 Local_u8Temp =0 ;
+	ADC_voidStartConv(&Local_u16Data,CHANNEL_0);
+	Local_u16Data = TEMP_RESOLUTION * Local_u16Data ;
+	Local_u8Temp = (f32)(Local_u16Data /10)*TEMP_RELATION;
+	Local_u16Data = (u16)Local_u8Temp ;
 	return Local_u16Data;
 }
