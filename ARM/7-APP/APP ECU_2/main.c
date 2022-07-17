@@ -11,11 +11,13 @@
 #include "../../3-SERVICE/02-SYS/SYS_interface.h"
 #include "../../1-MCAL/06-CAN/CAN_interface.h"
 
+#include "../../2-HAL/01-LED/LED_interface.h"
 #include "../../5-RTOS/RTOS_interface.h"
 
 #include "ISR.h"
 #include "Tasks.h"
 
+LED_t LED1 = {LED_PORTB,LED_PIN0,LED_ACTIVE_HIGH};
 int main(void)
 {
 	//Initialization
@@ -32,6 +34,7 @@ int main(void)
 	RTOS_u8CreateTask (TASK_REF_PRIORITY+3,TASK_REF_PERIODICITY,TASK_REF_FIRST_DELAY,RTOS_SUSPENDED,&Task_voidFanRotate);
 
 
+	LED_voidLedOn(&LED1);
 while(1)
 {
 }

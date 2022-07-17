@@ -13,15 +13,19 @@
 #include "../../1-MCAL/08-FPEC/FPEC_interface.h"
 #include "../../1-MCAL/11-WWDG/WWDG_interface.h"
 
+#include "../../2-HAL/01-LED/LED_interface.h"
+
 #include "ISR.h"
 #include "Tasks.h"
 
+extern LED_t LED1 ;
 
 //Recieve Struct
 CAN_msg CAN_RXmsg;
 u8 Global_u8CanDiagFlag = 0;
 void Task_voidCANRecieveISR(void)
 {
+	LED_voidLedToggle(&LED1);
 	u16 Local_u16Data=1;
 	CAN_voidReceive(&CAN_RXmsg, 0);
 	Global_u8CanDiagFlag = 0;
@@ -33,7 +37,6 @@ void Task_voidCANRecieveISR(void)
 	else if(CAN_RXmsg.id==CAN_DIAG_ID)
 	{
 		Global_u8CanDiagFlag = 1;
-		Task_voidSendDiagnostics();
-		GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
+		//GPIO_u8SetPinValue(GPIO_PORTB, GPIO_PIN_7, GPIO_PIN_HIGH);
 	}
 }

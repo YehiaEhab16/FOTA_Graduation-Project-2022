@@ -72,6 +72,7 @@ void Task_voidFanRotate(void )
 void Task_voidSystemCheck(void)
 {
 
+
 	u8 Local_u8TempVal =30 ;
 	static u8 Local_u8LastError =0 ;
 
@@ -80,8 +81,9 @@ void Task_voidSystemCheck(void)
 
 	//Local_u8TempVal=Global_pu8AppsVariables[1];
 
-	if (Global_u8CanDiagFlag == 1)
+	if  (Global_u8CanDiagFlag == 1)
 	{
+		Global_u8CanDiagFlag =0 ;
 		if ( !( (Local_u8TempVal >=25)&&( Local_u8TempVal <=30) ) )
 			CAN_TXmsg.data[0] = TempErrorMode1;
 		else
