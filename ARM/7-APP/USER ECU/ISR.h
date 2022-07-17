@@ -25,8 +25,9 @@
 #define ISR_UPDATE_NOTF					45
 #define ISR_UPDATE_PROG					50
 #define ISR_UPDATE_COMP					55
+#define ISR_UPDATE_NOT_COMP				60
 
-#define ISR_UPDATE_REQUESTED			60
+#define ISR_UPDATE_REQUESTED			65
 
 /**
  * @def STM to RPI

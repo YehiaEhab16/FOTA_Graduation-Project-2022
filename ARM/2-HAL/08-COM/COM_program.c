@@ -33,6 +33,7 @@ void COM_voidSendUpdateProgress(void)
 {
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA0, 1);
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA2, 0);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
 }
@@ -41,6 +42,17 @@ void COM_voidSendUpdateComplete(void)
 {
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA0, 0);
 	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, 1);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA2, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
+	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
+	Global_u8Flag=0;
+}
+
+void COM_voidSendUpdateFailed(void)
+{
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA0, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA1, 0);
+	GPIO_u8SetPinValue(COM_PORT, COM_DIAG_DATA2, 1);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_LOW);
 	GPIO_u8SetPinValue(COM_PORT, COM_UPDATE_OUT, GPIO_PIN_HIGH);
 	Global_u8Flag=0;

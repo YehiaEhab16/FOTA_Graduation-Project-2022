@@ -33,6 +33,8 @@ void ISR_voidCanRecieve(void)
 			COM_voidSendUpdateProgress();
 		else if(CAN_RXmsg.data[0]==ISR_UPDATE_COMP)
 			COM_voidSendUpdateComplete();
+		else if(CAN_RXmsg.data[0]==ISR_UPDATE_NOT_COMP)
+			COM_voidSendUpdateFailed();
 		LED_voidLedToggle(&Global_LED_tUpdateInd);
 	}
 	else if (CAN_RXmsg.id == CAN_DIAG_ID)
