@@ -1,90 +1,128 @@
-# Raspberry Pi GUI
-This part is responsible for User ECU
+# <p align="center">Raspberry Pi GUI </p>
 
-Microcontroller -> Raspberry Pi 3 B+
+## 🌍 Overview
 
-The GUI is responsible for showing notification updates to the user
+- Raspberry Pi 4 is used for User Interface, it’s connected with a 5-inch touch screen that displays a fully functional GUI that enables users to interact with their vehicle systems.
 
-In addition to some functionalities like:
+- The GUI is responsible for showing notification updates to the user and handling the vehicle diagnostics.
 
-Phone - Maps - Weather - Music Player - Radio - Video Player - Calendar
+- In addition to some dynamic user experience functionalities like:
 
-The frontend is designed using QT Designer
+  - Splash Screen: is used as a loading screen while the whole application is initialized.
+  - Main Window: is used for displaying the whole application along with dynamic Time and Date.
+  - Phone: is used for calling a phone number, viewing recently dialed numbers and the user’s contacts.
+  - Guide: is used for displaying the car dashboard warnings and briefly describing the problem.
+  - Calendar: is used for displaying dynamic Date and navigating the Day, Month and Year.
+  - Settings: is used for dynamically scanning for Wi-Fi connections and Bluetooth devices, checking and receiving an update, sending and receiving and diagnostics system check.
+  - Music Player: is used for dynamically playing and pausing music files that are on the vehicle.
+  - Video Player: is used for dynamically playing and pausing video files that are on the vehicle.
+  - Radio: is used for playing the radio that is scanned by the vehicle’s antenna.
+  - Weather: is used for dynamically displaying the weather details with a whole day forecast integrating with <a href="https://www.weatherapi.com/" target="_blank">WeatherAPI</a> free to use public API for the data.
 
-The GUI is implemeted using PyQt5
+- The frontend is designed using <a href="https://build-system.fman.io/qt-designer-download" target="_blank">Qt Designer</a>.
 
-## Dependencies
-### Notes
+- The GUI is implemeted using <a  href="https://doc.qt.io/"  target="_blank">PyQt5</a>.
 
-Do **NOT** install any other version of PyQt5 as all the versions are modern and do not match certain sub libraries such as PyQt5.QtMultimedia
+## 📚 Dependencies
 
-OpenCv library works only with Python v3.7
+Python 3.6 or higher version
 
-Please install the required packages:
-```sh
-sudo nano /etc/apt/sources.list
+Please install the required packcages:
+
 ```
-Then write:
-```
-deb http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi
-# Uncomment line below then 'apt-get update' to enable 'apt-get source'
-#deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi
-```
-And
-```sh
-nano /etc/apt/sources.list.d/raspi.list
-```
-Then write:
-```
-deb http://archive.raspberrypi.org/debian/ buster main
-# Uncomment line below then 'apt-get update' to enable 'apt-get source'
-#deb-src http://archive.raspberrypi.org/debian/ buster main
-```
-```sh
-pip install --user --upgrade pip
+PyQt5
 
-sudo apt update
+cv2
 
-sudo apt upgrade
-
-sudo apt-get build-dep qtmultimedia5-dev
-
-sudo apt-get source --compile qtmultimedia5-dev
-
-sudo apt-get install libqt5multimedia5
-
-sudo apt-get install libqt5multimedia5-plugins
-
-sudo apt-get install qml-module-qtmultimedia
-
-python3 -m pip install folium
-
-sudo apt-get install python3-opencv
-
-python3 -m pip install pyserial
+requests
 ```
 
-## Run GUI at Booting Raspian OS
-### Note
-This method lacks some features in the Desktop GUI
-```sh
-nano ~/bashrc
-```
-Then write bash script:
-```sh
-cd /home/pi/Desktop/Finial_project/FOTA_Graduation-Project-2022/RPI/GUI/Script
+## 📄 Screenshot of the GUI
 
-python3 main.py
-```
-And
-```sh
-nano /home/pi/.config/lxsession/LXDE-pi/autostart
-```
+<h3  align="center">
+Splash Screen
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/splashScreen.png">
+</h3>
 
-Then write in the file:
-```
-@lxpanel --profile LXDE-pi
-@pcmanfm --desktop --profile LXDE-pi
-@xscreensaver -no-splash
-@bash /home/pi/bashrc
-```
+<hr>
+
+<h3  align="center">
+Main Window
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/mainWindow.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Phone
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/phone.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Guide
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/guide.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Calendar
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/calendar.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Settings
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/settings.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Music Player
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/music.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Video Player
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/video.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Radio
+</h3>
+<h3  align="center">
+<img width="700"  src="/assets/RPI/radio.png">
+</h3>
+
+<hr>
+
+<h3  align="center">
+Weather
+</h3>
+<h3  align="center">
+<img width="700" src="/assets/RPI/weather.png">
+</h3>

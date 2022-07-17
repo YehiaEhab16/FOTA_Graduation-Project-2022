@@ -1,17 +1,21 @@
-
 # importing required packages
 import ntpath
 from PyQt5.QtWidgets import QTabWidget, QTableWidgetItem, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.uic import loadUiType
 import time
-import requests
 import os
 from bluetooth import *
 import Phone
 from PyQt5 import QtCore
 from subprocess import check_output
 import RPi.GPIO as GPIO
+import pathlib
+from datetime import date
+
+current_directory = str(pathlib.Path(__file__).parent.absolute())
+lineCount = 0
+currentDate = date.today().strftime("%d/%m/%Y")
 
 threadDelay = 0.1
 
@@ -33,6 +37,7 @@ inputDiagFlag = 37
 settingsIconFlagTwo = 0
 settingsIconFlag = 0
 updateCompletedFlag = 0
+updateFailedFlag = 0
 requestDiagMode = 2
 
 redirectToggle = True
@@ -76,12 +81,13 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.PhoneRedirect = Phone.MainAPP_Phone()
         self.Handle_Buttons()
         self.GPIO_Init()
-        self.accessAPI()
+        self.UpdateInit()
         self.thread = MyThread()
         self.thread.change_value.connect(self.HandleCheck)
         self.thread.start()
         self.OP_2.hide()
         self.progressBar.hide()
+        self.UpdateCheck.setEnabled(False)
         
     # GUI buttons
     def Handle_Buttons(self):
@@ -91,7 +97,6 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.back_4.clicked.connect(self.Handle_Exit)
         self.UpdateCheck.clicked.connect(self.Handle_Update)
         self.CheckUp.clicked.connect(self.Handle_Diagnostics)
-        self.Contact.clicked.connect(self.Handle_Send)
         self.Contact.clicked.connect(self.Handle_Phone)
         self.checkBox.clicked.connect(self.Handle_Toggle_Wifi)
         self.checkBox_2.clicked.connect(self.Handle_Toggle_Bluetooth)
@@ -118,30 +123,48 @@ class MainAPP_Setting(QTabWidget, FormClass):
         self.setWindowTitle("Settings")
         self.setFixedSize(800, 480)
 
-    def accessAPI(self):
-        versions = []
-        versionsProperties = ["App_ECU","Updated_At", "File_Size"]
-        versions = requests.get("https://fota-project-new-default-rtdb.firebaseio.com/factorySoftware/versions.json").json()
-        versionsNumber = len(versions)
-        self.UpdateHistory.setRowCount(versionsNumber)
-        for row in range(versionsNumber):
-            for column in range(3):
-                self.UpdateHistory.setItem(row,column, QTableWidgetItem(str(versions[row].get(versionsProperties[column]))))
-                if versionsProperties[column] == "App_ECU":
-                    self.UpdateHistory.setItem(row,column, QTableWidgetItem("App_ECU_V_" +str(versions[row].get(versionsProperties[column]))))
+    def UpdateInit(self):
+        with open(current_directory + '/updates.txt', 'r') as f:
+            global lineCount
+            lineCount = 0
+            for line in f:
+                lineCount+=1
+                self.UpdateHistory.setRowCount(lineCount)
+                lineDetails = line.split(',')
+                lineDetails[1] = lineDetails[1][:-1]
+                for column in range(2):
+                    self.UpdateHistory.setItem(lineCount -1 ,column, QTableWidgetItem(str(lineDetails[column])))
 
     def Handle_Update(self):
-            currentVersion = 2
-            factoryVersion = requests.get("https://fota-project-new-default-rtdb.firebaseio.com/factorySoftware/latestVersion/App_ECU.json").json()
-            if factoryVersion != currentVersion:
-                ret = QMessageBox.information(self, 'New Update',
-                                        'Please select whether you want to download the new update',
-                                            QMessageBox.Ok | QMessageBox.Cancel)
-                if ret == QMessageBox.Ok:
-                    QMessageBox.information(self, "New update will be downloaded")
+        global updateInProgress
+        print(updateInProgress)
+        self.progressBar.setValue(updateInProgress)
+        self.OP_2.show()
+        self.progressBar.show()
+        GPIO.output(outputUpdate,GPIO.HIGH)
+        self.Radiator.setText("alo")
+        self.Engine.setText("No Errors Found hoba")
+        self.Sensor.setText("No Errors Found")
+        GPIO.output(outputResponseFlag, GPIO.LOW)
+        GPIO.output(outputResponseFlag, GPIO.HIGH)
+        self.UpdateCheck.setEnabled(False)
+        if updateInProgress == 100:
+            updateInProgress = 0
+            qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
+                'Update Complete',
+                    QMessageBox.Ok)
+            self.OP_2.hide()
+            self.progressBar.setValue(0)
+            self.progressBar.hide()
+            global lineCount
+            with open(current_directory + '/updates.txt', "a") as f:
+                lineCount+=1
+                f.write(f"\nApp_ECU_{lineCount},{str(currentDate)}")
+                lineDetails = [f"App_ECU_{lineCount}", f"{str(currentDate)}"]
+                for column in range(2):
+                    self.UpdateHistory.setRowCount(lineCount)
+                    self.UpdateHistory.setItem(lineCount - 1,column, QTableWidgetItem(str(lineDetails[column])))
 
-    def Handle_Send(self):
-        pass
         
     def Handle_Toggle_Wifi(self):
         global wifiToggle
@@ -238,14 +261,25 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global inputDiagDirectionsVar
         global inputDiagUltraVar 
         global updateInProgress
+        global updateFailedFlag
         print(updateInProgress)
         self.progressBar.setValue(updateInProgress)
         localErrorFlag=0
+
+        if(updateFailedFlag == 1):
+            updateFailedFlag = 0
+            updateReceived = False
+            qMsgBoxUpdate = QMessageBox.information(self, 'Update Download',
+                'Update failed to be downlaoded',
+                QMessageBox.Ok)
+            self.UpdateCheck.setEnabled(True)
+
         if(updateReceived == True):
             updateReceived = False
             global requestDiagMode
             settingsIconFlag = 1
             localErrorFlag=0
+
         if self.isActiveWindow() and settingsIconFlag:
             settingsIconFlag = 0
             self.setCurrentIndex(2)
@@ -265,6 +299,8 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 GPIO.output(outputUpdate, GPIO.LOW)
                 GPIO.output(outputResponseFlag, GPIO.LOW)
                 GPIO.output(outputResponseFlag, GPIO.HIGH)
+                self.UpdateCheck.setEnabled(True)
+
         if updateInProgress == 100:
             updateInProgress = 0
             qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
@@ -273,10 +309,6 @@ class MainAPP_Setting(QTabWidget, FormClass):
             self.OP_2.hide()
             self.progressBar.setValue(0)
             self.progressBar.hide()
-
-            
-
-
                    
         elif(diagReceived == True):
             diagReceived = False
@@ -308,11 +340,11 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 inputDiagTempVar = 0
                 inputDiagDirectionsVar = 0
                 inputDiagUltraVar = 0
+
             elif requestDiagMode == 2:
                 settingsIconFlagTwo = 1
-                print("alooooooo")
+
         if(self.isActiveWindow() and settingsIconFlagTwo):
-            print("ana d5lt gowa el window")
             settingsIconFlagTwo = 0
             qMsgBoxSystemCheck = QMessageBox.information(self, 'System Check',
                         'System check is required',
@@ -334,19 +366,21 @@ class MainAPP_Setting(QTabWidget, FormClass):
     def Handle_Update_ISR(channel):
         global updateReceived
         global updateInProgress
+        global updateFailedFlag
         inputUpdateState = GPIO.input(inputDiagTemp)
         inputUpdateFinish = GPIO.input(inputDiagDirections)
-        if inputUpdateState == 0 and inputUpdateFinish == 0:
+        inputUpdateFail = GPIO.input(inputDiagUltra)
+        if inputUpdateState == 0 and inputUpdateFinish == 0 and inputUpdateFail == 0:
             updateReceived = True
         elif inputUpdateState == 1:
             updateInProgress += 10
         elif inputUpdateFinish == 1 and updateInProgress != 100: 
             updateInProgress = 100
+        elif inputUpdateFail == 1:
+            updateFailedFlag = 1
 
     @staticmethod
     def Handle_Diag_ISR(channel):
         global diagReceived
         diagReceived = True
             
-
-

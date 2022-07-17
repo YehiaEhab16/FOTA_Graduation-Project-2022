@@ -1243,6 +1243,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>22</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1337,6 +1338,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1364,6 +1366,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>22</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1480,6 +1483,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1540,7 +1544,7 @@ QCheckBox::indicator:checked {
      <bool>false</bool>
     </attribute>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>264</number>
+     <number>394</number>
     </attribute>
     <attribute name="verticalHeaderVisible">
      <bool>false</bool>
@@ -1563,22 +1567,12 @@ QCheckBox::indicator:checked {
       <string>Date</string>
      </property>
     </column>
-    <column>
-     <property name="text">
-      <string>Size</string>
-     </property>
-    </column>
     <item row="0" column="0">
      <property name="text">
       <string/>
      </property>
     </item>
     <item row="0" column="1">
-     <property name="text">
-      <string/>
-     </property>
-    </item>
-    <item row="0" column="2">
      <property name="text">
       <string/>
      </property>
@@ -1620,6 +1614,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1642,6 +1637,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1658,7 +1654,7 @@ QCheckBox::indicator:checked {
       <x>0</x>
       <y>310</y>
       <width>221</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -1682,7 +1678,7 @@ QCheckBox::indicator:checked {
       <x>250</x>
       <y>310</y>
       <width>451</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="value">
@@ -1706,6 +1702,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1738,6 +1735,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1770,6 +1768,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1792,6 +1791,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1814,6 +1814,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1836,6 +1837,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1858,6 +1860,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1880,6 +1883,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1902,6 +1906,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1924,6 +1929,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1946,6 +1952,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1968,6 +1975,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -1990,6 +1998,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -2012,6 +2021,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -2034,6 +2044,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -2056,6 +2067,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -2078,6 +2090,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -2100,6 +2113,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -2122,6 +2136,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -2144,6 +2159,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -2166,6 +2182,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -2188,6 +2205,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>15</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
@@ -2210,6 +2228,7 @@ QCheckBox::indicator:checked {
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
