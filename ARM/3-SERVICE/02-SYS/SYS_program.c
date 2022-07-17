@@ -30,7 +30,7 @@
 #include "SYS_config.h"
 
 //Motor
-DCM_t Global_DCM_tMotor = {DCM_PORTA,DCM_PIN5,DCM_PIN4,DCM_PIN3,DCM_PIN2};
+DCM_t Global_DCM_tMotorVehicle = {DCM_PORTA,DCM_PIN5,DCM_PIN4,DCM_PIN3,DCM_PIN2};
 
 extern CAN_Init_t CAN_InitStruct;
 extern CAN_FilterInit_t CAN_FilterUserResponse;
@@ -66,13 +66,13 @@ void SYS_voidApp1Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(vo
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
 	FPEC_voidInit();
-	DCM_voidInit(&Global_DCM_tMotor);
+	DCM_voidInit(&Global_DCM_tMotorVehicle);
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
 	CAN_VoidFilterSet(&CAN_FilterApp1Update);
-	SYS_voidEnableInterruptNVIC(Global_DCM_tMotor.DCM_u8PinENCA,SYS_NONE);
-	EXTI_voidInit(Global_DCM_tMotor.DCM_u8PinENCA,EXTI_RISING_EDGE);
-	EXTI_voidSetCallBack(Global_DCM_tMotor.DCM_u8PinENCA, &DCM_voidMotorISR);
+	SYS_voidEnableInterruptNVIC(Global_DCM_tMotorVehicle.DCM_u8PinENCA,SYS_NONE);
+	EXTI_voidInit(Global_DCM_tMotorVehicle.DCM_u8PinENCA,EXTI_RISING_EDGE);
+	EXTI_voidSetCallBack(Global_DCM_tMotorVehicle.DCM_u8PinENCA, &DCM_voidMotorISR);
 
 	if (Copy_pvCallBackFuncCan != NULL)
 		CAN_voidCallBackFunc(CAN_FIFO_0, Copy_pvCallBackFuncCan);

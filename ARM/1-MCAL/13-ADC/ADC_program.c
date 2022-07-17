@@ -81,7 +81,7 @@ void ADC_voidSamplingTime(ADC_Channels Copy_u8Channel, ADCSampleTime_t Copy_u8Sa
 	      ADC1->SMPR1 |= (Copy_u8SamplingTime) << (Copy_u8Channel * 3);
 	   }
 }
-void ADC_VidStartConv(u16 *Copy_u32DATA,u8 Copy_u8Channel)
+void ADC_voidStartConv(u16 *Copy_u32DATA,u8 Copy_u8Channel)
 {
 	CLR_BIT(ADC1 -> CR2 , ADC_CR2_ADON);
 
