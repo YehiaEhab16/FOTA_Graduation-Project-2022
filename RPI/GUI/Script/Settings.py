@@ -137,7 +137,6 @@ class MainAPP_Setting(QTabWidget, FormClass):
 
     def Handle_Update(self):
         global updateInProgress
-        print(updateInProgress)
         self.progressBar.setValue(updateInProgress)
         self.OP_2.show()
         self.progressBar.show()
@@ -159,10 +158,10 @@ class MainAPP_Setting(QTabWidget, FormClass):
             global lineCount
             with open(current_directory + '/updates.txt', "a") as f:
                 lineCount+=1
-                f.write(f"\nApp_ECU_{lineCount},{str(currentDate)}")
+                self.UpdateHistory.setRowCount(lineCount)
+                f.write(f"App_ECU_{lineCount},{str(currentDate)}\n")
                 lineDetails = [f"App_ECU_{lineCount}", f"{str(currentDate)}"]
                 for column in range(2):
-                    self.UpdateHistory.setRowCount(lineCount)
                     self.UpdateHistory.setItem(lineCount - 1,column, QTableWidgetItem(str(lineDetails[column])))
 
         
@@ -262,7 +261,6 @@ class MainAPP_Setting(QTabWidget, FormClass):
         global inputDiagUltraVar 
         global updateInProgress
         global updateFailedFlag
-        print(updateInProgress)
         self.progressBar.setValue(updateInProgress)
         localErrorFlag=0
 
@@ -294,13 +292,13 @@ class MainAPP_Setting(QTabWidget, FormClass):
                 self.Engine.setText("No Errors Found hoba")
                 self.Sensor.setText("No Errors Found")
                 GPIO.output(outputResponseFlag, GPIO.LOW)
-                GPIO.output(outputResponseFlag, GPIO.HIGH)                
+                GPIO.output(outputResponseFlag, GPIO.HIGH)  
+                self.UpdateCheck.setEnabled(False)
             else:
                 GPIO.output(outputUpdate, GPIO.LOW)
                 GPIO.output(outputResponseFlag, GPIO.LOW)
                 GPIO.output(outputResponseFlag, GPIO.HIGH)
                 self.UpdateCheck.setEnabled(True)
-
         if updateInProgress == 100:
             updateInProgress = 0
             qMsgBoxUpdate = QMessageBox.information(self, 'New Update',
@@ -309,7 +307,16 @@ class MainAPP_Setting(QTabWidget, FormClass):
             self.OP_2.hide()
             self.progressBar.setValue(0)
             self.progressBar.hide()
-                   
+            global lineCount
+            with open(current_directory + '/updates.txt', "a") as f:
+                lineCount+=1
+                self.UpdateHistory.setRowCount(lineCount)
+                f.write(f"App_ECU_{lineCount},{str(currentDate)}\n")
+                lineDetails = [f"App_ECU_{lineCount}", f"{str(currentDate)}"]
+                for column in range(2):
+                    self.UpdateHistory.setItem(lineCount - 1,column, QTableWidgetItem(str(lineDetails[column])))
+              
+
         elif(diagReceived == True):
             diagReceived = False
             self.setCurrentIndex(3)
@@ -383,4 +390,3 @@ class MainAPP_Setting(QTabWidget, FormClass):
     def Handle_Diag_ISR(channel):
         global diagReceived
         diagReceived = True
-            

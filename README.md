@@ -64,3 +64,9 @@
 <p align="center">
 <img width="900" src="/assets/Main/systemDiagram.png">
 </p>
+
+<hr>
+
+<p align="center">
+<img width="900" src="/assets/Main/pcbFOTA3D.png">
+</p>
