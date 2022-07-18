@@ -12,15 +12,19 @@
 #include "../../3-SERVICE/02-SYS/SYS_interface.h"
 
 #include "../../5-RTOS/RTOS_interface.h"
+#include "../../2-HAL/01-LED/LED_interface.h"
+
 
 #include "ISR.h"
 #include "Tasks.h"
 
+
+
 int main(void)
 {
 	//Initialization
+	LED_t LED1 = {LED_PORTC,LED_PIN15,LED_ACTIVE_HIGH};
 	SYS_voidApp1Init(EXTI_LINE3,&ISR_voidCANRecieve);
-
 /**
  * Task_voidReadDirection -- > Priority =0 , First Delay = 0 , State = Ready
  * Task_voidMoveVehicle   -- > Priority =1 , First Delay = 0 , State = Ready
@@ -31,15 +35,18 @@ int main(void)
  */
 	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidReadDirection);
 
-	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+1,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidMoveVehicle);
-
-	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+2,TASK_REF_FIRST_DELAY,RTOS_SUSPENDED,&Task_voidReadDistance);
+	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidMoveVehicle);
 
 	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+3,TASK_REF_FIRST_DELAY,RTOS_SUSPENDED,&Task_voidAlert);
 
+	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY,TASK_REF_FIRST_DELAY,RTOS_SUSPENDED,&Task_voidReadDistance);
+
 	RTOS_u8CreateTask (TASK_REF_PRIORITY,TASK_REF_PERIODICITY+5,TASK_REF_FIRST_DELAY,RTOS_READY,&Task_voidSystemCheck);
 
+	LED_voidLedOn(&LED1);
+
 while(1);
+
 
 
 
