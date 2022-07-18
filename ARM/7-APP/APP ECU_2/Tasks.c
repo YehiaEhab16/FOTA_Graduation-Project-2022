@@ -9,9 +9,9 @@
 #include "../../6-Library/STD_TYPES.h"
 #include "../../6-Library/BIT_MATH.h"
 
-#include "../../1-MCAL/06-CAN/CAN_interface.h"
-
 #include "../../1-MCAL/01-GPIO/GPIO_interface.h"
+#include "../../1-MCAL/06-CAN/CAN_interface.h"
+#include "../../1-MCAL/07-STK/STK_interface.h"
 
 #include "../../2-HAL/01-LED/LED_interface.h"
 #include "../../2-HAL/02-DCM/DCM_interface.h"
@@ -20,17 +20,17 @@
 #include "../../2-HAL/05-USN/USN_interface.h"
 #include "../../2-HAL/06-SW/SW_interface.h"
 #include "../../2-HAL/07-FAN/FAN_interface.h"
-
 #include "../../5-RTOS/RTOS_interface.h"
 
-#include "ISR.h"
+
 #include "Tasks.h"
+#include "ISR.h"
 
 //Can Flag 
-extern u8 Global_u8CanDiagFlag;
+extern u8 Global_u8DiagFlag;
 
-
-u8 Global_pu8AppsVariables[6]= {0};
+//Motor Feedback
+extern u8 Global_u8MotorFeedback;
 
 /*dist 0
  * temp1
@@ -39,62 +39,125 @@ u8 Global_pu8AppsVariables[6]= {0};
  * Direction   4
  * MainRequest 5
  */
+u8 Global_pu8AppVariables[6]= {0};
 
 //Can
 CAN_msg CAN_TXmsg;
 
-//FAN
-FAN_t Global_FAN_tCoolingSystem = {FAN_PORTB,FAN_PIN12,FAN_ACTIVE_HIGH};
+//LEDs
+LED_t Global_LED_tRed = {LED_PORTC,LED_PIN13,LED_ACTIVE_HIGH};
 
+//Switches
+SW_t Global_SW_tBackward =  {SW_PORTA,SW_PIN0,SW_PULL_UP};
+SW_t Global_SW_tForward = {SW_PORTA,SW_PIN1,SW_PULL_UP};
 
-u8 Local_u8LastError = NonError ;
-//Reading Temperature from LM35
-void Task_voidReadTemperature(void )
+u8 Global_u8Flag =0 ;
+//Activating LED and Buzzer
+void Task_voidAlert(void)
 {
-	u16 Local_u16TempVal=0;
-	Local_u16TempVal = TMP_u16ReadValue();
-	Global_pu8AppsVariables[1]=Local_u16TempVal;
-}
-
-//Rotate Fan
-void Task_voidFanRotate(void )
-{
-	u8 Local_u8Temp;
-
-	Local_u8Temp=Global_pu8AppsVariables[1];
-	if(Local_u8Temp > TEMP_THRESHOLD)
-		FAN_voidFanOn(&Global_FAN_tCoolingSystem);
+	u8 Local_u8Dist=255;
+	Local_u8Dist = Global_pu8AppVariables[Distance];
+	if(Local_u8Dist<DIST_THRESHOLD)
+	{
+		LED_voidLedOn(&Global_LED_tRed);
+		BZR_voidOn(BZR_PORTB,BZR_PIN5);
+	}
 	else
-		FAN_voidFanOff(&Global_FAN_tCoolingSystem);
+	{
+		BZR_voidOff(BZR_PORTB,BZR_PIN5);
+	}
 }
+
+//Reading Distance from Ultrasonic
+void Task_voidReadDistance(void)
+{
+	if(Global_u8Flag)
+	{
+		Global_u8Flag =0 ;
+		u32 Local_u32DistVal=255;
+		USN_u8ReadDistance(&Local_u32DistVal);
+		Global_pu8AppVariables[Distance]=Local_u32DistVal;
+	}
+}
+
+//Reading Direction from 2 switches
+void Task_voidReadDirection(void)
+{
+	u8 Local_u8Dir;
+
+	if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
+	{
+		//suspend Alert and suspend Distance
+		Local_u8Dir=FORWARD;
+		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
+		RTOS_voidSuspendTask((u8)ALERT_ID);
+	}
+	else if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
+	{
+		Global_u8Flag = 1 ;
+		Local_u8Dir=BACKWARD;
+		//Resume Alert and Distance
+		RTOS_voidResumeTask((u8)READ_DISTANCE_ID);
+		RTOS_voidResumeTask((u8)ALERT_ID);
+	}
+	else
+	{
+		Local_u8Dir=STOP;
+		//suspend Alert and suspend Distance
+		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
+		RTOS_voidSuspendTask((u8)ALERT_ID);
+	}
+	Global_pu8AppVariables[Direction]=Local_u8Dir;
+}
+
+//Forward and backward motion
+void Task_voidMoveVehicle(void)
+{
+	u8 Local_u8Dir;
+
+	Local_u8Dir = Global_pu8AppVariables[Direction];
+	if(Local_u8Dir==FORWARD)
+		DCM_voidRotateCCW();
+
+	else if(Local_u8Dir==BACKWARD)
+		DCM_voidRotateCW();
+
+	else if(Local_u8Dir==STOP)
+		DCM_voidStop2();
+}
+
 
 //Diagnostics Check
 void Task_voidSystemCheck(void)
 {
-
-
-	u8 Local_u8TempVal =30 ;
+	u8 Local_u8Dist =0 ;
+	u8 Local_u8Dir = 0 ;
+	u8 Local_u8MotorFB=0 ;
 	static u8 Local_u8LastError =0 ;
 
-	for (int i=0; i<8; i++) 
-		CAN_TXmsg.data[i] = 0;
+	for (int i=0; i<8; i++) {CAN_TXmsg.data[i] = 0;}
+	Local_u8Dist=Global_pu8AppVariables[Distance];
+	Local_u8Dir = Global_pu8AppVariables[Direction];
+	Local_u8MotorFB=Global_u8MotorFeedback;
 
-	//Local_u8TempVal=Global_pu8AppsVariables[1];
-
-	if  (Global_u8CanDiagFlag == 1)
+	if (Global_u8DiagFlag == 1)
 	{
-		Global_u8CanDiagFlag =0 ;
-		if ( !( (Local_u8TempVal >=25)&&( Local_u8TempVal <=30) ) )
-			CAN_TXmsg.data[0] = TempErrorMode1;
+		Global_u8DiagFlag=0;
+		if ((( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))&&(Local_u8MotorFB != DCM_DIR_CW))
+			CAN_TXmsg.data[0] = DistDirErrorMode1;
+		else if ( (Local_u8MotorFB != DCM_DIR_CW)&&(Local_u8Dir == BACKWARD) )	//Add Polling to move forward
+			CAN_TXmsg.data[0] = DirErrorMode1;
+		else if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))
+			CAN_TXmsg.data[0] = DistErrorMode1;
 		else
 			CAN_TXmsg.data[0] = NonError;
 		Task_voidSendDiagnostics();
 	}
 	else
 	{
-		if (  !((Local_u8TempVal>=20) && (Local_u8TempVal <=70) ) )
-			CAN_TXmsg.data[0] = TempErrorMode2;			//Error Occured
-
+		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB != DCM_DIR_CCW)) ))
+				||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB != DCM_DIR_CW)) )))
+			CAN_TXmsg.data[0] = DirErrorMode2;
 		else
 			CAN_TXmsg.data[0] = NonError;
 		if (CAN_TXmsg.data[0] != Local_u8LastError)
@@ -113,7 +176,7 @@ void Task_voidSendDiagnostics(void)
 {
 	CAN_TXmsg.len = 1;
 	CAN_TXmsg.format = CAN_ID_STD;
-	CAN_TXmsg.id = CAN_DIAG_ID_TX;
+	CAN_TXmsg.id = CAN_DIAG_ID_TX1;
 	CAN_TXmsg.type = CAN_RTR_DATA;
 	CAN_u8Transmit(&CAN_TXmsg);
 }

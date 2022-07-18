@@ -9,15 +9,17 @@
 #ifndef ISR_H_
 #define ISR_H_
 
+#define BOOT_u8REQUESTFLAG					0x080028C0
+#define READ_REQUEST_FLAG					(*((volatile u16*)0x080028C0))
 
 #define TASK_BOOT_FLAG					0x080028C0
 
-#define CAN_UPADTE_ID					0x50
+#define CAN_UPADTE_ID					0x34
 #define CAN_DIAG_ID						0x48
 
-#define CAN_DIAG_ID_TX					0x38
+#define CAN_DIAG_ID_TX1					0x38
 
-void Task_voidCANRecieveISR(void);
+void ISR_voidCANRecieve(void);
 
 
 #endif
