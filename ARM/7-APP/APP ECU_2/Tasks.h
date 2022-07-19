@@ -35,7 +35,7 @@ typedef enum
 {
 	NonError =0 ,
 	DistDirErrorMode1,
-	DistErrorMode1,
+ 	DistErrorMode1,
 	DirErrorMode1,
 	DistDirErrorMode2,
 	DistErrorMode2,

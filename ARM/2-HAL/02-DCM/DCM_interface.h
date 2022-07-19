@@ -34,8 +34,9 @@
 #define DCM_PIN14					GPIO_PIN_14
 #define DCM_PIN15					GPIO_PIN_15
 
-#define DCM_DIR_CW				1
-#define DCM_DIR_CCW				0
+#define DCM_DIR_CW				0
+#define DCM_DIR_CCW				1
+#define DCM_IDLE				2
 
 typedef struct
 {

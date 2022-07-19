@@ -12,6 +12,7 @@
 #ifndef DCM_PRIVATE_H_
 #define DCM_PRIVATE_H_
 
-
+#define DCM_INITIAL_VALUE		10
+#define DCM_OFFEST				10
 
 #endif

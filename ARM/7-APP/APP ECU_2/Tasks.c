@@ -39,7 +39,7 @@ extern u8 Global_u8MotorFeedback;
  * Direction   4
  * MainRequest 5
  */
-u8 Global_pu8AppVariables[6]= {0};
+u8 Global_pu8AppVariables[6]= {2};
 
 //Can
 CAN_msg CAN_TXmsg;
@@ -152,7 +152,7 @@ void Task_voidSystemCheck(void)
 			CAN_TXmsg.data[0] = DistDirErrorMode1;
 		else if ( (Local_u8MotorFB != DCM_DIR_CW)&&(Local_u8Dir == BACKWARD) )	//Add Polling to move forward
 			CAN_TXmsg.data[0] = DirErrorMode1;
-		else if(( (Local_u8Dist >=10) && (Local_u8Dist <= 14))&&(Local_u8Dir == BACKWARD))
+		else if((!((Local_u8Dist >=10) && (Local_u8Dist <= 14)))&&(Local_u8Dir == BACKWARD))
 			CAN_TXmsg.data[0] = DistErrorMode1;
 		else
 			CAN_TXmsg.data[0] = NonError;
@@ -160,16 +160,19 @@ void Task_voidSystemCheck(void)
 	}
 	else
 	{
-		if(( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB != DCM_DIR_CCW)) ))
-				||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB != DCM_DIR_CW)) )))
+		if((( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB != DCM_DIR_CCW)) ))
+				||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB != DCM_DIR_CW)) )))&&(Local_u8MotorFB != DCM_IDLE))
 			CAN_TXmsg.data[0] = DirErrorMode2;
 		else
 			CAN_TXmsg.data[0] = NonError;
 		if (CAN_TXmsg.data[0] != Local_u8LastError)
 		{
-			Local_u8LastError =CAN_TXmsg.data[0];
 			if (Local_u8LastError != NonError)
+			{
+				Local_u8LastError =CAN_TXmsg.data[0];
+
 				Task_voidSendDiagnostics();
+			}
 		}
 	}
 

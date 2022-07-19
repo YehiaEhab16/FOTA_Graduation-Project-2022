@@ -19,6 +19,7 @@
 
 
 u8 Global_u8MotorFeedback=0;
+u8 Global_u8Counter1 =DCM_INITIAL_VALUE;
 DCM_t Global_DCM_tMotor;
 
 //Controlling motor direction (2 pins)
@@ -58,11 +59,27 @@ u8 DCM_u8DetectDirection(void){
   u8 ENCB_PIN_VALUE=0;
 
   GPIO_u8GetPinValue(Global_DCM_tMotor.DCM_u8Port , Global_DCM_tMotor.DCM_u8PinENCB , &ENCB_PIN_VALUE);
-  if(ENCB_PIN_VALUE > 0)
-    return DCM_DIR_CCW;
 
+  if(ENCB_PIN_VALUE > 0)
+  {
+	  Global_u8Counter1++;
+	  if (Global_u8Counter1 > DCM_INITIAL_VALUE+DCM_OFFEST-1)
+	  {
+		  Global_u8Counter1=DCM_INITIAL_VALUE;
+		  return DCM_DIR_CCW;
+	  }
+  }
   else
-    return DCM_DIR_CW;
+  {
+	  Global_u8Counter1--;
+	  if (Global_u8Counter1 < DCM_INITIAL_VALUE-DCM_OFFEST+1)
+	  {
+		  Global_u8Counter1=DCM_INITIAL_VALUE;
+		  return DCM_DIR_CW;
+	  }
+  }
+
+  return DCM_IDLE;
 }
 
 void DCM_voidMotorISR(void)
