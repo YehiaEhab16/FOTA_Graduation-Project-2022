@@ -87,6 +87,8 @@ void Task_voidReadDirection(void)
 
 	if(SW_u8ReadSwitch(&Global_SW_tForward)==PRESSED)
 	{
+		BZR_voidOff(BZR_PORTB,BZR_PIN5);
+
 		//suspend Alert and suspend Distance
 		Local_u8Dir=FORWARD;
 		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
@@ -94,6 +96,7 @@ void Task_voidReadDirection(void)
 	}
 	else if(SW_u8ReadSwitch(&Global_SW_tBackward)==PRESSED)
 	{
+
 		Global_u8Flag = 1 ;
 		Local_u8Dir=BACKWARD;
 		//Resume Alert and Distance
@@ -102,6 +105,8 @@ void Task_voidReadDirection(void)
 	}
 	else
 	{
+		BZR_voidOff(BZR_PORTB,BZR_PIN5);
+
 		Local_u8Dir=STOP;
 		//suspend Alert and suspend Distance
 		RTOS_voidSuspendTask((u8)READ_DISTANCE_ID);
