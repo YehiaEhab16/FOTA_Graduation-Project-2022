@@ -68,5 +68,11 @@
 <hr>
 
 <p align="center">
-<img width="900" src="/assets/Main/pcbFOTA3D.png">
+<img width="900" src="/assets/Hardware/PCB_FOTA_3d.png">
+</p>
+
+<hr>
+
+<p align="center">
+<img width="900" src="/assets/Hardware/PCB_FOTA.jpeg">
 </p>
