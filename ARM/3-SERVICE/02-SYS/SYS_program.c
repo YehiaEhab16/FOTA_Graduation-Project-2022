@@ -75,6 +75,7 @@ void SYS_voidBootInit(u8 Copy_u8Target)
 
 void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 {
+	u16 Local_u8NoUpdate = 1 ;
 	SCB_VTOR = 0x8003000;
 	u16 Local_u16Val;
 	RCC_voidInit();
@@ -82,6 +83,8 @@ void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 	NVIC_voidInit();
 	FPEC_voidInit();
 	ADC_voidInit();
+	FPEC_voidFlashPageErase(10);
+	FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG,&Local_u8NoUpdate, 1);
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
 	CAN_VoidFilterSet(&CAN_FilterApp2Update);
@@ -94,11 +97,14 @@ void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 
 void SYS_voidApp2Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(void))
 {
+	u16 Local_u8NoUpdate  =1;
 	SCB_VTOR = 0x8003000;
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();
 	FPEC_voidInit();
+	FPEC_voidFlashPageErase(10);
+	FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG,&Local_u8NoUpdate, 1);
 	DCM_voidInit(&Global_DCM_tMotorVehicle);
 	CAN_voidInit(&CAN_InitStruct);
 	CAN_VoidFilterSet(&CAN_FilterAppDiagnostics);
