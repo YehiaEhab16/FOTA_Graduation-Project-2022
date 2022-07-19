@@ -18,11 +18,11 @@
 #include "Tasks.h"
 
 LED_t LED1 = {LED_PORTB,LED_PIN0,LED_ACTIVE_HIGH};
+
 int main(void)
 {
 	//Initialization
-	SYS_voidApp2Init(&Task_voidCANRecieveISR);
-
+	SYS_voidApp1Init(&Task_voidCANRecieveISR);
 
 /**
  * Task_voidReadTemperature -- > Priority =0 , First Delay = 0 , State = Ready
@@ -35,9 +35,7 @@ int main(void)
 
 
 	LED_voidLedOn(&LED1);
-while(1)
-{
-}
-
+	
+	while(1);
 
 }

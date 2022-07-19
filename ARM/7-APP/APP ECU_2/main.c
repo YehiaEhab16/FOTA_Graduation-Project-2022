@@ -14,17 +14,15 @@
 #include "../../5-RTOS/RTOS_interface.h"
 #include "../../2-HAL/01-LED/LED_interface.h"
 
-
 #include "ISR.h"
 #include "Tasks.h"
 
-
+LED_t LED1 = {LED_PORTC,LED_PIN15,LED_ACTIVE_HIGH};
 
 int main(void)
 {
 	//Initialization
-	LED_t LED1 = {LED_PORTC,LED_PIN15,LED_ACTIVE_HIGH};
-	SYS_voidApp1Init(EXTI_LINE3,&ISR_voidCANRecieve);
+	SYS_voidApp2Init(EXTI_LINE3,&ISR_voidCANRecieve);
 /**
  * Task_voidReadDirection -- > Priority =0 , First Delay = 0 , State = Ready
  * Task_voidMoveVehicle   -- > Priority =1 , First Delay = 0 , State = Ready
@@ -45,9 +43,6 @@ int main(void)
 
 	LED_voidLedOn(&LED1);
 
-while(1);
-
-
-
+	while(1);
 
 }

@@ -1,38 +1,31 @@
 /*******************************************************************************/
 /*******************************************************************************/
 /***********************   GRADUATION PROJECT : (FOTA)   ***********************/
-/***********************   Layer :MCAL                   ***********************/
-/***********************   SWC (DRIVER):FPEC 			 ***********************/
+/***********************   Layer :Bootloader		    ***********************/
 /***********************   DATA : 7-3-2022  			 ***********************/
 /*******************************************************************************/
 /*******************************************************************************/
 
 
 /********************************LIBRARY LAYER**********************************/
-#include "STD_TYPES.h"
-#include "BIT_MATH.h"
+#include "../../6-Library/STD_TYPES.h"
+#include "../../6-Library/BIT_MATH.h"
 /*******************************************************************************/
 /*******************************************************************************/
 
 /********************************MCAL LAYER*************************************/
-
-#include "RCC_interface.h"
-#include "USART_interface.h"
-#include "PORT_interface.h"
-#include "FPEC_interface.h"
-#include "GPIO_interface.h"
-#include "WWDG_interface.h"
-#include "IWDG_interface.h"
-
+#include "../../1-MCAL/01-GPIO/GPIO_interface.h"
+#include "../../1-MCAL/02-RCC/RCC_interface.h"
+#include "../../1-MCAL/05-USART/USART_interface.h"
+#include "../../1-MCAL/08-FPEC/FPEC_interface.h"
+#include "../../1-MCAL/11-WWDG/WWDG_interface.h"
 /*******************************************************************************/
 /*******************************************************************************/
-
+/********************************HAL LAYER*************************************/
+#include "../../1-MCAL/01-LED/LED_interface.h"
 
 /********************************SERV LAYER*************************************/
-
-#include "FPEC_S_interface.h"
-
-//#include "PARSING_interface.h"
+#include "../../3-SERVICE/01-PARSING/PARSING_interface.h"
 
 
 /*******************************************************************************/
@@ -53,36 +46,30 @@ typedef void (*Application)(void) ;
 Application AddrAPP1 ;
 Application AddrAPP2 ;
 
+//LEDs
+LED_t Global_LED_tApp1 = {LED_PORTB,LED_PIN0,LED_ACTIVE_HIGH};
+LED_t Global_LED_tApp2 = {LED_PORTC,LED_PIN15,LED_ACTIVE_HIGH};
 
 void main (void)
 {
-
+	/*Initialize RCC*/
 	RCC_voidInit();
 
-	/*Create Perpherial UART, PORTA , FPEC  */
-	struct Peripheral UART1 = {RCC_APB2,RCC_APB2_USART1_EN};
-	struct Peripheral UART2 = {RCC_APB1,RCC_APB1_USART2_EN};
-	struct Peripheral PORTA = {RCC_APB2,RCC_APB2_IOPA_EN};
-	//struct Peripheral FPEC1 = {RCC_AHB,RCC_AHB_FLITF_EN};
-	struct Peripheral WWD = {RCC_APB1,RCC_APB1_WWDG_EN};
-
-
-
-	/*Enable Perpherial UART, PORTA , FPEC  */
-	RCC_u8EnableClock(&UART1);
-	RCC_u8EnableClock(&UART2);
-	RCC_u8EnableClock(&PORTA);
-	//RCC_u8EnableClock(&FPEC1);
-	RCC_u8EnableClock(&WWD);
+	/*Initialize USART*/
+	GPIO_voidDirectionInit();
 
 	/*Initialize USART*/
-	PORT_voidInit() ;
+	USART_voidInit(USART1);
 
-	/*Initialize USART*/
-	USART_voidInit (USART1);
-
-	/**************************Init the FPEC Driver ******************/
+	/*Initialize FPEC*/
 	FPEC_voidInit();
+	
+	#if BOOT_TARGET == BOOT_APP1
+	LED_voidLedOn(&Global_LED_tApp1);
+	#elif BOOT_TARGET == BOOT_APP2
+	LED_voidLedOn(&Global_LED_tApp2);
+	#endif
+	
 	u16 Update = 0;
 	u16 No_update =1 ;
 	u16 Corruption =2 ;
@@ -110,9 +97,6 @@ void main (void)
 
 	// flage to start and end Erase operation
 	u32 BOOT_u32EraseFlag =1 ;
-
-
-
 
 	/*******************************************************************************************/
 	/*******************************************************************************************/
@@ -145,9 +129,9 @@ void main (void)
 
 				while(Check_s32Counter<BOOT_u32RecCounter-2)
 				{
-					BOOT_u8Digit0=FPEC_S_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
+					BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter]);
 
-					BOOT_u8Digit1 =FPEC_S_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
+					BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[Check_s32Counter+1]);
 
 					BOOT_u8Data = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
 
@@ -159,9 +143,9 @@ void main (void)
 				Check_s32Sum =~(Check_s32Sum -1) ;
 
 				// Validation
-				BOOT_u8Digit0=FPEC_S_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-2]);
+				BOOT_u8Digit0=PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-2]);
 
-				BOOT_u8Digit1 =FPEC_S_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
+				BOOT_u8Digit1 =PARSING_u8AsciToHex(BOOT_u8RecData[BOOT_u32RecCounter-1]);
 
 				Check_sum_Validation = (BOOT_u8Digit0<<4)|(BOOT_u8Digit1);
 
@@ -178,7 +162,7 @@ void main (void)
 				}
 				/**************************************************************************************/
 				/*********************************Write Operation *************************************/
-				FPEC_S_voidWriteData(BOOT_u8RecData);
+				PARSING_voidWriteData(BOOT_u8RecData);
 				USART_voidTransmitSync(USART1,(u8*)"ok");
 				BOOT_u32RecCounter =0 ;
 
@@ -210,7 +194,7 @@ void main (void)
 	/*****************************************************************************************/
 	/*****************************************************************************************/
 
-	/********************************APPLICATION1************************************************/
+	/********************************APPLICATION2************************************************/
 	else
 	{
 

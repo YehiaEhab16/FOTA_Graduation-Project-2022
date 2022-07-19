@@ -11,6 +11,9 @@
 #define SYS_PRIVATE_H_
 
 
+#define SYS_BOOT_APP1		0
+#define SYS_BOOT_APP2		1
+
 void SYS_voidEnableInterruptNVIC(u8 Copy_u8Interrupt1, u8 Copy_u8Interrupt2);
 
 

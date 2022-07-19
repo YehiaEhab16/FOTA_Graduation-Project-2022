@@ -28,11 +28,15 @@ Options for Pins:
 	-PORT_OUPUT_50MHZ_AF_PUSH_PULL 
 	-PORT_OUPUT_50MHZ_AF_OPEN_DRAIN
 */
-										   //User ECU
-#define PORTA_PIN0_DIR  		           PORT_INPUT_FLOATING //App1->PORT_INPUT_ANALOG_MODE, //App2->PORT_INPUT_PULL_UP_DOWN
-#define PORTA_PIN1_DIR                     PORT_INPUT_FLOATING //App2->PORT_INPUT_PULL_UP_DOWN
+
+#define PORTA_PIN0_DIR  		           PORT_INPUT_FLOATING 			//User ECU
+//#define PORTA_PIN0_DIR  		           PORT_INPUT_ANALOG_MODE		//App1 ECU
+//#define PORTA_PIN0_DIR  		           PORT_INPUT_PULL_UP_DOWN		//App2 ECU
+#define PORTA_PIN1_DIR                     PORT_INPUT_FLOATING 			//User ECU 
+//#define PORTA_PIN1_DIR                   PORT_INPUT_PULL_UP_DOWN 		//App2
 #define PORTA_PIN2_DIR                     PORT_INPUT_FLOATING
-#define PORTA_PIN3_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL //App2->PORT_INPUT_FLOATING
+#define PORTA_PIN3_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL 	//User ECU
+//#define PORTA_PIN3_DIR                   PORT_INPUT_FLOATING		 	//App2->PORT_INPUT_FLOATING
 #define PORTA_PIN4_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN5_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
 #define PORTA_PIN6_DIR                     PORT_OUPUT_2MMHZ_PUSH_PULL
@@ -106,7 +110,7 @@ Option Select : 1- (1) 				: HIGH Level
 #define PORTB_PIN14_INITIAL                 0
 #define PORTB_PIN15_INITIAL                 0
 
-#define PORTC_PIN13_INITIAL                 0
+#define PORTC_PIN13_INITIAL                 1
 #define PORTC_PIN14_INITIAL                 0
 #define PORTC_PIN15_INITIAL                 0
 

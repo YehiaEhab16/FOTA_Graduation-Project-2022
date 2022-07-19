@@ -19,6 +19,10 @@
 #include "../../1-MCAL/11-WWDG/WWDG_interface.h"
 /*******************************************************************************/
 /*******************************************************************************/
+/********************************HAL LAYER*************************************/
+#include "../../1-MCAL/01-LED/LED_interface.h"
+/*******************************************************************************/
+/*******************************************************************************/
 /********************************SERV LAYER*************************************/
 #include "../../3-SERVICE/01-PARSING/PARSING_interface.h"
 /*******************************************************************************/
@@ -36,7 +40,6 @@ Initialize the CAN Protocol
  *********************************************************************************
  **/
 extern CAN_Init_t CAN_InitStruct;
-extern CAN_FilterInit_t CAN_FilterUserResponse;
 extern CAN_FilterInit_t CAN_FilterApp1Update;
 CAN_msg CAN_RXmsg;
 CAN_msg CAN_TXmsg;
@@ -57,19 +60,15 @@ typedef void (*Application)(void) ;
 Application AddrAPP1 ;  //Application 1
 Application AddrAPP2 ;  //Application 2
 
+//LEDs
+LED_t Global_LED_tApp1 = {LED_PORTB,LED_PIN0,LED_ACTIVE_HIGH};
+LED_t Global_LED_tApp2 = {LED_PORTC,LED_PIN15,LED_ACTIVE_HIGH};
 
 
 void main (void)
 {
-
-	RCC_voidInit();
-	GPIO_voidDirectionInit();
-
-	CAN_voidInit(&CAN_InitStruct);
-	CAN_VoidFilterSet(&CAN_FilterApp1Update);
-
-	FPEC_voidInit();
-
+	SYS_voidBootInit(BOOT_TARGET);
+	
 	CAN_TXmsg.len = 2;
 	CAN_TXmsg.id = 0x30;
 	CAN_TXmsg.format = CAN_ID_STD;
@@ -83,8 +82,11 @@ void main (void)
 	CAN_TXmsg1.type = CAN_RTR_DATA;
 	CAN_TXmsg1.data[0] = 'F';
 
-	GPIO_u8SetPinValue(GPIO_PORTA, GPIO_PIN_0, GPIO_PIN_HIGH);
-	/*Initialize USART*/
+	#if BOOT_TARGET == BOOT_APP1
+	LED_voidLedOn(&Global_LED_tApp1);
+	#elif BOOT_TARGET == BOOT_APP2
+	LED_voidLedOn(&Global_LED_tApp2);
+	#endif
 
 	/**************************Init the FPEC Driver ******************/
 	u16 Update = 0;
@@ -122,8 +124,6 @@ void main (void)
 
 	//Corrupted Flag
 	u8 Corrupted_Excute = 0 ;
-
-
 
 	/*******************************************************************************************/
 	/*******************************************************************************************/
