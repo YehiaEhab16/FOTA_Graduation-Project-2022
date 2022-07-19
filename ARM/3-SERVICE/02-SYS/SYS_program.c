@@ -75,6 +75,7 @@ void SYS_voidBootInit(u8 Copy_u8Target)
 
 void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 {
+	SCB_VTOR = 0x8003000;
 	u16 Local_u16Val;
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
@@ -93,6 +94,7 @@ void SYS_voidApp1Init(void (*Copy_pvCallBackFunc)(void))
 
 void SYS_voidApp2Init(u8 Copy_u8InterruptLine, void (*Copy_pvCallBackFuncCan)(void))
 {
+	SCB_VTOR = 0x8003000;
 	RCC_voidInit();
 	GPIO_voidDirectionInit();
 	NVIC_voidInit();

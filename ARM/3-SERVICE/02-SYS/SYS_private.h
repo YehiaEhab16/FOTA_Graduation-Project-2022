@@ -11,6 +11,9 @@
 #define SYS_PRIVATE_H_
 
 
+#define BOOT_u8REQUESTFLAG					0x080028C0
+
+
 #define SYS_BOOT_APP1		0
 #define SYS_BOOT_APP2		1
 
