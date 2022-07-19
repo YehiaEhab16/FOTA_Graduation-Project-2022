@@ -6,7 +6,6 @@
 *.pptx
 *.docx
 *.tmp
-*.pdf
 
 *.mp3
 !Test1.mp3

@@ -14,7 +14,7 @@
 //GPIIOs
 #define RCC_IOPA_STATE	                 RCC_ENABLE
 #define RCC_IOPB_STATE	                 RCC_ENABLE
-#define RCC_IOPC_STATE	                 RCC_DISABLE
+#define RCC_IOPC_STATE	                 RCC_ENABLE
 #define RCC_IOPD_STATE	                 RCC_DISABLE
 #define RCC_IOPE_STATE	                 RCC_DISABLE
 #define RCC_IOPF_STATE	                 RCC_DISABLE
