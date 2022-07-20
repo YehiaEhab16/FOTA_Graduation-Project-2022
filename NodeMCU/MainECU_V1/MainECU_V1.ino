@@ -6,19 +6,7 @@
 #include "SPIFFS.h"
 #include "mbedtls/base64.h"
 
-//Cipher *cipher = new Cipher();
-
-String getFile(fs::FS &fs, const char * path) {
-  File file = fs.open(path);
-  String output = "";
-  
-  for(int j = 0; j < file.size(); j++) {
-    output += (char)file.read();
-  }
-
-  return output;
-}
-
+char ReadSerial;
 
 void setup(){
 
@@ -28,11 +16,8 @@ void setup(){
   //Establish Connection with server
   Server_Connect();
 
-   
-  // Serial.print("\nDecrypted file:\n");
-  // Serial.println(getFile(SPIFFS, "/decrypted.hex"));
-
- 
+  Serial2.write(UPDATE_NOTIFICATION);
+	Serial2.write(UPDATE_NOTIFICATION); 
 }
 
 
@@ -40,14 +25,35 @@ void loop(){
 
   if (Serial2.available())
   {
-    if (Serial2.read() == DOWNLOAD_PERMISSION)
+    ReadSerial = Serial2.read();
+
+    if (ReadSerial == 'X')
     {
+      char a = Serial2.read();
+      WriteDiagnostics((int)a); 
+      Serial.write((int)a);
+      
+    }
+    else if (ReadSerial == DOWNLOAD_PERMISSION)
+    {
+      ReadSerial = 0;
       Serial.write("Downlaod Enabled");
-      String file = "test.txt";
+      String file = "APP_ECU_111.hex";
 
       Server_Download(file);
       DecryptFile(SPIFFS);
+
+
+      Serial.print("\nDecrypted file:\n");
+      Serial.println(getFile(SPIFFS, "/decrypted.hex"));  
+
+      while(Serial2.read() != START_SEND);     
+         
       SendFile(SPIFFS);      
     }
+  
   }
+
+  // UpdateCheck();
 }
+
