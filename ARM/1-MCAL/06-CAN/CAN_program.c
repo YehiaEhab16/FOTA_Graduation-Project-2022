@@ -97,10 +97,10 @@ void CAN_voidInit(CAN_Init_t* hcan)
 		}
 
 		CAN->BTR =(u32)     ((u32)hcan->CAN_MODE << 30   )
-												|   ((u32)hcan->CAN_SJW  << 24   )
-												|   ((u32)hcan->CAN_BS1  << 16   )
-												|   ((u32)hcan->CAN_BS2  << 20   )
-												|   ((u32)hcan->CAN_Prescaler-1  ) ;
+										|   ((u32)hcan->CAN_SJW  << 24   )
+										|   ((u32)hcan->CAN_BS1  << 16   )
+										|   ((u32)hcan->CAN_BS2  << 20   )
+										|   ((u32)hcan->CAN_Prescaler-1  ) ;
 
 
 		/* exit initialization mode */
@@ -156,8 +156,8 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 	switch (CAN_FilterInitStruct->CAN_FilterBankScale )
 	{
 	case (CAN_FILTERSCALE_16BIT):
-									/* 16-bit scale for the filter */
-									CAN->FS1R &= ~(u32)Local_u32filterNumberPosition;
+							/* 16-bit scale for the filter */
+							CAN->FS1R &= ~(u32)Local_u32filterNumberPosition;
 
 	/* Filter mapping
 	 *   15-8        7-5    4   3     2-0
@@ -174,40 +174,40 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 	switch (CAN_FilterInitStruct->CAN_FilterMode)
 	{
 	case(CAN_FILTERMODE_IDMASK):
-										/*Id/Mask mode for the filter*/
-											CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
+								/*Id/Mask mode for the filter*/
+									CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
 	/*FR1 =FR2 = [Local_u16FilterbankMaskId |Local_u16FilterbankId]*/
 	CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
-																													 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
+																											 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
 	CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = ((0x0000FFFF &  (u32)Local_u16FilterbankMaskId) << 16 )
-																													 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
+																											 | (0x0000FFFF &  (u32)Local_u16FilterbankId           ) ;
 	break;
 
 	case (CAN_FILTERMODE_IDLIST):
-										/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
+								/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
 
-											/*Identifier list mode for the filter*/
-											CAN->FM1R |= (u32)Local_u32filterNumberPosition;
+									/*Identifier list mode for the filter*/
+									CAN->FM1R |= (u32)Local_u32filterNumberPosition;
 
 	/*FR1 =FR2 = [Local_u16FilterbankId |Local_u16FilterbankId]*/
 	CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = ((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
-																													| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
+																											| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
 	CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 =	((0x0000FFFF &  (u32)Local_u16FilterbankId) << 16 )
-																													| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
+																											| (0x0000FFFF &  (u32)Local_u16FilterbankId       ) ;
 	break;
 	}
 	break;
 
 	case(CAN_FILTERSCALE_32BIT):
-									/* 32-bit scale for the filter */
-									CAN->FS1R |= (u32)Local_u32filterNumberPosition;
+							/* 32-bit scale for the filter */
+							CAN->FS1R |= (u32)Local_u32filterNumberPosition;
 
 	/* Filter Mode */
 	switch (CAN_FilterInitStruct->CAN_FilterMode )
 	{
 	case (CAN_FILTERMODE_IDMASK):
-											/*Id/Mask mode for the filter*/
-											CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
+									/*Id/Mask mode for the filter*/
+									CAN->FM1R &= ~(u32)Local_u32filterNumberPosition;
 
 	/* for scale 32bit FilterbankID = FR1 and FilterbankMASK = FR2 */
 	CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
@@ -215,10 +215,10 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 	break;
 
 	case (CAN_FILTERMODE_IDLIST):
-										/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
+								/* ( CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList )*/
 
-											/*Id list mode for the filter*/
-											CAN->FM1R |= (u32)Local_u32filterNumberPosition;
+									/*Id list mode for the filter*/
+									CAN->FM1R |= (u32)Local_u32filterNumberPosition;
 	/* for scale 32bit FilterbankID = FilterbankMASK = FR1 = FR2 */
 	CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR1 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
 	CAN->sFilterRegister[CAN_FilterInitStruct->CAN_FilterBankNumber].FR2 = (u32)CAN_FilterInitStruct->CAN_FilterId ;
@@ -230,10 +230,10 @@ void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct)
 	switch(CAN_FilterInitStruct->CAN_FilterFIFONumber)
 	{
 	case (CAN_FIFO_0):
-									CAN->FFA1R &= ~(u32)Local_u32filterNumberPosition;     // FIFO 0 chosen for the filter
+							CAN->FFA1R &= ~(u32)Local_u32filterNumberPosition;     // FIFO 0 chosen for the filter
 	break;
 	case (CAN_FIFO_1):
-									CAN->FFA1R |= (u32)Local_u32filterNumberPosition;   // FIFO 1 chosen for the filter
+							CAN->FFA1R |= (u32)Local_u32filterNumberPosition;   // FIFO 1 chosen for the filter
 	break;
 	}
 	// Filter activation
@@ -291,7 +291,7 @@ u8 CAN_u8Transmit( CAN_msg* pTxMsg)
 		}
 
 		CAN->sTxMailBox[transmitmailbox].TDTR = (CAN->sTxMailBox[transmitmailbox].TDTR & (~0x0f))		//set data length
-				                                            																		   | pTxMsg->len ;
+				                                            																   | pTxMsg->len ;
 
 		//reset transmit data registers
 		CAN->sTxMailBox[transmitmailbox].TDLR = 0;
@@ -336,49 +336,69 @@ void CAN_voidReceive( CAN_msg *msg, u8 Copy_u8FIFOIndex)
 	else {Receive_FIFO_Reg = &(CAN->RF1R);}
 
 	/* Check that there is a message pending */
-	while (!((*Receive_FIFO_Reg & CAN_FIFO_FMP) != 0));		//check FMP bits
-
-	/* Start reading received message */
-	if ((CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR & 0x4)==0)
+	if ((*Receive_FIFO_Reg & CAN_FIFO_FMP) != 0)		//check FMP bits
 	{
-		msg->format = CAN_ID_STD;
-		msg->id     = ((u32)0x000007FF) & (CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR >> 21);
-	}
-	else
-	{
-		msg->format = CAN_ID_EXT;
-		msg->id     = ((u32)0x1FFFFFFF) & ((CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR >> 3));
-	}
-
-	// message type
-	if ((CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR & RIR_RTR) ==0)
-	{ msg->type = DATA_FRAME;}
-
-	else { msg->type = REMOTE_FRAME;}
-
-	//length (number of received bytes)
-	msg->len = (u8)(0x0000000F & CAN->sFIFOMailBox[Copy_u8FIFOIndex].RDTR);
-
-	// Reading data
-	for ( Local_u8RxDataCount = 0;  Local_u8RxDataCount < msg->len; Local_u8RxDataCount++)
-	{
-		if (Local_u8RxDataCount < 4)  //data from the FIFO mailbox data low register
+		/* Start reading received message */
+		if ((CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR & 0x4)==0)
 		{
-			msg->data[Local_u8RxDataCount] = (CAN->sFIFOMailBox[Copy_u8FIFOIndex].RDLR >> (Local_u8RxDataCount * 8))  & 0xFF;
+			msg->format = CAN_ID_STD;
+			msg->id     = ((u32)0x000007FF) & (CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR >> 21);
 		}
-		else if(Local_u8RxDataCount >= 4) //data from the FIFO mailbox data high register
+		else
 		{
-			msg->data[Local_u8RxDataCount] = (CAN->sFIFOMailBox[Copy_u8FIFOIndex].RDHR >> ((Local_u8RxDataCount - 4) * 8)) & 0xFF;
+			msg->format = CAN_ID_EXT;
+			msg->id     = ((u32)0x1FFFFFFF) & ((CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR >> 3));
 		}
 
-	}
+		// message type
+		if ((CAN->sFIFOMailBox[Copy_u8FIFOIndex].RIR & RIR_RTR) ==0)
+		{ msg->type = DATA_FRAME;}
 
+		else { msg->type = REMOTE_FRAME;}
+
+		//length (number of received bytes)
+		msg->len = (u8)(0x0000000F & CAN->sFIFOMailBox[Copy_u8FIFOIndex].RDTR);
+
+		// Reading data
+		for ( Local_u8RxDataCount = 0;  Local_u8RxDataCount < msg->len; Local_u8RxDataCount++)
+		{
+			if (Local_u8RxDataCount < 4)  //data from the FIFO mailbox data low register
+			{
+				msg->data[Local_u8RxDataCount] = (CAN->sFIFOMailBox[Copy_u8FIFOIndex].RDLR >> (Local_u8RxDataCount * 8))  & 0xFF;
+			}
+			else if(Local_u8RxDataCount >= 4) //data from the FIFO mailbox data high register
+			{
+				msg->data[Local_u8RxDataCount] = (CAN->sFIFOMailBox[Copy_u8FIFOIndex].RDHR >> ((Local_u8RxDataCount - 4) * 8)) & 0xFF;
+			}
+
+		}
+	}
 
 	*Receive_FIFO_Reg |= RELEASE_FIFO;
 }
 
 
 /****************************************************************************************/
+void CAN_VoidEnableFifo1Int (void)
+{
+	CAN->IER |= CAN_IER_FMPIE1 ;
+}
+
+void CAN_VoidDisableFifo1Int(void)
+{
+	CAN->IER &= ~CAN_IER_FMPIE1 ;
+}
+
+void CAN_VoidEnableFifo0Int (void)
+{
+	CAN->IER |= CAN_IER_FMPIE0 ;
+}
+
+void CAN_VoidDisableFifo0Int(void)
+{
+	CAN->IER &= ~CAN_IER_FMPIE0 ;
+}
+
 void CAN_voidCallBackFunc(u8 Copy_u8FifoNumber, void(*pv_CallBack)(void))
 {
 	if (pv_CallBack != NULL)

@@ -239,6 +239,11 @@ void CAN_voidReceive(CAN_msg *msg, u8 Copy_u8FIFOIndex);
  */
 void CAN_VoidFilterSet(CAN_FilterInit_t* CAN_FilterInitStruct);
 
+void CAN_VoidEnableFifo1Int (void);
+void CAN_VoidDisableFifo1Int(void);
+void CAN_VoidEnableFifo0Int (void);
+void CAN_VoidDisableFifo0Int(void);
+
 /**
  * @def function to set callback function
  */
