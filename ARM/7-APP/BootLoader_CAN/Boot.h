@@ -9,7 +9,7 @@
 #define BOOT_H_
 
 //Configs
-#define BOOT_TARGET		BOOT_APP1	//BOOT_APP1 or BOOT_APP2
+#define BOOT_TARGET		BOOT_APP2	//BOOT_APP1 or BOOT_APP2
 
 //Macros
 #define BOOT_APP1		0

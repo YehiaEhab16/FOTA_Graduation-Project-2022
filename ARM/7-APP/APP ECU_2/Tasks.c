@@ -51,6 +51,7 @@ LED_t Global_LED_tRed = {LED_PORTC,LED_PIN13,LED_ACTIVE_HIGH};
 SW_t Global_SW_tBackward =  {SW_PORTA,SW_PIN0,SW_PULL_UP};
 SW_t Global_SW_tForward = {SW_PORTA,SW_PIN1,SW_PULL_UP};
 
+
 u8 Global_u8Flag =0 ;
 //Activating LED and Buzzer
 void Task_voidAlert(void)
@@ -160,22 +161,25 @@ void Task_voidSystemCheck(void)
 	}
 	else
 	{
-		if((( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB != DCM_DIR_CCW)) ))
-				||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB != DCM_DIR_CW)) )))&&(Local_u8MotorFB != DCM_IDLE))
-			CAN_TXmsg.data[0] = DirErrorMode2;
-		else
-			CAN_TXmsg.data[0] = NonError;
-		if (CAN_TXmsg.data[0] != Local_u8LastError)
+		if (CAN_TXmsg.data[0] == NonError)
 		{
-			if (Local_u8LastError != NonError)
+			if((( (Local_u8Dir == FORWARD ) && ( ( (Local_u8MotorFB == DCM_DIR_CW)) ))
+					||((Local_u8Dir == BACKWARD) && ( ((Local_u8MotorFB == DCM_DIR_CCW)) ))))
+				CAN_TXmsg.data[0] = DirErrorMode2;
+			else
+				CAN_TXmsg.data[0] = NonError;
+			if (CAN_TXmsg.data[0] != Local_u8LastError)
 			{
-				Local_u8LastError =CAN_TXmsg.data[0];
+				if (CAN_TXmsg.data[0] != NonError)
+				{
+					Local_u8LastError =CAN_TXmsg.data[0];
 
-				Task_voidSendDiagnostics();
+					Task_voidSendDiagnostics();
+				}
 			}
 		}
 	}
-
+	Global_u8MotorFeedback =2 ;
 
 }
 

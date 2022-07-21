@@ -63,8 +63,9 @@ Application AddrAPP1 ;  //Application 1
 Application AddrAPP2 ;  //Application 2
 
 //LEDs
-LED_t Global_LED_tApp1 = {LED_PORTB,LED_PIN0,LED_ACTIVE_HIGH};
-LED_t Global_LED_tApp2 = {LED_PORTC,LED_PIN15,LED_ACTIVE_HIGH};
+LED_t Global_LED_tApp1 = {LED_PORTA,LED_PIN7,LED_ACTIVE_HIGH};
+LED_t Global_LED_tApp2 = {LED_PORTC,LED_PIN14,LED_ACTIVE_HIGH};
+
 
 
 void main (void)
@@ -129,6 +130,8 @@ void main (void)
 
 	if (READ_REQUEST_FLAG==0 )
 	{
+		FPEC_voidFlashPageErase(10);
+		FPEC_voidFlashWrite(BOOT_u8REQUESTFLAG, &Corruption, 1);
 		CAN_TXmsg1.data[0]='A';
 		CAN_u8Transmit(&CAN_TXmsg1);
 

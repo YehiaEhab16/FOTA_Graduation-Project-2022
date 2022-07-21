@@ -25,12 +25,13 @@ CAN_msg CAN_RXmsg;
 u8 Global_u8CanDiagFlag = 0;
 void Task_voidCANRecieveISR(void)
 {
-	LED_voidLedToggle(&LED1);
-	u16 Local_u16Data=1;
+	//LED_voidLedToggle(&LED1);
+	u16 Local_u16Data=0;
 	CAN_voidReceive(&CAN_RXmsg, 0);
 	Global_u8CanDiagFlag = 0;
 	if(CAN_RXmsg.id==CAN_UPADTE_ID)
 	{
+		FPEC_voidFlashPageErase(10);
 		FPEC_voidFlashWrite(TASK_BOOT_FLAG,&Local_u16Data,1);
 		WWDG_voidReset(1);
 	}

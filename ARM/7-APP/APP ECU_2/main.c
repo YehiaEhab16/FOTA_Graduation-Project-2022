@@ -22,7 +22,7 @@ LED_t LED1 = {LED_PORTC,LED_PIN15,LED_ACTIVE_HIGH};
 int main(void)
 {
 	//Initialization
-	SYS_voidApp2Init(EXTI_LINE3,&ISR_voidCANRecieve);
+   	SYS_voidApp2Init(EXTI_LINE3,&ISR_voidCANRecieve);
 /**
  * Task_voidReadDirection -- > Priority =0 , First Delay = 0 , State = Ready
  * Task_voidMoveVehicle   -- > Priority =1 , First Delay = 0 , State = Ready

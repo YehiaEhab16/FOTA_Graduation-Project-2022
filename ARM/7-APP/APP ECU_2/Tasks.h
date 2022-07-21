@@ -8,7 +8,7 @@
 #ifndef TASKS_H_
 #define TASKS_H_
 
-#define DIST_THRESHOLD			10
+#define DIST_THRESHOLD			15
 #define TEMP_THRESHOLD			30
 
 #define READ_DISTANCE_ID		2
