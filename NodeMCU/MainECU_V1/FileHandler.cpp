@@ -8,6 +8,22 @@
 char ackn = 'A';
 Cipher *cipher = new Cipher();
 
+String getFile(fs::FS &fs, const char * path) {
+  File file = fs.open(path);
+  String output = "";
+  
+  for(int j = 0; j < file.size(); j++) {
+    output += (char)file.read();
+  }
+
+  Serial2.write(APP1_DOWNLOADED);
+  Serial.write(APP1_DOWNLOADED);
+  Serial2.println(file.size());
+  Serial.println(file.size()); 
+
+  return output;
+}
+
 void DecryptFile(fs::FS &fs)
 {
   char  FileByte;
@@ -44,9 +60,17 @@ void DecryptFile(fs::FS &fs)
     }
     storage.print(decrypted_line + "\n");
   }
+
+  // Serial.print("\nDecrypted file:\n");
+  // Serial.println(getFile(SPIFFS, "/decrypted.hex"));
   
   downloaded_file.close();
+  // Serial2.write(FILE_DOWNLOADED);
+  // Serial.write(FILE_DOWNLOADED);
+  // Serial2.println(storage.size());
+  // Serial.println(storage.size()); 
   storage.close();
+
 }
 
 void SendFile(fs::FS &fs)
@@ -61,7 +85,8 @@ void SendFile(fs::FS &fs)
     debugln("- failed to open file for reading");
     return;
   }
-
+  
+    
   debugln("- read from file:");
   while (file.available()) 
   {  
@@ -72,7 +97,7 @@ void SendFile(fs::FS &fs)
       {
         FileByte = file.read();
         Serial2.write(FileByte);
-
+        Serial.write(FileByte);
       }while (FileByte != '\n');
       
       while (!(Serial2.available()));
@@ -88,26 +113,4 @@ void SendFile(fs::FS &fs)
   file.close();
 }
 
-// String Read_FileName(void)
-// {
-//   char inChar;
-//   String inputString = "";
-//   bool stringComplete = false;
-//   while (!stringComplete) {
-//     if (Serial.available())
-//     {
-//       inChar = (char)Serial.read();   //Reading character from serial
-//       if (inChar == '#')                   //Checking for stop bit '#'
-//       {
-//         stringComplete = true;             //Setting flag to indicate recieving of string
-//       }
-//       if (!stringComplete)
-//         inputString += inChar;            //Concatenating string until reaching full message
-//     }
-//   }
-//   if (stringComplete == true)
-//   {
-//     stringComplete = false;
-//     return inputString;
-//   }
-// }
+

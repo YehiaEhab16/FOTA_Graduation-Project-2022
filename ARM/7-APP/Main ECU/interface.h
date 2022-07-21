@@ -11,27 +11,30 @@
 
 /********************* ESP *********************/
 //Send
-#define DOWNLOAD_FILE			        '1'
+#define DOWNLOAD_FILE			        'k'
 #define UPDATE_CHECK			        'U'
 #define RECORD_ACK				        'a'
 
 //Receive
 #define UPDATE_NOTIFICATION		        'P'
-#define UpdateAvailable			        'A'
-#define NoUpdateAvailable		        'N'
+#define APP1_DOWNLOADED					'2'
+#define APP2_DOWNLOADED					'd'
 
 /********************* USER *********************/
 //Send
 #define UpdateCheck_ID			     (u8)0x73
+#define U_Notification				 (u8)45
+#define UpdateComplete				 (u8)55
+#define UpdateFailed				 (u8)60
 #define MOTOR_ISSUES			     	'M'
 #define TEMP_SENSOR_ISSUE		     	'T'
 #define CollisionSysIssue		     	'C'
 
 
 //Receive
-#define Request_ID				     (u8)0x64
-#define UPDATE_REQUEST			     'R'
-#define DIAGNOSTICS_REQUEST		     'S'
+#define Request_ID				     (u8)0x36
+#define UPDATE_REQUEST			     65
+#define DIAGNOSTICS_REQUEST		     40
 #define ACCEPT_UPDATE			     (u8)30
 #define DECLINE_UPDATE			     (u8)35
 
@@ -49,8 +52,8 @@
 #define  APP_ACKNOWLEDGE		       0x30
 #define  USER_REQUEST_ID		       (u8)0x36
 #define  USER_RESPONSE_ID		       (u8)0x46
-#define  APP_DIAG_M1			       (u8)0x38
-#define  APP_DIAG_M2			       (u8)0x31
+#define  APP1_DIAG_ID			       (u8)0x38
+#define  APP2_DIAG_ID			       (u8)0x31
 
 
 #define BUFFER_SIZE 					100
@@ -66,6 +69,16 @@ typedef enum
   RECEIVE_RECORD
 }STATE_t;
 
+typedef enum
+{
+  NO_ERROR 		,
+  DIST_DIR_M1	,
+  DIST_M1		,
+  DIR_M1		,
+  DIST_DIR_M2	,
+  DIST_M2		,
+  DIR_M2
+}Error_t;
 
 void CAN_FIFO1_callback(void);
 void UART_callback(void);
