@@ -121,13 +121,13 @@ Design the flash Memory into three Partition :
 <p  align="center">
 <img  width="650"  src="/assets/Diagrams/Bootloader Flow_Case1.png ">
 </p>
+
 ##### Data corruption 
 <p  align="center">
 <img  width="650"  src="/assets/Diagrams/Bootloader Flow_Case2.png ">
 </p>
+
 ##### Shutdown during update
 <p  align="center">
 <img  width="650"  src="/assets/Diagrams/Bootloader Flow_Case3.png ">
 </p>
-
-``
