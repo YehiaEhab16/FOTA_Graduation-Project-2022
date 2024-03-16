@@ -58,6 +58,7 @@
 - Bugfix allows manufacturers to repair faulty units and remotely update software updates. This method typically involves the consumer downloading and updating mobile device firmware through a manufacturer’s website or server. FOTA updates are generally accessible through the device menu or software or firmware update.
 - Security updates are constantly being released by the manufacturers, which includes a list of all known vulnerabilities during the Data transfer process. All devices must be updated regularly to avoid potential exploitation.
 
+
 <hr>
  
 ### 📄 Pictures of the Project:
